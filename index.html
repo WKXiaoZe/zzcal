@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZZZ神秘小算盘</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         @font-face {
             font-family: 'HanYiQiHei105';
@@ -369,6 +370,9 @@
         <h1>ZZZ神秘小算盘</h1>
         <div class="credits">bY 奥伯勒斯的千早爱音本人 with Dr.Gemini</div>
         <div class="version">ver1211_fix</div>
+        <div style="margin-top: 15px;">
+            <button class="zzz-btn" id="export-btn" onclick="exportSnapshot()">📸 导出配置长图</button>
+        </div>
     </header>
 
     <!-- Module 1: Agent Data -->
@@ -1411,6 +1415,42 @@
         }
     }
 
+    function exportSnapshot() {
+        const btn = document.getElementById('export-btn');
+        const originalText = btn.innerText;
+        btn.innerText = "📸 生成中...";
+        btn.classList.add('active');
+
+        // 使用 html2canvas 捕捉 document.body
+        // scrollY: -window.scrollY 用于解决滚动后的截图偏移问题
+        // windowWidth/Height 确保捕捉完整高度
+        setTimeout(() => {
+            html2canvas(document.body, {
+                useCORS: true,
+                allowTaint: true,
+                scrollY: -window.scrollY,
+                windowWidth: document.documentElement.scrollWidth,
+                windowHeight: document.documentElement.scrollHeight,
+                backgroundColor: '#000000' // 强制背景色，防止透明
+            }).then(canvas => {
+                const link = document.createElement('a');
+                // 生成文件名：ZZZ_Snapshot_YYYY-MM-DD.png
+                const date = new Date().toISOString().slice(0, 10);
+                link.download = `ZZZ_Snapshot_${date}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // 恢复按钮状态
+                btn.innerText = originalText;
+                btn.classList.remove('active');
+            }).catch(err => {
+                console.error(err);
+                alert("导出失败，建议使用浏览器自带截图功能。");
+                btn.innerText = originalText;
+                btn.classList.remove('active');
+            });
+        }, 100);
+    }
 </script>
 </body>
 </html>
