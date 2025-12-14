@@ -259,9 +259,39 @@
             white-space: pre-wrap;
             line-height: 1.6;
             font-size: 0.95rem;
+            position: relative;
         }
         .in-combat-highlight { color: var(--zzz-neon); font-weight: bold; }
         .alert-text { color: var(--zzz-alert); font-weight: bold; }
+        
+        /* Tooltips */
+        .u-tooltip {
+            border-bottom: 1px dotted var(--zzz-neon);
+            cursor: help;
+            position: relative;
+            transition: background 0.2s;
+        }
+        .u-tooltip:hover {
+            background: rgba(223, 255, 0, 0.1);
+        }
+        .u-tooltip:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 120%; left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid var(--zzz-neon);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            z-index: 100;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            min-width: 220px;
+            text-align: left;
+            line-height: 1.4;
+        }
 
         /* Chart & Opt */
         .opt-controls {
@@ -352,13 +382,13 @@
     <div class="modal-content">
         <h2>使用须知</h2>
         <p>
-            欢迎使用 ZZZ神秘小算盘 Ver1210。<br>
+            欢迎使用 ZZZ神秘小算盘<br>
             本工具仅供数据模拟与配装参考。<br>
             <br>
             tiPs
             1. 选取主C代理人和辅助代理人，以及他们的影画。<br>
             2. 选取代理人的音擎，以及武器的精炼等级。<br>
-            3. 手动调整敌人数据和场地BUFF（场地buff固定100%覆盖，所以用作伤害计算是不正确的，仅用于最优词条模拟）。
+            3. 手动调整敌人数据和场地BUFF。
             4. 暂无4件套的效果预选（4件套的2件套效果也没有），可以在场地BUFF部分手动填入。<br>
         </p>
         <button class="zzz-btn btn-large active" onclick="closeModal()">开始计算</button>
@@ -369,7 +399,7 @@
     <header>
         <h1>ZZZ神秘小算盘</h1>
         <div class="credits">bY 奥伯勒斯的千早爱音本人 with Dr.Gemini</div>
-        <div class="version">ver1211_fix</div>
+        <div class="version">ver1214</div>
         <div style="margin-top: 15px;">
             <button class="zzz-btn" id="export-btn" onclick="exportSnapshot()">📸 导出配置长图</button>
         </div>
@@ -1045,7 +1075,7 @@
         let totalCR = safeFloat(aMain.critRate) + safeFloat(wMain.critRate) + sumSup('critRate') + disc4_CR + extraCR + field.critRate;
         let totalCD = safeFloat(aMain.critDmg) + safeFloat(wMain.critDmg) + sumSup('critDmg') + disc4_CD + extraCD + field.critDmg;
         totalCR = Math.min(100, totalCR);
-        let critMult = 1 + (totalCR/100) * (1 + totalCD/100);
+        let critMult = 1 + (totalCR/100) * (totalCD/100);
 
         let totalDmgBonus = safeFloat(aMain.dmgBonus) + safeFloat(wMain.dmgBonus) + sumSup('dmgBonus') + extraDmg + field.dmgBonus;
         let dmgMult = 1 + totalDmgBonus/100;
@@ -1079,7 +1109,73 @@
                 baseAtk, outCombatAtkPct, outCombatFlatAtk, sheetAtk, inCombatAtkPct, inCombatFlatAtk, totalAtk,
                 totalCR, totalCD, totalDmgBonus, resMult, defMult, dazeMult, defRes,
                 enemyRes, weaknessVal, totalResShred,
-                baseDef, defBonus, totalDefShred, totalPenPct, totalPenVal
+                baseDef, defBonus, totalDefShred, totalPenPct, totalPenVal,
+                // Breakdown data for tooltips
+                breakdown: {
+                    baseAtk: { a: safeFloat(aMain.baseAtk), w: safeFloat(wMain.baseAtk) },
+                    outCombatAtkPct: { 
+                        a: safeFloat(aMain.atkPct), 
+                        w: safeFloat(wMain.atkPct), 
+                        sup: sumSup('atkPct'),
+                        disc: disc6_AtkPct + disc4_AtkPct + safeFloat(extraStats.atkPct) + safeFloat(extraStats.slot5_AtkPct) + safeFloat(extraStats.set2_AtkPct)
+                    },
+                    inCombatAtkPct: {
+                        a: safeFloat(aMain.inCombatAtkPct),
+                        w: safeFloat(wMain.inCombatAtkPct),
+                        sup: sumSup('inCombatAtkPct'),
+                        field: field.inCombatAtkPct
+                    },
+                    inCombatFlatAtk: {
+                        a: safeFloat(aMain.inCombatAtkFlat),
+                        w: safeFloat(wMain.inCombatAtkFlat),
+                        sup: sumSup('inCombatAtkFlat'),
+                        disc: disc2_FlatAtk + safeFloat(extraStats.flatAtk)
+                    },
+                    totalCR: {
+                        a: safeFloat(aMain.critRate),
+                        w: safeFloat(wMain.critRate),
+                        sup: sumSup('critRate'),
+                        disc: disc4_CR + extraCR,
+                        field: field.critRate
+                    },
+                    totalCD: {
+                        a: safeFloat(aMain.critDmg),
+                        w: safeFloat(wMain.critDmg),
+                        sup: sumSup('critDmg'),
+                        disc: disc4_CD + extraCD,
+                        field: field.critDmg
+                    },
+                    dmgBonus: {
+                        a: safeFloat(aMain.dmgBonus),
+                        w: safeFloat(wMain.dmgBonus),
+                        sup: sumSup('dmgBonus'),
+                        disc: extraDmg,
+                        field: field.dmgBonus
+                    },
+                    resShred: {
+                        a: safeFloat(aMain.resShred),
+                        w: safeFloat(wMain.resShred),
+                        sup: sumSup('resShred'),
+                        field: field.resShred
+                    },
+                    defShred: {
+                        a: safeFloat(aMain.defShred),
+                        w: safeFloat(wMain.defShred),
+                        sup: sumSup('defShred'),
+                        field: field.defShred
+                    },
+                    penPct: {
+                        a: safeFloat(aMain.penRatio),
+                        w: safeFloat(wMain.penRatio),
+                        sup: sumSup('penRatio'),
+                        disc: extraPenPct
+                    },
+                    penVal: {
+                        a: safeFloat(aMain.penValue),
+                        w: safeFloat(wMain.penValue),
+                        sup: sumSup('penValue')
+                    }
+                }
             }
         };
     }
@@ -1170,25 +1266,48 @@
 
     function displayLog(res) {
         let d = res.details;
-        let log = `计算公式 (基于手动模式数据)：
-伤害 = 技能倍率 * ((白值*局外% + 局外固定) * (1+<span class="in-combat-highlight">局内%</span>) + <span class="in-combat-highlight">局内固定</span>) * (1+增伤) * (1+暴击*(1+爆伤)) * (1-抗性+弱点+减抗) * (794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794)) * (1+失衡)
+        let b = d.breakdown;
 
-详细数值：
+        // Tooltip helper
+        const t = (val, content) => `<span class="u-tooltip" data-tip="${content}">${val}</span>`;
+
+        // Breakdown Strings
+        const strBase = `代理人: ${Math.floor(b.baseAtk.a)}\n音擎: ${Math.floor(b.baseAtk.w)}`;
+        const strOutPct = `代理人: ${b.outCombatAtkPct.a}%\n音擎: ${b.outCombatAtkPct.w}%\n辅助: ${b.outCombatAtkPct.sup}%\n驱动盘: ${b.outCombatAtkPct.disc}%`;
+        const strInPct = `代理人: ${b.inCombatAtkPct.a}%\n音擎: ${b.inCombatAtkPct.w}%\n辅助: ${b.inCombatAtkPct.sup}%\n场地: ${b.inCombatAtkPct.field}%`;
+        const strInFlat = `代理人: ${b.inCombatFlatAtk.a}\n音擎: ${b.inCombatFlatAtk.w}\n辅助: ${b.inCombatFlatAtk.sup}\n驱动盘: ${b.inCombatFlatAtk.disc}`;
+        
+        const strCR = `代理人: ${b.totalCR.a}%\n音擎: ${b.totalCR.w}%\n辅助: ${b.totalCR.sup}%\n驱动盘: ${b.totalCR.disc}%\n场地: ${b.totalCR.field}%`;
+        const strCD = `代理人: ${b.totalCD.a}%\n音擎: ${b.totalCD.w}%\n辅助: ${b.totalCD.sup}%\n驱动盘: ${b.totalCD.disc}%\n场地: ${b.totalCD.field}%`;
+        const strDmg = `代理人: ${b.dmgBonus.a}%\n音擎: ${b.dmgBonus.w}%\n辅助: ${b.dmgBonus.sup}%\n驱动盘: ${b.dmgBonus.disc}%\n场地: ${b.dmgBonus.field}%`;
+        
+        const strRes = `代理人: ${b.resShred.a}%\n音擎: ${b.resShred.w}%\n辅助: ${b.resShred.sup}%\n场地: ${b.resShred.field}%`;
+        const strDefShred = `代理人: ${b.defShred.a}%\n音擎: ${b.defShred.w}%\n辅助: ${b.defShred.sup}%\n场地: ${b.defShred.field}%`;
+        const strPen = `穿透率(和): ${d.totalPenPct.toFixed(1)}%\n穿透值(和): ${d.totalPenVal.toFixed(0)}`;
+
+
+        let log = `计算公式 (基于手动模式数据)：
+伤害 = 技能倍率 * ((白值*局外% + 局外固定) * (1+<span class="in-combat-highlight">局内%</span>) + <span class="in-combat-highlight">局内固定</span>) * (1+增伤) * (1+暴击*爆伤) * (1-抗性+弱点+减抗) * (794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794)) * (1+失衡)
+
+详细数值 (鼠标悬停查看来源)：
 1. 攻击力区：
-   局外 = (${d.baseAtk} * (1+${d.outCombatAtkPct.toFixed(1)}%) + ${d.outCombatFlatAtk}) = ${Math.floor(d.sheetAtk)}
-   局内 = ${Math.floor(d.sheetAtk)} * (1+<span class="in-combat-highlight">${d.inCombatAtkPct.toFixed(1)}%</span>) + <span class="in-combat-highlight">${d.inCombatFlatAtk}</span> = ${Math.floor(d.totalAtk)}
+   局外 = (${t(d.baseAtk, strBase)} * (1+${t(d.outCombatAtkPct.toFixed(1)+'%', strOutPct)}) + ${d.outCombatFlatAtk}) = ${Math.floor(d.sheetAtk)}
+   局内 = ${Math.floor(d.sheetAtk)} * (1+<span class="in-combat-highlight">${t(d.inCombatAtkPct.toFixed(1)+'%', strInPct)}</span>) + <span class="in-combat-highlight">${t(d.inCombatFlatAtk, strInFlat)}</span> = ${Math.floor(d.totalAtk)}
 
 2. 暴击区 (期望)：
-   1 + (${d.totalCR.toFixed(1)}% * (1 + ${d.totalCD.toFixed(1)}%)) = ${(1 + (Math.min(d.totalCR,100)/100)*(1+d.totalCD/100)).toFixed(3)}
+   1 + (${t(d.totalCR.toFixed(1)+'%', strCR)} * ${t(d.totalCD.toFixed(1)+'%', strCD)}) = ${(1 + (Math.min(d.totalCR,100)/100)*(d.totalCD/100)).toFixed(3)}
 
-3. 抗性区：
-   1 - ${d.enemyRes} (抗性) + ${d.weaknessVal} (弱点) + ${d.totalResShred/100} (减抗) = ${d.resMult.toFixed(3)}
+3. 增伤区：
+   1 + ${t(d.totalDmgBonus.toFixed(1)+'%', strDmg)} = ${((1+d.totalDmgBonus/100)).toFixed(3)}
 
-4. 防御区：
-   防御值 = (${d.baseDef} * (1+${d.defBonus/100}-${d.totalDefShred/100})) * (1-${d.totalPenPct/100}) - ${d.totalPenVal} = ${d.defRes.toFixed(1)}
+4. 抗性区：
+   1 - ${d.enemyRes} (抗性) + ${d.weaknessVal} (弱点) + ${t((d.totalResShred/100).toFixed(2), strRes)} (减抗) = ${d.resMult.toFixed(3)}
+
+5. 防御区：
+   防御值 = (${d.baseDef} * (1+${d.defBonus/100}-${t((d.totalDefShred/100).toFixed(2), strDefShred)})) * (1-${d.totalPenPct/100}) - ${d.totalPenVal} = ${t(d.defRes.toFixed(1), strPen)}
    系数 = 794 / (${d.defRes.toFixed(1)} + 794) = ${d.defMult.toFixed(4)}
 
-5. 最终伤害：
+6. 最终伤害：
    ${Math.floor(res.dmg)}`;
 
         if (res.warnings.length > 0) {
@@ -1411,7 +1530,7 @@
         // Update Chart Line Position
         if (globalState.chart) {
             globalState.chart.config._activeStep = steps;
-            globalState.chart.update(); // 使用 update 而不是 draw 确保标线刷新
+            globalState.chart.update(); 
         }
     }
 
