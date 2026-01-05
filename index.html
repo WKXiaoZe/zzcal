@@ -408,9 +408,9 @@
     <header>
         <h1>ZZZ神秘小算盘</h1>
         <div class="credits">bY 奥伯勒斯的千早爱音本人 with Dr.Gemini</div>
-        <div class="version">ver1217</div>
+        <div class="version">2026v0105</div>
         <div style="margin-top: 15px;">
-            <button class="zzz-btn" id="export-btn" onclick="exportSnapshot()">📸 导出配置长图</button>
+            <button class="zzz-btn btn-large" style="font-size: 1.2rem; padding: 12px 40px;" id="export-btn" onclick="exportSnapshot()">📸 导出配置长图</button>
         </div>
     </header>
 
@@ -561,6 +561,10 @@
                 <div class="input-group">
                     <label>防御加成 (%)</label>
                     <input type="number" id="boss-def-bonus" value="0" onchange="calculateAll()">
+                </div>
+                <div class="input-group">
+                    <label>基础失衡倍率 (%)</label>
+                    <input type="number" id="boss-daze-base" value="100" onchange="calculateAll()">
                 </div>
                 <div class="input-group">
                     <label>敌人抗性</label>
@@ -1180,7 +1184,8 @@
         let defMult = 794 / (defRes + 794);
 
         let totalDazeVuln = safeFloat(aMain.dazeVuln) + sumSup('dazeVuln') + field.dazeVuln;
-        let dazeMult = 1 + totalDazeVuln/100;
+        let baseDaze = safeFloat(document.getElementById('boss-daze-base').value);
+        let dazeMult = (baseDaze + totalDazeVuln)/100;
 
         let skillMult = safeFloat(document.getElementById('skill-multiplier').value) / 100;
         
@@ -1403,7 +1408,7 @@
 
 
         let log = `计算公式 (基于手动模式数据)：
-伤害 = 技能倍率 * ((白值*局外% + 局外固定) * (1+<span class="in-combat-highlight">局内%</span>) + <span class="in-combat-highlight">局内固定</span>) * (1+增伤) * (1+暴击*爆伤) * (1-抗性+弱点+减抗) * (794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794)) * (1+失衡)
+伤害 = 技能倍率 * ((白值*局外% + 局外固定) * (1+<span class="in-combat-highlight">局内%</span>) + <span class="in-combat-highlight">局内固定</span>) * (1+增伤) * (1+暴击*爆伤) * (1-抗性+弱点+减抗) * (794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794)) * ((基础失衡+失衡易伤)/100)
 
 详细数值 (鼠标悬停查看来源)：
 1. 攻击力区：
@@ -1629,11 +1634,14 @@
 
         if(!bestResult) return;
 
+        // 设置当前显示的数据为该“最优方案”的历史数据
         globalState.optData = bestResult.history;
         let currentStepData = bestResult.history[steps];
 
+        // 重新绘制图表，显示该最优方案的曲线
         drawChart(bestResult.history);
         
+        // Update Config Display
         document.getElementById('opt-config-val').innerText = currentStepData.configName;
         document.getElementById('opt-sub-stats').innerText = 
             `最优分配: 暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 攻击力 ${currentStepData.counts.atk}`;
@@ -1645,7 +1653,7 @@
         // Update Chart Line Position
         if (globalState.chart) {
             globalState.chart.config._activeStep = steps;
-            globalState.chart.update(); 
+            globalState.chart.update(); // 使用 update 而不是 draw 确保标线刷新
         }
     }
 
@@ -1655,6 +1663,9 @@
         btn.innerText = "📸 生成中...";
         btn.classList.add('active');
 
+        // 使用 html2canvas 捕捉 document.body
+        // scrollY: -window.scrollY 用于解决滚动后的截图偏移问题
+        // windowWidth/Height 确保捕捉完整高度
         setTimeout(() => {
             html2canvas(document.body, {
                 useCORS: true,
