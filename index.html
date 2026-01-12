@@ -382,6 +382,26 @@
         .modal h2 { color: var(--zzz-neon); margin-top: 0; }
         .modal p { color: #ccc; line-height: 1.6; margin-bottom: 30px; }
 
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%) skew(-10deg);
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--zzz-neon);
+            border: 1px solid var(--zzz-neon);
+            padding: 15px 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            box-shadow: 0 0 20px rgba(223, 255, 0, 0.3);
+            text-align: center;
+        }
+        .toast.show { opacity: 1; }
     </style>
 </head>
 <body>
@@ -403,6 +423,8 @@
         <button class="zzz-btn btn-large active" onclick="closeModal()">开始计算</button>
     </div>
 </div>
+
+<div id="toast" class="toast"></div>
 
 <div class="container">
     <header>
@@ -712,10 +734,10 @@
 <script>
     // --- CONFIGURATION: FILE MANIFEST ---
     const REPO_FILES = {
-        dps: ["叶瞬光.json", "11号Ⅵ.json"], 
-        sup: ["琉音.json", "照.json", "耀嘉音.json", "莱特.json", "青衣.json"], 
-        wpDPS: ["云霓孤光.json", "硫磺石.json"], 
-        wpSUP: ["昨夜来电.json", "半糖雪兔.json", "好斗的阿炮.json", "玲珑妆匣.json", "焰心桂冠.json", "玉壶青冰.json"] 
+        dps: ["叶瞬光.json", "11号Ⅵ.json", "零号安比Ⅵ.json"], 
+        sup: ["琉音.json", "照.json", "耀嘉音.json", "莱特.json", "青衣.json", "奥菲斯-辅助.json", "千夏.json"], 
+        wpDPS: ["云霓孤光.json", "硫磺石.json", "牺牲洁纯.json"], 
+        wpSUP: ["昨夜来电.json", "半糖雪兔.json", "好斗的阿炮.json", "玲珑妆匣.json", "焰心桂冠.json", "玉壶青冰.json", "思络成歌.json"] 
     };
 
     // --- DISC 4-SET DATA ---
@@ -1010,10 +1032,24 @@
             
             const type = (folder.includes('wp')) ? 'weapon' : 'agent';
             repopulateInputs(prefix, type);
+
+            // Special Rule Toast
+            if (folder === 'dps' && filename === '零号安比Ⅵ.json') {
+                showToast("已计算30%暴伤自拐");
+            }
             
         } catch (e) {
             alert(`无法读取文件: ${path}\n${e.message}`);
         }
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg;
+        t.classList.add('show');
+        setTimeout(() => {
+            t.classList.remove('show');
+        }, 3000);
     }
 
     function repopulateInputs(prefix, type) {
@@ -1161,6 +1197,13 @@
 
         let totalCR = safeFloat(aMain.critRate) + safeFloat(wMain.critRate) + sumSup('critRate') + disc4_CR + extraCR + field.critRate;
         let totalCD = safeFloat(aMain.critDmg) + safeFloat(wMain.critDmg) + sumSup('critDmg') + disc4_CD + extraCD + field.critDmg;
+
+        // Special Rule: Anby Zero VI
+        const dpsSelect = document.getElementById('preset-dps-select');
+        if (dpsSelect && dpsSelect.value === '零号安比Ⅵ.json') {
+             totalCD = totalCD * 1.3;
+        }
+
         totalCR = Math.min(100, totalCR);
         // Formula: 1 + CR * CD
         let critMult = 1 + (totalCR/100) * (totalCD/100);
