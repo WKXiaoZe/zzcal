@@ -36,6 +36,32 @@
     --anim-speed: 0.3s;
 }
 
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateX(10px) rotate(2deg);
+    }
+
+    75% {
+        transform: translateX(-10px) rotate(-2deg);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.shake-animation {
+    animation: shake 0.4s ease-in-out;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -773,7 +799,9 @@ input[type="text"]:focus {
         padding: 12px 24px;
         min-width: 160px;
     }
-}/* Default Hidden Fields */
+}
+
+/* Default Hidden Fields */
 .input-group.default-hidden {
     display: none;
 }

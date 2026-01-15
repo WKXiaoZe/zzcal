@@ -500,6 +500,21 @@
         };
 
         function setBattleType(type, btn) {
+            if (type === 'anomaly') {
+                // Shake Animation
+                const container = document.querySelector('.container');
+                container.classList.add('shake-animation');
+
+                // Remove class after animation to allow re-triggering
+                setTimeout(() => {
+                    container.classList.remove('shake-animation');
+                }, 400);
+
+                const attackBtn = document.getElementById('type-attack');
+                setBattleType('attack', attackBtn);
+                return;
+            }
+
             globalState.battleType = type;
             document.body.setAttribute('data-mode', type);
 
