@@ -1,0 +1,17 @@
+{
+    "baseAtk": "743/743/743/743/743",
+    "atkPct": "0/0/0/0/0",
+    "critRate": "20/23/26/29/32",
+    "critDmg": "0/0/0/0/0",
+    "dmgBonus": "16/18.4/20.8/23.2/25.6",
+    "penRatio": "0/0/0/0/0",
+    "defShred": "0/0/0/0/0",
+    "resShred": "0/0/0/0/0",
+    "inCombatAtkPct": "0/0/0/0/0",
+    "inCombatAtkFlat": "0/0/0/0/0",
+    "baseHp": "0/0/0/0/0",
+    "hpPct": "30/30/30/30/30",
+    "flatHp": "0/0/0/0/0",
+    "inCombatHpPct": "0/0/0/0/0",
+    "ppDmgBonus": "10/11.5/13/14.5/16"
+}

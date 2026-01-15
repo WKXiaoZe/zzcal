@@ -46,6 +46,14 @@
     <div class="container">
         <header>
             <h1>ZZZ神秘小算盘</h1>
+
+            <!-- Battle Type Toggle -->
+            <div class="switch-container"
+                style="display: inline-flex; margin-top: 15px; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                <button class="zzz-btn active" id="type-attack" onclick="setBattleType('attack', this)">强攻</button>
+                <button class="zzz-btn" id="type-break" onclick="setBattleType('break', this)">命破</button>
+                <button class="zzz-btn" id="type-anomaly" onclick="setBattleType('anomaly', this)">异常</button>
+            </div>
             <div class="credits">bY 奥伯勒斯的千早爱音本人 with Dr.Gemini</div>
             <div class="version">2026v0115</div>
         </header>
@@ -182,13 +190,21 @@
             <div class="module" id="mod-preset-stats">
                 <div class="module-title"><span>03 // 驱动盘主词条</span></div>
                 <div class="sub-module">
-                    <div class="input-group">
+                    <div class="input-group break-hidden">
                         <label>6号位 (固定)</label>
                         <input type="text" value="30% 攻击力" disabled>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group default-hidden">
+                        <label>6号位 (固定)</label>
+                        <input type="text" value="30% 生命值" disabled>
+                    </div>
+                    <div class="input-group break-hidden">
                         <label>2号位 (固定)</label>
                         <input type="text" value="316 固定攻击" disabled>
+                    </div>
+                    <div class="input-group default-hidden">
+                        <label>2号位 (固定)</label>
+                        <input type="text" value="2200 固定生命" disabled>
                     </div>
                     <div class="input-group">
                         <label>4号位 (可选)</label>
@@ -205,7 +221,7 @@
             <div class="module" id="mod-boss">
                 <div class="module-title"><span>04 // 敌人数据</span></div>
                 <div class="sub-module">
-                    <div class="input-group">
+                    <div class="input-group break-hidden">
                         <label>基础防御力</label>
                         <select id="boss-def-base" onchange="calculateAll()">
                             <option value="953">默认 (953)</option>
@@ -213,7 +229,7 @@
                             <option value="476">太初梦魇 (476)</option>
                         </select>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group break-hidden">
                         <label>防御加成 (%)</label>
                         <input type="number" id="boss-def-bonus" value="0" onchange="calculateAll()">
                     </div>
@@ -245,7 +261,7 @@
             <div class="module-title"><span>05 // 调优与模拟</span></div>
 
             <!-- Field Buffs (New) -->
-            <div class="sub-module" style="margin-bottom: 20px; border-color: var(--zzz-neon);">
+            <div class="sub-module" style="margin-bottom: 20px; border-color: var(--zzz-primary);">
                 <h3>场地BUFF (全局生效)</h3>
                 <div class="grid-3">
                     <div class="input-group"><label>局内攻击%</label><input type="number" id="field_inCombatAtkPct"
@@ -258,8 +274,12 @@
                             onchange="calculateAll()"></div>
                     <div class="input-group"><label>减抗%</label><input type="number" id="field_resShred" value="0"
                             onchange="calculateAll()"></div>
-                    <div class="input-group"><label>无视防御%</label><input type="number" id="field_defShred" value="0"
-                            onchange="calculateAll()"></div>
+                    <div class="input-group break-hidden"><label>无视防御%</label><input type="number" id="field_defShred"
+                            value="0" onchange="calculateAll()"></div>
+                    <div class="input-group default-hidden"><label>生命值%</label><input type="number" id="field_hpPct"
+                            value="0" onchange="calculateAll()"></div>
+                    <div class="input-group default-hidden"><label>局内生命%</label><input type="number"
+                            id="field_inCombatHpPct" value="0" onchange="calculateAll()"></div>
                     <div class="input-group"><label>失衡易伤%</label><input type="number" id="field_dazeVuln" value="0"
                             onchange="calculateAll()"></div>
                 </div>
@@ -279,24 +299,29 @@
                         <div class="input-group">
                             <label>暴击率 (2.4%)</label>
                             <input type="number" id="sub-cr-count" value="0" min="0" onchange="calculateAll()">
-                            <span id="gain-cr" style="color:var(--zzz-neon); font-size:0.8rem;"></span>
+                            <span id="gain-cr" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
                         <div class="input-group">
                             <label>暴击伤害 (4.8%)</label>
                             <input type="number" id="sub-cd-count" value="0" min="0" onchange="calculateAll()">
-                            <span id="gain-cd" style="color:var(--zzz-neon); font-size:0.8rem;"></span>
+                            <span id="gain-cd" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group break-hidden">
                             <label>攻击力 (3%)</label>
                             <input type="number" id="sub-atk-count" value="0" min="0" onchange="calculateAll()">
-                            <span id="gain-atk" style="color:var(--zzz-neon); font-size:0.8rem;"></span>
+                            <span id="gain-atk" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
+                        </div>
+                        <div class="input-group default-hidden">
+                            <label>生命值 (3%)</label>
+                            <input type="number" id="sub-hp-count" value="0" min="0" onchange="calculateAll()">
+                            <span id="gain-hp" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
                         <div style="text-align:right; color:var(--zzz-alert); font-size:0.8rem;" id="sub-total-warn">
                         </div>
                     </div>
                     <div class="sub-module">
                         <h3>装备选择</h3>
-                        <div class="input-group">
+                        <div class="input-group break-hidden">
                             <label>5号位主词条</label>
                             <select id="slot5-select" onchange="calculateAll()">
                                 <option value="atk">30% 攻击力</option>
@@ -304,9 +329,17 @@
                                 <option value="pen">24% 穿透率</option>
                             </select>
                         </div>
-                        <div style="text-align:right; font-size:0.8rem; color:var(--zzz-neon)" id="gain-slot5"></div>
+                        <div class="input-group default-hidden">
+                            <label>5号位主词条</label>
+                            <select id="slot5-select-break" onchange="calculateAll()">
+                                <option value="atk">30% 攻击力</option>
+                                <option value="dmg">30% 增伤</option>
+                                <option value="hp">30% 生命值</option>
+                            </select>
+                        </div>
+                        <div style="text-align:right; font-size:0.8rem; color:var(--zzz-primary)" id="gain-slot5"></div>
 
-                        <div class="input-group">
+                        <div class="input-group break-hidden">
                             <label>2件套效果</label>
                             <select id="set2-select" onchange="calculateAll()">
                                 <option value="dmg">10% 增伤</option>
@@ -315,7 +348,16 @@
                                 <option value="cd">16% 暴击伤害</option>
                             </select>
                         </div>
-                        <div style="text-align:right; font-size:0.8rem; color:var(--zzz-neon)" id="gain-set2"></div>
+                        <div class="input-group default-hidden">
+                            <label>2件套效果</label>
+                            <select id="set2-select-break" onchange="calculateAll()">
+                                <option value="dmg">10% 增伤</option>
+                                <option value="pen">8% 穿透率</option>
+                                <option value="hp">10% 生命值</option>
+                                <option value="cd">16% 暴击伤害</option>
+                            </select>
+                        </div>
+                        <div style="text-align:right; font-size:0.8rem; color:var(--zzz-primary)" id="gain-set2"></div>
                     </div>
                     <div class="sub-module">
                         <h3>最终面板 (手动)</h3>
@@ -378,10 +420,10 @@
     <script>
         // --- CONFIGURATION: FILE MANIFEST ---
         const REPO_FILES = {
-            dps: ["叶瞬光.json", "11号Ⅵ.json", "零号安比Ⅵ.json", "艾莲·乔Ⅵ.json", "伊芙琳.json"],
-            sup: ["琉音.json", "照.json", "耀嘉音.json", "莱特.json", "青衣.json", "奥菲斯-辅助.json", "千夏.json", "扳机.json"],
-            wpDPS: ["云霓孤光.json", "硫磺石.json", "牺牲洁纯.json", "深海访客.json", "心弦夜响.json"],
-            wpSUP: ["昨夜来电.json", "半糖雪兔.json", "好斗的阿炮.json", "玲珑妆匣.json", "焰心桂冠.json", "玉壶青冰.json", "思络成歌.json", "索魂影眸.json"]
+            dps: ["叶瞬光.json", "11号Ⅵ.json", "零号安比Ⅵ.json", "艾莲·乔Ⅵ.json", "伊芙琳.json", "仪玄.json"],
+            sup: ["琉音.json", "照.json", "耀嘉音.json", "莱特.json", "青衣.json", "奥菲斯-辅助.json", "千夏.json", "扳机.json", "卢西娅.json"],
+            wpDPS: ["云霓孤光.json", "硫磺石.json", "牺牲洁纯.json", "深海访客.json", "心弦夜响.json", "青溟笼舍.json"],
+            wpSUP: ["昨夜来电.json", "半糖雪兔.json", "好斗的阿炮.json", "玲珑妆匣.json", "焰心桂冠.json", "玉壶青冰.json", "思络成歌.json", "索魂影眸.json", "铸梦炉歌.json"]
         };
 
         // --- DISC 4-SET DATA ---
@@ -391,7 +433,8 @@
             "moon": { name: "月光骑士颂", stats: { dmgBonus: 18 } },
             "mountain": { name: "山大王", stats: { critDmg: 30 } },
             "ruying": { name: "如影相随", stats: { dmgBonus: 15, critRate: 12, inCombatAtkPct: 12 } },
-            "listen": { name: "静听嘉音", stats: { dmgBonus: 24 } }
+            "jisu": { name: "激素朋克", stats: { atkPct: 10, inCombatAtkPct: 25 } },
+            "hetun": { name: "河豚电音", stats: { penRatio: 8, inCombatAtkPct: 15 } },
         };
 
         // --- Data Definitions ---
@@ -400,13 +443,20 @@
             { id: 'critRate', label: '暴击率%', def: 5 },
             { id: 'critDmg', label: '暴击伤害%', def: 50 },
             { id: 'dmgBonus', label: '增伤%', def: 0 },
-            { id: 'penRatio', label: '穿透率%', def: 0 },
-            { id: 'penValue', label: '穿透值', def: 0 },
-            { id: 'defShred', label: '无视防御(减防)%', def: 0 },
+            { id: 'penRatio', label: '穿透率%', def: 0, cls: 'break-hidden' },
+            { id: 'penValue', label: '穿透值', def: 0, cls: 'break-hidden' },
+            { id: 'defShred', label: '无视防御(减防)%', def: 0, cls: 'break-hidden' },
             { id: 'dazeVuln', label: '失衡易伤%', def: 0 },
             { id: 'resShred', label: '减抗%', def: 0 },
             { id: 'inCombatAtkPct', label: '局内攻击%', def: 0 },
-            { id: 'inCombatAtkFlat', label: '局内固定攻击', def: 0 }
+            { id: 'inCombatAtkFlat', label: '局内固定攻击', def: 0 },
+            // New Fields for Break Mode
+            { id: 'baseHp', label: '基础生命', def: 0, cls: 'default-hidden' },
+            { id: 'hpPct', label: '生命值%', def: 0, cls: 'default-hidden' },
+            { id: 'flatHp', label: '固定生命', def: 0, cls: 'default-hidden' },
+            { id: 'inCombatHpPct', label: '局内生命%', def: 0, cls: 'default-hidden' },
+            { id: 'inCombatPen', label: '局内贯穿力', def: 0, cls: 'default-hidden' },
+            { id: 'ppDmgBonus', label: '贯穿增伤%', def: 0, cls: 'default-hidden' }
         ];
 
         const weaponFields = [
@@ -414,16 +464,24 @@
             { id: 'critRate', label: '暴击率%', def: 0 },
             { id: 'critDmg', label: '暴击伤害%', def: 0 },
             { id: 'atkPct', label: '攻击力%', def: 0 },
-            { id: 'penRatio', label: '穿透率%', def: 0 },
-            { id: 'defShred', label: '无视防御%', def: 0 },
+            { id: 'penRatio', label: '穿透率%', def: 0, cls: 'break-hidden' },
+            { id: 'defShred', label: '无视防御%', def: 0, cls: 'break-hidden' },
             { id: 'resShred', label: '减抗%', def: 0 },
             { id: 'dmgBonus', label: '增伤%', def: 0 },
             { id: 'inCombatAtkPct', label: '局内攻击%', def: 0 },
-            { id: 'inCombatAtkFlat', label: '局内固定攻击', def: 0 }
+            { id: 'inCombatAtkFlat', label: '局内固定攻击', def: 0 },
+            // New Fields
+            { id: 'baseHp', label: '基础生命', def: 0, cls: 'default-hidden' },
+            { id: 'hpPct', label: '生命值%', def: 0, cls: 'default-hidden' },
+            { id: 'flatHp', label: '固定生命', def: 0, cls: 'default-hidden' },
+            { id: 'inCombatHpPct', label: '局内生命%', def: 0, cls: 'default-hidden' },
+            { id: 'inCombatPen', label: '局内贯穿力', def: 0, cls: 'default-hidden' },
+            { id: 'ppDmgBonus', label: '贯穿增伤%', def: 0, cls: 'default-hidden' }
         ];
 
         // --- Global State ---
         let globalState = {
+            battleType: 'attack', // attack, break, anomaly
             bossRes: 0,
             bossWeak: false,
             mode: 'manual',
@@ -441,12 +499,25 @@
             }
         };
 
+        function setBattleType(type, btn) {
+            globalState.battleType = type;
+            document.body.setAttribute('data-mode', type);
+
+            // UI Update
+            const siblings = btn.parentElement.querySelectorAll('.zzz-btn');
+            siblings.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Trigger calculation if needed (optional for now, but good practice)
+            calculateAll();
+        }
+
         // --- Initialization ---
         function createInputs(containerId, prefix, fields) {
             const container = document.getElementById(containerId);
             fields.forEach(f => {
                 const div = document.createElement('div');
-                div.className = 'input-group';
+                div.className = `input-group ${f.cls || ''}`;
                 div.innerHTML = `
                 <label>${f.label}</label>
                 <input type="number" id="${prefix}_${f.id}" value="${f.def}" onchange="calculateAll()">
@@ -787,7 +858,10 @@
                 dmgBonus: getVal('field_dmgBonus'),
                 resShred: getVal('field_resShred'),
                 defShred: getVal('field_defShred'),
-                dazeVuln: getVal('field_dazeVuln')
+                dazeVuln: getVal('field_dazeVuln'),
+                // New Fields
+                hpPct: getVal('field_hpPct'),
+                inCombatHpPct: getVal('field_inCombatHpPct')
             };
         }
 
@@ -820,6 +894,7 @@
             let disc4_CD = slot4Type === 'critDmg' ? 48 : 0;
 
             const extraAtkPct = safeFloat(extraStats.atkPct) + safeFloat(extraStats.slot5_AtkPct) + safeFloat(extraStats.set2_AtkPct);
+            const extraHpPct = safeFloat(extraStats.hpPct) + safeFloat(extraStats.slot5_HpPct) + safeFloat(extraStats.set2_HpPct);
             const extraCR = safeFloat(extraStats.critRate);
             const extraCD = safeFloat(extraStats.critDmg) + safeFloat(extraStats.set2_CD);
             const extraDmg = safeFloat(extraStats.dmgBonus) + safeFloat(extraStats.slot5_Dmg) + safeFloat(extraStats.set2_Dmg);
@@ -839,6 +914,35 @@
 
             let sheetAtk = baseAtk * (1 + outCombatAtkPct / 100) + outCombatFlatAtk;
             let totalAtk = sheetAtk * (1 + inCombatAtkPct / 100) + inCombatFlatAtk;
+
+            // --- Break Mode Logic (Pierce Calculation) ---
+            let totalPierce = 0;
+            if (globalState.battleType === 'break') {
+                const disc6_HpPct = 30;
+                const disc2_FlatHp = 2200;
+
+                const baseHp = safeFloat(aMain.baseHp) + safeFloat(wMain.baseHp);
+                // Include extraHpPct from sub-stats and equipment choices
+                const outHpPct = safeFloat(aMain.hpPct) + safeFloat(wMain.hpPct) + sumSup('hpPct') + disc6_HpPct + extraHpPct;
+                const outFlatHp = safeFloat(aMain.flatHp) + safeFloat(wMain.flatHp) + sumSup('flatHp') + disc2_FlatHp;
+                const inCombatHpPct = safeFloat(aMain.inCombatHpPct) + safeFloat(wMain.inCombatHpPct) + sumSup('inCombatHpPct');
+                const inCombatPen = safeFloat(aMain.inCombatPen) + safeFloat(wMain.inCombatPen) + sumSup('inCombatPen');
+
+                // Base Pierce (Sum of penValue)
+                const basePierce = safeFloat(aMain.penValue) + safeFloat(wMain.penValue) + sumSup('penValue');
+
+                // Formula: "贯穿力" = "基础贯穿力" + (0.1 * ("基础生命值" * "局外生命值百分比" + "局外固定生命值") * (1 + "局内生命值百分比")) + (0.3 * (("攻击力白值" * "局外攻击力百分比" + "局外固定攻击力") * (1 + "局内攻击力百分比") + "局内固定攻击力")) + "局内贯穿力"
+                // Term 1: HP Part
+                const hpTerm = 0.1 * (baseHp * (1 + outHpPct / 100) + outFlatHp) * (1 + inCombatHpPct / 100);
+
+                // Term 2: Atk Part (Use calculated Total Atk structure)
+                // Note: The formula says: (("攻击力白值" * "局外攻击力百分比" + "局外固定攻击力") * (1 + "局内攻击力百分比") + "局内固定攻击力")
+                // This is EXACTLY our `totalAtk` variable.
+                const atkTerm = 0.3 * totalAtk;
+
+                totalPierce = basePierce + hpTerm + atkTerm + inCombatPen;
+            }
+
 
             let totalCR = safeFloat(aMain.critRate) + safeFloat(wMain.critRate) + sumSup('critRate') + disc4_CR + extraCR + field.critRate;
             let totalCD = safeFloat(aMain.critDmg) + safeFloat(wMain.critDmg) + sumSup('critDmg') + disc4_CD + extraCD + field.critDmg;
@@ -871,21 +975,40 @@
             let defRes = (defCalced * (1 - totalPenPct / 100) - totalPenVal);
             let defMult = 794 / (defRes + 794);
 
+            // Break Mode: Bypass Defense
+            if (globalState.battleType === 'break') {
+                defMult = 1;
+                defRes = 0; // For display purposes
+            }
+
             let totalDazeVuln = safeFloat(aMain.dazeVuln) + sumSup('dazeVuln') + field.dazeVuln;
             let baseDaze = safeFloat(document.getElementById('boss-daze-base').value);
             let dazeMult = (baseDaze + totalDazeVuln) / 100;
 
             let skillMult = safeFloat(document.getElementById('skill-multiplier').value) / 100;
 
-            let finalDmg = skillMult * totalAtk * dmgMult * critMult * resMult * defMult * dazeMult;
+            // Final Damage Calculation
+            let finalDmg;
+            if (globalState.battleType === 'break') {
+                // Break Mode Formula: 伤害 = 技能倍率 * 贯穿力 * (1 + 增伤) * (1 + 暴击率 * 暴击伤害) * (1 - 抗性 + 弱点 + 减抗) * ((基础失衡 + 失衡易伤) / 100) * (1 + 贯穿增伤)
+                let totalPPDmgBonus = safeFloat(aMain.ppDmgBonus) + safeFloat(wMain.ppDmgBonus) + sumSup('ppDmgBonus');
+                finalDmg = skillMult * totalPierce * dmgMult * critMult * resMult * dazeMult * (1 + totalPPDmgBonus / 100);
+            } else {
+                // Attack Mode Formula: Uses defense multiplier
+                finalDmg = skillMult * totalAtk * dmgMult * critMult * resMult * defMult * dazeMult;
+            }
 
             return {
                 dmg: finalDmg,
                 warnings: warnings,
                 details: {
                     baseAtk, outCombatAtkPct, outCombatFlatAtk, sheetAtk, inCombatAtkPct, inCombatFlatAtk, totalAtk,
+                    totalPierce, // Added for Break Mode
+                    maxHpInCombat: (globalState.battleType === 'break' ?
+                        ((safeFloat(aMain.baseHp) + safeFloat(wMain.baseHp)) * (1 + (safeFloat(aMain.hpPct) + safeFloat(wMain.hpPct) + sumSup('hpPct') + 30 + extraHpPct) / 100) + (safeFloat(aMain.flatHp) + safeFloat(wMain.flatHp) + sumSup('flatHp') + 2200)) * (1 + (safeFloat(aMain.inCombatHpPct) + safeFloat(wMain.inCombatHpPct) + sumSup('inCombatHpPct')) / 100)
+                        : 0),
                     totalCR, totalCD, totalDmgBonus, resMult, defMult, dazeMult, defRes,
-                    enemyRes, weaknessVal, totalResShred,
+                    enemyRes, weaknessVal, totalResShred, totalDazeVuln, baseDaze,
                     baseDef, defBonus, totalDefShred, totalPenPct, totalPenVal,
                     // Breakdown data for tooltips
                     // Note: aMain.* includes the set 4 stats. We subtract them from 'a' and add them to 'disc'.
@@ -977,24 +1100,52 @@
 
         function renderPanel(containerId, d) {
             const el = document.getElementById(containerId);
-            el.innerHTML = `
-            <div class="panel-row"><span>总攻击力</span><span>${Math.floor(d.totalAtk)}</span></div>
-            <div class="panel-row"><span>暴击率</span><span>${d.totalCR.toFixed(1)}%</span></div>
-            <div class="panel-row"><span>暴击伤害</span><span>${d.totalCD.toFixed(1)}%</span></div>
-            <div class="panel-row"><span>增伤区</span><span>${d.totalDmgBonus.toFixed(1)}%</span></div>
-            <div class="panel-row"><span>穿透率</span><span>${d.totalPenPct.toFixed(1)}%</span></div>
-            <div class="panel-row"><span>穿透值</span><span>${d.totalPenVal.toFixed(0)}</span></div>
-            <div class="panel-row"><span>无视防御(减防)</span><span>${d.totalDefShred.toFixed(1)}%</span></div>
-            <div class="panel-row"><span>减抗</span><span>${d.totalResShred.toFixed(1)}%</span></div>
-        `;
+            let rows = '';
+
+            if (globalState.battleType === 'break') {
+                rows = `
+                    <div class="panel-row"><span>总贯穿力</span><span>${Math.floor(d.totalPierce)}</span></div>
+                     <div class="panel-row"><span>局内最大生命</span><span>${Math.floor(d.maxHpInCombat || 0)}</span></div>
+                    <div class="panel-row"><span>暴击率</span><span>${d.totalCR.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>暴击伤害</span><span>${d.totalCD.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>增伤区</span><span>${d.totalDmgBonus.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>减抗</span><span>${d.totalResShred.toFixed(1)}%</span></div>
+                `;
+            } else {
+                rows = `
+                    <div class="panel-row"><span>总攻击力</span><span>${Math.floor(d.totalAtk)}</span></div>
+                    <div class="panel-row"><span>暴击率</span><span>${d.totalCR.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>暴击伤害</span><span>${d.totalCD.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>增伤区</span><span>${d.totalDmgBonus.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>穿透率</span><span>${d.totalPenPct.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>穿透值</span><span>${d.totalPenVal.toFixed(0)}</span></div>
+                    <div class="panel-row"><span>无视防御(减防)</span><span>${d.totalDefShred.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>减抗</span><span>${d.totalResShred.toFixed(1)}%</span></div>
+                `;
+            }
+            el.innerHTML = rows;
         }
 
         function manualUpdate() {
             let crCount = safeFloat(document.getElementById('sub-cr-count').value);
             let cdCount = safeFloat(document.getElementById('sub-cd-count').value);
-            let atkCount = safeFloat(document.getElementById('sub-atk-count').value);
 
-            let totalSubs = crCount + cdCount + atkCount;
+            // Branch logic for Atk vs Hp based on mode
+            let atkCount = 0;
+            let hpCount = 0;
+            let slot5SelectId, set2SelectId;
+
+            if (globalState.battleType === 'break') {
+                hpCount = safeFloat(document.getElementById('sub-hp-count').value);
+                slot5SelectId = 'slot5-select-break';
+                set2SelectId = 'set2-select-break';
+            } else {
+                atkCount = safeFloat(document.getElementById('sub-atk-count').value);
+                slot5SelectId = 'slot5-select';
+                set2SelectId = 'set2-select';
+            }
+
+            let totalSubs = crCount + cdCount + atkCount + hpCount;
             const warnEl = document.getElementById('sub-total-warn');
             if (totalSubs > 48) {
                 warnEl.innerText = `警告: 词条总数 ${totalSubs} 超过 48!`;
@@ -1002,21 +1153,30 @@
                 warnEl.innerText = `当前词条数: ${totalSubs} / 48`;
             }
 
-            let slot5 = document.getElementById('slot5-select').value;
-            let set2 = document.getElementById('set2-select').value;
+            let slot5 = document.getElementById(slot5SelectId).value;
+            let set2 = document.getElementById(set2SelectId).value;
 
             let extraStats = {
                 critRate: crCount * 2.4,
                 critDmg: cdCount * 4.8,
                 atkPct: atkCount * 3.0,
-                slot5_AtkPct: slot5 === 'atk' ? 30 : 0,
-                slot5_Dmg: slot5 === 'dmg' ? 30 : 0,
-                slot5_Pen: slot5 === 'pen' ? 24 : 0,
-                set2_Dmg: set2 === 'dmg' ? 10 : 0,
-                set2_Pen: set2 === 'pen' ? 8 : 0,
-                set2_AtkPct: set2 === 'atk' ? 10 : 0,
-                set2_CD: set2 === 'cd' ? 16 : 0
+                hpPct: hpCount * 3.0, // Added HP
+                slot5_AtkPct: 0, slot5_Dmg: 0, slot5_Pen: 0, slot5_HpPct: 0,
+                set2_Dmg: 0, set2_Pen: 0, set2_AtkPct: 0, set2_CD: 0, set2_HpPct: 0
             };
+
+            // Slot 5 Logic
+            if (slot5 === 'atk') extraStats.slot5_AtkPct = 30;
+            else if (slot5 === 'dmg') extraStats.slot5_Dmg = 30;
+            else if (slot5 === 'pen') extraStats.slot5_Pen = 24;
+            else if (slot5 === 'hp') extraStats.slot5_HpPct = 30; // Added HP
+
+            // Set 2 Logic
+            if (set2 === 'atk') extraStats.set2_AtkPct = 10;
+            else if (set2 === 'dmg') extraStats.set2_Dmg = 10;
+            else if (set2 === 'pen') extraStats.set2_Pen = 8;
+            else if (set2 === 'cd') extraStats.set2_CD = 16;
+            else if (set2 === 'hp') extraStats.set2_HpPct = 10; // Added HP
 
             let result = calculateDamage(extraStats);
 
@@ -1026,18 +1186,24 @@
 
             let gainCR = safeDiv((calculateDamage({ ...extraStats, critRate: extraStats.critRate + 2.4 }).dmg - baseDmg) / baseDmg * 100);
             let gainCD = safeDiv((calculateDamage({ ...extraStats, critDmg: extraStats.critDmg + 4.8 }).dmg - baseDmg) / baseDmg * 100);
-            let gainAtk = safeDiv((calculateDamage({ ...extraStats, atkPct: extraStats.atkPct + 3.0 }).dmg - baseDmg) / baseDmg * 100);
 
             document.getElementById('gain-cr').innerText = `收益: +${gainCR.toFixed(2)}%`;
             document.getElementById('gain-cd').innerText = `收益: +${gainCD.toFixed(2)}%`;
-            document.getElementById('gain-atk').innerText = `收益: +${gainAtk.toFixed(2)}%`;
 
-            let noSlot5Stats = { ...extraStats, slot5_AtkPct: 0, slot5_Dmg: 0, slot5_Pen: 0 };
+            if (globalState.battleType === 'break') {
+                let gainHp = safeDiv((calculateDamage({ ...extraStats, hpPct: extraStats.hpPct + 3.0 }).dmg - baseDmg) / baseDmg * 100);
+                document.getElementById('gain-hp').innerText = `收益: +${gainHp.toFixed(2)}%`;
+            } else {
+                let gainAtk = safeDiv((calculateDamage({ ...extraStats, atkPct: extraStats.atkPct + 3.0 }).dmg - baseDmg) / baseDmg * 100);
+                document.getElementById('gain-atk').innerText = `收益: +${gainAtk.toFixed(2)}%`;
+            }
+
+            let noSlot5Stats = { ...extraStats, slot5_AtkPct: 0, slot5_Dmg: 0, slot5_Pen: 0, slot5_HpPct: 0 };
             let dmgNoSlot5 = calculateDamage(noSlot5Stats).dmg;
             let gainSlot5 = dmgNoSlot5 > 0 ? (baseDmg - dmgNoSlot5) / dmgNoSlot5 * 100 : 0;
             document.getElementById('gain-slot5').innerText = `当前选择收益: +${gainSlot5.toFixed(2)}%`;
 
-            let noSet2Stats = { ...extraStats, set2_Dmg: 0, set2_Pen: 0, set2_AtkPct: 0, set2_CD: 0 };
+            let noSet2Stats = { ...extraStats, set2_Dmg: 0, set2_Pen: 0, set2_AtkPct: 0, set2_CD: 0, set2_HpPct: 0 };
             let dmgNoSet2 = calculateDamage(noSet2Stats).dmg;
             let gainSet2 = dmgNoSet2 > 0 ? (baseDmg - dmgNoSet2) / dmgNoSet2 * 100 : 0;
             document.getElementById('gain-set2').innerText = `当前选择收益: +${gainSet2.toFixed(2)}%`;
@@ -1060,12 +1226,12 @@
             if (optDmg > 0 && baseDmg > 0) {
                 let diff = (baseDmg - optDmg) / optDmg * 100;
                 // 差距通常为负数
-                let color = diff > -1 ? 'var(--zzz-neon)' : 'var(--zzz-alert)';
+                let color = diff > -1 ? 'var(--zzz-primary)' : 'var(--zzz-alert)';
                 gapStr = `<br><span style="font-size:0.9rem; color:#888;">(与${totalSubs}词条最优解差距: <span style="color:${color}">${diff.toFixed(2)}%</span>)</span>`;
             }
 
             const manualPanel = document.getElementById('manual-panel');
-            manualPanel.innerHTML += `<div class="panel-row" style="color:var(--zzz-neon); font-weight:bold; margin-top:5px; border-top:1px solid #444; padding-top:5px; display:block; text-align:right;">
+            manualPanel.innerHTML += `<div class="panel-row" style="color:var(--zzz-primary); font-weight:bold; margin-top:5px; border-top:1px solid #444; padding-top:5px; display:block; text-align:right;">
             <div style="display:flex; justify-content:space-between;"><span>最终伤害</span><span>${Math.floor(result.dmg)}</span></div>
             ${gapStr}
         </div>`;
@@ -1095,7 +1261,34 @@
             const strPen = `穿透率(和): ${d.totalPenPct.toFixed(1)}%\n穿透值(和): ${d.totalPenVal.toFixed(0)}`;
 
 
-            let log = `计算公式 (基于手动模式数据)：
+            let log = '';
+
+            if (globalState.battleType === 'break') {
+                // Break Mode Display
+                log = `计算公式 (命破模式)：
+伤害 = 技能倍率 * 贯穿力 * (1+增伤) * (1+暴击率*暴击伤害) * (1-抗性+弱点+减抗) * ((基础失衡+失衡易伤)/100) * (1+贯穿增伤)
+
+详细数值 (鼠标悬停查看来源)：
+1. 贯穿力区：
+   总贯穿力 = ${Math.floor(d.totalPierce)}
+
+2. 暴击区 (期望)：
+   1 + (${t(d.totalCR.toFixed(1) + '%', '总暴击率', strCR)} * ${t(d.totalCD.toFixed(1) + '%', '总暴击伤害', strCD)}) = ${(1 + (Math.min(d.totalCR, 100) / 100) * (d.totalCD / 100)).toFixed(3)}
+
+3. 增伤区：
+   1 + ${t(d.totalDmgBonus.toFixed(1) + '%', '总增伤', strDmg)} = ${((1 + d.totalDmgBonus / 100)).toFixed(3)}
+
+4. 抗性区：
+   1 - ${d.enemyRes} (抗性) + ${d.weaknessVal} (弱点) + ${t((d.totalResShred / 100).toFixed(2), '减抗系数', strRes)} (减抗) = ${d.resMult.toFixed(3)}
+
+5. 失衡区：
+   (${d.baseDaze} + ${d.totalDazeVuln.toFixed(1)}) / 100 = ${d.dazeMult.toFixed(3)}
+
+6. 最终伤害：
+   ${Math.floor(res.dmg)}`;
+            } else {
+                // Attack Mode Display
+                log = `计算公式 (强攻模式)：
 伤害 = 技能倍率 * ((白值*局外% + 局外固定) * (1+<span class="in-combat-highlight">局内%</span>) + <span class="in-combat-highlight">局内固定</span>) * (1+增伤) * (1+暴击*爆伤) * (1-抗性+弱点+减抗) * (794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794)) * ((基础失衡+失衡易伤)/100)
 
 详细数值 (鼠标悬停查看来源)：
@@ -1118,6 +1311,7 @@
 
 6. 最终伤害：
    ${Math.floor(res.dmg)}`;
+            }
 
             if (res.warnings.length > 0) {
                 log += `\n\n<span class="alert-text">[异常告警]:\n` + res.warnings.join('\n') + `</span>`;
@@ -1137,17 +1331,34 @@
         }
 
         function runOptimizationDataOnly() {
-            const slot5Opts = [
-                { id: 'atk', val: { slot5_AtkPct: 30 }, name: '5号位:攻击' },
-                { id: 'dmg', val: { slot5_Dmg: 30 }, name: '5号位:增伤' },
-                { id: 'pen', val: { slot5_Pen: 24 }, name: '5号位:穿透' }
-            ];
-            const set2Opts = [
-                { id: 'atk', val: { set2_AtkPct: 10 }, name: '2件套:攻击' },
-                { id: 'dmg', val: { set2_Dmg: 10 }, name: '2件套:增伤' },
-                { id: 'pen', val: { set2_Pen: 8 }, name: '2件套:穿透' },
-                { id: 'cd', val: { set2_CD: 16 }, name: '2件套:爆伤' }
-            ];
+            // Define config groups to verify
+            let slot5Opts, set2Opts;
+
+            if (globalState.battleType === 'break') {
+                slot5Opts = [
+                    { val: { slot5_AtkPct: 30 }, name: '5号位:攻击' },
+                    { val: { slot5_Dmg: 30 }, name: '5号位:增伤' },
+                    { val: { slot5_HpPct: 30 }, name: '5号位:生命' }
+                ];
+                set2Opts = [
+                    { val: { set2_Dmg: 10 }, name: '2件套:增伤' },
+                    { val: { set2_Pen: 8 }, name: '2件套:穿透' }, // Pen still valid from set? The request said replace Atk with HP. 
+                    { val: { set2_HpPct: 10 }, name: '2件套:生命' },
+                    { val: { set2_CD: 16 }, name: '2件套:爆伤' }
+                ];
+            } else {
+                slot5Opts = [
+                    { val: { slot5_AtkPct: 30 }, name: '5号位:攻击' },
+                    { val: { slot5_Dmg: 30 }, name: '5号位:增伤' },
+                    { val: { slot5_Pen: 24 }, name: '5号位:穿透' }
+                ];
+                set2Opts = [
+                    { val: { set2_AtkPct: 10 }, name: '2件套:攻击' },
+                    { val: { set2_Dmg: 10 }, name: '2件套:增伤' },
+                    { val: { set2_Pen: 8 }, name: '2件套:穿透' },
+                    { val: { set2_CD: 16 }, name: '2件套:爆伤' }
+                ];
+            }
 
             let allResults = [];
 
@@ -1155,18 +1366,18 @@
             for (let s5 of slot5Opts) {
                 for (let s2 of set2Opts) {
                     let currentStats = {
-                        critRate: 0, critDmg: 0, atkPct: 0,
+                        critRate: 0, critDmg: 0, atkPct: 0, hpPct: 0,
                         ...s5.val, ...s2.val
                     };
                     let history = [];
                     let currentDmg = calculateDamage(currentStats).dmg;
-                    let counts = { cr: 0, cd: 0, atk: 0 };
+                    let counts = { cr: 0, cd: 0, atk: 0, hp: 0 };
 
                     // Step 0
                     history.push({
                         step: 0, dmg: currentDmg,
                         stats: { ...currentStats }, configName: `${s5.name} + ${s2.name}`,
-                        gains: { cr: 0, cd: 0, atk: 0 },
+                        gains: { cr: 0, cd: 0, atk: 0, hp: 0 },
                         counts: { ...counts }
                     });
 
@@ -1174,16 +1385,26 @@
                     for (let step = 1; step <= 48; step++) {
                         let dCR = calculateDamage({ ...currentStats, critRate: currentStats.critRate + 2.4 }).dmg;
                         let dCD = calculateDamage({ ...currentStats, critDmg: currentStats.critDmg + 4.8 }).dmg;
-                        let dAtk = calculateDamage({ ...currentStats, atkPct: currentStats.atkPct + 3.0 }).dmg;
+
+                        let dAtk, dHp, bestMove;
+                        if (globalState.battleType === 'break') {
+                            // In Break mode, test HP instead of Atk? Or both?
+                            // Plan said: "test HP input instead of Atk"
+                            dHp = calculateDamage({ ...currentStats, hpPct: currentStats.hpPct + 3.0 }).dmg;
+                            bestMove = Math.max(dCR, dCD, dHp);
+                        } else {
+                            dAtk = calculateDamage({ ...currentStats, atkPct: currentStats.atkPct + 3.0 }).dmg;
+                            bestMove = Math.max(dCR, dCD, dAtk);
+                        }
 
                         let gCR = (dCR - currentDmg) / currentDmg * 100;
                         let gCD = (dCD - currentDmg) / currentDmg * 100;
-                        let gAtk = (dAtk - currentDmg) / currentDmg * 100;
-
-                        let bestMove = Math.max(dCR, dCD, dAtk);
+                        let gAtk = (dAtk && dAtk > 0) ? (dAtk - currentDmg) / currentDmg * 100 : 0;
+                        let gHp = (dHp && dHp > 0) ? (dHp - currentDmg) / currentDmg * 100 : 0;
 
                         if (bestMove === dCR) { currentStats.critRate += 2.4; counts.cr++; }
                         else if (bestMove === dCD) { currentStats.critDmg += 4.8; counts.cd++; }
+                        else if (globalState.battleType === 'break' && bestMove === dHp) { currentStats.hpPct += 3.0; counts.hp++; }
                         else { currentStats.atkPct += 3.0; counts.atk++; }
 
                         currentDmg = bestMove;
@@ -1192,7 +1413,7 @@
                             dmg: currentDmg,
                             stats: { ...currentStats },
                             configName: `${s5.name} + ${s2.name}`,
-                            gains: { cr: gCR, cd: gCD, atk: gAtk },
+                            gains: { cr: gCR, cd: gCD, atk: gAtk, hp: gHp },
                             counts: { ...counts }
                         });
                     }
@@ -1250,7 +1471,8 @@
 
             const dataCR = chartData.map(h => h.gains.cr);
             const dataCD = chartData.map(h => h.gains.cd);
-            const dataAtk = chartData.map(h => h.gains.atk);
+            const data3 = chartData.map(h => globalState.battleType === 'break' ? h.gains.hp : h.gains.atk);
+            const label3 = globalState.battleType === 'break' ? '生命值增益' : '攻击力收益';
 
             globalState.chart = new Chart(ctx, {
                 type: 'line',
@@ -1259,7 +1481,7 @@
                     datasets: [
                         { label: '暴击率收益', data: dataCR, borderColor: '#ff4d4d', borderWidth: 2, pointRadius: 1 },
                         { label: '暴击伤害收益', data: dataCD, borderColor: '#dfff00', borderWidth: 2, pointRadius: 1 },
-                        { label: '攻击力收益', data: dataAtk, borderColor: '#00ccff', borderWidth: 2, pointRadius: 1 }
+                        { label: label3, data: data3, borderColor: '#00ccff', borderWidth: 2, pointRadius: 1 }
                     ]
                 },
                 options: {
@@ -1277,7 +1499,11 @@
                                 footer: function (tooltipItems) {
                                     const idx = tooltipItems[0].dataIndex;
                                     const h = chartData[idx];
-                                    return `最优分配: CR:${h.counts.cr} CD:${h.counts.cd} Atk:${h.counts.atk}`;
+                                    if (globalState.battleType === 'break') {
+                                        return `CR:${h.counts.cr} CD:${h.counts.cd} HP:${h.counts.hp}`;
+                                    } else {
+                                        return `CR:${h.counts.cr} CD:${h.counts.cd} Atk:${h.counts.atk}`;
+                                    }
                                 }
                             }
                         }
@@ -1331,8 +1557,14 @@
 
             // Update Config Display
             document.getElementById('opt-config-val').innerText = currentStepData.configName;
-            document.getElementById('opt-sub-stats').innerText =
-                `最优分配: 暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 攻击力 ${currentStepData.counts.atk}`;
+
+            if (globalState.battleType === 'break') {
+                document.getElementById('opt-sub-stats').innerText =
+                    `暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 生命值 ${currentStepData.counts.hp}`;
+            } else {
+                document.getElementById('opt-sub-stats').innerText =
+                    `暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 攻击力 ${currentStepData.counts.atk}`;
+            }
 
             // Update Panel
             renderPanel('opt-panel', calculateDamage(currentStepData.stats).details);

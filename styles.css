@@ -773,4 +773,16 @@ input[type="text"]:focus {
         padding: 12px 24px;
         min-width: 160px;
     }
+}/* Default Hidden Fields */
+.input-group.default-hidden {
+    display: none;
+}
+
+/* Logic for Break Mode */
+body[data-mode="break"] .input-group.default-hidden {
+    display: grid;
+}
+
+body[data-mode="break"] .input-group.break-hidden {
+    display: none;
 }
