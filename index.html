@@ -440,8 +440,8 @@
         // --- Data Definitions ---
         const agentFields = [
             { id: 'baseAtk', label: '基础攻击', def: 0 },
-            { id: 'critRate', label: '暴击率%', def: 5 },
-            { id: 'critDmg', label: '暴击伤害%', def: 50 },
+            { id: 'critRate', label: '暴击率%', def: 0 },
+            { id: 'critDmg', label: '暴击伤害%', def: 0 },
             { id: 'dmgBonus', label: '增伤%', def: 0 },
             { id: 'penRatio', label: '穿透率%', def: 0, cls: 'break-hidden' },
             { id: 'penValue', label: '穿透值', def: 0, cls: 'break-hidden' },
@@ -752,7 +752,25 @@
         // --- File Loading & Input Population ---
 
         async function loadPreset(folder, prefix, filename) {
-            if (!filename) return;
+            // If user selects "-- 选择预设 --" (empty filename), reset all inputs to 0
+            if (!filename) {
+                const type = (folder.includes('wp')) ? 'weapon' : 'agent';
+                const fields = (type === 'weapon') ? weaponFields : agentFields;
+
+                // Reset all input fields to 0
+                fields.forEach(f => {
+                    const el = document.getElementById(`${prefix}_${f.id}`);
+                    if (el) el.value = 0;
+                });
+
+                // Clear the preset data from global state
+                delete globalState.rawPresets[prefix];
+
+                // Recalculate
+                calculateAll();
+                return;
+            }
+
             const path = `./${folder}/${filename}`;
             try {
                 const response = await fetch(path);
