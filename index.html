@@ -34,6 +34,8 @@
                 2. 选取代理人的音擎，以及武器的精炼等级。<br>
                 3. 手动调整敌人数据和场地BUFF。<br>
                 4. 4件套属性会直接加算进该代理人的面板中。<br>
+                5. 导出配置长图时，确保页面缩放为100%（Ctrl+0）。<br>
+                6. 驱动盘和等默认满覆盖率，请结合实际自行判断。<br>
             </p>
             <button class="zzz-btn btn-large active" onclick="closeModal()">开始计算</button>
         </div>
@@ -45,12 +47,13 @@
         <header>
             <h1>ZZZ神秘小算盘</h1>
             <div class="credits">bY 奥伯勒斯的千早爱音本人 with Dr.Gemini</div>
-            <div class="version">2026v0112</div>
-            <div style="margin-top: 15px;">
-                <button class="zzz-btn btn-large" style="font-size: 1.2rem; padding: 12px 40px;" id="export-btn"
-                    onclick="exportSnapshot()">📸 导出配置长图</button>
-            </div>
+            <div class="version">2026v0115</div>
         </header>
+
+        <!-- Fixed Export Button (positioned via CSS) -->
+        <button class="zzz-btn btn-large" id="export-btn" onclick="exportSnapshot()">
+            📸 导出配置长图
+        </button>
 
         <!-- Module 1: Agent Data -->
         <div class="module" id="mod-agent">
@@ -351,7 +354,7 @@
 
                         <h3 style="margin-top:20px;">理论极限伤害</h3>
                         <div id="opt-dmg"
-                            style="font-size:2rem; color:var(--zzz-neon); text-align:right; text-shadow:0 0 10px var(--zzz-neon);">
+                            style="font-size:2rem; color:var(--zzz-primary); text-align:right; text-shadow:0 0 10px var(--zzz-primary);">
                         </div>
                     </div>
                 </div>
@@ -1347,36 +1350,81 @@
             const originalText = btn.innerText;
             btn.innerText = "📸 生成中...";
             btn.classList.add('active');
+            btn.disabled = true;
 
-            // 使用 html2canvas 捕捉 document.body
-            // scrollY: -window.scrollY 用于解决滚动后的截图偏移问题
-            // windowWidth/Height 确保捕捉完整高度
+            // Hide video background to prevent rendering issues
+            const videoBackground = document.querySelector('.video-background');
+            const videoWasVisible = videoBackground && videoBackground.style.display !== 'none';
+            if (videoBackground) {
+                videoBackground.style.display = 'none';
+            }
+
+            // Hide the export button itself from the screenshot
+            btn.style.visibility = 'hidden';
+
+            // Allow time for UI updates and chart rendering
             setTimeout(() => {
+                // Check if html2canvas is loaded
+                if (typeof html2canvas === 'undefined') {
+                    console.error('html2canvas library not loaded');
+                    alert("导出功能加载失败，请刷新页面后重试。");
+                    restoreUI();
+                    return;
+                }
+
                 html2canvas(document.body, {
                     useCORS: true,
                     allowTaint: true,
                     scrollY: -window.scrollY,
+                    scrollX: -window.scrollX,
                     windowWidth: document.documentElement.scrollWidth,
                     windowHeight: document.documentElement.scrollHeight,
-                    backgroundColor: '#000000' // 强制背景色，防止透明
+                    backgroundColor: '#050505',
+                    scale: 2, // Higher quality export
+                    logging: false,
+                    imageTimeout: 15000,
+                    onclone: (clonedDoc) => {
+                        // Ensure charts are visible in cloned document
+                        const charts = clonedDoc.querySelectorAll('canvas');
+                        charts.forEach(chart => {
+                            chart.style.display = 'block';
+                        });
+                    }
                 }).then(canvas => {
-                    const link = document.createElement('a');
-                    // 生成文件名：ZZZ_Snapshot_YYYY-MM-DD.png
-                    const date = new Date().toISOString().slice(0, 10);
-                    link.download = `ZZZ_Snapshot_${date}.png`;
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
+                    try {
+                        const link = document.createElement('a');
+                        const date = new Date().toISOString().slice(0, 10);
+                        const time = new Date().toLocaleTimeString('zh-CN', { hour12: false }).replace(/:/g, '-');
+                        link.download = `ZZZ_配置_${date}_${time}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
 
-                    // 恢复按钮状态
-                    btn.innerText = originalText;
-                    btn.classList.remove('active');
+                        showToast("✅ 配置长图已成功导出！");
+                    } catch (err) {
+                        console.error('Export error:', err);
+                        alert("导出失败：无法生成图片。请尝试使用浏览器的截图功能。");
+                    } finally {
+                        restoreUI();
+                    }
                 }).catch(err => {
-                    console.error(err);
-                    alert("导出失败，建议使用浏览器自带截图功能。");
-                    btn.innerText = originalText;
-                    btn.classList.remove('active');
+                    console.error('html2canvas error:', err);
+                    const errorMsg = err.message || '未知错误';
+                    alert(`导出失败：${errorMsg}\n\n建议使用浏览器自带截图功能（如 Windows: Win+Shift+S）。`);
+                    restoreUI();
                 });
-            }, 100);
+            }, 300);
+
+            function restoreUI() {
+                // Restore video background
+                if (videoBackground && videoWasVisible) {
+                    videoBackground.style.display = '';
+                }
+                // Restore button
+                btn.style.visibility = '';
+                btn.innerText = originalText;
+                btn.classList.remove('active');
+                btn.disabled = false;
+            }
         }
 
         // Video Scroll Logic

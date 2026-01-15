@@ -207,7 +207,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 30px;
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 .grid-2-split {
@@ -246,7 +246,7 @@ h1 {
 .sub-module {
     border: 1px solid var(--zzz-panel-border);
     border-radius: var(--radius-md);
-    padding: 20px 25px;
+    padding: 30px 25px;
     /* Compact padding */
     background: rgba(0, 0, 0, 0.2);
     transition: all var(--anim-speed);
@@ -333,7 +333,7 @@ h1 {
     display: grid;
     grid-template-columns: 1fr auto;
     /* Label takes space, Input takes what it needs */
-    gap: 15px;
+    gap: 20px;
     align-items: center;
     margin-bottom: 10px;
     font-size: 1rem;
@@ -719,12 +719,58 @@ input[type="text"]:focus {
 
 /* Export Button Specifics */
 #export-btn {
+    /* Fixed positioning at bottom-right corner */
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+
+    /* Visual styling */
     border-color: var(--zzz-primary);
     color: var(--zzz-primary);
-    background: rgba(204, 255, 0, 0.05);
+    background: rgba(204, 255, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* Enhanced visibility */
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.6),
+        0 0 30px rgba(205, 231, 74, 0.2);
+
+    /* Sizing */
+    font-size: 1.1rem;
+    padding: 14px 32px;
+    min-width: 200px;
+
+    /* Smooth transitions */
+    transition: all 0.3s ease;
 }
 
 #export-btn:hover {
     background: var(--zzz-primary);
     color: #000;
+    transform: translateY(-2px);
+    box-shadow:
+        0 6px 25px rgba(0, 0, 0, 0.8),
+        0 0 40px rgba(205, 231, 74, 0.4);
+}
+
+#export-btn:active {
+    transform: translateY(0);
+}
+
+#export-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    #export-btn {
+        bottom: 20px;
+        right: 20px;
+        font-size: 1rem;
+        padding: 12px 24px;
+        min-width: 160px;
+    }
 }
