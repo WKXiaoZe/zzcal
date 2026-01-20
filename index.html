@@ -381,6 +381,29 @@
                     <button class="zzz-btn btn-large" id="btn-42" onclick="updateChartLine(42)">42词</button>
                 </div>
 
+                <!-- Existing Sub-stats Inputs -->
+                <div class="sub-module" style="margin-bottom: 20px;">
+                    <h3>已有副词条 (将作为计算起点)</h3>
+                    <div class="grid-3">
+                        <div class="input-group">
+                            <label>暴击率</label>
+                            <input type="number" id="auto-cr-count" value="0" min="0" onchange="calculateAll()">
+                        </div>
+                        <div class="input-group">
+                            <label>暴击伤害</label>
+                            <input type="number" id="auto-cd-count" value="0" min="0" onchange="calculateAll()">
+                        </div>
+                        <div class="input-group break-hidden">
+                            <label>攻击力</label>
+                            <input type="number" id="auto-atk-count" value="0" min="0" onchange="calculateAll()">
+                        </div>
+                        <div class="input-group default-hidden">
+                            <label>生命值</label>
+                            <input type="number" id="auto-hp-count" value="0" min="0" onchange="calculateAll()">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid-3">
                     <div class="sub-module" style="grid-column: span 2;">
                         <div class="chart-wrapper">
@@ -1294,7 +1317,8 @@
                 // Find max damage for current step (totalSubs)
                 let checkStep = Math.min(48, Math.max(0, totalSubs));
                 globalState.allOptResults.forEach(res => {
-                    let stepData = res.history[checkStep];
+                    // FIX: Use .find() because array index doesn't match step when startTotal > 0
+                    let stepData = res.history.find(h => h.step === checkStep);
                     if (stepData && stepData.dmg > optDmg) optDmg = stepData.dmg;
                 });
             }
@@ -1312,6 +1336,60 @@
             <div style="display:flex; justify-content:space-between;"><span>最终伤害</span><span>${Math.floor(result.dmg)}</span></div>
             ${gapStr}
         </div>`;
+        }
+
+        // ... existing code ...
+
+        function updateChartLine(steps) {
+            ['30', '36', '42'].forEach(n => {
+                document.getElementById(`btn-${n}`).classList.toggle('active', n == steps);
+            });
+
+            if (!globalState.allOptResults.length) return;
+
+            // 核心逻辑修复：在所有方案中，寻找在当前 steps 步数下伤害最高的方案
+            let bestResult = null;
+            let maxDmg = -1;
+
+            globalState.allOptResults.forEach(res => {
+                // 获取该方案在 step 处的伤害
+                // FIX: Use .find() because array index doesn't match step
+                let stepData = res.history.find(h => h.step === steps);
+                if (stepData && stepData.dmg > maxDmg) {
+                    maxDmg = stepData.dmg;
+                    bestResult = res;
+                }
+            });
+
+            if (!bestResult) return;
+
+            // 设置当前显示的数据为该“最优方案”的历史数据
+            globalState.optData = bestResult.history;
+            let currentStepData = bestResult.history.find(h => h.step === steps);
+
+            // 重新绘制图表，显示该最优方案的曲线
+            drawChart(bestResult.history);
+
+            // Update Config Display
+            document.getElementById('opt-config-val').innerText = currentStepData.configName;
+
+            if (globalState.battleType === 'break') {
+                document.getElementById('opt-sub-stats').innerText =
+                    `暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 生命值 ${currentStepData.counts.hp}`;
+            } else {
+                document.getElementById('opt-sub-stats').innerText =
+                    `暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 攻击力 ${currentStepData.counts.atk}`;
+            }
+
+            // Update Panel
+            renderPanel('opt-panel', calculateDamage(currentStepData.stats).details);
+            document.getElementById('opt-dmg').innerText = Math.floor(currentStepData.dmg).toLocaleString();
+
+            // Update Chart Line Position
+            if (globalState.chart) {
+                globalState.chart.config._activeStep = steps;
+                globalState.chart.update(); // 使用 update 而不是 draw 确保标线刷新
+            }
         }
 
         function displayLog(res) {
@@ -1439,34 +1517,49 @@
 
             let allResults = [];
 
-            // 遍历所有可能的组合
+
+            // 读取已有副词条数量
+            let startCR = safeFloat(document.getElementById('auto-cr-count').value);
+            let startCD = safeFloat(document.getElementById('auto-cd-count').value);
+            let startAtk = 0;
+            let startHp = 0;
+            if (globalState.battleType === 'break') {
+                startHp = safeFloat(document.getElementById('auto-hp-count').value);
+            } else {
+                startAtk = safeFloat(document.getElementById('auto-atk-count').value);
+            }
+
+            let startTotal = startCR + startCD + startAtk + startHp;
+
+            // 遍历所有可能な組合せ
             for (let s5 of slot5Opts) {
                 for (let s2 of set2Opts) {
                     let currentStats = {
-                        critRate: 0, critDmg: 0, atkPct: 0, hpPct: 0,
+                        critRate: startCR * 2.4,
+                        critDmg: startCD * 4.8,
+                        atkPct: startAtk * 3.0,
+                        hpPct: startHp * 3.0,
                         ...s5.val, ...s2.val
                     };
                     let history = [];
                     let currentDmg = calculateDamage(currentStats).dmg;
-                    let counts = { cr: 0, cd: 0, atk: 0, hp: 0 };
+                    let counts = { cr: startCR, cd: startCD, atk: startAtk, hp: startHp };
 
-                    // Step 0
+                    // Step 0 - 实际上是 startTotal
                     history.push({
-                        step: 0, dmg: currentDmg,
+                        step: startTotal, dmg: currentDmg,
                         stats: { ...currentStats }, configName: `${s5.name} + ${s2.name}`,
                         gains: { cr: 0, cd: 0, atk: 0, hp: 0 },
                         counts: { ...counts }
                     });
 
                     // 贪心算法模拟至48词条
-                    for (let step = 1; step <= 48; step++) {
+                    for (let step = startTotal + 1; step <= 48; step++) {
                         let dCR = calculateDamage({ ...currentStats, critRate: currentStats.critRate + 2.4 }).dmg;
                         let dCD = calculateDamage({ ...currentStats, critDmg: currentStats.critDmg + 4.8 }).dmg;
 
                         let dAtk, dHp, bestMove;
                         if (globalState.battleType === 'break') {
-                            // In Break mode, test HP instead of Atk? Or both?
-                            // Plan said: "test HP input instead of Atk"
                             dHp = calculateDamage({ ...currentStats, hpPct: currentStats.hpPct + 3.0 }).dmg;
                             bestMove = Math.max(dCR, dCD, dHp);
                         } else {
@@ -1603,56 +1696,7 @@
             });
         }
 
-        function updateChartLine(steps) {
-            ['30', '36', '42'].forEach(n => {
-                document.getElementById(`btn-${n}`).classList.toggle('active', n == steps);
-            });
 
-            if (!globalState.allOptResults.length) return;
-
-            // 核心逻辑修复：在所有方案中，寻找在当前 steps 步数下伤害最高的方案
-            let bestResult = null;
-            let maxDmg = -1;
-
-            globalState.allOptResults.forEach(res => {
-                // 获取该方案在 step 处的伤害
-                let stepData = res.history[steps];
-                if (stepData && stepData.dmg > maxDmg) {
-                    maxDmg = stepData.dmg;
-                    bestResult = res;
-                }
-            });
-
-            if (!bestResult) return;
-
-            // 设置当前显示的数据为该“最优方案”的历史数据
-            globalState.optData = bestResult.history;
-            let currentStepData = bestResult.history[steps];
-
-            // 重新绘制图表，显示该最优方案的曲线
-            drawChart(bestResult.history);
-
-            // Update Config Display
-            document.getElementById('opt-config-val').innerText = currentStepData.configName;
-
-            if (globalState.battleType === 'break') {
-                document.getElementById('opt-sub-stats').innerText =
-                    `暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 生命值 ${currentStepData.counts.hp}`;
-            } else {
-                document.getElementById('opt-sub-stats').innerText =
-                    `暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 攻击力 ${currentStepData.counts.atk}`;
-            }
-
-            // Update Panel
-            renderPanel('opt-panel', calculateDamage(currentStepData.stats).details);
-            document.getElementById('opt-dmg').innerText = Math.floor(currentStepData.dmg).toLocaleString();
-
-            // Update Chart Line Position
-            if (globalState.chart) {
-                globalState.chart.config._activeStep = steps;
-                globalState.chart.update(); // 使用 update 而不是 draw 确保标线刷新
-            }
-        }
 
         function exportSnapshot() {
             const btn = document.getElementById('export-btn');
