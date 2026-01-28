@@ -194,7 +194,7 @@
         <div class="grid-2-split">
             <!-- Module 3: Disc Stats -->
             <div class="module" id="mod-preset-stats">
-                <div class="module-title"><span>03 // 驱动盘主词条</span></div>
+                <div class="module-title"><span>03 // 驱动盘主副词条</span></div>
                 <div class="sub-module">
                     <div class="input-group break-hidden">
                         <label>6号位 (固定)</label>
@@ -219,6 +219,14 @@
                             <option value="critDmg">48% 暴击伤害</option>
                             <option value="atk">30% 攻击力</option>
                         </select>
+                    </div>
+                    <div class="input-group">
+                        <label>小攻击词条 (19/个)</label>
+                        <input type="number" id="small-atk-count" value="0" min="0" onchange="calculateAll()">
+                    </div>
+                    <div class="input-group">
+                        <label>穿透值词条 (9/个)</label>
+                        <input type="number" id="small-pen-count" value="0" min="0" onchange="calculateAll()">
                     </div>
                 </div>
             </div>
@@ -1006,7 +1014,7 @@
                 sumSup('atkPct') +
                 disc6_AtkPct + disc4_AtkPct + extraAtkPct;
 
-            let outCombatFlatAtk = disc2_FlatAtk + safeFloat(extraStats.flatAtk);
+            let outCombatFlatAtk = disc2_FlatAtk + safeFloat(extraStats.flatAtk) + (safeFloat(document.getElementById('small-atk-count').value) * 19);
 
             // Add Field Buffs
             let inCombatAtkPct = safeFloat(aMain.inCombatAtkPct) + safeFloat(wMain.inCombatAtkPct) + sumSup('inCombatAtkPct') + field.inCombatAtkPct;
@@ -1069,7 +1077,7 @@
             let defBonus = safeFloat(document.getElementById('boss-def-bonus').value);
             let totalDefShred = safeFloat(aMain.defShred) + safeFloat(wMain.defShred) + sumSup('defShred') + field.defShred;
             let totalPenPct = safeFloat(aMain.penRatio) + safeFloat(wMain.penRatio) + sumSup('penRatio') + extraPenPct;
-            let totalPenVal = safeFloat(aMain.penValue) + safeFloat(wMain.penValue) + sumSup('penValue');
+            let totalPenVal = safeFloat(aMain.penValue) + safeFloat(wMain.penValue) + sumSup('penValue') + (safeFloat(document.getElementById('small-pen-count').value) * 9);
 
             let defCalced = baseDef * (1 + defBonus / 100 - totalDefShred / 100);
             let defRes = (defCalced * (1 - totalPenPct / 100) - totalPenVal);

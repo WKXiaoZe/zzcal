@@ -8,6 +8,6 @@
     "defShred": "25/0/0/0/0",
     "dazeVuln": "0/0/0/0/0",
     "resShred": "0/15/0/0/0",
-    "inCombatAtkPct": "0/20/0/0/0",
+    "inCombatAtkPct": "0/0/20/0/0",
     "inCombatAtkFlat": "700/0/0/0/0"
 }
