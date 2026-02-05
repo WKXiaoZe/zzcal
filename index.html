@@ -43,7 +43,7 @@
 
     <div class="container">
         <header>
-            <h1>ZZZ神秘小算盘</h1>
+            <h1>ʚ ZZZ神秘小算盘 ɞ</h1>
 
             <!-- Battle Type Toggle -->
             <div class="switch-container"
@@ -53,7 +53,7 @@
                 <button class="zzz-btn" id="type-anomaly" onclick="setBattleType('anomaly', this)">异常</button>
             </div>
             <div class="credits">bY 奥伯勒斯的千早爱音本人 with Dr.Gemini</div>
-            <div class="version">2026v0120</div>
+            <div class="version">2026v0205</div>
         </header>
 
         <!-- Fixed Export Button (positioned via CSS) -->
@@ -796,6 +796,63 @@
                 });
             }
         }
+
+        // --- Scroll Snap Logic ---
+        let isScrolling = false;
+
+        // Initial Scroll Check
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const triggerHeight = window.innerHeight * 0.1; // 10% scroll triggers transition if manual
+
+            if (scrollY > triggerHeight) {
+                document.body.classList.add('u-scrolled');
+            } else {
+                document.body.classList.remove('u-scrolled');
+            }
+        });
+
+        // Wheel Event for "Snap" feel (Optional but requested "Immediately... smooth animation")
+        /*
+        window.addEventListener('wheel', (e) => {
+            if (isScrolling) return;
+
+            // At Top -> Scroll Down
+            if (window.scrollY < 50 && e.deltaY > 0) {
+                 e.preventDefault();
+                 isScrolling = true;
+                 window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+                 setTimeout(() => isScrolling = false, 800);
+            }
+            
+            // At Content Top -> Scroll Up
+            // Use a threshold (e.g., if near the "snap point" and scrolling up)
+            // But standard scrolling is usually better for UX. 
+            // The request said "When user performs scroll down... immediately go up".
+            
+            // Let's implement a lighter version:
+            // Just let the CSS transition handle visual snap, but maybe force scroll to content?
+        }, { passive: false });
+        */
+
+        // Simpler Approach: Just listen for first scroll
+        let hasScrolledDown = false;
+        window.addEventListener('wheel', (e) => {
+            // If at top and scrolling down
+            if (window.scrollY < 10 && e.deltaY > 0 && !hasScrolledDown) {
+                hasScrolledDown = true;
+                // Scroll to content
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            }
+
+            // If scrolled back up
+            if (window.scrollY < 50) {
+                hasScrolledDown = false;
+            }
+        });
 
         // --- Logic: Parsing Complex Values ---
 
