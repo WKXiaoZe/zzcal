@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZZZ神秘小算盘</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -14,7 +19,7 @@
 
     <!-- Hero Video Background -->
     <div class="video-background">
-        <video id="hero-video" autoplay muted loop playsinline>
+        <video id="hero-video" autoplay muted loop playsinline preload="metadata">
             <source src="resources/output.mp4" type="video/mp4">
         </video>
     </div>
@@ -53,7 +58,7 @@
                 <button class="zzz-btn" id="type-anomaly" onclick="setBattleType('anomaly', this)">异常</button>
             </div>
             <div class="credits">bY 奥伯勒斯的千早爱音本人 with Dr.Gemini</div>
-            <div class="version">2026v0205</div>
+            <div class="version">2026v0219</div>
         </header>
 
         <!-- Fixed Export Button (positioned via CSS) -->
@@ -212,7 +217,7 @@
                     </div>
                     <div class="input-group">
                         <label>4号位 (可选)</label>
-                        <select id="slot4-select" onchange="calculateAll()">
+                        <select id="slot4-select" onchange="debouncedCalculateAll()">
                             <option value="critRate">24% 暴击率</option>
                             <option value="critDmg">48% 暴击伤害</option>
                             <option value="atk">30% 攻击力</option>
@@ -220,11 +225,11 @@
                     </div>
                     <div class="input-group">
                         <label>小攻击词条 (19/个)</label>
-                        <input type="number" id="small-atk-count" value="0" min="0" onchange="calculateAll()">
+                        <input type="number" id="small-atk-count" value="0" min="0" onchange="debouncedCalculateAll()">
                     </div>
                     <div class="input-group">
                         <label>穿透值词条 (9/个)</label>
-                        <input type="number" id="small-pen-count" value="0" min="0" onchange="calculateAll()">
+                        <input type="number" id="small-pen-count" value="0" min="0" onchange="debouncedCalculateAll()">
                     </div>
                 </div>
             </div>
@@ -235,7 +240,7 @@
                 <div class="sub-module">
                     <div class="input-group break-hidden">
                         <label>基础防御力</label>
-                        <select id="boss-def-base" onchange="calculateAll()">
+                        <select id="boss-def-base" onchange="debouncedCalculateAll()">
                             <option value="953">默认 (953)</option>
                             <option value="1588">彷徨猎手 (1588)</option>
                             <option value="476">太初梦魇 (476)</option>
@@ -243,11 +248,11 @@
                     </div>
                     <div class="input-group break-hidden">
                         <label>防御加成 (%)</label>
-                        <input type="number" id="boss-def-bonus" value="0" onchange="calculateAll()">
+                        <input type="number" id="boss-def-bonus" value="0" onchange="debouncedCalculateAll()">
                     </div>
                     <div class="input-group">
                         <label>基础失衡倍率 (%)</label>
-                        <input type="number" id="boss-daze-base" value="100" onchange="calculateAll()">
+                        <input type="number" id="boss-daze-base" value="100" onchange="debouncedCalculateAll()">
                     </div>
                     <div class="input-group">
                         <label>敌人抗性</label>
@@ -277,23 +282,23 @@
                 <h3>场地BUFF (全局生效)</h3>
                 <div class="grid-3">
                     <div class="input-group"><label>局内攻击%</label><input type="number" id="field_inCombatAtkPct"
-                            value="0" onchange="calculateAll()"></div>
+                            value="0" onchange="debouncedCalculateAll()"></div>
                     <div class="input-group"><label>暴击率%</label><input type="number" id="field_critRate" value="0"
-                            onchange="calculateAll()"></div>
+                            onchange="debouncedCalculateAll()"></div>
                     <div class="input-group"><label>暴击伤害%</label><input type="number" id="field_critDmg" value="0"
-                            onchange="calculateAll()"></div>
+                            onchange="debouncedCalculateAll()"></div>
                     <div class="input-group"><label>增伤%</label><input type="number" id="field_dmgBonus" value="0"
-                            onchange="calculateAll()"></div>
+                            onchange="debouncedCalculateAll()"></div>
                     <div class="input-group"><label>减抗%</label><input type="number" id="field_resShred" value="0"
-                            onchange="calculateAll()"></div>
+                            onchange="debouncedCalculateAll()"></div>
                     <div class="input-group break-hidden"><label>无视防御%</label><input type="number" id="field_defShred"
-                            value="0" onchange="calculateAll()"></div>
+                            value="0" onchange="debouncedCalculateAll()"></div>
                     <div class="input-group default-hidden"><label>生命值%</label><input type="number" id="field_hpPct"
-                            value="0" onchange="calculateAll()"></div>
+                            value="0" onchange="debouncedCalculateAll()"></div>
                     <div class="input-group default-hidden"><label>局内生命%</label><input type="number"
-                            id="field_inCombatHpPct" value="0" onchange="calculateAll()"></div>
+                            id="field_inCombatHpPct" value="0" onchange="debouncedCalculateAll()"></div>
                     <div class="input-group"><label>失衡易伤%</label><input type="number" id="field_dazeVuln" value="0"
-                            onchange="calculateAll()"></div>
+                            onchange="debouncedCalculateAll()"></div>
                 </div>
             </div>
 
@@ -310,22 +315,23 @@
                         <h3>副词条数量 (总和 ≤ 48)</h3>
                         <div class="input-group">
                             <label>暴击率 (2.4%)</label>
-                            <input type="number" id="sub-cr-count" value="0" min="0" onchange="calculateAll()">
+                            <input type="number" id="sub-cr-count" value="0" min="0" onchange="debouncedCalculateAll()">
                             <span id="gain-cr" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
                         <div class="input-group">
                             <label>暴击伤害 (4.8%)</label>
-                            <input type="number" id="sub-cd-count" value="0" min="0" onchange="calculateAll()">
+                            <input type="number" id="sub-cd-count" value="0" min="0" onchange="debouncedCalculateAll()">
                             <span id="gain-cd" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
                         <div class="input-group break-hidden">
                             <label>攻击力 (3%)</label>
-                            <input type="number" id="sub-atk-count" value="0" min="0" onchange="calculateAll()">
+                            <input type="number" id="sub-atk-count" value="0" min="0"
+                                onchange="debouncedCalculateAll()">
                             <span id="gain-atk" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
                         <div class="input-group default-hidden">
                             <label>生命值 (3%)</label>
-                            <input type="number" id="sub-hp-count" value="0" min="0" onchange="calculateAll()">
+                            <input type="number" id="sub-hp-count" value="0" min="0" onchange="debouncedCalculateAll()">
                             <span id="gain-hp" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
                         <div style="text-align:right; color:var(--zzz-alert); font-size:0.8rem;" id="sub-total-warn">
@@ -335,7 +341,7 @@
                         <h3>装备选择</h3>
                         <div class="input-group break-hidden">
                             <label>5号位主词条</label>
-                            <select id="slot5-select" onchange="calculateAll()">
+                            <select id="slot5-select" onchange="debouncedCalculateAll()">
                                 <option value="atk">30% 攻击力</option>
                                 <option value="dmg">30% 增伤</option>
                                 <option value="pen">24% 穿透率</option>
@@ -343,7 +349,7 @@
                         </div>
                         <div class="input-group default-hidden">
                             <label>5号位主词条</label>
-                            <select id="slot5-select-break" onchange="calculateAll()">
+                            <select id="slot5-select-break" onchange="debouncedCalculateAll()">
                                 <option value="atk">30% 攻击力</option>
                                 <option value="dmg">30% 增伤</option>
                                 <option value="hp">30% 生命值</option>
@@ -353,7 +359,7 @@
 
                         <div class="input-group break-hidden">
                             <label>2件套效果</label>
-                            <select id="set2-select" onchange="calculateAll()">
+                            <select id="set2-select" onchange="debouncedCalculateAll()">
                                 <option value="dmg">10% 增伤</option>
                                 <option value="pen">8% 穿透率</option>
                                 <option value="atk">10% 攻击力</option>
@@ -362,7 +368,7 @@
                         </div>
                         <div class="input-group default-hidden">
                             <label>2件套效果</label>
-                            <select id="set2-select-break" onchange="calculateAll()">
+                            <select id="set2-select-break" onchange="debouncedCalculateAll()">
                                 <option value="dmg">10% 增伤</option>
                                 <option value="pen">8% 穿透率</option>
                                 <option value="hp">10% 生命值</option>
@@ -393,19 +399,23 @@
                     <div class="grid-3">
                         <div class="input-group">
                             <label>暴击率</label>
-                            <input type="number" id="auto-cr-count" value="0" min="0" onchange="calculateAll()">
+                            <input type="number" id="auto-cr-count" value="0" min="0"
+                                onchange="debouncedCalculateAll()">
                         </div>
                         <div class="input-group">
                             <label>暴击伤害</label>
-                            <input type="number" id="auto-cd-count" value="0" min="0" onchange="calculateAll()">
+                            <input type="number" id="auto-cd-count" value="0" min="0"
+                                onchange="debouncedCalculateAll()">
                         </div>
                         <div class="input-group break-hidden">
                             <label>攻击力</label>
-                            <input type="number" id="auto-atk-count" value="0" min="0" onchange="calculateAll()">
+                            <input type="number" id="auto-atk-count" value="0" min="0"
+                                onchange="debouncedCalculateAll()">
                         </div>
                         <div class="input-group default-hidden">
                             <label>生命值</label>
-                            <input type="number" id="auto-hp-count" value="0" min="0" onchange="calculateAll()">
+                            <input type="number" id="auto-hp-count" value="0" min="0"
+                                onchange="debouncedCalculateAll()">
                         </div>
                     </div>
                 </div>
@@ -444,7 +454,7 @@
             <div class="module-title"><span>06 // 伤害计算核心</span></div>
             <div class="input-group" style="max-width: 300px;">
                 <label>技能倍率 (%)</label>
-                <input type="number" id="skill-multiplier" value="100" onchange="calculateAll()">
+                <input type="number" id="skill-multiplier" value="100" onchange="debouncedCalculateAll()">
             </div>
             <div class="calc-log" id="calc-log">
                 等待计算...
@@ -453,6 +463,20 @@
     </div>
 
     <script>
+        // --- PERFORMANCE: Debounce wrapper ---
+        let _calcTimer = null;
+        function debouncedCalculateAll() {
+            if (_calcTimer) clearTimeout(_calcTimer);
+            _calcTimer = setTimeout(() => calculateAll(), 150);
+        }
+
+        // --- PERFORMANCE: DOM element cache ---
+        const _domCache = {};
+        function getCachedEl(id) {
+            if (!_domCache[id]) _domCache[id] = document.getElementById(id);
+            return _domCache[id];
+        }
+
         // --- CONFIGURATION: FILE MANIFEST ---
         const REPO_FILES = {
             dps: ["叶瞬光.json", "11号Ⅵ.json", "零号安比Ⅵ.json", "艾莲·乔Ⅵ.json", "伊芙琳.json", "仪玄.json", "悠真.json", "奥菲丝.json"],
@@ -797,60 +821,63 @@
             }
         }
 
-        // --- Scroll Snap Logic ---
-        let isScrolling = false;
+        // --- Scroll & Snap Logic (Consolidated with rAF throttling) ---
+        let _scrollTicking = false;
+        let hasScrolledDown = false;
 
-        // Initial Scroll Check
-        window.addEventListener('scroll', () => {
+        function onScrollFrame() {
             const scrollY = window.scrollY;
-            const triggerHeight = window.innerHeight * 0.1; // 10% scroll triggers transition if manual
+            const triggerHeight = window.innerHeight * 0.1;
 
+            // Header scroll state
             if (scrollY > triggerHeight) {
                 document.body.classList.add('u-scrolled');
             } else {
                 document.body.classList.remove('u-scrolled');
             }
-        });
 
-        // Wheel Event for "Snap" feel (Optional but requested "Immediately... smooth animation")
-        /*
-        window.addEventListener('wheel', (e) => {
-            if (isScrolling) return;
-
-            // At Top -> Scroll Down
-            if (window.scrollY < 50 && e.deltaY > 0) {
-                 e.preventDefault();
-                 isScrolling = true;
-                 window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
-                 setTimeout(() => isScrolling = false, 800);
+            // Video blur logic
+            const video = getCachedEl('hero-video');
+            if (video) {
+                if (scrollY > 50) {
+                    if (!video.classList.contains('is-blurred')) {
+                        video.classList.add('is-blurred');
+                        video.pause();
+                    }
+                } else {
+                    if (video.classList.contains('is-blurred')) {
+                        video.classList.remove('is-blurred');
+                        let playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(() => { });
+                        }
+                    }
+                }
             }
-            
-            // At Content Top -> Scroll Up
-            // Use a threshold (e.g., if near the "snap point" and scrolling up)
-            // But standard scrolling is usually better for UX. 
-            // The request said "When user performs scroll down... immediately go up".
-            
-            // Let's implement a lighter version:
-            // Just let the CSS transition handle visual snap, but maybe force scroll to content?
-        }, { passive: false });
-        */
 
-        // Simpler Approach: Just listen for first scroll
-        let hasScrolledDown = false;
+            // Reset wheel snap flag
+            if (scrollY < 50) {
+                hasScrolledDown = false;
+            }
+
+            _scrollTicking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!_scrollTicking) {
+                requestAnimationFrame(onScrollFrame);
+                _scrollTicking = true;
+            }
+        }, { passive: true });
+
+        // Wheel snap for first scroll
         window.addEventListener('wheel', (e) => {
-            // If at top and scrolling down
             if (window.scrollY < 10 && e.deltaY > 0 && !hasScrolledDown) {
                 hasScrolledDown = true;
-                // Scroll to content
                 window.scrollTo({
                     top: window.innerHeight,
                     behavior: 'smooth'
                 });
-            }
-
-            // If scrolled back up
-            if (window.scrollY < 50) {
-                hasScrolledDown = false;
             }
         });
 
@@ -1248,15 +1275,16 @@
         }
 
         function calculateAll() {
-            // 核心逻辑更新：无论何种模式，都运行一次最优计算的数据生成部分，
-            // 以便在手动模式下计算“与最优配置的差距”。
-            runOptimizationDataOnly();
+            // 标记优化数据为脏，延迟到需要时才计算
+            globalState._optDirty = true;
 
             // 始终更新手动模式的面板和日志，确保数据不滞后
             manualUpdate();
 
-            // 仅在自动模式开启时更新图表和自动模式UI
+            // 仅在自动模式开启时才运行完整优化模拟
             if (globalState.mode === 'auto') {
+                runOptimizationDataOnly();
+                globalState._optDirty = false;
                 let currentStepBtn = document.querySelector('.opt-controls button.active[id^="btn-"]');
                 let steps = currentStepBtn ? parseInt(currentStepBtn.id.split('-')[1]) : 30;
                 updateChartLine(steps);
@@ -1542,11 +1570,16 @@
         // --- Optimization Mode Logic ---
         function switchMode(mode) {
             globalState.mode = mode;
-            document.getElementById('mode-manual-btn').classList.toggle('active', mode === 'manual');
-            document.getElementById('mode-auto-btn').classList.toggle('active', mode === 'auto');
-            document.getElementById('manual-ui').style.display = mode === 'manual' ? 'block' : 'none';
-            document.getElementById('auto-ui').style.display = mode === 'auto' ? 'block' : 'none';
+            getCachedEl('mode-manual-btn').classList.toggle('active', mode === 'manual');
+            getCachedEl('mode-auto-btn').classList.toggle('active', mode === 'auto');
+            getCachedEl('manual-ui').style.display = mode === 'manual' ? 'block' : 'none';
+            getCachedEl('auto-ui').style.display = mode === 'auto' ? 'block' : 'none';
 
+            // 切换到自动模式时，如果数据是脏的，立即运行优化
+            if (mode === 'auto' && globalState._optDirty) {
+                runOptimizationDataOnly();
+                globalState._optDirty = false;
+            }
             calculateAll();
         }
 
@@ -1845,33 +1878,7 @@
             }
         }
 
-        // Video Scroll Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('hero-video');
-            if (!video) return;
-
-            window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-                if (scrollY > 50) {
-                    if (!video.classList.contains('is-blurred')) {
-                        video.classList.add('is-blurred');
-                        video.pause();
-                    }
-                } else {
-                    if (video.classList.contains('is-blurred')) {
-                        video.classList.remove('is-blurred');
-                        // Handle Promise to avoid interruption error
-                        let playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.catch(error => {
-                                // Auto-play was prevented
-                                console.log("Video play interrupted or prevented");
-                            });
-                        }
-                    }
-                }
-            });
-        });
+        // Video Scroll Logic — now consolidated into onScrollFrame() above
     </script>
 </body>
 

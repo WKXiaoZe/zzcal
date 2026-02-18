@@ -1,5 +1,5 @@
 /* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;700;800;900&display=swap');
+/* Fonts - loaded via <link> in index.html for performance */
 
 /* Reset & Variables */
 :root {
@@ -378,6 +378,7 @@ body.u-scrolled .credits {
     border-radius: var(--radius-lg);
     box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
     transition: transform var(--anim-speed), border-color var(--anim-speed);
+    will-change: transform;
 }
 
 .module:hover {
