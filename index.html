@@ -58,7 +58,7 @@
                 <button class="zzz-btn" id="type-anomaly" onclick="setBattleType('anomaly', this)">异常</button>
             </div>
             <div class="credits">bY 奥伯勒斯的千早爱音本人 with Dr.Gemini</div>
-            <div class="version">2026v0219</div>
+            <div class="version">2026v0224</div>
         </header>
 
         <!-- Fixed Export Button (positioned via CSS) -->
@@ -199,13 +199,20 @@
             <div class="module" id="mod-preset-stats">
                 <div class="module-title"><span>03 // 驱动盘主副词条</span></div>
                 <div class="sub-module">
-                    <div class="input-group break-hidden">
+                    <div class="input-group break-hidden anomaly-hidden">
                         <label>6号位 (固定)</label>
                         <input type="text" value="30% 攻击力" disabled>
                     </div>
                     <div class="input-group default-hidden">
                         <label>6号位 (固定)</label>
                         <input type="text" value="30% 生命值" disabled>
+                    </div>
+                    <div class="input-group anomaly-only">
+                        <label>6号位 (可选)</label>
+                        <select id="slot6-anomaly-select" onchange="debouncedCalculateAll()">
+                            <option value="atk">30% 攻击力</option>
+                            <option value="anomalyMastery">异常掌控</option>
+                        </select>
                     </div>
                     <div class="input-group break-hidden">
                         <label>2号位 (固定)</label>
@@ -221,6 +228,7 @@
                             <option value="critRate">24% 暴击率</option>
                             <option value="critDmg">48% 暴击伤害</option>
                             <option value="atk">30% 攻击力</option>
+                            <option value="anomalyMastery">92 异常精通</option>
                         </select>
                     </div>
                     <div class="input-group">
@@ -299,6 +307,8 @@
                             id="field_inCombatHpPct" value="0" onchange="debouncedCalculateAll()"></div>
                     <div class="input-group"><label>失衡易伤%</label><input type="number" id="field_dazeVuln" value="0"
                             onchange="debouncedCalculateAll()"></div>
+                    <div class="input-group anomaly-only"><label>异常精通</label><input type="number"
+                            id="field_anomalyMastery" value="0" onchange="debouncedCalculateAll()"></div>
                 </div>
             </div>
 
@@ -313,12 +323,12 @@
                 <div class="grid-3">
                     <div class="sub-module">
                         <h3>副词条数量 (总和 ≤ 48)</h3>
-                        <div class="input-group">
+                        <div class="input-group anomaly-hidden">
                             <label>暴击率 (2.4%)</label>
                             <input type="number" id="sub-cr-count" value="0" min="0" onchange="debouncedCalculateAll()">
                             <span id="gain-cr" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
-                        <div class="input-group">
+                        <div class="input-group anomaly-hidden">
                             <label>暴击伤害 (4.8%)</label>
                             <input type="number" id="sub-cd-count" value="0" min="0" onchange="debouncedCalculateAll()">
                             <span id="gain-cd" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
@@ -333,6 +343,11 @@
                             <label>生命值 (3%)</label>
                             <input type="number" id="sub-hp-count" value="0" min="0" onchange="debouncedCalculateAll()">
                             <span id="gain-hp" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
+                        </div>
+                        <div class="input-group anomaly-only">
+                            <label>异常精通 (9)</label>
+                            <input type="number" id="sub-am-count" value="0" min="0" onchange="debouncedCalculateAll()">
+                            <span id="gain-am" style="color:var(--zzz-primary); font-size:0.8rem;"></span>
                         </div>
                         <div style="text-align:right; color:var(--zzz-alert); font-size:0.8rem;" id="sub-total-warn">
                         </div>
@@ -397,12 +412,12 @@
                 <div class="sub-module" style="margin-bottom: 20px;">
                     <h3>已有副词条 (将作为计算起点)</h3>
                     <div class="grid-3">
-                        <div class="input-group">
+                        <div class="input-group anomaly-hidden">
                             <label>暴击率</label>
                             <input type="number" id="auto-cr-count" value="0" min="0"
                                 onchange="debouncedCalculateAll()">
                         </div>
-                        <div class="input-group">
+                        <div class="input-group anomaly-hidden">
                             <label>暴击伤害</label>
                             <input type="number" id="auto-cd-count" value="0" min="0"
                                 onchange="debouncedCalculateAll()">
@@ -415,6 +430,11 @@
                         <div class="input-group default-hidden">
                             <label>生命值</label>
                             <input type="number" id="auto-hp-count" value="0" min="0"
+                                onchange="debouncedCalculateAll()">
+                        </div>
+                        <div class="input-group anomaly-only">
+                            <label>异常精通</label>
+                            <input type="number" id="auto-am-count" value="0" min="0"
                                 onchange="debouncedCalculateAll()">
                         </div>
                     </div>
@@ -517,7 +537,8 @@
             { id: 'flatHp', label: '固定生命', def: 0, cls: 'default-hidden' },
             { id: 'inCombatHpPct', label: '局内生命%', def: 0, cls: 'default-hidden' },
             { id: 'inCombatPen', label: '局内贯穿力', def: 0, cls: 'default-hidden' },
-            { id: 'ppDmgBonus', label: '贯穿增伤%', def: 0, cls: 'default-hidden' }
+            { id: 'ppDmgBonus', label: '贯穿增伤%', def: 0, cls: 'default-hidden' },
+            { id: 'anomalyMastery', label: '异常精通', def: 0, cls: 'anomaly-only' }
         ];
 
         const weaponFields = [
@@ -537,7 +558,8 @@
             { id: 'flatHp', label: '固定生命', def: 0, cls: 'default-hidden' },
             { id: 'inCombatHpPct', label: '局内生命%', def: 0, cls: 'default-hidden' },
             { id: 'inCombatPen', label: '局内贯穿力', def: 0, cls: 'default-hidden' },
-            { id: 'ppDmgBonus', label: '贯穿增伤%', def: 0, cls: 'default-hidden' }
+            { id: 'ppDmgBonus', label: '贯穿增伤%', def: 0, cls: 'default-hidden' },
+            { id: 'anomalyMastery', label: '异常精通', def: 0, cls: 'anomaly-only' }
         ];
 
         // --- Global State ---
@@ -561,21 +583,6 @@
         };
 
         function setBattleType(type, btn) {
-            if (type === 'anomaly') {
-                // Shake Animation
-                const container = document.querySelector('.container');
-                container.classList.add('shake-animation');
-
-                // Remove class after animation to allow re-triggering
-                setTimeout(() => {
-                    container.classList.remove('shake-animation');
-                }, 400);
-
-                const attackBtn = document.getElementById('type-attack');
-                setBattleType('attack', attackBtn);
-                return;
-            }
-
             globalState.battleType = type;
             document.body.setAttribute('data-mode', type);
 
@@ -584,7 +591,16 @@
             siblings.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // Trigger calculation if needed (optional for now, but good practice)
+            // 异常模式切换4号位默认值
+            const slot4 = document.getElementById('slot4-select');
+            if (type === 'anomaly') {
+                slot4.value = 'anomalyMastery';
+            } else if (slot4.value === 'anomalyMastery') {
+                // 从异常切回时，恢复默认
+                slot4.value = 'critRate';
+            }
+
+            // Trigger calculation
             calculateAll();
         }
 
@@ -1053,7 +1069,8 @@
                 dazeVuln: getVal('field_dazeVuln'),
                 // New Fields
                 hpPct: getVal('field_hpPct'),
-                inCombatHpPct: getVal('field_inCombatHpPct')
+                inCombatHpPct: getVal('field_inCombatHpPct'),
+                anomalyMastery: getVal('field_anomalyMastery')
             };
         }
 
@@ -1078,7 +1095,15 @@
             const baseAtk = safeFloat(aMain.baseAtk) + safeFloat(wMain.baseAtk);
             if (baseAtk === 0) warnings.push("警告: 基础攻击力(白值)为 0");
 
-            const disc6_AtkPct = 30;
+            let disc6_AtkPct = 30;
+            let disc6_Anomaly = 0;
+            if (globalState.battleType === 'anomaly') {
+                const slot6AnomalyType = document.getElementById('slot6-anomaly-select').value;
+                if (slot6AnomalyType === 'anomalyMastery') {
+                    disc6_AtkPct = 0;
+                    disc6_Anomaly = 0; // 异常掌控为占位符，不提供属性
+                }
+            }
             const disc2_FlatAtk = 316;
             const slot4Type = document.getElementById('slot4-select').value;
             let disc4_AtkPct = slot4Type === 'atk' ? 30 : 0;
@@ -1091,6 +1116,7 @@
             const extraCD = safeFloat(extraStats.critDmg) + safeFloat(extraStats.set2_CD);
             const extraDmg = safeFloat(extraStats.dmgBonus) + safeFloat(extraStats.slot5_Dmg) + safeFloat(extraStats.set2_Dmg);
             const extraPenPct = safeFloat(extraStats.penRatio) + safeFloat(extraStats.slot5_Pen) + safeFloat(extraStats.set2_Pen);
+            const extraAM = safeFloat(extraStats.anomalyMastery);
 
             let outCombatAtkPct =
                 safeFloat(aMain.atkPct) +
@@ -1181,10 +1207,15 @@
 
             // Final Damage Calculation
             let finalDmg;
+            let totalAnomalyMastery = safeFloat(aMain.anomalyMastery) + safeFloat(wMain.anomalyMastery) + sumSup('anomalyMastery') + (slot4Type === 'anomalyMastery' ? 92 : 0) + disc6_Anomaly + field.anomalyMastery + extraAM;
+
             if (globalState.battleType === 'break') {
                 // Break Mode Formula: 伤害 = 技能倍率 * 贯穿力 * (1 + 增伤) * (1 + 暴击率 * 暴击伤害) * (1 - 抗性 + 弱点 + 减抗) * ((基础失衡 + 失衡易伤) / 100) * (1 + 贯穿增伤)
                 let totalPPDmgBonus = safeFloat(aMain.ppDmgBonus) + safeFloat(wMain.ppDmgBonus) + sumSup('ppDmgBonus');
                 finalDmg = skillMult * totalPierce * dmgMult * critMult * resMult * dazeMult * (1 + totalPPDmgBonus / 100);
+            } else if (globalState.battleType === 'anomaly') {
+                // Anomaly Mode Formula: 异常伤害 = ((攻击力白值*(1+局外攻击力%)+局外攻击力固定值)*(1+局内攻击力%)+局内攻击力固定值)*(1+增伤%)*(异常精通/100)*(794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794))*(1-抗性+弱点+减抗)*((基础失衡+失衡易伤)/100)
+                finalDmg = totalAtk * dmgMult * (totalAnomalyMastery / 100) * defMult * resMult * dazeMult;
             } else {
                 // Attack Mode Formula: Uses defense multiplier
                 finalDmg = skillMult * totalAtk * dmgMult * critMult * resMult * defMult * dazeMult;
@@ -1195,7 +1226,7 @@
                 warnings: warnings,
                 details: {
                     baseAtk, outCombatAtkPct, outCombatFlatAtk, sheetAtk, inCombatAtkPct, inCombatFlatAtk, totalAtk,
-                    totalPierce, // Added for Break Mode
+                    totalPierce, totalAnomalyMastery, // Added for Break & Anomaly Mode
                     maxHpInCombat: (globalState.battleType === 'break' ?
                         ((safeFloat(aMain.baseHp) + safeFloat(wMain.baseHp)) * (1 + (safeFloat(aMain.hpPct) + safeFloat(wMain.hpPct) + sumSup('hpPct') + 30 + extraHpPct) / 100) + (safeFloat(aMain.flatHp) + safeFloat(wMain.flatHp) + sumSup('flatHp') + 2200)) * (1 + (safeFloat(aMain.inCombatHpPct) + safeFloat(wMain.inCombatHpPct) + sumSup('inCombatHpPct')) / 100)
                         : 0),
@@ -1304,6 +1335,16 @@
                     <div class="panel-row"><span>增伤区</span><span>${d.totalDmgBonus.toFixed(1)}%</span></div>
                     <div class="panel-row"><span>减抗</span><span>${d.totalResShred.toFixed(1)}%</span></div>
                 `;
+            } else if (globalState.battleType === 'anomaly') {
+                rows = `
+                    <div class="panel-row"><span>总攻击力</span><span>${Math.floor(d.totalAtk)}</span></div>
+                    <div class="panel-row"><span>异常精通</span><span>${d.totalAnomalyMastery.toFixed(0)}</span></div>
+                    <div class="panel-row"><span>增伤区</span><span>${d.totalDmgBonus.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>穿透率</span><span>${d.totalPenPct.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>穿透值</span><span>${d.totalPenVal.toFixed(0)}</span></div>
+                    <div class="panel-row"><span>无视防御(减防)</span><span>${d.totalDefShred.toFixed(1)}%</span></div>
+                    <div class="panel-row"><span>减抗</span><span>${d.totalResShred.toFixed(1)}%</span></div>
+                `;
             } else {
                 rows = `
                     <div class="panel-row"><span>总攻击力</span><span>${Math.floor(d.totalAtk)}</span></div>
@@ -1320,25 +1361,29 @@
         }
 
         function manualUpdate() {
-            let crCount = safeFloat(document.getElementById('sub-cr-count').value);
-            let cdCount = safeFloat(document.getElementById('sub-cd-count').value);
-
-            // Branch logic for Atk vs Hp based on mode
-            let atkCount = 0;
-            let hpCount = 0;
+            let crCount = 0, cdCount = 0, atkCount = 0, hpCount = 0, amCount = 0;
             let slot5SelectId, set2SelectId;
 
             if (globalState.battleType === 'break') {
+                crCount = safeFloat(document.getElementById('sub-cr-count').value);
+                cdCount = safeFloat(document.getElementById('sub-cd-count').value);
                 hpCount = safeFloat(document.getElementById('sub-hp-count').value);
                 slot5SelectId = 'slot5-select-break';
                 set2SelectId = 'set2-select-break';
+            } else if (globalState.battleType === 'anomaly') {
+                atkCount = safeFloat(document.getElementById('sub-atk-count').value);
+                amCount = safeFloat(document.getElementById('sub-am-count').value);
+                slot5SelectId = 'slot5-select';
+                set2SelectId = 'set2-select';
             } else {
+                crCount = safeFloat(document.getElementById('sub-cr-count').value);
+                cdCount = safeFloat(document.getElementById('sub-cd-count').value);
                 atkCount = safeFloat(document.getElementById('sub-atk-count').value);
                 slot5SelectId = 'slot5-select';
                 set2SelectId = 'set2-select';
             }
 
-            let totalSubs = crCount + cdCount + atkCount + hpCount;
+            let totalSubs = crCount + cdCount + atkCount + hpCount + amCount;
             const warnEl = document.getElementById('sub-total-warn');
             if (totalSubs > 48) {
                 warnEl.innerText = `警告: 词条总数 ${totalSubs} 超过 48!`;
@@ -1354,6 +1399,7 @@
                 critDmg: cdCount * 4.8,
                 atkPct: atkCount * 3.0,
                 hpPct: hpCount * 3.0, // Added HP
+                anomalyMastery: amCount * 9.0, // Added AM
                 slot5_AtkPct: 0, slot5_Dmg: 0, slot5_Pen: 0, slot5_HpPct: 0,
                 set2_Dmg: 0, set2_Pen: 0, set2_AtkPct: 0, set2_CD: 0, set2_HpPct: 0
             };
@@ -1377,18 +1423,25 @@
             let baseDmg = result.dmg;
             let safeDiv = (val) => baseDmg > 0 ? val : 0;
 
-            let gainCR = safeDiv((calculateDamage({ ...extraStats, critRate: extraStats.critRate + 2.4 }).dmg - baseDmg) / baseDmg * 100);
-            let gainCD = safeDiv((calculateDamage({ ...extraStats, critDmg: extraStats.critDmg + 4.8 }).dmg - baseDmg) / baseDmg * 100);
-
-            document.getElementById('gain-cr').innerText = `收益: +${gainCR.toFixed(2)}%`;
-            document.getElementById('gain-cd').innerText = `收益: +${gainCD.toFixed(2)}%`;
-
-            if (globalState.battleType === 'break') {
-                let gainHp = safeDiv((calculateDamage({ ...extraStats, hpPct: extraStats.hpPct + 3.0 }).dmg - baseDmg) / baseDmg * 100);
-                document.getElementById('gain-hp').innerText = `收益: +${gainHp.toFixed(2)}%`;
-            } else {
+            if (globalState.battleType === 'anomaly') {
                 let gainAtk = safeDiv((calculateDamage({ ...extraStats, atkPct: extraStats.atkPct + 3.0 }).dmg - baseDmg) / baseDmg * 100);
+                let gainAm = safeDiv((calculateDamage({ ...extraStats, anomalyMastery: extraStats.anomalyMastery + 9.0 }).dmg - baseDmg) / baseDmg * 100);
                 document.getElementById('gain-atk').innerText = `收益: +${gainAtk.toFixed(2)}%`;
+                document.getElementById('gain-am').innerText = `收益: +${gainAm.toFixed(2)}%`;
+            } else {
+                let gainCR = safeDiv((calculateDamage({ ...extraStats, critRate: extraStats.critRate + 2.4 }).dmg - baseDmg) / baseDmg * 100);
+                let gainCD = safeDiv((calculateDamage({ ...extraStats, critDmg: extraStats.critDmg + 4.8 }).dmg - baseDmg) / baseDmg * 100);
+
+                document.getElementById('gain-cr').innerText = `收益: +${gainCR.toFixed(2)}%`;
+                document.getElementById('gain-cd').innerText = `收益: +${gainCD.toFixed(2)}%`;
+
+                if (globalState.battleType === 'break') {
+                    let gainHp = safeDiv((calculateDamage({ ...extraStats, hpPct: extraStats.hpPct + 3.0 }).dmg - baseDmg) / baseDmg * 100);
+                    document.getElementById('gain-hp').innerText = `收益: +${gainHp.toFixed(2)}%`;
+                } else {
+                    let gainAtk = safeDiv((calculateDamage({ ...extraStats, atkPct: extraStats.atkPct + 3.0 }).dmg - baseDmg) / baseDmg * 100);
+                    document.getElementById('gain-atk').innerText = `收益: +${gainAtk.toFixed(2)}%`;
+                }
             }
 
             let noSlot5Stats = { ...extraStats, slot5_AtkPct: 0, slot5_Dmg: 0, slot5_Pen: 0, slot5_HpPct: 0 };
@@ -1469,6 +1522,9 @@
             if (globalState.battleType === 'break') {
                 document.getElementById('opt-sub-stats').innerText =
                     `暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 生命值 ${currentStepData.counts.hp}`;
+            } else if (globalState.battleType === 'anomaly') {
+                document.getElementById('opt-sub-stats').innerText =
+                    `攻击力 ${currentStepData.counts.atk} | 异常精通 ${currentStepData.counts.am}`;
             } else {
                 document.getElementById('opt-sub-stats').innerText =
                     `暴击率 ${currentStepData.counts.cr} | 暴击伤害 ${currentStepData.counts.cd} | 攻击力 ${currentStepData.counts.atk}`;
@@ -1533,6 +1589,34 @@
    (${d.baseDaze} + ${d.totalDazeVuln.toFixed(1)}) / 100 = ${d.dazeMult.toFixed(3)}
 
 6. 最终伤害：
+   ${Math.floor(res.dmg)}`;
+            } else if (globalState.battleType === 'anomaly') {
+                // Anomaly Mode Display
+                log = `计算公式 (异常模式)：
+异常伤害 = ((白值*局外% + 局外固定) * (1+<span class="in-combat-highlight">局内%</span>) + <span class="in-combat-highlight">局内固定</span>) * (1+增伤) * (异常精通/100) * (794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794)) * (1-抗性+弱点+减抗) * ((基础失衡+失衡易伤)/100)
+
+详细数值 (鼠标悬停查看来源)：
+1. 攻击力区：
+   局外 = (${t(d.baseAtk, '基础攻击力', strBase)} * (1+${t(d.outCombatAtkPct.toFixed(1) + '%', '局外攻击%', strOutPct)}) + ${d.outCombatFlatAtk}) = ${Math.floor(d.sheetAtk)}
+   局内 = ${Math.floor(d.sheetAtk)} * (1+<span class="in-combat-highlight">${t(d.inCombatAtkPct.toFixed(1) + '%', '局内攻击%', strInPct)}</span>) + <span class="in-combat-highlight">${t(d.inCombatFlatAtk, '局内固定攻击', strInFlat)}</span> = ${Math.floor(d.totalAtk)}
+
+2. 增伤区：
+   1 + ${t(d.totalDmgBonus.toFixed(1) + '%', '总增伤', strDmg)} = ${((1 + d.totalDmgBonus / 100)).toFixed(3)}
+
+3. 异常区：
+   ${t(d.totalAnomalyMastery.toFixed(0), '总异常精通', '代理人/音擎/辅助提供')} / 100 = ${(d.totalAnomalyMastery / 100).toFixed(3)}
+
+4. 防御区：
+   防御值 = (${d.baseDef} * (1+${d.defBonus / 100}-${t((d.totalDefShred / 100).toFixed(2), '防御削减', strDefShred)})) * (1-${d.totalPenPct / 100}) - ${d.totalPenVal} = ${t(d.defRes.toFixed(1), '穿透计算', strPen)}
+   系数 = 794 / (${d.defRes.toFixed(1)} + 794) = ${d.defMult.toFixed(4)}
+
+5. 抗性区：
+   1 - ${d.enemyRes} (抗性) + ${d.weaknessVal} (弱点) + ${t((d.totalResShred / 100).toFixed(2), '减抗系数', strRes)} (减抗) = ${d.resMult.toFixed(3)}
+
+6. 失衡区：
+   (${d.baseDaze} + ${d.totalDazeVuln.toFixed(1)}) / 100 = ${d.dazeMult.toFixed(3)}
+
+7. 最终伤害：
    ${Math.floor(res.dmg)}`;
             } else {
                 // Attack Mode Display
@@ -1617,17 +1701,21 @@
 
 
             // 读取已有副词条数量
-            let startCR = safeFloat(document.getElementById('auto-cr-count').value);
-            let startCD = safeFloat(document.getElementById('auto-cd-count').value);
-            let startAtk = 0;
-            let startHp = 0;
+            let startCR = 0, startCD = 0, startAtk = 0, startHp = 0, startAm = 0;
             if (globalState.battleType === 'break') {
+                startCR = safeFloat(document.getElementById('auto-cr-count').value);
+                startCD = safeFloat(document.getElementById('auto-cd-count').value);
                 startHp = safeFloat(document.getElementById('auto-hp-count').value);
+            } else if (globalState.battleType === 'anomaly') {
+                startAtk = safeFloat(document.getElementById('auto-atk-count').value);
+                startAm = safeFloat(document.getElementById('auto-am-count').value);
             } else {
+                startCR = safeFloat(document.getElementById('auto-cr-count').value);
+                startCD = safeFloat(document.getElementById('auto-cd-count').value);
                 startAtk = safeFloat(document.getElementById('auto-atk-count').value);
             }
 
-            let startTotal = startCR + startCD + startAtk + startHp;
+            let startTotal = startCR + startCD + startAtk + startHp + startAm;
 
             // 遍历所有可能な組合せ
             for (let s5 of slot5Opts) {
@@ -1637,42 +1725,49 @@
                         critDmg: startCD * 4.8,
                         atkPct: startAtk * 3.0,
                         hpPct: startHp * 3.0,
+                        anomalyMastery: startAm * 9.0,
                         ...s5.val, ...s2.val
                     };
                     let history = [];
                     let currentDmg = calculateDamage(currentStats).dmg;
-                    let counts = { cr: startCR, cd: startCD, atk: startAtk, hp: startHp };
+                    let counts = { cr: startCR, cd: startCD, atk: startAtk, hp: startHp, am: startAm };
 
                     // Step 0 - 实际上是 startTotal
                     history.push({
                         step: startTotal, dmg: currentDmg,
                         stats: { ...currentStats }, configName: `${s5.name} + ${s2.name}`,
-                        gains: { cr: 0, cd: 0, atk: 0, hp: 0 },
+                        gains: { cr: 0, cd: 0, atk: 0, hp: 0, am: 0 },
                         counts: { ...counts }
                     });
 
                     // 贪心算法模拟至48词条
                     for (let step = startTotal + 1; step <= 48; step++) {
-                        let dCR = calculateDamage({ ...currentStats, critRate: currentStats.critRate + 2.4 }).dmg;
-                        let dCD = calculateDamage({ ...currentStats, critDmg: currentStats.critDmg + 4.8 }).dmg;
+                        let dCR = globalState.battleType !== 'anomaly' ? calculateDamage({ ...currentStats, critRate: currentStats.critRate + 2.4 }).dmg : -1;
+                        let dCD = globalState.battleType !== 'anomaly' ? calculateDamage({ ...currentStats, critDmg: currentStats.critDmg + 4.8 }).dmg : -1;
 
-                        let dAtk, dHp, bestMove;
+                        let dAtk = -1, dHp = -1, dAm = -1, bestMove = -1;
                         if (globalState.battleType === 'break') {
                             dHp = calculateDamage({ ...currentStats, hpPct: currentStats.hpPct + 3.0 }).dmg;
                             bestMove = Math.max(dCR, dCD, dHp);
+                        } else if (globalState.battleType === 'anomaly') {
+                            dAtk = calculateDamage({ ...currentStats, atkPct: currentStats.atkPct + 3.0 }).dmg;
+                            dAm = calculateDamage({ ...currentStats, anomalyMastery: currentStats.anomalyMastery + 9.0 }).dmg;
+                            bestMove = Math.max(dAtk, dAm);
                         } else {
                             dAtk = calculateDamage({ ...currentStats, atkPct: currentStats.atkPct + 3.0 }).dmg;
                             bestMove = Math.max(dCR, dCD, dAtk);
                         }
 
-                        let gCR = (dCR - currentDmg) / currentDmg * 100;
-                        let gCD = (dCD - currentDmg) / currentDmg * 100;
-                        let gAtk = (dAtk && dAtk > 0) ? (dAtk - currentDmg) / currentDmg * 100 : 0;
-                        let gHp = (dHp && dHp > 0) ? (dHp - currentDmg) / currentDmg * 100 : 0;
+                        let gCR = dCR !== -1 ? (dCR - currentDmg) / currentDmg * 100 : 0;
+                        let gCD = dCD !== -1 ? (dCD - currentDmg) / currentDmg * 100 : 0;
+                        let gAtk = (dAtk !== -1 && dAtk > 0) ? (dAtk - currentDmg) / currentDmg * 100 : 0;
+                        let gHp = (dHp !== -1 && dHp > 0) ? (dHp - currentDmg) / currentDmg * 100 : 0;
+                        let gAm = (dAm !== -1 && dAm > 0) ? (dAm - currentDmg) / currentDmg * 100 : 0;
 
-                        if (bestMove === dCR) { currentStats.critRate += 2.4; counts.cr++; }
-                        else if (bestMove === dCD) { currentStats.critDmg += 4.8; counts.cd++; }
+                        if (bestMove === dCR && globalState.battleType !== 'anomaly') { currentStats.critRate += 2.4; counts.cr++; }
+                        else if (bestMove === dCD && globalState.battleType !== 'anomaly') { currentStats.critDmg += 4.8; counts.cd++; }
                         else if (globalState.battleType === 'break' && bestMove === dHp) { currentStats.hpPct += 3.0; counts.hp++; }
+                        else if (globalState.battleType === 'anomaly' && bestMove === dAm) { currentStats.anomalyMastery += 9.0; counts.am++; }
                         else { currentStats.atkPct += 3.0; counts.atk++; }
 
                         currentDmg = bestMove;
@@ -1681,7 +1776,7 @@
                             dmg: currentDmg,
                             stats: { ...currentStats },
                             configName: `${s5.name} + ${s2.name}`,
-                            gains: { cr: gCR, cd: gCD, atk: gAtk, hp: gHp },
+                            gains: { cr: gCR, cd: gCD, atk: gAtk, hp: gHp, am: gAm },
                             counts: { ...counts }
                         });
                     }
@@ -1737,20 +1832,27 @@
             const chartData = history;
             const labels = chartData.map(h => h.step);
 
-            const dataCR = chartData.map(h => h.gains.cr);
-            const dataCD = chartData.map(h => h.gains.cd);
-            const data3 = chartData.map(h => globalState.battleType === 'break' ? h.gains.hp : h.gains.atk);
-            const label3 = globalState.battleType === 'break' ? '生命值增益' : '攻击力收益';
+            const datasets = [];
+            if (globalState.battleType === 'anomaly') {
+                const dataAtk = chartData.map(h => h.gains.atk);
+                const dataAm = chartData.map(h => h.gains.am);
+                datasets.push({ label: '攻击力收益', data: dataAtk, borderColor: '#00ccff', borderWidth: 2, pointRadius: 1 });
+                datasets.push({ label: '异常精通收益', data: dataAm, borderColor: '#ff4d4d', borderWidth: 2, pointRadius: 1 });
+            } else {
+                const dataCR = chartData.map(h => h.gains.cr);
+                const dataCD = chartData.map(h => h.gains.cd);
+                const data3 = chartData.map(h => globalState.battleType === 'break' ? h.gains.hp : h.gains.atk);
+                const label3 = globalState.battleType === 'break' ? '生命值增益' : '攻击力收益';
+                datasets.push({ label: '暴击率收益', data: dataCR, borderColor: '#ff4d4d', borderWidth: 2, pointRadius: 1 });
+                datasets.push({ label: '暴击伤害收益', data: dataCD, borderColor: '#dfff00', borderWidth: 2, pointRadius: 1 });
+                datasets.push({ label: label3, data: data3, borderColor: '#00ccff', borderWidth: 2, pointRadius: 1 });
+            }
 
             globalState.chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
-                    datasets: [
-                        { label: '暴击率收益', data: dataCR, borderColor: '#ff4d4d', borderWidth: 2, pointRadius: 1 },
-                        { label: '暴击伤害收益', data: dataCD, borderColor: '#dfff00', borderWidth: 2, pointRadius: 1 },
-                        { label: label3, data: data3, borderColor: '#00ccff', borderWidth: 2, pointRadius: 1 }
-                    ]
+                    datasets: datasets
                 },
                 options: {
                     responsive: true,
@@ -1769,6 +1871,8 @@
                                     const h = chartData[idx];
                                     if (globalState.battleType === 'break') {
                                         return `CR:${h.counts.cr} CD:${h.counts.cd} HP:${h.counts.hp}`;
+                                    } else if (globalState.battleType === 'anomaly') {
+                                        return `Atk:${h.counts.atk} AM:${h.counts.am}`;
                                     } else {
                                         return `CR:${h.counts.cr} CD:${h.counts.cd} Atk:${h.counts.atk}`;
                                     }

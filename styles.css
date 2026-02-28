@@ -1002,3 +1002,17 @@ body[data-mode="break"] .input-group.default-hidden {
 body[data-mode="break"] .input-group.break-hidden {
     display: none;
 }
+
+/* Default Hidden: Anomaly-only Fields */
+.input-group.anomaly-only {
+    display: none;
+}
+
+/* Logic for Anomaly Mode */
+body[data-mode="anomaly"] .input-group.anomaly-only {
+    display: grid;
+}
+
+body[data-mode="anomaly"] .input-group.anomaly-hidden {
+    display: none;
+}
