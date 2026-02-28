@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body data-mode="attack">
 
     <!-- Hero Video Background -->
     <div class="video-background">
@@ -1143,7 +1143,7 @@
                 // Include extraHpPct from sub-stats and equipment choices
                 const outHpPct = safeFloat(aMain.hpPct) + safeFloat(wMain.hpPct) + sumSup('hpPct') + disc6_HpPct + extraHpPct;
                 const outFlatHp = safeFloat(aMain.flatHp) + safeFloat(wMain.flatHp) + sumSup('flatHp') + disc2_FlatHp;
-                const inCombatHpPct = safeFloat(aMain.inCombatHpPct) + safeFloat(wMain.inCombatHpPct) + sumSup('inCombatHpPct');
+                const inCombatHpPct = safeFloat(aMain.inCombatHpPct) + safeFloat(wMain.inCombatHpPct) + sumSup('inCombatHpPct') + field.inCombatHpPct;
                 const inCombatPen = safeFloat(aMain.inCombatPen) + safeFloat(wMain.inCombatPen) + sumSup('inCombatPen');
 
                 // Base Pierce (Sum of penValue)
@@ -1215,7 +1215,7 @@
                 finalDmg = skillMult * totalPierce * dmgMult * critMult * resMult * dazeMult * (1 + totalPPDmgBonus / 100);
             } else if (globalState.battleType === 'anomaly') {
                 // Anomaly Mode Formula: 异常伤害 = ((攻击力白值*(1+局外攻击力%)+局外攻击力固定值)*(1+局内攻击力%)+局内攻击力固定值)*(1+增伤%)*(异常精通/100)*(794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794))*(1-抗性+弱点+减抗)*((基础失衡+失衡易伤)/100)
-                finalDmg = totalAtk * dmgMult * (totalAnomalyMastery / 100) * defMult * resMult * dazeMult;
+                finalDmg = skillMult * totalAtk * dmgMult * (totalAnomalyMastery / 100) * defMult * resMult * dazeMult;
             } else {
                 // Attack Mode Formula: Uses defense multiplier
                 finalDmg = skillMult * totalAtk * dmgMult * critMult * resMult * defMult * dazeMult;
@@ -1593,7 +1593,7 @@
             } else if (globalState.battleType === 'anomaly') {
                 // Anomaly Mode Display
                 log = `计算公式 (异常模式)：
-异常伤害 = ((白值*局外% + 局外固定) * (1+<span class="in-combat-highlight">局内%</span>) + <span class="in-combat-highlight">局内固定</span>) * (1+增伤) * (异常精通/100) * (794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794)) * (1-抗性+弱点+减抗) * ((基础失衡+失衡易伤)/100)
+异常伤害 = 技能倍率 * ((白值*局外% + 局外固定) * (1+<span class="in-combat-highlight">局内%</span>) + <span class="in-combat-highlight">局内固定</span>) * (1+增伤) * (异常精通/100) * (794 / (((防御*(1+加成-减防))*(1-穿透率)-穿透值)+794)) * (1-抗性+弱点+减抗) * ((基础失衡+失衡易伤)/100)
 
 详细数值 (鼠标悬停查看来源)：
 1. 攻击力区：
