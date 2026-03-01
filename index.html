@@ -12,6 +12,8 @@
         rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="characters.js"></script>
+    <script src="weapons.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -497,11 +499,8 @@
             return _domCache[id];
         }
 
-        // --- CONFIGURATION: FILE MANIFEST ---
+        // --- CONFIGURATION: WEAPON FILE MANIFEST (wpSUP only, wpDPS now from WEAPON_DB) ---
         const REPO_FILES = {
-            dps: ["叶瞬光.json", "11号Ⅵ.json", "零号安比Ⅵ.json", "艾莲·乔Ⅵ.json", "伊芙琳.json", "仪玄.json", "悠真.json", "奥菲丝.json"],
-            sup: ["琉音.json", "照.json", "耀嘉音.json", "莱特.json", "青衣.json", "奥菲斯-辅助.json", "千夏.json", "扳机.json", "卢西娅.json"],
-            wpDPS: ["云霓孤光.json", "硫磺石.json", "牺牲洁纯.json", "深海访客.json", "心弦夜响.json", "青溟笼舍.json", "残心青囊.json", "嚣枪喧焰.json"],
             wpSUP: ["昨夜来电.json", "半糖雪兔.json", "好斗的阿炮.json", "玲珑妆匣.json", "焰心桂冠.json", "玉壶青冰.json", "思络成歌.json", "索魂影眸.json", "铸梦炉歌.json"]
         };
 
@@ -600,8 +599,53 @@
                 slot4.value = 'critRate';
             }
 
+            // Refresh DPS & Weapon dropdowns for the new mode
+            refreshDpsDropdown();
+            refreshWpDropdown();
+
             // Trigger calculation
             calculateAll();
+        }
+
+        // --- Mode-Filtered DPS & Weapon Dropdowns ---
+        const MODE_TYPE_MAP = { 'attack': '强攻', 'break': '命破', 'anomaly': '异常' };
+
+        function refreshDpsDropdown() {
+            const targetType = MODE_TYPE_MAP[globalState.battleType];
+            const sel = document.getElementById('preset-dps-select');
+            const currentVal = sel.value;
+            sel.innerHTML = '<option value="">-- 选择预设 --</option>';
+
+            for (const [name, data] of Object.entries(CHARACTER_DB.characters)) {
+                if (data.meta && data.meta.type === targetType) {
+                    const opt = document.createElement('option');
+                    opt.value = name;
+                    opt.text = name;
+                    sel.appendChild(opt);
+                }
+            }
+
+            // Restore selection if still valid for the new mode
+            sel.value = currentVal;
+        }
+
+        function refreshWpDropdown() {
+            const targetType = MODE_TYPE_MAP[globalState.battleType];
+            const sel = document.getElementById('preset-wdps-select');
+            const currentVal = sel.value;
+            sel.innerHTML = '<option value="">-- 选择预设 --</option>';
+
+            for (const [name, data] of Object.entries(WEAPON_DB)) {
+                if (data.meta && data.meta.type === targetType) {
+                    const opt = document.createElement('option');
+                    opt.value = name;
+                    opt.text = name;
+                    sel.appendChild(opt);
+                }
+            }
+
+            // Restore selection if still valid for the new mode
+            sel.value = currentVal;
         }
 
         // --- Initialization ---
@@ -700,7 +744,28 @@
 
 
         function initFileDropdowns() {
-            const fill = (type, selectId) => {
+            // DPS dropdown: filtered by current battle mode
+            refreshDpsDropdown();
+
+            // Weapon DPS dropdown: filtered by current battle mode (from WEAPON_DB)
+            refreshWpDropdown();
+
+            // SUP dropdowns from CHARACTER_DB.sup (in-memory)
+            const fillFromDB = (category, selectId) => {
+                const sel = document.getElementById(selectId);
+                sel.innerHTML = '<option value="">-- 选择预设 --</option>';
+                const db = CHARACTER_DB[category];
+                if (db) {
+                    Object.keys(db).forEach(name => {
+                        const opt = document.createElement('option');
+                        opt.value = name;
+                        opt.text = name;
+                        sel.appendChild(opt);
+                    });
+                }
+            };
+            // Weapon SUP dropdowns from REPO_FILES (JSON files)
+            const fillFromFiles = (type, selectId) => {
                 const sel = document.getElementById(selectId);
                 sel.innerHTML = '<option value="">-- 选择预设 --</option>';
                 if (REPO_FILES[type]) {
@@ -712,12 +777,10 @@
                     });
                 }
             };
-            fill('dps', 'preset-dps-select');
-            fill('sup', 'preset-sup1-select');
-            fill('sup', 'preset-sup2-select');
-            fill('wpDPS', 'preset-wdps-select');
-            fill('wpSUP', 'preset-wsup1-select');
-            fill('wpSUP', 'preset-wsup2-select');
+            fillFromDB('sup', 'preset-sup1-select');
+            fillFromDB('sup', 'preset-sup2-select');
+            fillFromFiles('wpSUP', 'preset-wsup1-select');
+            fillFromFiles('wpSUP', 'preset-wsup2-select');
         }
 
         window.onload = function () {
@@ -899,13 +962,21 @@
 
         // --- Logic: Parsing Complex Values ---
 
-        function parseAgentValue(valStr, cinemaLevel) {
-            // Format: "Base/C1/C2/C4/C6" e.g. "19.4/0/10/0/0"
-            if (typeof valStr === 'number') return valStr;
-            if (!valStr.includes('/')) return parseFloat(valStr) || 0;
+        function parseAgentValue(val, cinemaLevel) {
+            // Supports both array [Base, C1, C2, C4, C6] and legacy string "Base/C1/C2/C4/C6"
+            if (typeof val === 'number') return val;
 
-            const parts = valStr.split('/').map(s => parseFloat(s) || 0);
-            let sum = parts[0]; // Base
+            let parts;
+            if (Array.isArray(val)) {
+                parts = val;
+            } else if (typeof val === 'string') {
+                if (!val.includes('/')) return parseFloat(val) || 0;
+                parts = val.split('/').map(s => parseFloat(s) || 0);
+            } else {
+                return 0;
+            }
+
+            let sum = parts[0] || 0; // Base
             if (cinemaLevel >= 1 && parts.length > 1) sum += parts[1];
             if (cinemaLevel >= 2 && parts.length > 2) sum += parts[2];
             if (cinemaLevel >= 4 && parts.length > 3) sum += parts[3];
@@ -915,20 +986,28 @@
         }
 
         function parseWeaponValue(valStr, starLevel) {
-            // Format: "S1/S2/S3/S4/S5" e.g. "30/33/36/39/42"
+            // Supports: number, array [S1,S2,S3,S4,S5], or string "S1/S2/S3/S4/S5"
             if (typeof valStr === 'number') return valStr;
-            if (!valStr.includes('/')) return parseFloat(valStr) || 0;
 
-            const parts = valStr.split('/').map(s => parseFloat(s) || 0);
+            let parts;
+            if (Array.isArray(valStr)) {
+                parts = valStr;
+            } else if (typeof valStr === 'string') {
+                if (!valStr.includes('/')) return parseFloat(valStr) || 0;
+                parts = valStr.split('/').map(s => parseFloat(s) || 0);
+            } else {
+                return 0;
+            }
+
             const idx = Math.max(0, Math.min(parts.length - 1, starLevel - 1));
             return parts[idx];
         }
 
         // --- File Loading & Input Population ---
 
-        async function loadPreset(folder, prefix, filename) {
-            // If user selects "-- 选择预设 --" (empty filename), reset all inputs to 0
-            if (!filename) {
+        async function loadPreset(folder, prefix, nameOrFile) {
+            // If user selects "-- 选择预设 --" (empty), reset all inputs to 0
+            if (!nameOrFile) {
                 const type = (folder.includes('wp')) ? 'weapon' : 'agent';
                 const fields = (type === 'weapon') ? weaponFields : agentFields;
 
@@ -946,24 +1025,50 @@
                 return;
             }
 
-            const path = `./${folder}/${filename}`;
-            try {
-                const response = await fetch(path);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
+            const isWeapon = folder.includes('wp');
 
-                globalState.rawPresets[prefix] = data;
-
-                const type = (folder.includes('wp')) ? 'weapon' : 'agent';
-                repopulateInputs(prefix, type);
-
-                // Special Rule Toast
-                if (folder === 'dps' && filename === '零号安比Ⅵ.json') {
-                    showToast("已计算30%暴伤自拐");
+            if (!isWeapon) {
+                // --- Agent: Read from CHARACTER_DB (in-memory) ---
+                let data;
+                if (folder === 'dps') {
+                    data = CHARACTER_DB.characters[nameOrFile];
+                } else {
+                    data = CHARACTER_DB.sup[nameOrFile];
+                }
+                if (!data) {
+                    alert(`角色数据未找到: ${nameOrFile}`);
+                    return;
                 }
 
-            } catch (e) {
-                alert(`无法读取文件: ${path}\n${e.message}`);
+                globalState.rawPresets[prefix] = data;
+                repopulateInputs(prefix, 'agent');
+
+                // Special Rule Toast
+                if (folder === 'dps' && nameOrFile === '零号安比Ⅵ') {
+                    showToast("已计算30%暴伤自拐");
+                }
+            } else if (folder === 'wpDPS') {
+                // --- DPS Weapon: Read from WEAPON_DB (in-memory) ---
+                const data = WEAPON_DB[nameOrFile];
+                if (!data) {
+                    alert(`武器数据未找到: ${nameOrFile}`);
+                    return;
+                }
+                globalState.rawPresets[prefix] = data;
+                repopulateInputs(prefix, 'weapon');
+            } else {
+                // --- SUP Weapon: Read from JSON file (legacy) ---
+                const path = `./${folder}/${nameOrFile}`;
+                try {
+                    const response = await fetch(path);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+
+                    globalState.rawPresets[prefix] = data;
+                    repopulateInputs(prefix, 'weapon');
+                } catch (e) {
+                    alert(`无法读取文件: ${path}\n${e.message}`);
+                }
             }
         }
 
@@ -983,6 +1088,9 @@
             const fields = (type === 'weapon') ? weaponFields : agentFields;
 
             fields.forEach(f => {
+                const el = document.getElementById(`${prefix}_${f.id}`);
+                if (!el) return;
+
                 const rawVal = data[f.id];
                 if (rawVal !== undefined) {
                     let finalVal = 0;
@@ -991,9 +1099,10 @@
                     } else {
                         finalVal = parseWeaponValue(rawVal, globalState.configs[prefix].star);
                     }
-
-                    const el = document.getElementById(`${prefix}_${f.id}`);
-                    if (el) el.value = finalVal;
+                    el.value = finalVal;
+                } else {
+                    // Reset fields not present in the character data to 0
+                    el.value = 0;
                 }
             });
             calculateAll();
@@ -1167,7 +1276,7 @@
 
             // Special Rule: Anby Zero VI
             const dpsSelect = document.getElementById('preset-dps-select');
-            if (dpsSelect && dpsSelect.value === '零号安比Ⅵ.json') {
+            if (dpsSelect && dpsSelect.value === '零号安比Ⅵ') {
                 totalCD = totalCD * 1.3;
             }
 
