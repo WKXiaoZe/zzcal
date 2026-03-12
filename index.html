@@ -1298,8 +1298,8 @@
             let totalPenPct = safeFloat(aMain.penRatio) + safeFloat(wMain.penRatio) + sumSup('penRatio') + extraPenPct;
             let totalPenVal = safeFloat(aMain.penValue) + safeFloat(wMain.penValue) + sumSup('penValue') + (safeFloat(document.getElementById('small-pen-count').value) * 9);
 
-            let defCalced = baseDef * (1 + defBonus / 100 - totalDefShred / 100);
-            let defRes = (defCalced * (1 - totalPenPct / 100) - totalPenVal);
+            let defCalced = Math.max(0, baseDef * (1 + defBonus / 100 - totalDefShred / 100));
+            let defRes = Math.max(0, defCalced * (1 - totalPenPct / 100) - totalPenVal);
             let defMult = 794 / (defRes + 794);
 
             // Break Mode: Bypass Defense
