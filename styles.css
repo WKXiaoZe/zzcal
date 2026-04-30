@@ -164,7 +164,7 @@ body {
     z-index: 1;
     padding-bottom: 200px;
     margin-top: 100vh;
-    /* Strictly below fold */
+    /* Strictly below fold; header lives in top-left card now */
     transition: margin-top 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -172,47 +172,43 @@ body {
 /* Header */
 /* Header */
 header {
-    text-align: center;
+    text-align: left;
     margin: 0;
-    padding: 20px;
+    padding: 26px 28px 22px;
 
-    /* Fixed Centered - Initial State */
+    /* Fixed Top-Left - Frosted Glass Card */
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
+    top: 24px;
+    left: 24px;
+    width: auto;
+    max-width: min(440px, calc(100vw - 48px));
 
     z-index: 1000;
 
-    /* Removed Background & Borders */
-    background: transparent;
-    border-bottom: none;
-    box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    /* Frosted glass card */
+    background: rgba(20, 20, 28, 0.38);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
 
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-    /* Let clicks pass through */
+    pointer-events: auto;
 
-    /* Flex column for easier movement */
+    /* Flex column, content aligned left */
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
-/* Scrolled State for Header (Desktop: Top-Left) */
+/* Scrolled State for Header (Desktop: Top-Left, more compact) */
 body.u-scrolled header {
     top: 20px;
-    left: 40px;
-    transform: none;
-    /* Reset center translate */
-    width: auto;
-    padding: 0;
+    left: 24px;
+    padding: 12px 18px;
     align-items: flex-start;
-    /* Align children left */
 }
 
 /* Specific Child Adjustments on Scroll */
@@ -257,12 +253,12 @@ header::after {
 
 h1 {
     font-family: var(--font-display);
-    font-size: 5rem;
+    font-size: 2rem;
     font-weight: 900;
     color: var(--zzz-pink);
     text-transform: uppercase;
     letter-spacing: -0.01em;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
     font-style: italic;
     line-height: 1.1;
     position: relative;
@@ -320,11 +316,11 @@ h1::before {
     font-family: var(--font-ui);
     color: var(--zzz-text-muted);
     margin-top: 10px;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    opacity: 1;
-    /* Ensure visible initially */
+    opacity: 0.85;
+    text-align: left;
     transition: all 0.5s ease;
 }
 
