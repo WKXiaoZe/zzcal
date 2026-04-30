@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="resources/faction-roscalia.png">
+    <link rel="shortcut icon" type="image/png" href="resources/faction-roscalia.png">
+    <link rel="apple-touch-icon" href="resources/faction-roscalia.png">
     <title>ZZZ神秘小算盘</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,11 +22,9 @@
 
 <body data-mode="attack">
 
-    <!-- Hero Video Background -->
+    <!-- Hero Background -->
     <div class="video-background">
-        <video id="hero-video" autoplay muted loop playsinline preload="metadata">
-            <source src="resources/output.mp4" type="video/mp4">
-        </video>
+        <img id="hero-video" src="resources/background.png" alt="">
     </div>
 
     <!-- Startup Modal -->
@@ -915,22 +916,13 @@
                 document.body.classList.remove('u-scrolled');
             }
 
-            // Video blur logic
+            // Background blur logic
             const video = getCachedEl('hero-video');
             if (video) {
                 if (scrollY > 50) {
-                    if (!video.classList.contains('is-blurred')) {
-                        video.classList.add('is-blurred');
-                        video.pause();
-                    }
+                    video.classList.add('is-blurred');
                 } else {
-                    if (video.classList.contains('is-blurred')) {
-                        video.classList.remove('is-blurred');
-                        let playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.catch(() => { });
-                        }
-                    }
+                    video.classList.remove('is-blurred');
                 }
             }
 
