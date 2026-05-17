@@ -411,7 +411,9 @@ h1::before {
 }
 
 .sub-module:hover {
-    background: rgba(255, 255, 255, 0.02);
+    /* 旧规则曾把 background 改成 rgba(255,255,255,0.02)，与新的不透明
+       --zzz-panel-bg 配合后等于把卡片变透明（hover 时背景图穿透）。
+       只保留边框高亮，背景不动。 */
     border-color: rgba(255, 255, 255, 0.15);
 }
 
