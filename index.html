@@ -10,6 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <!-- legacy parity: full-viewport background image (body direct child, z-index:-1).
+         Sits in index.html shell rather than App.tsx so it paints immediately,
+         before React mounts, matching legacy FOUC behavior. -->
+    <div class="video-background">
+      <img id="hero-video" src="/resources/background.png" alt="" />
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

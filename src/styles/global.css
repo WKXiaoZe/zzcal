@@ -137,14 +137,9 @@ body {
     position: relative;
     z-index: 1;
     padding-bottom: 200px;
-    /* React 重构后移除了全屏背景视频；保留 header 左上角固定浮动卡片，
-       container 起始位置只留出 header 高度，不再下推一整屏。 */
-    margin-top: 200px;
+    margin-top: 100vh;
+    /* Strictly below fold; header lives in top-left card now */
     transition: margin-top 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (max-width: 768px) {
-    .container { margin-top: 280px; }
 }
 
 /* Header */
