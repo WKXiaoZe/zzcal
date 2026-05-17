@@ -125,13 +125,29 @@ export function AgentPanel({ slot, label }: Props) {
         </div>
         <div className="rank-row">
           <div className="rank-selector cinema-group" id={`cinema-${prefix}`}>
-            {[0, 1, 2, 3, 4, 5, 6].map((rank) => (
+            {/* Legacy cinema buttons: [1, 2, 4, 6] only — the four cinematic
+             *  thresholds that actually advance the stat array. Active class
+             *  applies to every threshold <= current level (legacy L946-951).
+             *  Toggle-down logic mirrors legacy `toggleCinema` (L922-937):
+             *  re-clicking the highest active rank steps down through the
+             *  ladder 6→4→2→1→0. */}
+            {[1, 2, 4, 6].map((rank) => (
               <button
                 key={rank}
                 type="button"
                 id={`btn-${prefix}-c${rank}`}
-                className={`rank-btn${slotState.cinemaOrStar === rank ? ' active' : ''}`}
-                onClick={() => dispatch({ type: 'SET_AGENT_CINEMA', slot, cinema: rank })}
+                className={`rank-btn${rank <= slotState.cinemaOrStar ? ' active' : ''}`}
+                onClick={() => {
+                  const current = slotState.cinemaOrStar;
+                  let newLevel = rank;
+                  if (current === rank) {
+                    if (rank === 6) newLevel = 4;
+                    else if (rank === 4) newLevel = 2;
+                    else if (rank === 2) newLevel = 1;
+                    else newLevel = 0;
+                  }
+                  dispatch({ type: 'SET_AGENT_CINEMA', slot, cinema: newLevel });
+                }}
               >
                 {rank}
               </button>
