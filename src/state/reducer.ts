@@ -40,6 +40,10 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, agents: { ...state.agents, [action.slot]: { ...state.agents[action.slot], cinemaOrStar: action.cinema } } };
     case 'SET_AGENT_FIELD':
       return { ...state, agents: { ...state.agents, [action.slot]: { ...state.agents[action.slot], customOverrides: { ...state.agents[action.slot].customOverrides, [action.field]: action.value } } } };
+    case 'SET_AGENT_OVERRIDES':
+      // Bulk-replace customOverrides — used by async JSON preset loaders so
+      // values parsed from <folder>/<name>.json land in one transition.
+      return { ...state, agents: { ...state.agents, [action.slot]: { ...state.agents[action.slot], customOverrides: { ...action.overrides } } } };
     // ... weapon 同构
     case 'SET_WEAPON_PRESET':
       return { ...state, weapons: { ...state.weapons, [action.slot]: { ...state.weapons[action.slot], presetName: action.preset, customOverrides: {} } } };
@@ -47,6 +51,8 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, weapons: { ...state.weapons, [action.slot]: { ...state.weapons[action.slot], cinemaOrStar: action.star } } };
     case 'SET_WEAPON_FIELD':
       return { ...state, weapons: { ...state.weapons, [action.slot]: { ...state.weapons[action.slot], customOverrides: { ...state.weapons[action.slot].customOverrides, [action.field]: action.value } } } };
+    case 'SET_WEAPON_OVERRIDES':
+      return { ...state, weapons: { ...state.weapons, [action.slot]: { ...state.weapons[action.slot], customOverrides: { ...action.overrides } } } };
     case 'SET_DISC_SLOT4':
       return { ...state, disc: { ...state.disc, slot4Stat: action.payload } };
     case 'SET_DISC_SET4':

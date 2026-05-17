@@ -35,9 +35,11 @@ export type Action =
   | { type: 'SET_AGENT_PRESET'; slot: 'main' | 'sup1' | 'sup2'; preset: string }
   | { type: 'SET_AGENT_CINEMA'; slot: 'main' | 'sup1' | 'sup2'; cinema: number }
   | { type: 'SET_AGENT_FIELD'; slot: 'main' | 'sup1' | 'sup2'; field: string; value: number }
+  | { type: 'SET_AGENT_OVERRIDES'; slot: 'main' | 'sup1' | 'sup2'; overrides: Record<string, number> }
   | { type: 'SET_WEAPON_PRESET'; slot: 'main' | 'sup1' | 'sup2'; preset: string }
   | { type: 'SET_WEAPON_STAR'; slot: 'main' | 'sup1' | 'sup2'; star: number }
   | { type: 'SET_WEAPON_FIELD'; slot: 'main' | 'sup1' | 'sup2'; field: string; value: number }
+  | { type: 'SET_WEAPON_OVERRIDES'; slot: 'main' | 'sup1' | 'sup2'; overrides: Record<string, number> }
   | { type: 'SET_DISC_SLOT4'; payload: DiscConfig['slot4Stat'] }
   | { type: 'SET_DISC_SET4'; payload: string }
   | { type: 'SET_DISC_SET2'; payload: string }

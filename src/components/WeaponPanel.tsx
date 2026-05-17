@@ -4,8 +4,11 @@
 // and the `weaponFields` definition (legacy/index-legacy.html line 601-620).
 //
 // Layout matches the agent-panel sibling so the two grids align visually.
+import { useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppState } from '../state/AppContext';
 import { WEAPON_DB } from '../calc/db';
+import { PRESET_FILES, loadPresetJson } from '../calc/presets';
+import { parseWeaponValue } from '../calc/utils';
 import type { BattleType } from '../calc/types';
 import styles from './WeaponPanel.module.css';
 
@@ -69,13 +72,50 @@ export function WeaponPanel({ slot, label }: Props) {
 
   // Main-slot dropdown is filtered to weapons whose meta.type matches the
   // current battle mode. Support slots show everything (sup buffs may apply
-  // regardless of the main agent's mode).
+  // regardless of the main agent's mode). PRESET_FILES entries are merged in
+  // as a fallback so JSON-only presets (notably the entire wpSUP catalogue)
+  // remain selectable — see ./calc/presets.ts.
   const targetType = MODE_TYPE_MAP[battleType];
-  const presetOptions = Object.entries(WEAPON_DB)
-    .filter(([, w]) => (slot === 'main' ? w?.meta?.type === targetType : true))
-    .map(([name]) => name);
+  const presetOptions = useMemo<string[]>(() => {
+    const dbNames = Object.entries(WEAPON_DB)
+      .filter(([, w]) => (slot === 'main' ? w?.meta?.type === targetType : true))
+      .map(([name]) => name);
+    const jsonNames = slot === 'main' ? PRESET_FILES.wpDPS : PRESET_FILES.wpSUP;
+    const seen = new Set(dbNames);
+    const extra = jsonNames.filter((n) => !seen.has(n));
+    return [...dbNames, ...extra];
+  }, [slot, targetType]);
 
   const star = cfg.cinemaOrStar || 1;
+
+  // Async JSON preset loader (legacy parity for wpSUP and any future wpDPS
+  // JSON-only entries). Mirrors loadPreset() (index-legacy.html L1109-1121):
+  // raw values are parsed at the current star and bulk-written into the slot's
+  // customOverrides, so buildWeapon picks them up without DB knowledge.
+  useEffect(() => {
+    const name = cfg.presetName;
+    if (!name) return;
+    if (WEAPON_DB[name]) return; // in-memory DB path covers it
+    const folder = slot === 'main' ? 'wpDPS' : 'wpSUP';
+    if (!PRESET_FILES[folder].includes(name)) return;
+    let cancelled = false;
+    loadPresetJson(folder, name)
+      .then((data) => {
+        if (cancelled) return;
+        const overrides: Record<string, number> = {};
+        for (const f of WEAPON_FIELDS) {
+          const raw = data[f.id];
+          if (raw !== undefined) {
+            overrides[f.id] = parseWeaponValue(raw, star);
+          }
+        }
+        dispatch({ type: 'SET_WEAPON_OVERRIDES', slot, overrides });
+      })
+      .catch((err) => {
+        console.warn(`[WeaponPanel] failed to load preset ${folder}/${name}.json:`, err);
+      });
+    return () => { cancelled = true; };
+  }, [slot, cfg.presetName, star, dispatch]);
 
   return (
     <section className={`sub-module ${styles.weaponPanel}`} id={`weapon-${slot}`}>

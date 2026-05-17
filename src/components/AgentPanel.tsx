@@ -14,9 +14,11 @@
 //     matching legacy CSS classes `default-hidden` / `break-hidden` /
 //     `anomaly-only` (legacy L584-598).
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useAppState, useAppDispatch } from '../state/AppContext';
 import { CHARACTER_DB } from '../calc/db';
+import { PRESET_FILES, loadPresetJson } from '../calc/presets';
+import { parseAgentValue } from '../calc/utils';
 import type { BattleType } from '../calc/types';
 import styles from './AgentPanel.module.css';
 
@@ -81,16 +83,24 @@ export function AgentPanel({ slot, label }: Props) {
   const slotState = state.agents[slot];
 
   // Preset options: main pulls from `characters` filtered by battleType,
-  // sup slots pull from the `sup` map.
+  // sup slots pull from the `sup` map. PRESET_FILES entries are merged in as
+  // a fallback so presets that only exist as on-disk JSON (legacy data
+  // backups) remain selectable — see ./calc/presets.ts.
   const presetOptions = useMemo<string[]>(() => {
-    if (slot === 'main') {
-      const targetType = MODE_TYPE_MAP[battleType];
-      return Object.entries(CHARACTER_DB.characters)
-        .filter(([, data]) => data.meta?.type === targetType)
-        .map(([name]) => name);
-    }
-    const supMap = CHARACTER_DB.sup ?? {};
-    return Object.keys(supMap);
+    const dbNames = (() => {
+      if (slot === 'main') {
+        const targetType = MODE_TYPE_MAP[battleType];
+        return Object.entries(CHARACTER_DB.characters)
+          .filter(([, data]) => data.meta?.type === targetType)
+          .map(([name]) => name);
+      }
+      return Object.keys(CHARACTER_DB.sup ?? {});
+    })();
+    const jsonNames = slot === 'main' ? PRESET_FILES.dps : PRESET_FILES.sup;
+    // Union, DB-first, drop JSON entries whose name already appears in DB.
+    const seen = new Set(dbNames);
+    const extra = jsonNames.filter((n) => !seen.has(n));
+    return [...dbNames, ...extra];
   }, [slot, battleType]);
 
   const visibleFields = useMemo(
@@ -99,6 +109,39 @@ export function AgentPanel({ slot, label }: Props) {
   );
 
   const prefix = slot === 'main' ? 'a_main' : slot === 'sup1' ? 'a_sup1' : 'a_sup2';
+
+  // Async JSON preset loader. Runs whenever presetName or cinema rank changes
+  // for a selection that exists only in PRESET_FILES (not in the in-memory DB).
+  // Mirrors legacy loadPreset() (index-legacy.html L1057+): raw JSON values are
+  // parsed at the current cinema and written into customOverrides, so the
+  // existing build pipeline picks them up without DB knowledge.
+  useEffect(() => {
+    const name = slotState.presetName;
+    if (!name) return;
+    const inDb = slot === 'main'
+      ? !!CHARACTER_DB.characters[name]
+      : !!(CHARACTER_DB.sup ?? {})[name];
+    if (inDb) return;
+    const folder = slot === 'main' ? 'dps' : 'sup';
+    if (!PRESET_FILES[folder].includes(name)) return;
+    let cancelled = false;
+    loadPresetJson(folder, name)
+      .then((data) => {
+        if (cancelled) return;
+        const overrides: Record<string, number> = {};
+        for (const f of AGENT_FIELDS) {
+          const raw = data[f.id];
+          if (raw !== undefined) {
+            overrides[f.id] = parseAgentValue(raw, slotState.cinemaOrStar);
+          }
+        }
+        dispatch({ type: 'SET_AGENT_OVERRIDES', slot, overrides });
+      })
+      .catch((err) => {
+        console.warn(`[AgentPanel] failed to load preset ${folder}/${name}.json:`, err);
+      });
+    return () => { cancelled = true; };
+  }, [slot, slotState.presetName, slotState.cinemaOrStar, dispatch]);
 
   return (
     <div className={`sub-module ${styles.agentPanel}`} id={`agent-${slot}`}>
