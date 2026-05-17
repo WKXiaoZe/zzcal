@@ -1,0 +1,913 @@
+[
+  {
+    "name": "attack/11号Ⅵ S0 + 云霓孤光 S5 + 如影相随 / 无副词条 / 弱点",
+    "input": {
+      "name": "attack/11号Ⅵ S0 + 云霓孤光 S5 + 如影相随 / 无副词条 / 弱点",
+      "battleType": "attack",
+      "agent": {
+        "baseAtk": 889,
+        "critRate": 31,
+        "critDmg": 98,
+        "dmgBonus": 95,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "resShred": 0,
+        "inCombatAtkPct": 12,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 0,
+        "atkPct": 0
+      },
+      "weapon": {
+        "baseAtk": 743,
+        "critRate": 0,
+        "critDmg": 88,
+        "atkPct": 0,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "resShred": 28,
+        "dmgBonus": 40,
+        "inCombatAtkPct": 0,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 0
+      },
+      "set4": {
+        "dmgBonus": 15,
+        "critRate": 12,
+        "inCombatAtkPct": 12
+      },
+      "field": {
+        "inCombatAtkPct": 0,
+        "critRate": 0,
+        "critDmg": 0,
+        "dmgBonus": 0,
+        "resShred": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "hpPct": 0,
+        "inCombatHpPct": 0,
+        "anomalyMastery": 0
+      },
+      "boss": {
+        "defBase": 953,
+        "defBonus": 0,
+        "dazeBase": 100,
+        "res": 0,
+        "weak": true
+      },
+      "skill": {
+        "multiplier": 100,
+        "slot4Type": "critDmg",
+        "smallAtkCount": 0,
+        "smallPenCount": 0
+      },
+      "extraStats": {}
+    },
+    "output": {
+      "dmg": 7446.075452571858,
+      "warnings": [],
+      "details": {
+        "baseAtk": 1632,
+        "outCombatAtkPct": 30,
+        "outCombatFlatAtk": 316,
+        "sheetAtk": 2437.6,
+        "inCombatAtkPct": 12,
+        "inCombatFlatAtk": 0,
+        "totalAtk": 2730.112,
+        "totalPierce": 0,
+        "totalAnomalyMastery": 0,
+        "maxHpInCombat": 0,
+        "totalCR": 31,
+        "totalCD": 234,
+        "totalDmgBonus": 135,
+        "resMult": 1.48,
+        "defMult": 0.45449341728677733,
+        "dazeMult": 1,
+        "defRes": 953,
+        "enemyRes": 0,
+        "weaknessVal": 0.2,
+        "totalResShred": 28,
+        "totalDazeVuln": 0,
+        "baseDaze": 100,
+        "baseDef": 953,
+        "defBonus": 0,
+        "totalDefShred": 0,
+        "totalPenPct": 0,
+        "totalPenVal": 0,
+        "breakdown": {
+          "baseAtk": {
+            "a": 889,
+            "w": 743
+          },
+          "outCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 30
+          },
+          "inCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0,
+            "disc": 12
+          },
+          "inCombatFlatAtk": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 316
+          },
+          "totalCR": {
+            "a": 19,
+            "w": 0,
+            "sup": 0,
+            "disc": 12,
+            "field": 0
+          },
+          "totalCD": {
+            "a": 98,
+            "w": 88,
+            "sup": 0,
+            "disc": 48,
+            "field": 0
+          },
+          "dmgBonus": {
+            "a": 80,
+            "w": 40,
+            "sup": 0,
+            "disc": 15,
+            "field": 0
+          },
+          "resShred": {
+            "a": 0,
+            "w": 28,
+            "sup": 0,
+            "field": 0
+          },
+          "defShred": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0
+          },
+          "penPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 0
+          },
+          "penVal": {
+            "a": 0,
+            "w": 0,
+            "sup": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "break/仪玄 S0 + 青溟笼舍 S5 + 山大王 / 命破贯穿场景",
+    "input": {
+      "name": "break/仪玄 S0 + 青溟笼舍 S5 + 山大王 / 命破贯穿场景",
+      "battleType": "break",
+      "agent": {
+        "baseAtk": 873,
+        "critRate": 19,
+        "critDmg": 120,
+        "dmgBonus": 60,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "resShred": 0,
+        "inCombatAtkPct": 0,
+        "inCombatAtkFlat": 0,
+        "baseHp": 8374,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 0,
+        "atkPct": 0
+      },
+      "weapon": {
+        "baseAtk": 743,
+        "critRate": 32,
+        "critDmg": 0,
+        "atkPct": 0,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "resShred": 0,
+        "dmgBonus": 25.6,
+        "inCombatAtkPct": 0,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 30,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 16,
+        "anomalyMastery": 0
+      },
+      "set4": {
+        "critDmg": 30
+      },
+      "field": {
+        "inCombatAtkPct": 0,
+        "critRate": 0,
+        "critDmg": 0,
+        "dmgBonus": 0,
+        "resShred": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "hpPct": 0,
+        "inCombatHpPct": 0,
+        "anomalyMastery": 0
+      },
+      "boss": {
+        "defBase": 953,
+        "defBonus": 0,
+        "dazeBase": 150,
+        "res": 0,
+        "weak": true
+      },
+      "skill": {
+        "multiplier": 200,
+        "slot4Type": "critDmg",
+        "smallAtkCount": 0,
+        "smallPenCount": 0
+      },
+      "extraStats": {
+        "hpPct": 30,
+        "critRate": 12,
+        "critDmg": 24
+      }
+    },
+    "output": {
+      "dmg": 43432.866910863355,
+      "warnings": [],
+      "details": {
+        "baseAtk": 1616,
+        "outCombatAtkPct": 30,
+        "outCombatFlatAtk": 316,
+        "sheetAtk": 2416.8,
+        "inCombatAtkPct": 0,
+        "inCombatFlatAtk": 0,
+        "totalAtk": 2416.8,
+        "totalPierce": 2536.1,
+        "totalAnomalyMastery": 0,
+        "maxHpInCombat": 18110.6,
+        "totalCR": 63,
+        "totalCD": 192,
+        "totalDmgBonus": 85.6,
+        "resMult": 1.2,
+        "defMult": 1,
+        "dazeMult": 1.5,
+        "defRes": 0,
+        "enemyRes": 0,
+        "weaknessVal": 0.2,
+        "totalResShred": 0,
+        "totalDazeVuln": 0,
+        "baseDaze": 150,
+        "baseDef": 953,
+        "defBonus": 0,
+        "totalDefShred": 0,
+        "totalPenPct": 0,
+        "totalPenVal": 0,
+        "breakdown": {
+          "baseAtk": {
+            "a": 873,
+            "w": 743
+          },
+          "outCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 30
+          },
+          "inCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0,
+            "disc": 0
+          },
+          "inCombatFlatAtk": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 316
+          },
+          "totalCR": {
+            "a": 19,
+            "w": 32,
+            "sup": 0,
+            "disc": 12,
+            "field": 0
+          },
+          "totalCD": {
+            "a": 90,
+            "w": 0,
+            "sup": 0,
+            "disc": 102,
+            "field": 0
+          },
+          "dmgBonus": {
+            "a": 60,
+            "w": 25.6,
+            "sup": 0,
+            "disc": 0,
+            "field": 0
+          },
+          "resShred": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0
+          },
+          "defShred": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0
+          },
+          "penPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 0
+          },
+          "penVal": {
+            "a": 0,
+            "w": 0,
+            "sup": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "anomaly/简 + 飞鸟星梦 S5 + 激素朋克 / 异常爆发",
+    "input": {
+      "name": "anomaly/简 + 飞鸟星梦 S5 + 激素朋克 / 异常爆发",
+      "battleType": "anomaly",
+      "agent": {
+        "baseAtk": 881,
+        "critRate": 5,
+        "critDmg": 50,
+        "dmgBonus": 0,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "resShred": 0,
+        "inCombatAtkPct": 25,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 112,
+        "atkPct": 10
+      },
+      "weapon": {
+        "baseAtk": 714,
+        "critRate": 0,
+        "critDmg": 0,
+        "atkPct": 0,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "resShred": 0,
+        "dmgBonus": 0,
+        "inCombatAtkPct": 0,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 122
+      },
+      "set4": {
+        "atkPct": 10,
+        "inCombatAtkPct": 25
+      },
+      "field": {
+        "inCombatAtkPct": 0,
+        "critRate": 0,
+        "critDmg": 0,
+        "dmgBonus": 0,
+        "resShred": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "hpPct": 0,
+        "inCombatHpPct": 0,
+        "anomalyMastery": 30
+      },
+      "boss": {
+        "defBase": 953,
+        "defBonus": 0,
+        "dazeBase": 100,
+        "res": 0,
+        "weak": false
+      },
+      "skill": {
+        "multiplier": 712,
+        "slot4Type": "anomalyMastery",
+        "slot6AnomalyType": "anomalyMastery",
+        "smallAtkCount": 0,
+        "smallPenCount": 0
+      },
+      "extraStats": {
+        "anomalyMastery": 90,
+        "atkPct": 30
+      }
+    },
+    "output": {
+      "dmg": 45985.646688036635,
+      "warnings": [],
+      "details": {
+        "baseAtk": 1595,
+        "outCombatAtkPct": 40,
+        "outCombatFlatAtk": 316,
+        "sheetAtk": 2549,
+        "inCombatAtkPct": 25,
+        "inCombatFlatAtk": 0,
+        "totalAtk": 3186.25,
+        "totalPierce": 0,
+        "totalAnomalyMastery": 446,
+        "maxHpInCombat": 0,
+        "totalCR": 5,
+        "totalCD": 50,
+        "totalDmgBonus": 0,
+        "resMult": 1,
+        "defMult": 0.45449341728677733,
+        "dazeMult": 1,
+        "defRes": 953,
+        "enemyRes": 0,
+        "weaknessVal": 0,
+        "totalResShred": 0,
+        "totalDazeVuln": 0,
+        "baseDaze": 100,
+        "baseDef": 953,
+        "defBonus": 0,
+        "totalDefShred": 0,
+        "totalPenPct": 0,
+        "totalPenVal": 0,
+        "breakdown": {
+          "baseAtk": {
+            "a": 881,
+            "w": 714
+          },
+          "outCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 40
+          },
+          "inCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0,
+            "disc": 25
+          },
+          "inCombatFlatAtk": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 316
+          },
+          "totalCR": {
+            "a": 5,
+            "w": 0,
+            "sup": 0,
+            "disc": 0,
+            "field": 0
+          },
+          "totalCD": {
+            "a": 50,
+            "w": 0,
+            "sup": 0,
+            "disc": 0,
+            "field": 0
+          },
+          "dmgBonus": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 0,
+            "field": 0
+          },
+          "resShred": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0
+          },
+          "defShred": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0
+          },
+          "penPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 0
+          },
+          "penVal": {
+            "a": 0,
+            "w": 0,
+            "sup": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "attack/艾莲·乔Ⅵ + 心弦夜响 S5 / 极端 CR + CD / 验证暴击上限",
+    "input": {
+      "name": "attack/艾莲·乔Ⅵ + 心弦夜响 S5 / 极端 CR + CD / 验证暴击上限",
+      "battleType": "attack",
+      "agent": {
+        "baseAtk": 938,
+        "critRate": 19,
+        "critDmg": 198,
+        "dmgBonus": 30,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "resShred": 10,
+        "inCombatAtkPct": 0,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 0,
+        "atkPct": 0
+      },
+      "weapon": {
+        "baseAtk": 713,
+        "critRate": 24,
+        "critDmg": 80,
+        "atkPct": 0,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "resShred": 40,
+        "dmgBonus": 0,
+        "inCombatAtkPct": 0,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 0
+      },
+      "set4": {},
+      "field": {
+        "inCombatAtkPct": 0,
+        "critRate": 12,
+        "critDmg": 0,
+        "dmgBonus": 0,
+        "resShred": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "hpPct": 0,
+        "inCombatHpPct": 0,
+        "anomalyMastery": 0
+      },
+      "boss": {
+        "defBase": 953,
+        "defBonus": 20,
+        "dazeBase": 120,
+        "res": 0.2,
+        "weak": false
+      },
+      "skill": {
+        "multiplier": 100,
+        "slot4Type": "critRate",
+        "smallAtkCount": 6,
+        "smallPenCount": 0
+      },
+      "extraStats": {
+        "critRate": 45,
+        "critDmg": 45,
+        "atkPct": 30,
+        "slot5_Dmg": 30,
+        "slot5_AtkPct": 0
+      }
+    },
+    "output": {
+      "dmg": 13289.418678381508,
+      "warnings": [],
+      "details": {
+        "baseAtk": 1651,
+        "outCombatAtkPct": 60,
+        "outCombatFlatAtk": 430,
+        "sheetAtk": 3071.6000000000004,
+        "inCombatAtkPct": 0,
+        "inCombatFlatAtk": 0,
+        "totalAtk": 3071.6000000000004,
+        "totalPierce": 0,
+        "totalAnomalyMastery": 0,
+        "maxHpInCombat": 0,
+        "totalCR": 100,
+        "totalCD": 323,
+        "totalDmgBonus": 60,
+        "resMult": 1.3,
+        "defMult": 0.40978530140379854,
+        "dazeMult": 1.2,
+        "defRes": 1143.6,
+        "enemyRes": 0.2,
+        "weaknessVal": 0,
+        "totalResShred": 50,
+        "totalDazeVuln": 0,
+        "baseDaze": 120,
+        "baseDef": 953,
+        "defBonus": 20,
+        "totalDefShred": 0,
+        "totalPenPct": 0,
+        "totalPenVal": 0,
+        "breakdown": {
+          "baseAtk": {
+            "a": 938,
+            "w": 713
+          },
+          "outCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 60
+          },
+          "inCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0,
+            "disc": 0
+          },
+          "inCombatFlatAtk": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 316
+          },
+          "totalCR": {
+            "a": 19,
+            "w": 24,
+            "sup": 0,
+            "disc": 69,
+            "field": 12
+          },
+          "totalCD": {
+            "a": 198,
+            "w": 80,
+            "sup": 0,
+            "disc": 45,
+            "field": 0
+          },
+          "dmgBonus": {
+            "a": 30,
+            "w": 0,
+            "sup": 0,
+            "disc": 30,
+            "field": 0
+          },
+          "resShred": {
+            "a": 10,
+            "w": 40,
+            "sup": 0,
+            "field": 0
+          },
+          "defShred": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0
+          },
+          "penPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 0
+          },
+          "penVal": {
+            "a": 0,
+            "w": 0,
+            "sup": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "anomaly/格莉丝 + 飞鸟星梦 S5 / 弱点 + 减抗 / 边界值",
+    "input": {
+      "name": "anomaly/格莉丝 + 飞鸟星梦 S5 / 弱点 + 减抗 / 边界值",
+      "battleType": "anomaly",
+      "agent": {
+        "baseAtk": 881,
+        "critRate": 5,
+        "critDmg": 50,
+        "dmgBonus": 0,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "dazeVuln": 0,
+        "resShred": 20,
+        "inCombatAtkPct": 0,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 116,
+        "atkPct": 0
+      },
+      "weapon": {
+        "baseAtk": 714,
+        "critRate": 0,
+        "critDmg": 0,
+        "atkPct": 0,
+        "penRatio": 0,
+        "penValue": 0,
+        "defShred": 0,
+        "resShred": 0,
+        "dmgBonus": 0,
+        "inCombatAtkPct": 0,
+        "inCombatAtkFlat": 0,
+        "baseHp": 0,
+        "hpPct": 0,
+        "flatHp": 0,
+        "inCombatHpPct": 0,
+        "inCombatPen": 0,
+        "ppDmgBonus": 0,
+        "anomalyMastery": 122
+      },
+      "set4": {},
+      "field": {
+        "inCombatAtkPct": 0,
+        "critRate": 0,
+        "critDmg": 0,
+        "dmgBonus": 0,
+        "resShred": 20,
+        "defShred": 20,
+        "dazeVuln": 0,
+        "hpPct": 0,
+        "inCombatHpPct": 0,
+        "anomalyMastery": 45
+      },
+      "boss": {
+        "defBase": 953,
+        "defBonus": 0,
+        "dazeBase": 100,
+        "res": 0,
+        "weak": true
+      },
+      "skill": {
+        "multiplier": 500,
+        "slot4Type": "anomalyMastery",
+        "smallAtkCount": 0,
+        "smallPenCount": 0
+      },
+      "extraStats": {
+        "anomalyMastery": 120,
+        "atkPct": 60
+      }
+    },
+    "output": {
+      "dmg": 67606.00848111026,
+      "warnings": [],
+      "details": {
+        "baseAtk": 1595,
+        "outCombatAtkPct": 90,
+        "outCombatFlatAtk": 316,
+        "sheetAtk": 3346.5,
+        "inCombatAtkPct": 0,
+        "inCombatFlatAtk": 0,
+        "totalAtk": 3346.5,
+        "totalPierce": 0,
+        "totalAnomalyMastery": 495,
+        "maxHpInCombat": 0,
+        "totalCR": 5,
+        "totalCD": 50,
+        "totalDmgBonus": 0,
+        "resMult": 1.6,
+        "defMult": 0.5101516319712156,
+        "dazeMult": 1,
+        "defRes": 762.4000000000001,
+        "enemyRes": 0,
+        "weaknessVal": 0.2,
+        "totalResShred": 40,
+        "totalDazeVuln": 0,
+        "baseDaze": 100,
+        "baseDef": 953,
+        "defBonus": 0,
+        "totalDefShred": 20,
+        "totalPenPct": 0,
+        "totalPenVal": 0,
+        "breakdown": {
+          "baseAtk": {
+            "a": 881,
+            "w": 714
+          },
+          "outCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 90
+          },
+          "inCombatAtkPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 0,
+            "disc": 0
+          },
+          "inCombatFlatAtk": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 316
+          },
+          "totalCR": {
+            "a": 5,
+            "w": 0,
+            "sup": 0,
+            "disc": 0,
+            "field": 0
+          },
+          "totalCD": {
+            "a": 50,
+            "w": 0,
+            "sup": 0,
+            "disc": 0,
+            "field": 0
+          },
+          "dmgBonus": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 0,
+            "field": 0
+          },
+          "resShred": {
+            "a": 20,
+            "w": 0,
+            "sup": 0,
+            "field": 20
+          },
+          "defShred": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "field": 20
+          },
+          "penPct": {
+            "a": 0,
+            "w": 0,
+            "sup": 0,
+            "disc": 0
+          },
+          "penVal": {
+            "a": 0,
+            "w": 0,
+            "sup": 0
+          }
+        }
+      }
+    }
+  }
+]
