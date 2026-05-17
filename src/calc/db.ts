@@ -1,19 +1,19 @@
 // src/calc/db.ts
 // Read-only facade over the game databases.
 //
-// `characters.js` and `weapons.js` live at the repo root as legacy script-tag
-// modules (`const CHARACTER_DB = { ... };` with no exports). To stay
-// non-invasive (Phase 6 will fully migrate them), we load the file source as
-// text via Vite's `?raw` import and evaluate it once in module scope.
+// `characters.js` and `weapons.js` are script-tag style modules
+// (`const CHARACTER_DB = { ... };` with no exports). To stay non-invasive
+// we load the file source as text via Vite's `?raw` import and evaluate
+// it once in module scope.
 //
 // DISC_4_SETS / DISC_2_SETS have been migrated out of legacy/index-legacy.html
 // into ./discSets.ts. They are re-exported below to preserve the existing
 // import surface for downstream callers.
 
 // @ts-expect-error vite raw import virtual extension
-import charactersSource from '../../characters.js?raw';
+import charactersSource from './characters.js?raw';
 // @ts-expect-error vite raw import virtual extension
-import weaponsSource from '../../weapons.js?raw';
+import weaponsSource from './weapons.js?raw';
 
 function evalDb<T>(source: string, name: string): T {
   // Append an explicit return so we can capture the const without modifying
