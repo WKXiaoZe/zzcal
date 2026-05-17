@@ -6,9 +6,9 @@
 // non-invasive (Phase 6 will fully migrate them), we load the file source as
 // text via Vite's `?raw` import and evaluate it once in module scope.
 //
-// DISC_4_SETS / DISC_2_SETS still live inside legacy/index-legacy.html;
-// they will be migrated in Phase 4. The placeholder exports here keep the
-// import surface stable for downstream callers.
+// DISC_4_SETS / DISC_2_SETS have been migrated out of legacy/index-legacy.html
+// into ./discSets.ts. They are re-exported below to preserve the existing
+// import surface for downstream callers.
 
 // @ts-expect-error vite raw import virtual extension
 import charactersSource from '../../characters.js?raw';
@@ -99,13 +99,10 @@ export const WEAPON_DB: WeaponDatabase = evalDb<WeaponDatabase>(
   'WEAPON_DB',
 );
 
-// --- Disc set placeholders (Phase 4 will migrate from legacy index-legacy.html) ---
+// --- Disc set re-exports (migrated to ./discSets.ts in Phase 4 prep) ---
 
-/** TODO(Phase 4): migrate from legacy/index-legacy.html (line ~513). */
-export const DISC_4_SETS: Record<string, { stats?: Record<string, number>; name?: string }> = {};
-
-/** TODO(Phase 4): migrate from legacy/index-legacy.html (line ~548). */
-export const DISC_2_SETS: Record<string, { stats?: Record<string, number>; name?: string }> = {};
+export { DISC_4_SETS, DISC_2_SETS } from './discSets';
+export type { DiscSet } from './discSets';
 
 // --- Convenience lookups -------------------------------------------------
 
