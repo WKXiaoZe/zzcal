@@ -10,6 +10,7 @@ import { FieldBuffPanel } from './components/FieldBuffPanel';
 import { ManualOptPanel } from './components/ManualOptPanel';
 import { AutoOptPanel } from './components/AutoOptPanel';
 import { OutputPanel } from './components/OutputPanel';
+import { DiscHexCard } from './components/DiscHexCard';
 
 /**
  * Background blur on scroll: legacy onScrollFrame() (L965-992) toggled
@@ -54,6 +55,7 @@ export default function App() {
           <DiscPanel />
           <BossPanel />
         </section>
+        <DiscHexCard />
         <FieldBuffPanel />
         <section className="grid-2-split">
           <ManualOptPanel />
