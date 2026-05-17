@@ -71,8 +71,8 @@ export function OutputPanel() {
   const rows = buildRows(state.battleType, result.details);
 
   return (
-    <section className={styles.outputPanel}>
-      <h3>最终伤害</h3>
+    <section className={`sub-module ${styles.outputPanel}`}>
+      <div className="module-title"><span>最终伤害</span></div>
       <div
         className="opt-dmg"
         style={{

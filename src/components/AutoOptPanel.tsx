@@ -170,7 +170,7 @@ export function AutoOptPanel() {
 
   return (
     <section className="sub-module" id="auto-opt-panel">
-      <h2>自动优化</h2>
+      <div className="module-title"><span>自动优化</span></div>
 
       <div
         className={styles.optControls}

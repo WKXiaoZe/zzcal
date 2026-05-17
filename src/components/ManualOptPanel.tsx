@@ -175,19 +175,8 @@ export function ManualOptPanel() {
   const subTotal = sc.CR + sc.CD + sc.ATK + sc.HP + sc.AM;
 
   return (
-    <section
-      className={`card ${styles.manualOptPanel}`}
-      style={{
-        background: 'rgba(0,0,0,0.45)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        borderRadius: 14,
-        padding: 18,
-        marginTop: 20,
-        color: '#eee',
-        fontFamily: 'inherit',
-      }}
-    >
-      <h2 style={{ marginTop: 0, marginBottom: 12 }}>手动优化</h2>
+    <section className={`sub-module ${styles.manualOptPanel}`}>
+      <div className="module-title"><span>手动优化</span></div>
 
       {/* 5 号位主词条 */}
       <div style={{ marginBottom: 14 }}>

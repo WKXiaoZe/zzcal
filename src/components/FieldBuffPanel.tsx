@@ -27,7 +27,7 @@ export function FieldBuffPanel() {
 
   return (
     <div className={`sub-module ${styles.fieldBuffPanel}`}>
-      <h3>场地BUFF (全局生效)</h3>
+      <div className="module-title"><span>场地BUFF (全局生效)</span></div>
       <div className="grid-3">
         {FIELDS.map(({ key, label, id }) => (
           <div className="input-group" key={key}>
