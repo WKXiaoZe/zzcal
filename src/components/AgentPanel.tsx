@@ -145,7 +145,7 @@ export function AgentPanel({ slot, label }: Props) {
 
   return (
     <div className={`sub-module ${styles.agentPanel}`} id={`agent-${slot}`}>
-      <h3>{label}</h3>
+      <div className="module-title"><span>{label}</span></div>
 
       {/* Preset selector + cinema buttons */}
       <div className="preset-container">
