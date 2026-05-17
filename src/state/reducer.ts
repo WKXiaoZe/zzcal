@@ -21,8 +21,17 @@ export const initialState: AppState = {
 
 export function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case 'SET_BATTLE_TYPE':
-      return { ...state, battleType: action.payload };
+    case 'SET_BATTLE_TYPE': {
+      // Mirror legacy setBattleType (index-legacy.html L642-658): switching
+      // into anomaly mode forces slot4 to anomalyMastery; switching out of
+      // anomaly (when slot4 was anomalyMastery) restores critRate. All
+      // other slot4 choices are preserved.
+      const battleType = action.payload;
+      let slot4Stat = state.disc.slot4Stat;
+      if (battleType === 'anomaly') slot4Stat = 'anomalyMastery';
+      else if (slot4Stat === 'anomalyMastery') slot4Stat = 'critRate';
+      return { ...state, battleType, disc: { ...state.disc, slot4Stat } };
+    }
     case 'SET_MODE':
       return { ...state, mode: action.payload };
     case 'SET_AGENT_PRESET':
