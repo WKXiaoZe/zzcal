@@ -6,7 +6,6 @@
 // against the live calculator (open index.html in the browser, dial in the
 // scenario inputs, and confirm the displayed damage matches output.dmg).
 import { SCENARIOS } from './scenarios';
-// @ts-expect-error — legacy JS adapter, no types yet
 import { calculateDamage } from '../legacy/calc-legacy.js';
 import { writeFileSync } from 'fs';
 import path from 'path';
