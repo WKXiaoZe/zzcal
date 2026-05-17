@@ -7,6 +7,7 @@
 import { useAppDispatch, useAppState } from '../state/AppContext';
 import { WEAPON_DB } from '../calc/db';
 import type { BattleType } from '../calc/types';
+import styles from './WeaponPanel.module.css';
 
 interface Props {
   slot: 'main' | 'sup1' | 'sup2';
@@ -77,7 +78,7 @@ export function WeaponPanel({ slot, label }: Props) {
   const star = cfg.cinemaOrStar || 1;
 
   return (
-    <section className="weapon-panel sub-module" id={`weapon-${slot}`}>
+    <section className={`sub-module ${styles.weaponPanel}`} id={`weapon-${slot}`}>
       <header>
         <h3>{label}</h3>
       </header>
@@ -119,7 +120,7 @@ export function WeaponPanel({ slot, label }: Props) {
         </div>
       </div>
 
-      <div className="weapon-fields">
+      <div className={styles.weaponFields}>
         {WEAPON_FIELDS.map((f) => {
           if (!isFieldVisible(f.cls, battleType)) return null;
           const value = cfg.customOverrides[f.id] ?? 0;

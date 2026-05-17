@@ -23,6 +23,7 @@ import { useAppState } from '../state/AppContext';
 import { buildCalcInput } from '../calc/buildInput';
 import { calculateDamage } from '../calc/formulas';
 import type { ExtraSubStats, BattleType } from '../calc/types';
+import styles from './ManualOptPanel.module.css';
 
 // --- Option tables --------------------------------------------------------
 // Each option's `extra` payload is merged additively into `extraStats`.
@@ -175,7 +176,7 @@ export function ManualOptPanel() {
 
   return (
     <section
-      className="card"
+      className={`card ${styles.manualOptPanel}`}
       style={{
         background: 'rgba(0,0,0,0.45)',
         border: '1px solid rgba(255,255,255,0.08)',

@@ -667,29 +667,8 @@ input[type="text"]:focus {
     font-weight: bold;
 }
 
-/* Calculation Log */
-.calc-log {
-    background: #080808;
-    border: 1px solid #222;
-    padding: 30px;
-    font-family: var(--font-mono);
-    color: #ccc;
-    white-space: pre-wrap;
-    line-height: 1.8;
-    font-size: 0.9rem;
-    border-radius: var(--radius-md);
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
-}
-
-.in-combat-highlight {
-    color: var(--zzz-primary);
-    font-weight: bold;
-}
-
-.alert-text {
-    color: var(--zzz-alert);
-    font-weight: bold;
-}
+/* Calculation Log → migrated to src/components/LogPanel.module.css */
+/* In-combat highlight + alert text → migrated to LogPanel.module.css */
 
 /* Tooltips */
 .u-tooltip {
@@ -743,89 +722,12 @@ input[type="text"]:focus {
     font-size: 0.95rem;
 }
 
-/* Chart & Opt */
-.opt-controls {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-bottom: 40px;
-    padding: 25px;
-    border-radius: var(--radius-lg);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.btn-large {
-    padding: 0 35px;
-    font-size: 1rem;
-    letter-spacing: 1px;
-    height: 48px;
-}
-
-.chart-wrapper {
-    height: 500px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--zzz-panel-border);
-    padding: 20px;
-    border-radius: var(--radius-md);
-}
-
-.panel-data {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 25px;
-    font-size: 0.95rem;
-}
-
-.panel-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 12px 0;
-}
-
-.panel-row span:first-child {
-    color: var(--zzz-text-muted);
-}
-
-.panel-row span:last-child {
-    color: var(--zzz-text-main);
-    font-family: var(--font-mono);
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.opt-config-box {
-    background: var(--zzz-pink-dim);
-    border: 1px solid var(--zzz-primary-dim);
-    padding: 30px;
-    margin-bottom: 30px;
-    text-align: center;
-    border-radius: var(--radius-md);
-}
-
-.opt-config-title {
-    font-size: 0.85rem;
-    color: var(--zzz-primary);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    opacity: 0.9;
-    word-spacing: 2px;
-}
-
-.opt-config-val {
-    font-size: 1.2rem;
-    font-weight: 900;
-    letter-spacing: 0.5px;
-}
-
-.opt-sub-stats {
-    font-size: 0.85rem;
-    color: #aaa;
-    margin-top: 5px;
-    font-family: var(--font-mono);
-}
+/* Chart & Opt → panel rules migrated:
+ *   .opt-controls, .opt-config-box, .opt-config-title, .opt-config-val,
+ *   .opt-sub-stats, .chart-wrapper, .btn-large
+ *     → src/components/AutoOptPanel.module.css + ExportButton.module.css
+ *   .panel-data, .panel-row → src/components/OutputPanel.module.css
+ */
 
 /* Modal */
 .modal {
@@ -908,63 +810,7 @@ input[type="text"]:focus {
     transform: translateX(-50%) translateY(0);
 }
 
-/* Export Button Specifics */
-#export-btn {
-    /* Fixed positioning at bottom-right corner */
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 1000;
-
-    /* Visual styling */
-    border-color: var(--zzz-primary);
-    color: var(--zzz-primary);
-    background: var(--zzz-pink-dim);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    /* Enhanced visibility */
-    box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.6),
-        0 0 30px var(--zzz-primary-dim);
-
-    /* Sizing */
-    font-size: 1.1rem;
-    padding: 14px 32px;
-    min-width: 200px;
-
-    /* Smooth transitions */
-    transition: all 0.3s ease;
-}
-
-#export-btn:hover {
-    background: var(--zzz-primary);
-    color: #000;
-    transform: translateY(-2px);
-    box-shadow:
-        0 6px 25px rgba(0, 0, 0, 0.8),
-        0 0 40px var(--zzz-primary-glow);
-}
-
-#export-btn:active {
-    transform: translateY(0);
-}
-
-#export-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-    #export-btn {
-        bottom: 20px;
-        right: 20px;
-        font-size: 1rem;
-        padding: 12px 24px;
-        min-width: 160px;
-    }
-}
+/* Export Button → migrated to src/components/ExportButton.module.css */
 
 /* Default Hidden Fields */
 .input-group.default-hidden {

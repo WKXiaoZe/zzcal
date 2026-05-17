@@ -1,0 +1,12 @@
+/* ManualOptPanel.module.css
+ * Per-component styles for the manual-optimization card. Currently the panel
+ * still drives most layout via inline `style` props on the JSX nodes; the
+ * surfaces extracted here are the genuinely card-specific bits (the outer
+ * frame).
+ */
+
+.manualOptPanel {
+  /* Marker hook on the outer <section>. The inline gradient/border for the
+   * card lives in the JSX style prop to keep that component change-set tight;
+   * if those move out later, they belong here. */
+}

@@ -18,6 +18,7 @@ import { useMemo } from 'react';
 import { useAppState, useAppDispatch } from '../state/AppContext';
 import { CHARACTER_DB } from '../calc/db';
 import type { BattleType } from '../calc/types';
+import styles from './AgentPanel.module.css';
 
 type SlotKey = 'main' | 'sup1' | 'sup2';
 
@@ -100,7 +101,7 @@ export function AgentPanel({ slot, label }: Props) {
   const prefix = slot === 'main' ? 'a_main' : slot === 'sup1' ? 'a_sup1' : 'a_sup2';
 
   return (
-    <div className="sub-module agent-panel" id={`agent-${slot}`}>
+    <div className={`sub-module ${styles.agentPanel}`} id={`agent-${slot}`}>
       <h3>{label}</h3>
 
       {/* Preset selector + cinema buttons */}

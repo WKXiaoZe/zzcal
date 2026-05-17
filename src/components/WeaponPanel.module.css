@@ -1,0 +1,13 @@
+/* WeaponPanel.module.css
+ * Per-component styles for WeaponPanel. Like AgentPanel, this currently rides
+ * on shared utility classes. Anything weapon-only goes here.
+ */
+
+.weaponPanel {
+  /* Marker hook for future weapon-only tweaks. */
+}
+
+.weaponFields {
+  /* Container around the per-weapon stat-override inputs. Kept here so any
+   * future tweak (e.g. tighter row gap) does not bleed into the agent grid. */
+}

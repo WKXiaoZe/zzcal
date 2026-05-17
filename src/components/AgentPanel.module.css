@@ -1,0 +1,10 @@
+/* AgentPanel.module.css
+ * Per-component styles for AgentPanel. Currently this panel relies entirely on
+ * shared utility classes (.sub-module, .preset-container, .input-group, etc.)
+ * defined in src/styles/global.css. Panel-specific tweaks belong here.
+ */
+
+.agentPanel {
+  /* Marker hook so we can target agent-only tweaks in future without
+   * touching unrelated panels. No visual properties yet. */
+}

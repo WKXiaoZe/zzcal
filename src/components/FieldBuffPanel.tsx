@@ -3,6 +3,7 @@
 // 6 numeric inputs dispatching SET_FIELD.
 import { useAppState, useAppDispatch } from '../state/AppContext';
 import type { AppState } from '../state/types';
+import styles from './FieldBuffPanel.module.css';
 
 type FieldKey = keyof AppState['field'];
 
@@ -25,10 +26,7 @@ export function FieldBuffPanel() {
   };
 
   return (
-    <div
-      className="field-buff-panel sub-module"
-      style={{ marginBottom: 20, borderColor: 'var(--zzz-primary)' }}
-    >
+    <div className={`sub-module ${styles.fieldBuffPanel}`}>
       <h3>场地BUFF (全局生效)</h3>
       <div className="grid-3">
         {FIELDS.map(({ key, label, id }) => (

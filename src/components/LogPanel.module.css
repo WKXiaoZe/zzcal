@@ -1,0 +1,28 @@
+/* LogPanel.module.css
+ * Per-component styles for the calculation-log <details> panel.
+ * Migrated from src/styles/global.css: .calc-log, .in-combat-highlight,
+ * .alert-text (the latter two are children inside the log pre-text).
+ */
+
+.calcLog {
+  background: #080808;
+  border: 1px solid #222;
+  padding: 30px;
+  font-family: var(--font-mono);
+  color: #ccc;
+  white-space: pre-wrap;
+  line-height: 1.8;
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.inCombatHighlight {
+  color: var(--zzz-primary);
+  font-weight: bold;
+}
+
+.alertText {
+  color: var(--zzz-alert);
+  font-weight: bold;
+}

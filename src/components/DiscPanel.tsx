@@ -6,6 +6,7 @@ import type { ChangeEvent } from 'react';
 import { useAppState, useAppDispatch } from '../state/AppContext';
 import { DISC_4_SETS, DISC_2_SETS } from '../calc/discSets';
 import type { DiscConfig } from '../state/types';
+import styles from './DiscPanel.module.css';
 
 type Slot4Stat = DiscConfig['slot4Stat'];
 type SubKey = keyof DiscConfig['subCounts'];
@@ -81,7 +82,7 @@ export function DiscPanel() {
     };
 
   return (
-    <div className="module disc-panel" id="mod-preset-stats">
+    <div className={`module ${styles.discPanel}`} id="mod-preset-stats">
       <div className="module-title">
         <span>03 // 驱动盘主副词条</span>
       </div>

@@ -1,0 +1,8 @@
+/* BossPanel.module.css
+ * Per-component styles for the enemy / boss-data panel. Relies on shared
+ * utility classes today (.module, .sub-module, .input-group, .switch-container).
+ */
+
+.bossPanel {
+  /* Marker hook for future boss-only tweaks. */
+}

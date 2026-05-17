@@ -29,6 +29,7 @@ import {
   defaultSlot5Opts,
   defaultSet2Opts,
 } from '../calc/optimizer';
+import styles from './AutoOptPanel.module.css';
 
 ChartJS.register(
   CategoryScale,
@@ -172,7 +173,7 @@ export function AutoOptPanel() {
       <h2>自动优化</h2>
 
       <div
-        className="opt-controls"
+        className={styles.optControls}
         style={{
           display: 'flex',
           flexWrap: 'wrap',
@@ -195,7 +196,7 @@ export function AutoOptPanel() {
         ))}
       </div>
 
-      <div className="chart-wrapper" style={{ position: 'relative', height: 360 }}>
+      <div className={styles.chartWrapper} style={{ position: 'relative', height: 360 }}>
         {results.length > 0 ? (
           <Line data={chartData} options={chartOptions} />
         ) : (
@@ -204,7 +205,7 @@ export function AutoOptPanel() {
       </div>
 
       <div
-        className="opt-config-box"
+        className={styles.optConfigBox}
         style={{
           marginTop: 16,
           padding: 12,
@@ -213,13 +214,13 @@ export function AutoOptPanel() {
           border: '1px solid rgba(255,255,255,0.08)',
         }}
       >
-        <div className="opt-config-title" style={{ color: '#bbb', fontSize: 12 }}>
+        <div className={styles.optConfigTitle} style={{ color: '#bbb', fontSize: 12 }}>
           最佳组合（在 {targetSteps} 词数）
         </div>
         {best ? (
           <>
             <div
-              className="opt-config-val"
+              className={styles.optConfigVal}
               style={{ color: '#fff', fontSize: 18, marginTop: 4 }}
             >
               {best.name}
@@ -232,7 +233,7 @@ export function AutoOptPanel() {
             </div>
           </>
         ) : (
-          <div className="opt-config-val" style={{ color: '#888', marginTop: 4 }}>
+          <div className={styles.optConfigVal} style={{ color: '#888', marginTop: 4 }}>
             --
           </div>
         )}

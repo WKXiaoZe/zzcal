@@ -1,0 +1,10 @@
+/* FieldBuffPanel.module.css
+ * Per-component styles for the global field-wide buffs panel.
+ * Migrated from the previously inline style on the wrapping <div> so the
+ * pink border accent ships with the component, not the JSX.
+ */
+
+.fieldBuffPanel {
+  margin-bottom: 20px;
+  border-color: var(--zzz-primary);
+}

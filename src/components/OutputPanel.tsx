@@ -11,6 +11,7 @@ import { buildCalcInput } from '../calc/buildInput';
 import { calculateDamage } from '../calc/formulas';
 import type { CalcDetails } from '../calc/types';
 import { LogPanel } from './LogPanel';
+import styles from './OutputPanel.module.css';
 
 interface Row {
   label: string;
@@ -70,7 +71,7 @@ export function OutputPanel() {
   const rows = buildRows(state.battleType, result.details);
 
   return (
-    <section className="output-panel">
+    <section className={styles.outputPanel}>
       <h3>最终伤害</h3>
       <div
         className="opt-dmg"
@@ -85,9 +86,9 @@ export function OutputPanel() {
       </div>
 
       <h3 style={{ marginTop: 20 }}>最终面板</h3>
-      <div className="panel-data">
+      <div className={styles.panelData}>
         {rows.map((r) => (
-          <div key={r.label} className="panel-row">
+          <div key={r.label} className={styles.panelRow}>
             <span>{r.label}</span>
             <span>{r.value}</span>
           </div>

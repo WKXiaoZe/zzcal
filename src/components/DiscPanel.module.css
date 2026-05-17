@@ -1,0 +1,8 @@
+/* DiscPanel.module.css
+ * Per-component styles for the disc / substat panel.
+ * Uses shared .module + .sub-module + .input-group from global.css today.
+ */
+
+.discPanel {
+  /* Marker hook for future disc-panel tweaks. */
+}

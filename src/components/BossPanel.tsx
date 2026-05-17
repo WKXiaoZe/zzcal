@@ -4,6 +4,7 @@
 // - res: 0% / 20% / 40% button group (locked to 0% when weak=true)
 // - weak: toggle button; turning it on forces res to 0
 import { useAppState, useAppDispatch } from '../state/AppContext';
+import styles from './BossPanel.module.css';
 
 const RES_OPTIONS: Array<{ value: 0 | 0.2 | 0.4; label: string }> = [
   { value: 0, label: '0%' },
@@ -34,7 +35,7 @@ export function BossPanel() {
   };
 
   return (
-    <div className="boss-panel module" id="mod-boss">
+    <div className={`module ${styles.bossPanel}`} id="mod-boss">
       <div className="module-title"><span>04 // 敌人数据</span></div>
       <div className="sub-module">
         <div className="input-group">

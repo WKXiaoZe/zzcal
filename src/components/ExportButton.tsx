@@ -3,6 +3,7 @@
 // Mirrors legacy `exportSnapshot()` (index-legacy.html:2061).
 import { useState } from 'react';
 import html2canvas from 'html2canvas';
+import styles from './ExportButton.module.css';
 
 export interface ExportButtonProps {
   /** CSS selector for the DOM node to capture. Default `.container`. */
@@ -68,7 +69,7 @@ export function ExportButton({ targetSelector = '.container' }: ExportButtonProp
   return (
     <button
       type="button"
-      className="zzz-btn btn-large"
+      className={`zzz-btn ${styles.exportBtn}`}
       id="export-btn"
       onClick={handleExport}
       disabled={busy}

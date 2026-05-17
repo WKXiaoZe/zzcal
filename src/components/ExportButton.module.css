@@ -1,0 +1,64 @@
+/* ExportButton.module.css
+ * Per-component styles for the floating export-PNG button.
+ * Migrated from src/styles/global.css `#export-btn` block.
+ * Converted from an ID selector to module-local classes so the React tree
+ * can render the button anywhere without colliding on `#export-btn`.
+ */
+
+.exportBtn {
+  /* Fixed positioning at bottom-right corner */
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+
+  /* Visual styling */
+  border-color: var(--zzz-primary);
+  color: var(--zzz-primary);
+  background: var(--zzz-pink-dim);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* Enhanced visibility */
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.6),
+    0 0 30px var(--zzz-primary-dim);
+
+  /* Sizing (was .btn-large + #export-btn combined) */
+  font-size: 1.1rem;
+  padding: 14px 32px;
+  min-width: 200px;
+  letter-spacing: 1px;
+  height: 48px;
+
+  /* Smooth transitions */
+  transition: all 0.3s ease;
+}
+
+.exportBtn:hover {
+  background: var(--zzz-primary);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 25px rgba(0, 0, 0, 0.8),
+    0 0 40px var(--zzz-primary-glow);
+}
+
+.exportBtn:active {
+  transform: translateY(0);
+}
+
+.exportBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .exportBtn {
+    bottom: 20px;
+    right: 20px;
+    font-size: 1rem;
+    padding: 12px 24px;
+    min-width: 160px;
+  }
+}

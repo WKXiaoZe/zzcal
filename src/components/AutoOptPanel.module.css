@@ -1,0 +1,63 @@
+/* AutoOptPanel.module.css
+ * Per-component styles for the auto-optimization panel.
+ * Migrated from src/styles/global.css: .opt-controls, .btn-large,
+ * .chart-wrapper, .opt-config-box, .opt-config-title, .opt-config-val,
+ * .opt-sub-stats. These are panel-specific and not reused elsewhere.
+ */
+
+.optControls {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+  padding: 25px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btnLarge {
+  padding: 0 35px;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  height: 48px;
+}
+
+.chartWrapper {
+  height: 500px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--zzz-panel-border);
+  padding: 20px;
+  border-radius: var(--radius-md);
+}
+
+.optConfigBox {
+  background: var(--zzz-pink-dim);
+  border: 1px solid var(--zzz-primary-dim);
+  padding: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  border-radius: var(--radius-md);
+}
+
+.optConfigTitle {
+  font-size: 0.85rem;
+  color: var(--zzz-primary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.9;
+  word-spacing: 2px;
+}
+
+.optConfigVal {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.optSubStats {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 5px;
+  font-family: var(--font-mono);
+}
