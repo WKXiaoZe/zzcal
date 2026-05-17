@@ -12,9 +12,9 @@ import { AutoOptPanel } from './components/AutoOptPanel';
 import { OutputPanel } from './components/OutputPanel';
 
 /**
- * Legacy parity: toggle `body.u-scrolled` past 10% viewport (hero card animates
- * to top-left) and `#hero-video.is-blurred` past 50px (background blurs).
- * Ports onScrollFrame() from legacy/index-legacy.html L965-992.
+ * Background blur on scroll: legacy onScrollFrame() (L965-992) toggled
+ * #hero-video.is-blurred past 50px. We don't toggle body.u-scrolled here
+ * because header is now permanently fixed top-left (no center→corner anim).
  */
 function useScrollState() {
   useEffect(() => {
@@ -23,11 +23,8 @@ function useScrollState() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        const trigger = window.innerHeight * 0.1;
-        document.body.classList.toggle('u-scrolled', scrollY > trigger);
         const video = document.getElementById('hero-video');
-        if (video) video.classList.toggle('is-blurred', scrollY > 50);
+        if (video) video.classList.toggle('is-blurred', window.scrollY > 50);
         ticking = false;
       });
     };

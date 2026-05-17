@@ -1,47 +1,51 @@
 // src/components/ExportButton.tsx
-// Snapshot the configured DOM region to PNG via html2canvas.
-// Mirrors legacy `exportSnapshot()` (index-legacy.html:2061).
+// Snapshot the entire scrollable page to PNG via html2canvas.
+// Ports legacy `exportSnapshot()` (legacy/index-legacy.html:2061-2140).
 import { useState } from 'react';
 import html2canvas from 'html2canvas';
 import styles from './ExportButton.module.css';
 
-export interface ExportButtonProps {
-  /** CSS selector for the DOM node to capture. Default `.container`. */
-  targetSelector?: string;
-}
-
-export function ExportButton({ targetSelector = '.container' }: ExportButtonProps) {
+export function ExportButton() {
   const [busy, setBusy] = useState(false);
 
   async function handleExport() {
     if (busy) return;
-    const target = document.querySelector<HTMLElement>(targetSelector);
-    if (!target) {
-      console.error(`ExportButton: target not found for selector "${targetSelector}"`);
-      alert('导出失败：找不到目标元素。');
-      return;
-    }
+    const btn = document.getElementById('export-btn') as HTMLButtonElement | null;
+
+    // Hide the decorative background image during capture (legacy parity:
+    // html2canvas struggles with the fixed `<img>`, and the snapshot reads
+    // cleaner on the flat dark color).
+    const videoBackground = document.querySelector<HTMLElement>('.video-background');
+    const videoWasVisible =
+      videoBackground !== null && videoBackground.style.display !== 'none';
+    if (videoBackground) videoBackground.style.display = 'none';
+
+    // Hide the export button itself so it doesn't appear in the exported PNG.
+    const btnPrevVisibility = btn?.style.visibility ?? '';
+    if (btn) btn.style.visibility = 'hidden';
 
     setBusy(true);
 
-    // Hide decorative video background if present (legacy parity).
-    const videoBackground = document.querySelector<HTMLElement>('.video-background');
-    const videoWasVisible = videoBackground && videoBackground.style.display !== 'none';
-    if (videoBackground) videoBackground.style.display = 'none';
+    // Give the UI a tick + chart canvases time to repaint before snapshot.
+    // Legacy used 300ms; same here.
+    await new Promise<void>((resolve) => setTimeout(resolve, 300));
 
     try {
-      // Give the UI a tick to repaint the busy state before the heavy snapshot.
-      await new Promise<void>((resolve) => setTimeout(resolve, 50));
-
-      const canvas = await html2canvas(target, {
+      const canvas = await html2canvas(document.body, {
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#080512',
+        // These four are what make scrolled-page capture work correctly —
+        // without them html2canvas only grabs the current viewport.
+        scrollY: -window.scrollY,
+        scrollX: -window.scrollX,
+        windowWidth: document.documentElement.scrollWidth,
+        windowHeight: document.documentElement.scrollHeight,
+        backgroundColor: '#050505',
         scale: 2,
         logging: false,
         imageTimeout: 15000,
         onclone: (clonedDoc) => {
-          // Make sure any chart canvases stay visible inside the clone.
+          // Charts in cloned doc sometimes default to display:none.
           clonedDoc.querySelectorAll('canvas').forEach((c) => {
             (c as HTMLElement).style.display = 'block';
           });
@@ -59,9 +63,12 @@ export function ExportButton({ targetSelector = '.container' }: ExportButtonProp
     } catch (err) {
       console.error('html2canvas error:', err);
       const msg = err instanceof Error ? err.message : '未知错误';
-      alert(`导出失败：${msg}\n\n建议使用浏览器自带截图功能（如 Windows: Win+Shift+S）。`);
+      alert(
+        `导出失败：${msg}\n\n建议使用浏览器自带截图功能（如 Windows: Win+Shift+S）。`,
+      );
     } finally {
       if (videoBackground && videoWasVisible) videoBackground.style.display = '';
+      if (btn) btn.style.visibility = btnPrevVisibility;
       setBusy(false);
     }
   }
