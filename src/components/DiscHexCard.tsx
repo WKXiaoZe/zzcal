@@ -24,15 +24,15 @@ interface Slot {
   cy: number;
 }
 
-// First pass: rough positions based on visual inspection of hex-frame.png.
-// Adjust via screenshot iteration.
+// Cavity centers in % of frame. Verified visually by overlaying a debug
+// grid + green circles on the source PNG (D:/ZZCALS/_hex_debug2.png).
 const SLOTS: Slot[] = [
-  { bg: 'EquipPositionBg06.png', cx: 23, cy: 21 }, // left-top   = slot 6
-  { bg: 'EquipPositionBg01.png', cx: 12, cy: 52 }, // left-mid   = slot 1
-  { bg: 'EquipPositionBg02.png', cx: 23, cy: 83 }, // left-bot   = slot 2
-  { bg: 'EquipPositionBg03.png', cx: 77, cy: 83 }, // right-bot  = slot 3
-  { bg: 'EquipPositionBg04.png', cx: 88, cy: 52 }, // right-mid  = slot 4
-  { bg: 'EquipPositionBg05.png', cx: 77, cy: 21 }, // right-top  = slot 5
+  { bg: 'EquipPositionBg06.png', cx: 27, cy: 22 }, // left-top   = slot 6
+  { bg: 'EquipPositionBg01.png', cx: 18, cy: 53 }, // left-mid   = slot 1
+  { bg: 'EquipPositionBg02.png', cx: 27, cy: 82 }, // left-bot   = slot 2
+  { bg: 'EquipPositionBg03.png', cx: 73, cy: 82 }, // right-bot  = slot 3
+  { bg: 'EquipPositionBg04.png', cx: 82, cy: 53 }, // right-mid  = slot 4
+  { bg: 'EquipPositionBg05.png', cx: 73, cy: 22 }, // right-top  = slot 5
 ];
 
 /** Diameter of each slot badge as % of frame width. */
