@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { AppProvider } from './state/AppContext';
 import { Layout } from './components/Layout';
 import { HeroHeader } from './components/HeroHeader';
@@ -10,7 +11,34 @@ import { ManualOptPanel } from './components/ManualOptPanel';
 import { AutoOptPanel } from './components/AutoOptPanel';
 import { OutputPanel } from './components/OutputPanel';
 
+/**
+ * Legacy parity: toggle `body.u-scrolled` past 10% viewport (hero card animates
+ * to top-left) and `#hero-video.is-blurred` past 50px (background blurs).
+ * Ports onScrollFrame() from legacy/index-legacy.html L965-992.
+ */
+function useScrollState() {
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const trigger = window.innerHeight * 0.1;
+        document.body.classList.toggle('u-scrolled', scrollY > trigger);
+        const video = document.getElementById('hero-video');
+        if (video) video.classList.toggle('is-blurred', scrollY > 50);
+        ticking = false;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+}
+
 export default function App() {
+  useScrollState();
   return (
     <AppProvider>
       <Layout>
