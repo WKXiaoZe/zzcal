@@ -25,18 +25,18 @@ interface Slot {
 }
 
 // Cavity centers in % of frame. Auto-detected via OpenCV Hough Circle
-// transform on the source PNG; r≈107 across all 6 → 24% diameter.
+// transform on the EquipBg04.png source (852×780); r≈107 → ~25% diameter.
 const SLOTS: Slot[] = [
-  { bg: 'EquipPositionBg06.png', cx: 29.2, cy: 17.9 }, // left-top   = slot 6
-  { bg: 'EquipPositionBg01.png', cx: 15.6, cy: 50.0 }, // left-mid   = slot 1
-  { bg: 'EquipPositionBg02.png', cx: 29.2, cy: 82.3 }, // left-bot   = slot 2
-  { bg: 'EquipPositionBg03.png', cx: 70.7, cy: 82.3 }, // right-bot  = slot 3
-  { bg: 'EquipPositionBg04.png', cx: 84.4, cy: 49.9 }, // right-mid  = slot 4
-  { bg: 'EquipPositionBg05.png', cx: 70.7, cy: 17.6 }, // right-top  = slot 5
+  { bg: 'EquipPositionBg06.png', cx: 29.8, cy: 17.6 }, // left-top   = slot 6
+  { bg: 'EquipPositionBg01.png', cx: 16.3, cy: 49.7 }, // left-mid   = slot 1
+  { bg: 'EquipPositionBg02.png', cx: 29.9, cy: 81.9 }, // left-bot   = slot 2
+  { bg: 'EquipPositionBg03.png', cx: 70.2, cy: 82.2 }, // right-bot  = slot 3
+  { bg: 'EquipPositionBg04.png', cx: 84.0, cy: 49.7 }, // right-mid  = slot 4
+  { bg: 'EquipPositionBg05.png', cx: 70.1, cy: 17.8 }, // right-top  = slot 5
 ];
 
 /** Diameter of each slot badge as % of frame width. */
-const BADGE_SIZE_PCT = 24;
+const BADGE_SIZE_PCT = 25;
 
 export function DiscHexCard() {
   return (
