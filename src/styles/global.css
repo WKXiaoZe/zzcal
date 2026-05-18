@@ -3,14 +3,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Always show the vertical scrollbar (even when content fits) so Radix
-   popovers can't trigger a horizontal layout shift when they lock body
-   scroll. react-remove-scroll (used inside Radix Select) tries to "remove"
-   the scrollbar and compensate with padding-right; if the scrollbar is
-   permanently rendered there's nothing to remove, padding-right exactly
-   covers it, and content width never changes. */
+/* Always show the vertical scrollbar (even when content fits) so the
+   horizontal layout never shifts when popovers (Radix Select etc.) open. */
 html {
   overflow-y: scroll;
+}
+
+/* Cancel the inline `margin-right: <scrollbarWidth>px !important` that
+   react-remove-scroll forces on `body[data-scroll-locked]` when a Radix
+   popover opens. With html overflow-y:scroll already reserving the
+   scrollbar gutter permanently, this compensation just narrows body by
+   8px on each open → a 4px horizontal shift of every centered container.
+   Override with our own !important to neutralize. */
+/* Higher selector specificity (html > body) so this beats the dynamically
+   re-injected react-remove-scroll rule even though both use !important. */
+html body[data-scroll-locked] {
+  margin-right: 0 !important;
 }
 
 /* Fonts */
