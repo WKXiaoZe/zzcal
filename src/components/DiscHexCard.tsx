@@ -16,8 +16,8 @@
 // Picker state is local (useState) — wiring to AppContext.disc would be a
 // follow-up if/when the per-slot disc model gets adopted in calc.
 
-import { useState } from 'react';
-import { DISC_4_SETS, DISC_ROLE, SUIT_ART, type DiscRole } from '../calc/discSets';
+import React, { useState } from 'react';
+import { DISC_2_SETS, DISC_4_SETS, DISC_ROLE, SUIT_ART, type DiscRole } from '../calc/discSets';
 import styles from './DiscHexCard.module.css';
 
 /** 1..6 in-game slot numbers; same ids that drive SuitPositionXX.png. */
@@ -149,8 +149,10 @@ interface RoleColumnProps {
   entries: PickerEntry[];
   currentKey: string | null;
   onPick: (key: string) => void;
+  onHover: (key: string) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onLeave: () => void;
 }
-function RoleColumn({ title, entries, currentKey, onPick }: RoleColumnProps) {
+function RoleColumn({ title, entries, currentKey, onPick, onHover, onLeave }: RoleColumnProps) {
   return (
     <section className={styles.pickerColumn}>
       {/* Use <div> not <header>: global.css forces all <header> elements to
@@ -166,6 +168,10 @@ function RoleColumn({ title, entries, currentKey, onPick }: RoleColumnProps) {
             type="button"
             className={`${styles.pickerCard} ${currentKey === e.key ? styles.pickerCardActive : ''}`}
             onClick={() => onPick(e.key)}
+            onMouseEnter={onHover(e.key)}
+            onMouseLeave={onLeave}
+            onFocus={onHover(e.key)}
+            onBlur={onLeave}
           >
             <img src={`/resources/disc/${e.art}`} alt="" className={styles.pickerArt} />
             <span className={styles.pickerName}>{e.name}</span>
@@ -176,7 +182,16 @@ function RoleColumn({ title, entries, currentKey, onPick }: RoleColumnProps) {
   );
 }
 
+interface HoverInfo { key: string; rect: DOMRect }
+
 function DiscPicker({ slot, currentKey, onPick, onClose }: PickerProps) {
+  const [hovered, setHovered] = useState<HoverInfo | null>(null);
+
+  const handleHover = (key: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    setHovered({ key, rect: e.currentTarget.getBoundingClientRect() });
+  };
+  const clearHover = () => setHovered(null);
+
   return (
     <div className={styles.pickerBackdrop} onClick={onClose}>
       <div className={styles.pickerModal} onClick={(e) => e.stopPropagation()}>
@@ -201,16 +216,63 @@ function DiscPicker({ slot, currentKey, onPick, onClose }: PickerProps) {
               entries={PICKER_BY_ROLE.dps}
               currentKey={currentKey}
               onPick={onPick}
+              onHover={handleHover}
+              onLeave={clearHover}
             />
             <RoleColumn
               title="SUP 盘"
               entries={PICKER_BY_ROLE.sup}
               currentKey={currentKey}
               onPick={onPick}
+              onHover={handleHover}
+              onLeave={clearHover}
             />
           </div>
         </div>
       </div>
+      {hovered && <SetTooltip entryKey={hovered.key} anchor={hovered.rect} />}
+    </div>
+  );
+}
+
+/* ---------- Set bonus tooltip ---------- */
+
+interface TooltipProps { entryKey: string; anchor: DOMRect }
+function SetTooltip({ entryKey, anchor }: TooltipProps) {
+  const four = DISC_4_SETS[entryKey];
+  const two = DISC_2_SETS[entryKey];
+  if (!four) return null;
+
+  // Place to the right of the anchor card by default; flip to left if it
+  // would overflow the viewport. Vertically clamp.
+  const TOOLTIP_W = 320;
+  const GAP = 10;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const flipLeft = anchor.right + GAP + TOOLTIP_W > vw;
+  const left = flipLeft ? Math.max(8, anchor.left - GAP - TOOLTIP_W) : anchor.right + GAP;
+  // tooltip top: align card top, clamp inside viewport.
+  const top = Math.min(Math.max(8, anchor.top), vh - 80);
+
+  return (
+    <div
+      className={styles.setTooltip}
+      style={{ left, top, width: TOOLTIP_W }}
+      // Tooltip is non-interactive — don't steal hover.
+    >
+      <div className={styles.setTooltipName}>{four.name}</div>
+      {two?.note && (
+        <div className={styles.setTooltipRow}>
+          <span className={styles.setTooltipLabel}>2件套</span>
+          <span className={styles.setTooltipText}>{two.note}</span>
+        </div>
+      )}
+      {four.note && (
+        <div className={styles.setTooltipRow}>
+          <span className={styles.setTooltipLabel}>4件套</span>
+          <span className={styles.setTooltipText}>{four.note}</span>
+        </div>
+      )}
     </div>
   );
 }

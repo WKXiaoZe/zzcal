@@ -242,3 +242,55 @@
   text-align: center;
   line-height: 1.2;
 }
+
+/* ---------- Set bonus tooltip (hover) ---------- */
+
+.setTooltip {
+  position: fixed;
+  z-index: 2100;
+  background: rgba(15, 15, 22, 0.97);
+  border: 1px solid rgba(253, 178, 200, 0.35);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+  color: #eee;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  pointer-events: none;
+  animation: tooltipFadeIn 0.12s ease;
+}
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.setTooltipName {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--zzz-pink);
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+.setTooltipRow {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 8px;
+  margin-top: 4px;
+  align-items: start;
+}
+
+.setTooltipLabel {
+  font-weight: 700;
+  color: var(--zzz-accent);
+  background: rgba(228, 133, 52, 0.12);
+  text-align: center;
+  border-radius: 6px;
+  padding: 2px 0;
+  font-size: 0.75rem;
+}
+
+.setTooltipText {
+  color: #ddd;
+}
