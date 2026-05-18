@@ -149,7 +149,7 @@ interface RoleColumnProps {
   entries: PickerEntry[];
   currentKey: string | null;
   onPick: (key: string) => void;
-  onHover: (key: string) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onHover: (key: string) => (e: React.SyntheticEvent<HTMLButtonElement>) => void;
   onLeave: () => void;
 }
 function RoleColumn({ title, entries, currentKey, onPick, onHover, onLeave }: RoleColumnProps) {
@@ -187,9 +187,10 @@ interface HoverInfo { key: string; rect: DOMRect }
 function DiscPicker({ slot, currentKey, onPick, onClose }: PickerProps) {
   const [hovered, setHovered] = useState<HoverInfo | null>(null);
 
-  const handleHover = (key: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
-    setHovered({ key, rect: e.currentTarget.getBoundingClientRect() });
-  };
+  const handleHover = (key: string) =>
+    (e: React.SyntheticEvent<HTMLButtonElement>) => {
+      setHovered({ key, rect: e.currentTarget.getBoundingClientRect() });
+    };
   const clearHover = () => setHovered(null);
 
   return (
