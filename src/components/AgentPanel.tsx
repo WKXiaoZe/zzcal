@@ -19,6 +19,13 @@ import { useAppState, useAppDispatch } from '../state/AppContext';
 import { CHARACTER_DB } from '../calc/db';
 import { PRESET_FILES, loadPresetJson } from '../calc/presets';
 import { parseAgentValue } from '../calc/utils';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 import type { BattleType } from '../calc/types';
 import styles from './AgentPanel.module.css';
 
@@ -151,20 +158,28 @@ export function AgentPanel({ slot, label }: Props) {
       <div className="preset-container">
         <div className="preset-row">
           <label htmlFor={`preset-${slot}-select`}>预设文件</label>
-          <select
-            id={`preset-${slot}-select`}
-            value={slotState.presetName}
-            onChange={(e) =>
-              dispatch({ type: 'SET_AGENT_PRESET', slot, preset: e.target.value })
+          <Select
+            value={slotState.presetName || '__none__'}
+            onValueChange={(v) =>
+              dispatch({
+                type: 'SET_AGENT_PRESET',
+                slot,
+                preset: v === '__none__' ? '' : v,
+              })
             }
           >
-            <option value="">-- 选择预设 --</option>
-            {presetOptions.map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger id={`preset-${slot}-select`}>
+              <SelectValue placeholder="-- 选择预设 --" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__none__">-- 选择预设 --</SelectItem>
+              {presetOptions.map((name) => (
+                <SelectItem key={name} value={name}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="rank-row">
           <div className="rank-selector cinema-group" id={`cinema-${prefix}`}>

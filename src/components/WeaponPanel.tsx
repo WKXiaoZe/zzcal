@@ -10,6 +10,13 @@ import { WEAPON_DB } from '../calc/db';
 import { PRESET_FILES, loadPresetJson } from '../calc/presets';
 import { parseWeaponValue } from '../calc/utils';
 import type { BattleType } from '../calc/types';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 import styles from './WeaponPanel.module.css';
 
 interface Props {
@@ -126,20 +133,28 @@ export function WeaponPanel({ slot, label }: Props) {
       <div className="preset-container">
         <div className="preset-row">
           <label htmlFor={`preset-w${slot}-select`}>预设文件</label>
-          <select
-            id={`preset-w${slot}-select`}
-            value={cfg.presetName}
-            onChange={(e) =>
-              dispatch({ type: 'SET_WEAPON_PRESET', slot, preset: e.target.value })
+          <Select
+            value={cfg.presetName || '__none__'}
+            onValueChange={(v) =>
+              dispatch({
+                type: 'SET_WEAPON_PRESET',
+                slot,
+                preset: v === '__none__' ? '' : v,
+              })
             }
           >
-            <option value="">-- 选择音擎 --</option>
-            {presetOptions.map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger id={`preset-w${slot}-select`}>
+              <SelectValue placeholder="-- 选择音擎 --" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__none__">-- 选择音擎 --</SelectItem>
+              {presetOptions.map((name) => (
+                <SelectItem key={name} value={name}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="rank-row">

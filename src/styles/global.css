@@ -1,3 +1,8 @@
+/* Tailwind (scoped for shadcn primitives in src/components/ui/) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Fonts */
 /* Fonts - loaded via <link> in index.html for performance */
 

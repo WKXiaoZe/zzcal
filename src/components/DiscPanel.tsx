@@ -6,6 +6,13 @@ import type { ChangeEvent } from 'react';
 import { useAppState, useAppDispatch } from '../state/AppContext';
 import { DISC_4_SETS, DISC_2_SETS } from '../calc/discSets';
 import type { DiscConfig } from '../state/types';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 import styles from './DiscPanel.module.css';
 
 type Slot4Stat = DiscConfig['slot4Stat'];
@@ -62,17 +69,12 @@ export function DiscPanel() {
         ? SUBCOUNT_FIELDS_BREAK
         : SUBCOUNT_FIELDS_ANOMALY;
 
-  const handleSlot4Change = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: 'SET_DISC_SLOT4', payload: e.target.value as Slot4Stat });
-  };
-
-  const handleSet4Change = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: 'SET_DISC_SET4', payload: e.target.value });
-  };
-
-  const handleSet2Change = (e: ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: 'SET_DISC_SET2', payload: e.target.value });
-  };
+  const handleSlot4Change = (v: string) =>
+    dispatch({ type: 'SET_DISC_SLOT4', payload: v as Slot4Stat });
+  const handleSet4Change = (v: string) =>
+    dispatch({ type: 'SET_DISC_SET4', payload: v });
+  const handleSet2Change = (v: string) =>
+    dispatch({ type: 'SET_DISC_SET2', payload: v });
 
   const handleSubCountChange =
     (key: SubKey) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -89,47 +91,50 @@ export function DiscPanel() {
       <div className="sub-module">
         <div className="input-group">
           <label htmlFor="slot4-select">4号位 (可选)</label>
-          <select
-            id="slot4-select"
-            value={disc.slot4Stat}
-            onChange={handleSlot4Change}
-          >
-            {slot4Options.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+          <Select value={disc.slot4Stat} onValueChange={handleSlot4Change}>
+            <SelectTrigger id="slot4-select">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {slot4Options.map((opt) => (
+                <SelectItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="input-group">
           <label htmlFor="disc-set4-select">4 件套</label>
-          <select
-            id="disc-set4-select"
-            value={disc.set4Key}
-            onChange={handleSet4Change}
-          >
-            {Object.entries(DISC_4_SETS).map(([k, v]) => (
-              <option key={k} value={k}>
-                {v.name}
-              </option>
-            ))}
-          </select>
+          <Select value={disc.set4Key} onValueChange={handleSet4Change}>
+            <SelectTrigger id="disc-set4-select">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(DISC_4_SETS).map(([k, v]) => (
+                <SelectItem key={k} value={k}>
+                  {v.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="input-group">
           <label htmlFor="disc-set2-select">2 件套</label>
-          <select
-            id="disc-set2-select"
-            value={disc.set2Key}
-            onChange={handleSet2Change}
-          >
-            {Object.entries(DISC_2_SETS).map(([k, v]) => (
-              <option key={k} value={k}>
-                {v.name}
-              </option>
-            ))}
-          </select>
+          <Select value={disc.set2Key} onValueChange={handleSet2Change}>
+            <SelectTrigger id="disc-set2-select">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(DISC_2_SETS).map(([k, v]) => (
+                <SelectItem key={k} value={k}>
+                  {v.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {subCountFields.map((field) => (
