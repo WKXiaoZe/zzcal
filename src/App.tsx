@@ -11,6 +11,7 @@ import { ManualOptPanel } from './components/ManualOptPanel';
 import { AutoOptPanel } from './components/AutoOptPanel';
 import { OutputPanel } from './components/OutputPanel';
 import { DiscHexCard } from './components/DiscHexCard';
+import { ExportButton } from './components/ExportButton';
 
 /**
  * Background blur on scroll: legacy onScrollFrame() (L965-992) toggled
@@ -63,6 +64,10 @@ export default function App() {
         </section>
         <OutputPanel />
       </Layout>
+      {/* Floating export button — rendered outside Layout so its
+          position: fixed isn't contained by HeroHeader's backdrop-filter
+          (which creates a containing block for fixed descendants). */}
+      <ExportButton />
     </AppProvider>
   );
 }

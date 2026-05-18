@@ -378,15 +378,21 @@ h1::before {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 30px;
-    margin-top: 0px;
 }
 
 .grid-2-split {
     display: grid;
     grid-template-columns: 1fr 1.25fr;
-    gap: 40px;
+    gap: 30px;
     align-items: stretch;
     /* Stretch to equal height */
+}
+
+/* Vertical spacing between top-level sections inside .container so panels
+   stop touching. Picks up agents → weapons → disc/boss → hex → buff →
+   manual/auto → output rows uniformly. */
+.container > * + * {
+    margin-top: 30px;
 }
 
 @media (max-width: 1024px) {
