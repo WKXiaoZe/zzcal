@@ -2,6 +2,8 @@
 // Scoped Tailwind for shadcn components. Existing global.css / *.module.css
 // rules stay untouched; Tailwind utilities apply only where used in JSX
 // (mostly src/components/ui/*).
+import tailwindcssAnimate from 'tailwindcss-animate';
+
 export default {
   darkMode: ['class'],
   content: [
@@ -42,5 +44,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [tailwindcssAnimate],
 };

@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Reserve scrollbar gutter so Radix popovers (Select etc.) don't shift the
+   page horizontally when they lock body scroll. */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Fonts */
 /* Fonts - loaded via <link> in index.html for performance */
 
