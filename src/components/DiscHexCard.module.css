@@ -1,14 +1,11 @@
 .card {
-  /* Center the hex frame inside the panel */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .frameWrap {
-  /* Maintain the 870 × 778 aspect of the frame (≈ 1.118). The wrapper
-     sizes by width; height follows via aspect-ratio. Children use absolute
-     positioning relative to this. */
+  /* Maintain the 852 × 780 aspect of the new frame. */
   position: relative;
   width: 100%;
   max-width: 540px;
@@ -26,12 +23,162 @@
   user-select: none;
 }
 
-.badge {
+/* Each slot is a clickable button rendered absolutely on the frame.
+   `left/top` from JSX point at the cavity CENTER; translate(-50%,-50%)
+   centers the button on that point. */
+.slotBtn {
   position: absolute;
-  /* The (left, top) coords from JSX point at the cavity CENTER; the badge
-     itself is offset by half its own size so it actually centers there. */
   transform: translate(-50%, -50%);
   /* width set inline; height auto-keeps the 1:1 badge aspect. */
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.slotBtn:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  filter: drop-shadow(0 0 8px rgba(253, 178, 200, 0.6));
+}
+.slotBtn:active {
+  transform: translate(-50%, -50%) scale(0.98);
+}
+
+.slotImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   pointer-events: none;
   user-select: none;
+  display: block;
+}
+
+/* SuitPositionXX hex slot-number badge anchored to the top-right of the
+   suit artwork after a pick. */
+.slotPosBadge {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 42%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+}
+
+/* ---------- Picker modal ---------- */
+
+.pickerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: pickerFadeIn 0.18s ease;
+}
+
+@keyframes pickerFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.pickerModal {
+  background: rgba(20, 20, 28, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 880px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #eee;
+}
+
+.pickerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, var(--zzz-primary), var(--zzz-accent));
+  color: #000;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.pickerClose {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 1.8rem;
+  line-height: 1;
+  padding: 0 8px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.pickerClose:hover { opacity: 0.7; }
+
+.pickerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.pickerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #eee;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.pickerCard:hover {
+  background: rgba(253, 178, 200, 0.08);
+  border-color: var(--zzz-primary);
+  transform: translateY(-2px);
+}
+.pickerCardActive {
+  background: rgba(253, 178, 200, 0.18);
+  border-color: var(--zzz-primary);
+  box-shadow: 0 0 0 2px var(--zzz-primary-glow);
+}
+
+.pickerArt {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.pickerEmpty {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  color: var(--zzz-text-muted);
+}
+
+.pickerName {
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 1.2;
 }

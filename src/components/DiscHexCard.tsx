@@ -1,23 +1,30 @@
 // src/components/DiscHexCard.tsx
-// Hex-shaped driver-disc layout card. Displays the 6 EquipPositionBg badges
-// overlaid on a hex drum frame, with the in-game disc slot ↔ visual position
-// mapping the user specified:
+// Hex-shaped driver-disc layout card. Click a cavity to pick a disc set
+// from the 26-suit catalogue; the picked suit's art replaces the default
+// slot-number badge, with the matching SuitPositionXX corner badge added
+// so the slot number stays readable.
 //
-//   visual left-top    → slot 1 (EquipPositionBg01.png)
-//   visual left-mid    → slot 2 (EquipPositionBg02.png)
-//   visual left-bot    → slot 3 (EquipPositionBg03.png)
-//   visual right-top   → slot 6 (EquipPositionBg06.png)
-//   visual right-mid   → slot 5 (EquipPositionBg05.png)
-//   visual right-bot   → slot 4 (EquipPositionBg04.png)
+// Slot ↔ visual position (per user spec):
+//   visual left-top    → slot 1
+//   visual left-mid    → slot 2
+//   visual left-bot    → slot 3
+//   visual right-top   → slot 6
+//   visual right-mid   → slot 5
+//   visual right-bot   → slot 4
 //
-// Coordinates are % of the hex frame's bounding box; tune visually with
-// screenshots. Frame natural size: 852 × 780, aspect 1.092.
+// Cavity centers detected via OpenCV HoughCircles on the source PNG.
+// Picker state is local (useState) — wiring to AppContext.disc would be a
+// follow-up if/when the per-slot disc model gets adopted in calc.
 
+import { useState } from 'react';
+import { DISC_4_SETS, SUIT_ART } from '../calc/discSets';
 import styles from './DiscHexCard.module.css';
 
+/** 1..6 in-game slot numbers; same ids that drive SuitPositionXX.png. */
+type SlotNum = 1 | 2 | 3 | 4 | 5 | 6;
+
 interface Slot {
-  /** badge filename in /resources/disc/ */
-  bg: string;
+  slot: SlotNum;
   /** center x as % of frame width */
   cx: number;
   /** center y as % of frame height */
@@ -27,18 +34,41 @@ interface Slot {
 // Cavity centers in % of frame. Auto-detected via OpenCV Hough Circle
 // transform on the EquipBg04.png source (852×780); r≈107 → ~25% diameter.
 const SLOTS: Slot[] = [
-  { bg: 'EquipPositionBg01.png', cx: 29.8, cy: 17.6 }, // left-top   = slot 1
-  { bg: 'EquipPositionBg02.png', cx: 16.3, cy: 49.7 }, // left-mid   = slot 2
-  { bg: 'EquipPositionBg03.png', cx: 29.9, cy: 81.9 }, // left-bot   = slot 3
-  { bg: 'EquipPositionBg04.png', cx: 70.2, cy: 82.2 }, // right-bot  = slot 4
-  { bg: 'EquipPositionBg05.png', cx: 84.0, cy: 49.7 }, // right-mid  = slot 5
-  { bg: 'EquipPositionBg06.png', cx: 70.1, cy: 17.8 }, // right-top  = slot 6
+  { slot: 1, cx: 29.8, cy: 17.6 }, // left-top
+  { slot: 2, cx: 16.3, cy: 49.7 }, // left-mid
+  { slot: 3, cx: 29.9, cy: 81.9 }, // left-bot
+  { slot: 4, cx: 70.2, cy: 82.2 }, // right-bot
+  { slot: 5, cx: 84.0, cy: 49.7 }, // right-mid
+  { slot: 6, cx: 70.1, cy: 17.8 }, // right-top
 ];
 
 /** Diameter of each slot badge as % of frame width. */
 const BADGE_SIZE_PCT = 25;
 
+/** All 26 user-selectable disc set keys (excludes the 'none' sentinel). */
+const SET_KEYS = Object.keys(DISC_4_SETS).filter((k) => k !== 'none');
+
+/** Pre-baked picker entries; stable order matching DISC_4_SETS declaration. */
+const PICKER_ENTRIES = SET_KEYS.map((key) => ({
+  key,
+  name: DISC_4_SETS[key].name,
+  art: SUIT_ART[key],
+}));
+
 export function DiscHexCard() {
+  /** slot number → disc-set key (null = empty cavity, shows default badge). */
+  const [picks, setPicks] = useState<Record<SlotNum, string | null>>({
+    1: null, 2: null, 3: null, 4: null, 5: null, 6: null,
+  });
+  /** Which slot is currently being edited; null = picker closed. */
+  const [pickingSlot, setPickingSlot] = useState<SlotNum | null>(null);
+
+  function applyPick(key: string | null) {
+    if (pickingSlot === null) return;
+    setPicks((p) => ({ ...p, [pickingSlot]: key }));
+    setPickingSlot(null);
+  }
+
   return (
     <div className={`sub-module ${styles.card}`}>
       <div className="module-title"><span>驱动盘 (6 槽位)</span></div>
@@ -48,19 +78,90 @@ export function DiscHexCard() {
           alt=""
           className={styles.frame}
         />
-        {SLOTS.map((s) => (
-          <img
-            key={s.bg}
-            src={`/resources/disc/${s.bg}`}
-            alt=""
-            className={styles.badge}
-            style={{
-              left: `${s.cx}%`,
-              top: `${s.cy}%`,
-              width: `${BADGE_SIZE_PCT}%`,
-            }}
-          />
-        ))}
+        {SLOTS.map(({ slot, cx, cy }) => {
+          const pickedKey = picks[slot];
+          const hasPick = pickedKey !== null;
+          const padded = String(slot).padStart(2, '0');
+          // Pick layer: suit art (or default slot badge) + (if picked) corner pos badge.
+          const mainArt = hasPick
+            ? `/resources/disc/${SUIT_ART[pickedKey]}`
+            : `/resources/disc/EquipPositionBg${padded}.png`;
+          return (
+            <button
+              key={slot}
+              type="button"
+              className={styles.slotBtn}
+              onClick={() => setPickingSlot(slot)}
+              style={{
+                left: `${cx}%`,
+                top: `${cy}%`,
+                width: `${BADGE_SIZE_PCT}%`,
+              }}
+              title={hasPick ? DISC_4_SETS[pickedKey].name : `点击选择第 ${slot} 号位驱动盘`}
+            >
+              <img src={mainArt} alt="" className={styles.slotImg} />
+              {hasPick && (
+                <img
+                  src={`/resources/disc/SuitPosition${padded}.png`}
+                  alt=""
+                  className={styles.slotPosBadge}
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {pickingSlot !== null && (
+        <DiscPicker
+          slot={pickingSlot}
+          currentKey={picks[pickingSlot]}
+          onPick={applyPick}
+          onClose={() => setPickingSlot(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ---------- Picker overlay ---------- */
+
+interface PickerProps {
+  slot: SlotNum;
+  currentKey: string | null;
+  onPick: (key: string | null) => void;
+  onClose: () => void;
+}
+
+function DiscPicker({ slot, currentKey, onPick, onClose }: PickerProps) {
+  return (
+    <div className={styles.pickerBackdrop} onClick={onClose}>
+      <div className={styles.pickerModal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.pickerHeader}>
+          <span>选择第 {slot} 号位驱动盘</span>
+          <button type="button" className={styles.pickerClose} onClick={onClose}>×</button>
+        </div>
+        <div className={styles.pickerGrid}>
+          <button
+            type="button"
+            className={`${styles.pickerCard} ${currentKey === null ? styles.pickerCardActive : ''}`}
+            onClick={() => onPick(null)}
+          >
+            <div className={styles.pickerEmpty}>清除</div>
+            <span className={styles.pickerName}>—</span>
+          </button>
+          {PICKER_ENTRIES.map((e) => (
+            <button
+              key={e.key}
+              type="button"
+              className={`${styles.pickerCard} ${currentKey === e.key ? styles.pickerCardActive : ''}`}
+              onClick={() => onPick(e.key)}
+            >
+              <img src={`/resources/disc/${e.art}`} alt="" className={styles.pickerArt} />
+              <span className={styles.pickerName}>{e.name}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

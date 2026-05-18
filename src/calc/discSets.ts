@@ -21,6 +21,36 @@ export interface DiscSet {
   note?: string;
 }
 
+/** Internal-key → Suit*.png filename mapping for UI thumbnails. */
+export const SUIT_ART: Record<string, string> = {
+  canglang:     'SuitWhiteWaterBallad.png',
+  moon:         'SuitMoonlightLullaby.png',
+  mountain:     'SuitKingoftheSummit.png',
+  ruying:       'SuitShadow.png',
+  jisu:         'SuitHormonePunk.png',
+  hetun:        'SuitPufferElectro.png',
+  yunkui:       'SuitYunkuiTales.png',
+  jiayin:       'SuitAstralVoice.png',
+  woodpecker:   'SuitWoodpeckerElectro.png',
+  zhenxing:     'SuitShockstarDisco.png',
+  ziyou:        'SuitFreedomBlues.png',
+  linghun:      'SuitSoulRock.png',
+  yaoba:        'SuitSwingJazz.png',
+  hunduo:       'SuitChaosJazz.png',
+  yuanshi:      'SuitProtoPunk.png',
+  yanyujinshu:  'SuitInfernoMetal.png',
+  hunduojinshu: 'SuitChaosMetal.png',
+  leibao:       'SuitThunderMetal.png',
+  jidi:         'SuitPolarMetal.png',
+  liaoya:       'SuitFangedMetal.png',
+  zhezhi:       'SuitBranch&BladeSong.png',
+  faedun:       'SuitSavior.png',
+  fuxiao:       'SuitDawnsBloom.png',
+  liuguang:     'SuitShiningAria.png',
+  xuetu:        'SuitBunnyinWonderland.png',
+  qiutu:        'SuitNotesFromtheChained.png',
+};
+
 export const DISC_4_SETS: Record<string, DiscSet> = {
   none:         { name: '-- 无套装 --', stats: {} },
   // 现有 8 套（值不变）
