@@ -3,10 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reserve scrollbar gutter so Radix popovers (Select etc.) don't shift the
-   page horizontally when they lock body scroll. */
+/* Always show the vertical scrollbar (even when content fits) so Radix
+   popovers can't trigger a horizontal layout shift when they lock body
+   scroll. react-remove-scroll (used inside Radix Select) tries to "remove"
+   the scrollbar and compensate with padding-right; if the scrollbar is
+   permanently rendered there's nothing to remove, padding-right exactly
+   covers it, and content width never changes. */
 html {
-  scrollbar-gutter: stable;
+  overflow-y: scroll;
 }
 
 /* Fonts */
