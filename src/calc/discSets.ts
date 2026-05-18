@@ -21,6 +21,41 @@ export interface DiscSet {
   note?: string;
 }
 
+/** Coarse role tag — used by the picker UI to split the list into two
+ *  panes. Not used by calc. Judgment based on the set's primary purpose
+ *  (offensive vs team-buff/defensive). Easy to tweak. */
+export type DiscRole = 'dps' | 'sup';
+export const DISC_ROLE: Record<string, DiscRole> = {
+  // DPS
+  woodpecker:   'dps',
+  hetun:        'dps',
+  zhenxing:     'dps',
+  ziyou:        'dps',
+  hunduo:       'dps',
+  yanyujinshu:  'dps',
+  hunduojinshu: 'dps',
+  leibao:       'dps',
+  jidi:         'dps',
+  liaoya:       'dps',
+  zhezhi:       'dps',
+  ruying:       'dps',
+  faedun:       'dps',
+  yunkui:       'dps',
+  fuxiao:       'dps',
+  canglang:     'dps',
+  liuguang:     'dps',
+  qiutu:        'dps',
+  // SUP
+  jisu:         'sup',
+  linghun:      'sup',
+  yaoba:        'sup',
+  yuanshi:      'sup',
+  jiayin:       'sup',
+  mountain:     'sup',
+  moon:         'sup',
+  xuetu:        'sup',
+};
+
 /** Internal-key → Suit*.png filename mapping for UI thumbnails. */
 export const SUIT_ART: Record<string, string> = {
   canglang:     'SuitWhiteWaterBallad.png',

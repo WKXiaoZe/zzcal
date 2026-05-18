@@ -17,7 +17,7 @@
 // follow-up if/when the per-slot disc model gets adopted in calc.
 
 import { useState } from 'react';
-import { DISC_4_SETS, SUIT_ART } from '../calc/discSets';
+import { DISC_4_SETS, DISC_ROLE, SUIT_ART, type DiscRole } from '../calc/discSets';
 import styles from './DiscHexCard.module.css';
 
 /** 1..6 in-game slot numbers; same ids that drive SuitPositionXX.png. */
@@ -48,12 +48,23 @@ const BADGE_SIZE_PCT = 25;
 /** All 26 user-selectable disc set keys (excludes the 'none' sentinel). */
 const SET_KEYS = Object.keys(DISC_4_SETS).filter((k) => k !== 'none');
 
-/** Pre-baked picker entries; stable order matching DISC_4_SETS declaration. */
-const PICKER_ENTRIES = SET_KEYS.map((key) => ({
-  key,
-  name: DISC_4_SETS[key].name,
-  art: SUIT_ART[key],
-}));
+interface PickerEntry { key: string; name: string; art: string; role: DiscRole }
+
+/** Pre-baked picker entries grouped by role; order within each group
+ *  follows DISC_4_SETS declaration order. */
+const PICKER_BY_ROLE: Record<DiscRole, PickerEntry[]> = {
+  dps: [],
+  sup: [],
+};
+for (const key of SET_KEYS) {
+  const role = DISC_ROLE[key] ?? 'dps';
+  PICKER_BY_ROLE[role].push({
+    key,
+    name: DISC_4_SETS[key].name,
+    art: SUIT_ART[key],
+    role,
+  });
+}
 
 export function DiscHexCard() {
   /** slot number → disc-set key (null = empty cavity, shows default badge). */
@@ -133,6 +144,38 @@ interface PickerProps {
   onClose: () => void;
 }
 
+interface RoleColumnProps {
+  title: string;
+  entries: PickerEntry[];
+  currentKey: string | null;
+  onPick: (key: string) => void;
+}
+function RoleColumn({ title, entries, currentKey, onPick }: RoleColumnProps) {
+  return (
+    <section className={styles.pickerColumn}>
+      {/* Use <div> not <header>: global.css forces all <header> elements to
+          position:fixed top:24/left:24 (for the hero card). */}
+      <div className={styles.pickerColumnHeader}>
+        {title}
+        <span className={styles.pickerColumnCount}>{entries.length}</span>
+      </div>
+      <div className={styles.pickerGrid}>
+        {entries.map((e) => (
+          <button
+            key={e.key}
+            type="button"
+            className={`${styles.pickerCard} ${currentKey === e.key ? styles.pickerCardActive : ''}`}
+            onClick={() => onPick(e.key)}
+          >
+            <img src={`/resources/disc/${e.art}`} alt="" className={styles.pickerArt} />
+            <span className={styles.pickerName}>{e.name}</span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function DiscPicker({ slot, currentKey, onPick, onClose }: PickerProps) {
   return (
     <div className={styles.pickerBackdrop} onClick={onClose}>
@@ -141,26 +184,31 @@ function DiscPicker({ slot, currentKey, onPick, onClose }: PickerProps) {
           <span>选择第 {slot} 号位驱动盘</span>
           <button type="button" className={styles.pickerClose} onClick={onClose}>×</button>
         </div>
-        <div className={styles.pickerGrid}>
-          <button
-            type="button"
-            className={`${styles.pickerCard} ${currentKey === null ? styles.pickerCardActive : ''}`}
-            onClick={() => onPick(null)}
-          >
-            <div className={styles.pickerEmpty}>清除</div>
-            <span className={styles.pickerName}>—</span>
-          </button>
-          {PICKER_ENTRIES.map((e) => (
+        <div className={styles.pickerBody}>
+          <div className={styles.pickerToolbar}>
             <button
-              key={e.key}
               type="button"
-              className={`${styles.pickerCard} ${currentKey === e.key ? styles.pickerCardActive : ''}`}
-              onClick={() => onPick(e.key)}
+              className={`${styles.pickerCard} ${styles.pickerClearCard} ${currentKey === null ? styles.pickerCardActive : ''}`}
+              onClick={() => onPick(null)}
             >
-              <img src={`/resources/disc/${e.art}`} alt="" className={styles.pickerArt} />
-              <span className={styles.pickerName}>{e.name}</span>
+              <div className={styles.pickerEmpty}>清除</div>
+              <span className={styles.pickerName}>不选套装</span>
             </button>
-          ))}
+          </div>
+          <div className={styles.pickerColumns}>
+            <RoleColumn
+              title="DPS 盘"
+              entries={PICKER_BY_ROLE.dps}
+              currentKey={currentKey}
+              onPick={onPick}
+            />
+            <RoleColumn
+              title="SUP 盘"
+              entries={PICKER_BY_ROLE.sup}
+              currentKey={currentKey}
+              onPick={onPick}
+            />
+          </div>
         </div>
       </div>
     </div>

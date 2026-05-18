@@ -126,11 +126,71 @@
 }
 .pickerClose:hover { opacity: 0.7; }
 
+.pickerBody {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.pickerToolbar {
+  padding: 14px 20px 6px;
+  display: flex;
+}
+
+.pickerClearCard {
+  width: auto;
+  min-width: 110px;
+  flex-direction: row;
+  gap: 10px;
+  padding: 8px 14px;
+}
+
+.pickerColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.pickerColumn {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 0;
+}
+.pickerColumn + .pickerColumn {
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pickerColumnHeader {
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: var(--zzz-pink);
+  background: rgba(253, 178, 200, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pickerColumnCount {
+  font-size: 0.75rem;
+  color: var(--zzz-text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 1px 8px;
+}
+
 .pickerGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+  padding: 14px 18px;
   overflow-y: auto;
 }
 
