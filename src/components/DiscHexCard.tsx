@@ -264,15 +264,35 @@ function SetTooltip({ entryKey, anchor }: TooltipProps) {
       {two?.note && (
         <div className={styles.setTooltipRow}>
           <span className={styles.setTooltipLabel}>2件套</span>
-          <span className={styles.setTooltipText}>{two.note}</span>
+          <span className={styles.setTooltipText}><Colorized text={two.note} /></span>
         </div>
       )}
       {four.note && (
         <div className={styles.setTooltipRow}>
           <span className={styles.setTooltipLabel}>4件套</span>
-          <span className={styles.setTooltipText}>{four.note}</span>
+          <span className={styles.setTooltipText}><Colorized text={four.note} /></span>
         </div>
       )}
     </div>
   );
+}
+
+/** Render official Chinese description text containing legacy Unity-style
+ *  `<color=#HEX>text</color>` tags as styled spans. Anything outside the
+ *  tags is plain text. */
+function Colorized({ text }: { text: string }) {
+  const parts: React.ReactNode[] = [];
+  const re = /<color=(#[0-9a-fA-F]{3,8})>([\s\S]*?)<\/color>/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let i = 0;
+  while ((m = re.exec(text))) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    parts.push(
+      <span key={i++} style={{ color: m[1] }}>{m[2]}</span>,
+    );
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return <>{parts}</>;
 }
