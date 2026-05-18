@@ -14,13 +14,13 @@ describe('buildCalcInput', () => {
   });
 
   it('selecting a known DPS preset surfaces the DB baseAtk + critDmg at cinema 6', () => {
-    // 悠真 baseAtk: [916, 0, 0, 0, 0], critDmg: [122, 0, 0, 40, 0]
+    // 悠真Ⅵ baseAtk: [916, 0, 0, 0, 0], critDmg: [122, 0, 0, 40, 0]
     // Cinema 6 → baseAtk = 916, critDmg = 122 + 40 = 162
     const state: AppState = {
       ...initialState,
       agents: {
         ...initialState.agents,
-        main: { presetName: '悠真', cinemaOrStar: 6, customOverrides: {} },
+        main: { presetName: '悠真Ⅵ', cinemaOrStar: 6, customOverrides: {} },
       },
     };
     const input = buildCalcInput(state);
@@ -34,7 +34,7 @@ describe('buildCalcInput', () => {
       agents: {
         ...initialState.agents,
         main: {
-          presetName: '悠真',
+          presetName: '悠真Ⅵ',
           cinemaOrStar: 6,
           customOverrides: { baseAtk: 1234, critRate: 99 },
         },
