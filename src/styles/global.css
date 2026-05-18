@@ -16,9 +16,14 @@ html {
    8px on each open → a 4px horizontal shift of every centered container.
    Override with our own !important to neutralize. */
 /* Higher selector specificity (html > body) so this beats the dynamically
-   re-injected react-remove-scroll rule even though both use !important. */
+   re-injected react-remove-scroll rule even though both use !important.
+   The injected rule clobbers BOTH `margin-right` (causes horizontal shift)
+   AND `padding-*` (causes 20px vertical jump because base body has
+   padding: 20px). Restore all of them so geometry is identical
+   open vs closed. */
 html body[data-scroll-locked] {
   margin-right: 0 !important;
+  padding: 20px !important;
 }
 
 /* Fonts */
