@@ -126,9 +126,7 @@ export function WeaponPanel({ slot, label }: Props) {
 
   return (
     <section className={`sub-module ${styles.weaponPanel}`} id={`weapon-${slot}`}>
-      <div className="module-title">
-        <h3>{label}</h3>
-      </div>
+      <div className="module-title"><span>{label}</span></div>
 
       <div className="preset-container">
         <div className="preset-row">
