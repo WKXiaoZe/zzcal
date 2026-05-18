@@ -130,7 +130,7 @@ export const DISC_2_SETS: Record<string, DiscSet> = {
   jisu:         { id: 31400, name: '激素朋克',     stats: { atkPct: 10 }, note: '攻击力+10%。' },
   linghun:      { id: 31500, name: '灵魂摇滚',     stats: {}, note: '防御力+16%。' },
   yaoba:        { id: 31600, name: '摇摆爵士',     stats: {}, note: '能量自动回复+20%。' },
-  hunduo:       { id: 31800, name: '混沌爵士',     stats: { anomalyMastery: 30 }, note: '异常精通+30点' },
+  hunduo:       { id: 31800, name: '混沌爵士',     stats: { anomalyMastery: 30 }, note: '异常精通+30点。' },
   yuanshi:      { id: 31900, name: '原始朋克',     stats: {}, note: '施加的护盾值提升15%。' },
   yanyujinshu:  { id: 32200, name: '炎狱重金属',   stats: { dmgBonus: 10 }, note: '<color=#FF5521>火属性伤害</color>+10%。' },
   hunduojinshu: { id: 32300, name: '混沌重金属',   stats: { dmgBonus: 10 }, note: '<color=#FE437E>以太伤害</color>+10%。' },
