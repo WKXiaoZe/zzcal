@@ -12,7 +12,7 @@ export const initialState: AppState = {
   disc: {
     slot4Stat: 'critRate',
     set4Key: 'none',
-    set2Key: 'none',
+    set2Keys: [],
     subCounts: { CR: 0, CD: 0, ATK: 0, HP: 0, AM: 0 },
   },
   boss: { def: 953, defBonus: 0, dazeMult: 1, res: 0, weak: false },
@@ -57,8 +57,15 @@ export function reducer(state: AppState, action: Action): AppState {
       return { ...state, disc: { ...state.disc, slot4Stat: action.payload } };
     case 'SET_DISC_SET4':
       return { ...state, disc: { ...state.disc, set4Key: action.payload } };
-    case 'SET_DISC_SET2':
-      return { ...state, disc: { ...state.disc, set2Key: action.payload } };
+    case 'SET_DISC_SET2': {
+      const key = action.payload;
+      const set2Keys = !key || key === 'none' ? [] : [key];
+      return { ...state, disc: { ...state.disc, set2Keys } };
+    }
+    case 'SET_DISC_SET2_KEYS':
+      return { ...state, disc: { ...state.disc, set2Keys: action.payload } };
+    case 'SET_DISC_SETS':
+      return { ...state, disc: { ...state.disc, set4Key: action.set4Key, set2Keys: action.set2Keys } };
     case 'SET_DISC_SUBCOUNT':
       return { ...state, disc: { ...state.disc, subCounts: { ...state.disc.subCounts, [action.key]: action.value } } };
     case 'SET_BOSS':

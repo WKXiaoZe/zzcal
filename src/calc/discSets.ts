@@ -1,13 +1,14 @@
 // src/calc/discSets.ts
-// DISC 4-set + 2-set bonus catalogue, migrated verbatim from
+// DISC 4-set + 2-set bonus catalogue, originally migrated from
 // legacy/index-legacy.html lines 513-576.
 //
 // Data source: zzz.nanoka.cc/equipment.json (v3.0.3+15825894)
-// - Pre-existing 8 sets (canglang/moon/mountain/ruying/jisu/hetun/yunkui/jiayin)
-//   keep their original `stats` values to stay compatible with old presets;
-//   some of those values already bake in the 2-piece bonus.
-// - The 18 newer sets only encode the 4-piece bonus and must be paired with
-//   DISC_2_SETS to get the full effective stats.
+// CONVENTION (v3 fork): every entry in DISC_4_SETS.stats is the *pure*
+// 4-piece bonus — the 2-piece bonus is NEVER baked in. Callers that need the
+// effective stats of "4 of X equipped" must apply BOTH DISC_4_SETS[X].stats
+// AND DISC_2_SETS[X].stats. The legacy data shape (which baked the 2-piece
+// into the 4-piece for 5 of the 8 original sets: canglang/ruying/jisu/
+// hetun/yunkui) has been normalized away.
 // - Skipped: 33900 呼啸沙龙、34000 拂晓行纪 (carry a (Test1) un-released tag).
 
 export interface DiscSet {
@@ -88,14 +89,14 @@ export const SUIT_ART: Record<string, string> = {
 
 export const DISC_4_SETS: Record<string, DiscSet> = {
   none:         { name: '-- 无套装 --', stats: {} },
-  // 现有 8 套（值不变）
-  canglang:     { id: 33500, name: '沧浪行歌',     stats: { dmgBonus: 10, critRate: 20, inCombatAtkPct: 10 }, note: '装备者处于任意<color=#FFFFFF>[以太帷幕]</color>中时，自身暴击率提高10%，离开<color=#FFFFFF>[以太帷幕]</color>后，该增益效果仍然保留，持续15秒；装备者为<color=#FFFFFF>[强攻]</color>角色时，开启<color=#FFFFFF>[以太帷幕]</color>或延长<color=#FFFFFF>[以太帷幕]</color>的持续时间会使自身暴击率提升10%和攻击力提升10%，持续30秒，重复触发时刷新持续时间。' },
+  // 老 8 套（5 套的 2-piece 已从 stats 减去，剩下纯 4-piece；详见文件顶注释）
+  canglang:     { id: 33500, name: '沧浪行歌',     stats: { critRate: 20, inCombatAtkPct: 10 }, note: '装备者处于任意<color=#FFFFFF>[以太帷幕]</color>中时，自身暴击率提高10%，离开<color=#FFFFFF>[以太帷幕]</color>后，该增益效果仍然保留，持续15秒；装备者为<color=#FFFFFF>[强攻]</color>角色时，开启<color=#FFFFFF>[以太帷幕]</color>或延长<color=#FFFFFF>[以太帷幕]</color>的持续时间会使自身暴击率提升10%和攻击力提升10%，持续30秒，重复触发时刷新持续时间。' },
   moon:         { id: 33400, name: '月光骑士颂',   stats: { dmgBonus: 18 }, note: '装备者为[支援]角色时，发动<color=#FFFFFF>[强化特殊技]</color>或<color=#FFFFFF>[终结技]</color>会使全队角色造成的伤害提升18%，持续25秒，重复触发时刷新持续时间，同名被动效果之间不可叠加。' },
   mountain:     { id: 33200, name: '山大王',       stats: { critDmg: 30 }, note: '装备者为[击破]角色时，发动<color=#FFFFFF>[强化特殊技]</color>或<color=#FFFFFF>[连携技]</color>会使全队角色暴击伤害提升15%，装备者的暴击率大于等于50%时暴击伤害额外提升15%，持续15秒，重复触发时刷新持续时间，同名被动效果之间不可叠加。' },
-  ruying:       { id: 32900, name: '如影相随',     stats: { dmgBonus: 15, critRate: 12, inCombatAtkPct: 12 }, note: '<color=#FFFFFF>[追加攻击]</color>或<color=#FFFFFF>[冲刺攻击]</color>命中敌人时，若造成的伤害与装备者的属性一致，则获得1层增益效果，同一招式内最多触发一次；每拥有1层增益效果，装备者的攻击力提升4%，暴击率提升4%，最多叠加3层，持续15秒，重复触发时刷新持续时间。' },
-  jisu:         { id: 31400, name: '激素朋克',     stats: { atkPct: 10, inCombatAtkPct: 25 }, note: '成为接战状态下的当前操作角色时，装备者的攻击力提升25%，持续10秒，20秒内最多触发一次。' },
-  hetun:        { id: 31100, name: '河豚电音',     stats: { penRatio: 8, inCombatAtkPct: 15 }, note: '<color=#FFFFFF>[终结技]</color>造成的伤害提升20%；发动<color=#FFFFFF>[终结技]</color>时，装备者的攻击力提升15%，持续12秒。' },
-  yunkui:       { id: 33100, name: '云岿如我',     stats: { hpPct: 10, critRate: 12, ppDmgBonus: 10 }, note: '发动<color=#FFFFFF>[强化特殊技]</color>、<color=#FFFFFF>[连携技]</color>、<color=#FFFFFF>[终结技]</color>时，暴击率提升4%，最多叠加3层，持续15秒，重复触发时刷新持续时间，拥有3层效果时，造成的贯穿伤害提升10%。' },
+  ruying:       { id: 32900, name: '如影相随',     stats: { critRate: 12, inCombatAtkPct: 12 }, note: '<color=#FFFFFF>[追加攻击]</color>或<color=#FFFFFF>[冲刺攻击]</color>命中敌人时，若造成的伤害与装备者的属性一致，则获得1层增益效果，同一招式内最多触发一次；每拥有1层增益效果，装备者的攻击力提升4%，暴击率提升4%，最多叠加3层，持续15秒，重复触发时刷新持续时间。' },
+  jisu:         { id: 31400, name: '激素朋克',     stats: { inCombatAtkPct: 25 }, note: '成为接战状态下的当前操作角色时，装备者的攻击力提升25%，持续10秒，20秒内最多触发一次。' },
+  hetun:        { id: 31100, name: '河豚电音',     stats: { inCombatAtkPct: 15 }, note: '<color=#FFFFFF>[终结技]</color>造成的伤害提升20%；发动<color=#FFFFFF>[终结技]</color>时，装备者的攻击力提升15%，持续12秒。' },
+  yunkui:       { id: 33100, name: '云岿如我',     stats: { critRate: 12, ppDmgBonus: 10 }, note: '发动<color=#FFFFFF>[强化特殊技]</color>、<color=#FFFFFF>[连携技]</color>、<color=#FFFFFF>[终结技]</color>时，暴击率提升4%，最多叠加3层，持续15秒，重复触发时刷新持续时间，拥有3层效果时，造成的贯穿伤害提升10%。' },
   jiayin:       { id: 32800, name: '静听嘉音',     stats: { dmgBonus: 24 }, note: '队伍中任意角色通过<color=#FFFFFF>[快速支援]</color>入场时，全队角色获得1层<color=#FFFFFF>[嘉音]</color>，最多叠加3层，持续15秒，重复触发时刷新持续时间，每拥有1层<color=#FFFFFF>[嘉音]</color>，通过<color=#FFFFFF>[快速支援]</color>入场的角色造成的伤害提升8%，同名被动效果之间不可叠加。' },
   // 新增 18 套（满层等效，仅 4件套部分）
   woodpecker:   { id: 31000, name: '啄木鸟电音',   stats: { inCombatAtkPct: 27 }, note: '<color=#FFFFFF>[普通攻击]</color>、<color=#FFFFFF>[闪避反击]</color>或<color=#FFFFFF>[强化特殊技]</color>命中敌人并触发暴击时，分别为装备者提供1层增益效果，每层增益效果使装备者的攻击力提升9%，持续6秒，不同招式分别结算持续时间。' },

@@ -1,0 +1,191 @@
+/* WeaponHexCenter.module.css
+   Center anchor inside DiscHexCard's frameWrap (which is position:relative).
+   The center is at 50/50 % of the frame. Sized ~22% of frame width to keep
+   visual breathing room from the 6 outer slots (each ~25% wide). */
+
+.centerBtn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22%;
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.centerBtn:hover {
+  transform: translate(-50%, -50%) scale(1.06);
+  filter: drop-shadow(0 0 12px rgba(253, 178, 200, 0.7));
+}
+.centerBtn:active {
+  transform: translate(-50%, -50%) scale(0.98);
+}
+
+/* Empty state: a soft glowing plus that pulses slowly. */
+.centerPlus {
+  width: 70%;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 200;
+  line-height: 1;
+  color: var(--zzz-pink, #ffb0d4);
+  border: 2px dashed rgba(253, 178, 200, 0.55);
+  border-radius: 50%;
+  background: rgba(20, 20, 28, 0.35);
+  animation: centerPulse 2.4s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes centerPulse {
+  0%, 100% {
+    opacity: 0.55;
+    box-shadow: 0 0 0 0 rgba(253, 178, 200, 0.0);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 18px 2px rgba(253, 178, 200, 0.35);
+  }
+}
+
+/* Filled state: weapon icon fills most of the circle; star bar overlays below. */
+.centerIcon {
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
+}
+
+/* Fallback for weapons whose icon isn't mapped yet — show name initial. */
+.centerNoIcon {
+  width: 70%;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  color: var(--zzz-pink, #ffb0d4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(253, 178, 200, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- Star bar (5 compact overlapping stars) ---------- */
+
+/* Per user spec: the 5 stars should sit visually tight — not edge-to-edge by
+   their PNG bounding box (which already includes generous transparent padding),
+   but overlapping a bit so the glyphs themselves nearly touch. Negative
+   margin-left collapses the gap; -8px on a 16-18px star works at this scale. */
+.starBar {
+  display: inline-flex;
+  align-items: center;
+  /* Each .starWrap will negative-margin into its left neighbour. */
+  pointer-events: auto;
+}
+.starBarReadonly {
+  /* Read-only display under the center icon — slightly smaller & dimmer. */
+  opacity: 0.95;
+}
+
+.starWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  line-height: 0;
+}
+.starWrap + .starWrap {
+  /* Compact overlap. The PNGs are 42x42 with the glyph centered. With our
+     center-bar star size of ~18px, -8px makes the points nearly touch. */
+  margin-left: -8px;
+}
+.starBarReadonly .starWrap {
+  cursor: default;
+}
+
+.star {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  user-select: none;
+  /* Slight drop shadow so the white stars pop on light backgrounds. */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* In the refinement modal step the bar is bigger and centered. */
+.refinementBody .star {
+  width: 36px;
+  height: 36px;
+}
+.refinementBody .starWrap + .starWrap {
+  margin-left: -16px;
+}
+
+/* ---------- Refinement step layout ---------- */
+
+.refinementBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 24px 24px;
+  gap: 14px;
+}
+
+.refinementIcon {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
+}
+
+.refinementIconFallback {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--zzz-pink, #ffb0d4);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(253, 178, 200, 0.4);
+  border-radius: 16px;
+}
+
+.refinementHint {
+  color: var(--zzz-text-muted, #aaa);
+  font-size: 0.85rem;
+}
+
+.refinementBack {
+  margin-top: 6px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ddd;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.refinementBack:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--zzz-primary, #fdb2c8);
+}

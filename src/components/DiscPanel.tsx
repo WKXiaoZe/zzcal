@@ -73,6 +73,10 @@ export function DiscPanel() {
     dispatch({ type: 'SET_DISC_SLOT4', payload: v as Slot4Stat });
   const handleSet4Change = (v: string) =>
     dispatch({ type: 'SET_DISC_SET4', payload: v });
+  // Legacy single-select dropdown: collapses set2Keys to its first entry for
+  // display, and writes a single-element list (or empty) on change. Hex picker
+  // is the way to express 2+2+2 multi-set bonuses.
+  const set2Display = disc.set2Keys[0] ?? 'none';
   const handleSet2Change = (v: string) =>
     dispatch({ type: 'SET_DISC_SET2', payload: v });
 
@@ -123,7 +127,7 @@ export function DiscPanel() {
 
         <div className="input-group">
           <label htmlFor="disc-set2-select">2 件套</label>
-          <Select value={disc.set2Key} onValueChange={handleSet2Change}>
+          <Select value={set2Display} onValueChange={handleSet2Change}>
             <SelectTrigger id="disc-set2-select">
               <SelectValue />
             </SelectTrigger>

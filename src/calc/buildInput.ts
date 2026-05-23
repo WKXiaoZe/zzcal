@@ -12,8 +12,17 @@
 // Plus two Phase-4 additions that legacy never modelled:
 //   • subCounts → extraStats (CR×2.4, CD×4.8, ATK×3.0, HP×3.0, AM×9.0 —
 //     coefficients ported verbatim from legacy/index-legacy.html line ~1882-1886)
-//   • set2 (DISC 2-piece bonus) → folded into extraStats via the existing
-//     set2_* buckets that the optimizer already understood. Stat-key mapping:
+//   • set4Key + set2Keys → 2-piece bonuses folded into extraStats via the
+//     existing set2_* buckets. Convention (v3 normalized data, see discSets.ts):
+//       — DISC_4_SETS[X].stats is the PURE 4-piece bonus.
+//       — A non-'none' set4Key automatically also contributes DISC_2_SETS[X].stats
+//         (the 4-set's own 2-piece bonus — game rule).
+//       — set2Keys lists EXTRA 2-pieces on top, used to model multi-set
+//         configurations like 4+2 (set4='X', set2Keys=['Y']) or 2+2+2
+//         (set4='none', set2Keys=['X','Y','Z']). 6-of-same is set4='X',
+//         set2Keys=[] (no extra). Entries equal to set4Key are deduped so
+//         the user can't accidentally double-apply the 4-set's own 2-piece.
+//     Stat-key mapping (per fold):
 //       atkPct        → set2_AtkPct
 //       hpPct         → set2_HpPct
 //       dmgBonus      → set2_Dmg
@@ -220,15 +229,38 @@ export function buildCalcInput(state: AppState): CalcInput {
   const wSup2 = buildWeapon(state.weapons.sup2);
 
   // DISC sets
-  const set4Stats = DISC_4_SETS[state.disc.set4Key]?.stats ?? {};
-  const set2Stats = DISC_2_SETS[state.disc.set2Key]?.stats ?? {};
+  const set4Key = state.disc.set4Key;
+  const set4Stats = DISC_4_SETS[set4Key]?.stats ?? {};
 
   // Fold 4-set into the main agent (legacy parity: only main agent).
   applySet4ToAgent(aMain, set4Stats);
 
+  // Build the effective 2-piece list: start with set4's own 2-piece (if any),
+  // then append set2Keys, deduped against set4Key so a config like
+  // set4='X' + accidental set2Keys=['X'] doesn't double-count.
+  const effectiveSet2Keys: string[] = [];
+  if (set4Key && set4Key !== 'none') effectiveSet2Keys.push(set4Key);
+  for (const k of state.disc.set2Keys) {
+    if (!k || k === 'none') continue;
+    if (k === set4Key) continue; // dedupe against the auto-added set4 2-piece
+    effectiveSet2Keys.push(k);
+  }
+
+  // Accumulate every 2-piece's stats payload into one ExtraSubStats delta.
+  const set2Extra: Partial<ExtraSubStats> = {};
+  for (const k of effectiveSet2Keys) {
+    const s2 = DISC_2_SETS[k]?.stats;
+    if (!s2) continue;
+    const delta = set2ToExtra(s2);
+    for (const [field, val] of Object.entries(delta)) {
+      if (typeof val !== 'number') continue;
+      const key = field as keyof ExtraSubStats;
+      set2Extra[key] = (set2Extra[key] ?? 0) + val;
+    }
+  }
+
   // Subcounts → extraStats (CR×2.4, CD×4.8, ATK×3.0, HP×3.0, AM×9.0)
   const sc = state.disc.subCounts;
-  const set2Extra = set2ToExtra(set2Stats);
   const extraStats: ExtraSubStats = {
     critRate:       safeFloat(sc.CR)  * SUBCOUNT_COEFF.CR  + safeFloat(set2Extra.critRate),
     critDmg:        safeFloat(sc.CD)  * SUBCOUNT_COEFF.CD,

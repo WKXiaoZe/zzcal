@@ -22,4 +22,26 @@ describe('DISC sets', () => {
     expect(DISC_4_SETS.canglang.name).toBe('沧浪行歌');
     expect(DISC_2_SETS.woodpecker.stats.critRate).toBe(8);
   });
+
+  // v3 invariant: every DISC_4_SETS entry must be the *pure* 4-piece bonus.
+  // The 5 legacy sets whose stats used to bake in the 2-piece have been
+  // normalized; this test pins them so a future "helpful" edit can't
+  // silently re-introduce the double-count.
+  describe('v3 normalization — DISC_4_SETS holds pure 4-piece stats', () => {
+    it('canglang: dmgBonus 10 (2-piece) removed', () => {
+      expect(DISC_4_SETS.canglang.stats).toEqual({ critRate: 20, inCombatAtkPct: 10 });
+    });
+    it('ruying: dmgBonus 15 (2-piece) removed', () => {
+      expect(DISC_4_SETS.ruying.stats).toEqual({ critRate: 12, inCombatAtkPct: 12 });
+    });
+    it('jisu: atkPct 10 (2-piece) removed', () => {
+      expect(DISC_4_SETS.jisu.stats).toEqual({ inCombatAtkPct: 25 });
+    });
+    it('hetun: penRatio 8 (2-piece) removed', () => {
+      expect(DISC_4_SETS.hetun.stats).toEqual({ inCombatAtkPct: 15 });
+    });
+    it('yunkui: hpPct 10 (2-piece) removed', () => {
+      expect(DISC_4_SETS.yunkui.stats).toEqual({ critRate: 12, ppDmgBonus: 10 });
+    });
+  });
 });

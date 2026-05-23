@@ -12,7 +12,17 @@ export interface SlotConfig {
 export interface DiscConfig {
   slot4Stat: 'critRate' | 'critDmg' | 'atkPct' | 'anomalyMastery';
   set4Key: string;
-  set2Key: string;
+  /**
+   * Extra 2-piece bonuses on top of whatever set4Key already implies. Empty
+   * array = no extra 2-set. buildCalcInput auto-folds set4Key's own 2-piece
+   * (when set4Key !== 'none'), so callers MUST NOT include set4Key in this
+   * list — buildCalcInput dedupes against set4Key as a safety net.
+   * Examples:
+   *   4+2 of (X,Y) → set4Key='X', set2Keys=['Y']
+   *   6 of X       → set4Key='X', set2Keys=[]
+   *   2+2+2(X,Y,Z) → set4Key='none', set2Keys=['X','Y','Z']
+   */
+  set2Keys: string[];
   // 副词条计数
   subCounts: { CR: number; CD: number; ATK: number; HP: number; AM: number };
 }
@@ -42,7 +52,14 @@ export type Action =
   | { type: 'SET_WEAPON_OVERRIDES'; slot: 'main' | 'sup1' | 'sup2'; overrides: Record<string, number> }
   | { type: 'SET_DISC_SLOT4'; payload: DiscConfig['slot4Stat'] }
   | { type: 'SET_DISC_SET4'; payload: string }
+  /** Single-key shim that DiscPanel's legacy dropdown still uses.
+   *  payload='none' (or '') clears the list; otherwise it becomes a 1-element list. */
   | { type: 'SET_DISC_SET2'; payload: string }
+  /** Bulk replace of the 2-piece bonus list (used by the hex picker). */
+  | { type: 'SET_DISC_SET2_KEYS'; payload: string[] }
+  /** Atomic update of both set4Key and set2Keys (used by the hex picker so
+   *  the calc never sees a half-updated transition state). */
+  | { type: 'SET_DISC_SETS'; set4Key: string; set2Keys: string[] }
   | { type: 'SET_DISC_SUBCOUNT'; key: keyof DiscConfig['subCounts']; value: number }
   | { type: 'SET_BOSS'; field: keyof AppState['boss']; value: any }
   | { type: 'SET_FIELD'; field: keyof AppState['field']; value: number };

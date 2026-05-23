@@ -18,6 +18,8 @@
 
 import React, { useState } from 'react';
 import { DISC_2_SETS, DISC_4_SETS, DISC_ROLE, SUIT_ART, type DiscRole } from '../calc/discSets';
+import { useAppDispatch } from '../state/AppContext';
+import { WeaponHexCenter } from './WeaponHexCenter';
 import styles from './DiscHexCard.module.css';
 
 /** 1..6 in-game slot numbers; same ids that drive SuitPositionXX.png. */
@@ -66,7 +68,45 @@ for (const key of SET_KEYS) {
   });
 }
 
+/**
+ * Derive (set4Key, set2Keys) from the 6 hex picks.
+ *
+ * Rules (per the v3 design — see DiscConfig.set2Keys docstring):
+ *   set4Key  = the set with count ≥ 4 (at most one possible since 4+4=8>6),
+ *              else 'none'.
+ *   set2Keys = all sets with count ≥ 2, EXCEPT set4Key itself (its 2-piece
+ *              is auto-added by buildCalcInput). Sorted by slot order of
+ *              first appearance for stability.
+ *
+ * Game-rule check:
+ *   4+2  (X,Y): set4='X', set2Keys=['Y']        ✓ adds X's 4p + X's 2p + Y's 2p
+ *   2+2+2(X,Y,Z): set4='none', set2Keys=['X','Y','Z'] ✓ three 2-pieces
+ *   6  X      : set4='X', set2Keys=[]            ✓ X's 4p + X's 2p (only one)
+ */
+export function deriveSetsFromPicks(
+  picks: Record<SlotNum, string | null>,
+): { set4Key: string; set2Keys: string[] } {
+  const counts = new Map<string, number>();
+  const firstSeen = new Map<string, number>();
+  for (const slot of [1, 2, 3, 4, 5, 6] as SlotNum[]) {
+    const k = picks[slot];
+    if (!k) continue;
+    counts.set(k, (counts.get(k) ?? 0) + 1);
+    if (!firstSeen.has(k)) firstSeen.set(k, slot);
+  }
+  let set4Key = 'none';
+  for (const [k, c] of counts) {
+    if (c >= 4) { set4Key = k; break; }
+  }
+  const set2Keys = [...counts.entries()]
+    .filter(([k, c]) => c >= 2 && k !== set4Key)
+    .sort((a, b) => (firstSeen.get(a[0]) ?? 99) - (firstSeen.get(b[0]) ?? 99))
+    .map(([k]) => k);
+  return { set4Key, set2Keys };
+}
+
 export function DiscHexCard() {
+  const dispatch = useAppDispatch();
   /** slot number → disc-set key (null = empty cavity, shows default badge). */
   const [picks, setPicks] = useState<Record<SlotNum, string | null>>({
     1: null, 2: null, 3: null, 4: null, 5: null, 6: null,
@@ -76,8 +116,13 @@ export function DiscHexCard() {
 
   function applyPick(key: string | null) {
     if (pickingSlot === null) return;
-    setPicks((p) => ({ ...p, [pickingSlot]: key }));
+    const nextPicks = { ...picks, [pickingSlot]: key };
+    setPicks(nextPicks);
     setPickingSlot(null);
+    // Push derived set4/set2Keys into AppState in one atomic action so the
+    // calc layer never sees a half-updated transition.
+    const derived = deriveSetsFromPicks(nextPicks);
+    dispatch({ type: 'SET_DISC_SETS', set4Key: derived.set4Key, set2Keys: derived.set2Keys });
   }
 
   return (
@@ -89,6 +134,9 @@ export function DiscHexCard() {
           alt=""
           className={styles.frame}
         />
+        {/* Center anchor: main C's W-Engine. Mirrors state.weapons.main, so
+            picking here also updates module 02's dropdown + star buttons. */}
+        <WeaponHexCenter />
         {SLOTS.map(({ slot, cx, cy }) => {
           const pickedKey = picks[slot];
           const hasPick = pickedKey !== null;
