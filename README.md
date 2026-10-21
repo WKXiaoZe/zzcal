@@ -6,7 +6,7 @@
 
 ## 🔗 在线体验
 
-- **TODO：** 填入 Cloudflare Pages 地址（如 `https://<project>.pages.dev`）
+- [zzzcalc.pages.dev](https://zzzcalc.pages.dev)
 
 ## 📸 截图
 
@@ -89,5 +89,5 @@ npm run test:watch
 - **Stack:** React 19, TypeScript, Vite, Tailwind CSS, Chart.js, Vitest
 - **Run:** `npm install && npm run dev` · build with `npm run build` (output `dist/`)
 - **Deploy:** Cloudflare Pages (build `npm run build`, output `dist`)
-- **Demo:** TODO
+- **Demo:** https://zzzcalc.pages.dev
 - **License:** MIT (see [LICENSE](LICENSE))
