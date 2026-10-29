@@ -8,7 +8,8 @@
       "qingyi",
       "ellen",
       "soukaku"
-    ]
+    ],
+    "soukaku_mindscape": 6
   },
   "search": {
     "beam_width": 40,
@@ -16,15 +17,37 @@
     "seed": 42
   },
   "score": {
-    "total_damage": 6693713.6,
-    "hp_proxy": 25000000.0,
-    "hp_remaining_proxy": 18306286.4,
+    "total_damage": 5568705.5,
+    "hp_max": 26639351.28,
+    "hp_proxy": 26639351.28,
+    "hp_remaining_proxy": 21070645.7,
     "kill_proxy": false,
-    "total_stun_applied": 172.294,
-    "parry_count": 58,
-    "perfect_assist_count": 58,
-    "final_decibel": 690.0,
-    "final_t": 180.7
+    "total_stun_applied": 176.336,
+    "parry_count": 64,
+    "perfect_assist_count": 64,
+    "part_breaks": 1,
+    "collapse_stacks_end": 0,
+    "final_decibel": 1560.0,
+    "final_t": 180.7,
+    "da": {
+      "damage_score": 12542.4,
+      "operation_score": 800.0,
+      "total_score": 13342.4,
+      "damage_score_cap": 60000.0,
+      "operation_score_cap": 5000.0,
+      "hp_max": 26639351.28,
+      "hp_remaining": 21070645.7,
+      "hp_ratio_remaining": 0.791,
+      "kill": false,
+      "part_breaks": 1,
+      "rank": "B",
+      "rank_goals": {
+        "s": 20000,
+        "a": 14000,
+        "b": 6000
+      },
+      "formula_note": "damage_score=min(60000,60000*damage/max_hp); op=min(5000,breaks*800); boss_adjust NOT used"
+    }
   },
   "plan": [
     {
@@ -185,7 +208,7 @@
     {
       "t_index": 31,
       "agent": "ellen",
-      "action": "branch"
+      "action": "basic_enhance"
     },
     {
       "t_index": 32,
@@ -195,7 +218,7 @@
     {
       "t_index": 33,
       "agent": "ellen",
-      "action": "basic_enhance"
+      "action": "branch"
     },
     {
       "t_index": 34,
@@ -279,18 +302,18 @@
     },
     {
       "t_index": 50,
-      "agent": "qingyi",
-      "action": "switch_in"
+      "agent": "ellen",
+      "action": "dash_slash"
     },
     {
       "t_index": 51,
-      "agent": "qingyi",
-      "action": "charged"
+      "agent": "ellen",
+      "action": "dash_slash"
     },
     {
       "t_index": 52,
       "agent": "ellen",
-      "action": "switch_in"
+      "action": "dash_slash"
     },
     {
       "t_index": 53,
@@ -300,37 +323,37 @@
     {
       "t_index": 54,
       "agent": "ellen",
-      "action": "ex"
+      "action": "branch"
     },
     {
       "t_index": 55,
       "agent": "ellen",
-      "action": "branch"
+      "action": "ex"
     },
     {
       "t_index": 56,
-      "agent": "qingyi",
-      "action": "switch_in"
+      "agent": "ellen",
+      "action": "branch"
     },
     {
       "t_index": 57,
-      "agent": "qingyi",
-      "action": "basic"
-    },
-    {
-      "t_index": 58,
-      "agent": "ellen",
-      "action": "switch_in"
-    },
-    {
-      "t_index": 59,
       "agent": "ellen",
       "action": "dash_slash"
     },
     {
+      "t_index": 58,
+      "agent": "soukaku",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 59,
+      "agent": "soukaku",
+      "action": "basic"
+    },
+    {
       "t_index": 60,
       "agent": "ellen",
-      "action": "branch"
+      "action": "switch_in"
     },
     {
       "t_index": 61,
@@ -340,17 +363,17 @@
     {
       "t_index": 62,
       "agent": "ellen",
-      "action": "dash_slash"
+      "action": "branch"
     },
     {
       "t_index": 63,
       "agent": "ellen",
-      "action": "branch"
+      "action": "ex"
     },
     {
       "t_index": 64,
       "agent": "ellen",
-      "action": "ex"
+      "action": "branch"
     },
     {
       "t_index": 65,
@@ -370,22 +393,22 @@
     {
       "t_index": 68,
       "agent": "ellen",
-      "action": "branch"
+      "action": "dash_slash"
     },
     {
       "t_index": 69,
-      "agent": "qingyi",
-      "action": "switch_ex"
+      "agent": "ellen",
+      "action": "branch"
     },
     {
       "t_index": 70,
       "agent": "ellen",
-      "action": "switch_in"
+      "action": "ex"
     },
     {
       "t_index": 71,
       "agent": "ellen",
-      "action": "dash_slash"
+      "action": "branch"
     },
     {
       "t_index": 72,
@@ -395,7 +418,7 @@
     {
       "t_index": 73,
       "agent": "qingyi",
-      "action": "charged"
+      "action": "basic"
     },
     {
       "t_index": 74,
@@ -415,15 +438,490 @@
     {
       "t_index": 77,
       "agent": "ellen",
-      "action": "ex"
+      "action": "dash_slash"
     },
     {
       "t_index": 78,
       "agent": "ellen",
-      "action": "branch"
+      "action": "dash_slash"
     },
     {
       "t_index": 79,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 80,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 81,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 82,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 83,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 84,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 85,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 86,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 87,
+      "agent": "ellen",
+      "action": "ultimate"
+    },
+    {
+      "t_index": 88,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 89,
+      "agent": "qingyi",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 90,
+      "agent": "qingyi",
+      "action": "charged"
+    },
+    {
+      "t_index": 91,
+      "agent": "ellen",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 92,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 93,
+      "agent": "qingyi",
+      "action": "switch_ex"
+    },
+    {
+      "t_index": 94,
+      "agent": "ellen",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 95,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 96,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 97,
+      "agent": "ellen",
+      "action": "ultimate"
+    },
+    {
+      "t_index": 98,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 99,
+      "agent": "qingyi",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 100,
+      "agent": "qingyi",
+      "action": "charged"
+    },
+    {
+      "t_index": 101,
+      "agent": "ellen",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 102,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 103,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 104,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 105,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 106,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 107,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 108,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 109,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 110,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 111,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 112,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 113,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 114,
+      "agent": "ellen",
+      "action": "ultimate"
+    },
+    {
+      "t_index": 115,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 116,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 117,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 118,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 119,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 120,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 121,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 122,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 123,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 124,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 125,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 126,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 127,
+      "agent": "ellen",
+      "action": "ultimate"
+    },
+    {
+      "t_index": 128,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 129,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 130,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 131,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 132,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 133,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 134,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 135,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 136,
+      "agent": "qingyi",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 137,
+      "agent": "qingyi",
+      "action": "basic"
+    },
+    {
+      "t_index": 138,
+      "agent": "ellen",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 139,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 140,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 141,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 142,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 143,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 144,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 145,
+      "agent": "ellen",
+      "action": "ultimate"
+    },
+    {
+      "t_index": 146,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 147,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 148,
+      "agent": "qingyi",
+      "action": "switch_ex"
+    },
+    {
+      "t_index": 149,
+      "agent": "ellen",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 150,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 151,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 152,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 153,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 154,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 155,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 156,
+      "agent": "qingyi",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 157,
+      "agent": "qingyi",
+      "action": "charged"
+    },
+    {
+      "t_index": 158,
+      "agent": "ellen",
+      "action": "switch_in"
+    },
+    {
+      "t_index": 159,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 160,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 161,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 162,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 163,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 164,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 165,
+      "agent": "ellen",
+      "action": "ultimate"
+    },
+    {
+      "t_index": 166,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 167,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 168,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 169,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 170,
+      "agent": "ellen",
+      "action": "branch"
+    },
+    {
+      "t_index": 171,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 172,
+      "agent": "ellen",
+      "action": "ex"
+    },
+    {
+      "t_index": 173,
+      "agent": "ellen",
+      "action": "dash_slash"
+    },
+    {
+      "t_index": 174,
       "agent": "qingyi",
       "action": "switch_in"
     }
@@ -435,25 +933,29 @@
       "agent": "soukaku",
       "action": "switch_in",
       "label": "切人",
-      "dmg": 699.4,
+      "dmg": 875.1,
       "stun": 0.2,
       "decibel": 100.0,
       "energy": 86.0,
       "boss_stunned": false,
-      "total_dmg": 699.4
+      "total_dmg": 875.1,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 0.6,
       "t_end": 1.8,
       "agent": "soukaku",
       "action": "ex_buff",
-      "label": "强化特殊技·加攻",
-      "dmg": 559.5,
+      "label": "强化特殊技·旗幡加攻",
+      "dmg": 700.1,
       "stun": 0.2,
       "decibel": 450.0,
       "energy": 26.0,
       "boss_stunned": false,
-      "total_dmg": 1258.9
+      "total_dmg": 1575.2,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 1.8,
@@ -461,12 +963,14 @@
       "agent": "ellen",
       "action": "switch_in",
       "label": "切人入场攻击",
-      "dmg": 55354.9,
+      "dmg": 51504.5,
       "stun": 0.5,
       "decibel": 650.0,
       "energy": 46.0,
       "boss_stunned": false,
-      "total_dmg": 56613.8
+      "total_dmg": 53079.7,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 2.6,
@@ -474,12 +978,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 64376.4,
+      "dmg": 59898.4,
       "stun": 1.879,
       "decibel": 950.0,
       "energy": 58.0,
       "boss_stunned": false,
-      "total_dmg": 120990.2
+      "total_dmg": 112978.1,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 3.6,
@@ -487,12 +993,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 64376.4,
+      "dmg": 59898.4,
       "stun": 1.879,
       "decibel": 1100.0,
       "energy": 70.0,
       "boss_stunned": false,
-      "total_dmg": 185366.6
+      "total_dmg": 172876.5,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 4.6,
@@ -500,12 +1008,14 @@
       "agent": "ellen",
       "action": "ex",
       "label": "强化特殊技",
-      "dmg": 47160.0,
+      "dmg": 43879.5,
       "stun": 0.5,
       "decibel": 1550.0,
       "energy": 10.0,
       "boss_stunned": false,
-      "total_dmg": 232526.6
+      "total_dmg": 216756.0,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 6.1,
@@ -513,12 +1023,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 80584.1,
+      "dmg": 75602.0,
       "stun": 1.879,
       "decibel": 1700.0,
       "energy": 22.0,
       "boss_stunned": false,
-      "total_dmg": 313110.7
+      "total_dmg": 292358.0,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 7.1,
@@ -526,12 +1038,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 80584.1,
+      "dmg": 75602.0,
       "stun": 1.879,
       "decibel": 2000.0,
       "energy": 34.0,
       "boss_stunned": false,
-      "total_dmg": 393694.8
+      "total_dmg": 367960.0,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 8.1,
@@ -539,12 +1053,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 80584.1,
+      "dmg": 75602.0,
       "stun": 1.879,
       "decibel": 2150.0,
       "energy": 46.0,
       "boss_stunned": false,
-      "total_dmg": 474278.9
+      "total_dmg": 443562.0,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 9.1,
@@ -552,12 +1068,14 @@
       "agent": "qingyi",
       "action": "switch_in",
       "label": "切人入场",
-      "dmg": 10558.8,
+      "dmg": 9918.8,
       "stun": 0.502,
       "decibel": 2330.0,
       "energy": 66.0,
       "boss_stunned": false,
-      "total_dmg": 484837.6
+      "total_dmg": 453480.8,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 9.9,
@@ -565,12 +1083,14 @@
       "agent": "qingyi",
       "action": "ex",
       "label": "强化特殊技",
-      "dmg": 12279.7,
+      "dmg": 11535.5,
       "stun": 0.667,
       "decibel": 2610.0,
       "energy": 6.0,
       "boss_stunned": false,
-      "total_dmg": 497117.4
+      "total_dmg": 465016.3,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 11.7,
@@ -578,12 +1098,14 @@
       "agent": "ellen",
       "action": "switch_in",
       "label": "切人入场攻击",
-      "dmg": 84790.7,
+      "dmg": 80077.4,
       "stun": 0.5,
       "decibel": 2810.0,
       "energy": 52.0,
       "boss_stunned": false,
-      "total_dmg": 581908.1
+      "total_dmg": 545093.8,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 12.5,
@@ -591,12 +1113,14 @@
       "agent": "ellen",
       "action": "dash_slash",
       "label": "闪避反击斩",
-      "dmg": 11871.3,
+      "dmg": 11211.4,
       "stun": 0.311,
       "decibel": 2870.0,
       "energy": 58.0,
       "boss_stunned": false,
-      "total_dmg": 593779.4
+      "total_dmg": 556305.2,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 13.2,
@@ -604,12 +1128,14 @@
       "agent": "ellen",
       "action": "dash_slash",
       "label": "闪避反击斩",
-      "dmg": 11871.3,
+      "dmg": 11211.4,
       "stun": 0.311,
       "decibel": 2930.0,
       "energy": 64.0,
       "boss_stunned": false,
-      "total_dmg": 605650.7
+      "total_dmg": 567516.6,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 13.9,
@@ -617,12 +1143,14 @@
       "agent": "ellen",
       "action": "ex",
       "label": "强化特殊技",
-      "dmg": 72238.0,
+      "dmg": 68222.4,
       "stun": 0.5,
       "decibel": 3000.0,
       "energy": 4.0,
       "boss_stunned": false,
-      "total_dmg": 677888.7
+      "total_dmg": 635739.1,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 15.4,
@@ -630,12 +1158,14 @@
       "agent": "ellen",
       "action": "ultimate",
       "label": "连携技/终结技近似",
-      "dmg": 101853.1,
+      "dmg": 96714.5,
       "stun": 1.0,
       "decibel": 0.0,
       "energy": 4.0,
       "boss_stunned": false,
-      "total_dmg": 779741.8
+      "total_dmg": 732453.6,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 17.4,
@@ -643,12 +1173,14 @@
       "agent": "qingyi",
       "action": "switch_in",
       "label": "切人入场",
-      "dmg": 13584.4,
+      "dmg": 12943.2,
       "stun": 0.502,
       "decibel": 180.0,
       "energy": 12.0,
       "boss_stunned": false,
-      "total_dmg": 793326.1
+      "total_dmg": 745396.8,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 18.2,
@@ -656,12 +1188,14 @@
       "agent": "qingyi",
       "action": "charged",
       "label": "蓄力普攻(Normal_07)",
-      "dmg": 6897.7,
+      "dmg": 6572.1,
       "stun": 0.776,
       "decibel": 320.0,
       "energy": 30.0,
       "boss_stunned": false,
-      "total_dmg": 800223.8
+      "total_dmg": 751969.0,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 19.5,
@@ -669,12 +1203,14 @@
       "agent": "ellen",
       "action": "switch_in",
       "label": "切人入场攻击",
-      "dmg": 84790.7,
+      "dmg": 80077.4,
       "stun": 0.5,
       "decibel": 670.0,
       "energy": 10.0,
       "boss_stunned": false,
-      "total_dmg": 885014.6
+      "total_dmg": 832046.4,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 20.3,
@@ -682,12 +1218,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 80584.1,
+      "dmg": 75602.0,
       "stun": 1.879,
       "decibel": 820.0,
       "energy": 22.0,
       "boss_stunned": false,
-      "total_dmg": 965598.7
+      "total_dmg": 907648.4,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 21.3,
@@ -695,12 +1233,14 @@
       "agent": "ellen",
       "action": "dash_slash",
       "label": "闪避反击斩",
-      "dmg": 8084.4,
+      "dmg": 6263.2,
       "stun": 0.311,
       "decibel": 1030.0,
       "energy": 28.0,
       "boss_stunned": false,
-      "total_dmg": 973683.1
+      "total_dmg": 913911.6,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 22.0,
@@ -708,12 +1248,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 1330.0,
       "energy": 40.0,
       "boss_stunned": false,
-      "total_dmg": 1040836.5
+      "total_dmg": 965937.0,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 23.0,
@@ -721,12 +1263,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 1480.0,
       "energy": 52.0,
       "boss_stunned": false,
-      "total_dmg": 1107989.9
+      "total_dmg": 1017962.4,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 24.0,
@@ -734,12 +1278,14 @@
       "agent": "ellen",
       "action": "dash_slash",
       "label": "闪避反击斩",
-      "dmg": 8084.4,
+      "dmg": 6263.2,
       "stun": 0.311,
       "decibel": 1690.0,
       "energy": 58.0,
       "boss_stunned": false,
-      "total_dmg": 1116074.3
+      "total_dmg": 1024225.6,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 24.7,
@@ -747,12 +1293,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 1840.0,
       "energy": 70.0,
       "boss_stunned": false,
-      "total_dmg": 1183227.8
+      "total_dmg": 1076251.1,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 25.7,
@@ -760,12 +1308,14 @@
       "agent": "ellen",
       "action": "ex",
       "label": "强化特殊技",
-      "dmg": 39300.0,
+      "dmg": 29592.9,
       "stun": 0.5,
       "decibel": 2290.0,
       "energy": 10.0,
       "boss_stunned": false,
-      "total_dmg": 1222527.7
+      "total_dmg": 1105843.9,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 27.2,
@@ -773,12 +1323,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 2440.0,
       "energy": 22.0,
       "boss_stunned": false,
-      "total_dmg": 1289681.2
+      "total_dmg": 1157869.4,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 28.2,
@@ -786,12 +1338,14 @@
       "agent": "ellen",
       "action": "dash_slash",
       "label": "闪避反击斩",
-      "dmg": 8084.4,
+      "dmg": 6263.2,
       "stun": 0.311,
       "decibel": 2650.0,
       "energy": 28.0,
       "boss_stunned": false,
-      "total_dmg": 1297765.6
+      "total_dmg": 1164132.6,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 28.9,
@@ -799,12 +1353,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 2800.0,
       "energy": 40.0,
       "boss_stunned": false,
-      "total_dmg": 1364919.0
+      "total_dmg": 1216158.0,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 29.9,
@@ -812,12 +1368,14 @@
       "agent": "ellen",
       "action": "dash_slash",
       "label": "闪避反击斩",
-      "dmg": 6458.4,
+      "dmg": 4863.2,
       "stun": 0.311,
       "decibel": 2860.0,
       "energy": 46.0,
       "boss_stunned": false,
-      "total_dmg": 1371377.4
+      "total_dmg": 1221021.2,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 30.6,
@@ -825,51 +1383,59 @@
       "agent": "ellen",
       "action": "dash_slash",
       "label": "闪避反击斩",
-      "dmg": 6458.4,
+      "dmg": 4863.2,
       "stun": 0.311,
       "decibel": 3000.0,
       "energy": 52.0,
       "boss_stunned": false,
-      "total_dmg": 1377835.8
+      "total_dmg": 1225884.4,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 31.3,
-      "t_end": 32.3,
-      "agent": "ellen",
-      "action": "branch",
-      "label": "闪避分支连段",
-      "dmg": 53647.0,
-      "stun": 1.879,
-      "decibel": 3000.0,
-      "energy": 64.0,
-      "boss_stunned": false,
-      "total_dmg": 1431482.8
-    },
-    {
-      "t": 32.3,
-      "t_end": 33.8,
-      "agent": "ellen",
-      "action": "ex",
-      "label": "强化特殊技",
-      "dmg": 39300.0,
-      "stun": 0.5,
-      "decibel": 3000.0,
-      "energy": 4.0,
-      "boss_stunned": false,
-      "total_dmg": 1470782.8
-    },
-    {
-      "t": 33.8,
-      "t_end": 35.0,
+      "t_end": 32.5,
       "agent": "ellen",
       "action": "basic_enhance",
       "label": "蓄力强化普攻",
-      "dmg": 46667.5,
+      "dmg": 28072.9,
       "stun": 0.281,
+      "decibel": 3000.0,
+      "energy": 61.6,
+      "boss_stunned": false,
+      "total_dmg": 1253957.3,
+      "part_breaks": 0,
+      "collapse_stacks": 0
+    },
+    {
+      "t": 32.5,
+      "t_end": 34.0,
+      "agent": "ellen",
+      "action": "ex",
+      "label": "强化特殊技",
+      "dmg": 29592.9,
+      "stun": 0.5,
+      "decibel": 3000.0,
+      "energy": 1.6,
+      "boss_stunned": false,
+      "total_dmg": 1283550.2,
+      "part_breaks": 0,
+      "collapse_stacks": 0
+    },
+    {
+      "t": 34.0,
+      "t_end": 35.0,
+      "agent": "ellen",
+      "action": "branch",
+      "label": "闪避分支连段",
+      "dmg": 52025.4,
+      "stun": 1.879,
       "decibel": 3000.0,
       "energy": 13.6,
       "boss_stunned": false,
-      "total_dmg": 1517450.3
+      "total_dmg": 1335575.6,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 35.0,
@@ -877,12 +1443,14 @@
       "agent": "ellen",
       "action": "ultimate",
       "label": "连携技/终结技近似",
-      "dmg": 57742.8,
+      "dmg": 44734.8,
       "stun": 1.0,
       "decibel": 0.0,
       "energy": 13.6,
       "boss_stunned": false,
-      "total_dmg": 1575193.1
+      "total_dmg": 1380310.4,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 37.0,
@@ -890,12 +1458,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 300.0,
       "energy": 25.6,
       "boss_stunned": false,
-      "total_dmg": 1642346.5
+      "total_dmg": 1432335.8,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 38.0,
@@ -903,12 +1473,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 450.0,
       "energy": 37.6,
       "boss_stunned": false,
-      "total_dmg": 1709499.9
+      "total_dmg": 1484361.2,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 39.0,
@@ -916,12 +1488,14 @@
       "agent": "ellen",
       "action": "dash_slash",
       "label": "闪避反击斩",
-      "dmg": 8084.4,
+      "dmg": 6263.2,
       "stun": 0.311,
       "decibel": 660.0,
       "energy": 43.6,
       "boss_stunned": false,
-      "total_dmg": 1717584.4
+      "total_dmg": 1490624.4,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 39.7,
@@ -929,12 +1503,14 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 960.0,
       "energy": 55.6,
       "boss_stunned": false,
-      "total_dmg": 1784737.8
+      "total_dmg": 1542649.9,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     },
     {
       "t": 40.7,
@@ -942,13 +1518,27 @@
       "agent": "ellen",
       "action": "branch",
       "label": "闪避分支连段",
-      "dmg": 67153.4,
+      "dmg": 52025.4,
       "stun": 1.879,
       "decibel": 1110.0,
       "energy": 67.6,
       "boss_stunned": false,
-      "total_dmg": 1851891.2
+      "total_dmg": 1594675.3,
+      "part_breaks": 0,
+      "collapse_stacks": 0
     }
   ],
-  "note": "预计算样本；页面内也可重跑轻量束搜索"
+  "round2_changes": {
+    "vs_round1_beam40": {
+      "old_damage": 6693713.6,
+      "old_hp_proxy": 25000000.0,
+      "old_note": "placeholder Soukaku +20% ATK; no DA score; no part-break; SkillBuff double-counted in eval"
+    },
+    "multipliers": "Soukaku FlagAtkBuffRatio 0.25→inCombatAtkFlat + Ice AddedDamage 12% + IceResist shred 20% + M6 +50% on ult; fixed 烁穹 SkillBuff double-count",
+    "hp": "nanoka monster 11414 hp=26639351.28 (was 25e6 proxy)",
+    "score": "damage_score=min(60000,60000*dmg/hp) + op 800/break cap 5000; boss_adjust NOT used (difficulty scaling only)",
+    "part_break": "Pass A MaxPartHP_Ratio 0.1 + layer_buff 崩解/喧响/op; damage_to_part_ratio=0.9 ASSUMPTION",
+    "parry_windows": "still hand-filled DEFAULT_ATTACK_WINDOWS; AidTriggerControl proves windows exist; AnimatorStateLength not in readable TextAsset"
+  },
+  "source_result": "results/690481_complex_corrupted_beam40_round2.json"
 }

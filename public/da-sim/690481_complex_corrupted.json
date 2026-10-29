@@ -7,12 +7,20 @@
   "selectable_buff_id": 69014802,
   "selectable_buff_cn": "烁穹",
   "buff_note": "击破向：失衡+20%、能量获取+20%；EX后锐化伤害+30%/抗性无视。当期也可切炽陨/极韵。",
-  "team": ["qingyi", "ellen", "soukaku"],
-  "team_roles": {"qingyi": "stun", "ellen": "dps", "soukaku": "support"},
+  "team": [
+    "qingyi",
+    "ellen",
+    "soukaku"
+  ],
+  "team_roles": {
+    "qingyi": "stun",
+    "ellen": "dps",
+    "soukaku": "support"
+  },
   "fight_duration_s": 180,
   "distance_default": 8.0,
   "boss": {
-    "defBase": 900,
+    "defBase": 952.8,
     "defBonus": 0,
     "res": 0.2,
     "weak": true,
@@ -20,51 +28,79 @@
     "dazeBase": 100,
     "stun_threshold": 100.0,
     "stun_window_s": 12.0,
-    "hp_proxy": 25000000,
-    "hp_note": "HP 为相对评价代理值，非 Pass A 精确读表；用于排轴相对排序"
+    "hp_max": 26639351.28,
+    "hp_proxy": 26639351.28,
+    "stun_max_real": 16894.15,
+    "attack_real": 2738.909090909091,
+    "hp_source": "nanoka 3.4.1+19851435/zh/boss/690481.json modes[690481].zone[69048102].monster 11414",
+    "stun_sim_note": "sim stun_threshold stays relative (100); real MaxStun 16894.15 used only for part-break stun% scaling notes"
   },
   "agent_stats": {
     "ellen": {
       "battleType": "attack",
       "baseAtk": 938,
-      "weapon": {"baseAtk": 684, "critRate": 20, "critDmg": 50, "dmgBonus": 0},
+      "weapon": {
+        "baseAtk": 684,
+        "critRate": 20,
+        "critDmg": 50,
+        "dmgBonus": 0
+      },
       "critRate": 19,
       "critDmg": 198,
       "dmgBonus": 30,
       "resShred": 10,
       "penRatio": 0,
-      "extraStats": {"critRate": 24, "critDmg": 48, "atkPct": 30, "dmgBonus": 30, "slot5_Dmg": 30},
+      "extraStats": {
+        "critRate": 24,
+        "critDmg": 48,
+        "atkPct": 30,
+        "dmgBonus": 30,
+        "slot5_Dmg": 30
+      },
       "energy_max": 120,
       "energy_start": 40
     },
     "qingyi": {
       "battleType": "attack",
       "baseAtk": 750,
-      "weapon": {"baseAtk": 594, "critRate": 0, "dmgBonus": 0},
+      "weapon": {
+        "baseAtk": 594,
+        "critRate": 0,
+        "dmgBonus": 0
+      },
       "critRate": 5,
       "critDmg": 50,
       "dmgBonus": 0,
       "resShred": 0,
       "dazeVuln": 0,
-      "extraStats": {"atkPct": 30, "critRate": 0},
+      "extraStats": {
+        "atkPct": 30,
+        "critRate": 0
+      },
       "energy_max": 120,
       "energy_start": 60,
       "note": "青衣以失衡为主；伤害用 attack 公式近似"
     },
     "soukaku": {
       "battleType": "attack",
-      "baseAtk": 700,
-      "weapon": {"baseAtk": 460},
+      "baseAtk": 750,
+      "weapon": {
+        "baseAtk": 594,
+        "atkPct": 25
+      },
       "critRate": 5,
       "critDmg": 50,
       "dmgBonus": 0,
-      "extraStats": {"atkPct": 30},
+      "extraStats": {
+        "atkPct": 30
+      },
       "energy_max": 120,
-      "energy_start": 80
+      "energy_start": 80,
+      "note": "Support ATK used for FlagAtkBuffRatio*Attack flat share"
     }
   },
   "field_buffs_from_selectable": {
-    "note": "烁穹：击破代理人永久 AddedBreakStunRatio=0.2 → 映射为 stun 乘区；SkillBuff 15s SharpDamageRatio=0.3 → field.dmgBonus+=30；Energy AS_SPGetRatio=0.2",
+    "note": "烁穹：击破代理人永久 AddedBreakStunRatio=0.2 → stun 乘区；SkillBuff 15s SharpDamageRatio=0.3 → field.dmgBonus+=30；Energy AS_SPGetRatio=0.2；SkillBuff 另有电/以太抗性无视 20%→resShred+20",
     "stun_agent_break_stun_ratio": 0.2,
     "sp_get_ratio": 0.2,
     "skill_buff_dmg_bonus_pct": 30,
@@ -72,5 +108,38 @@
     "skill_buff_res_shred_pct": 20
   },
   "env_buff_note": "场地 Buff ≠ 环境 Buff；本场景未叠 EnvBuff_Hard，仅 selectable",
-  "seed": 42
+  "seed": 42,
+  "score": {
+    "damage_score_cap": 60000,
+    "operation_score_cap": 5000,
+    "op_per_part_break": 800,
+    "rank_goals": {
+      "s": 20000,
+      "a": 14000,
+      "b": 6000
+    },
+    "zone_id": "69048102",
+    "source": "nanoka zone goals + JP wiki damage cap 60000; boss_adjust NOT used"
+  },
+  "part_break": {
+    "enabled": true,
+    "max_part_hp_ratio": 0.1,
+    "leg_count": 6,
+    "damage_to_part_ratio": 0.9,
+    "damage_to_part_ratio_note": "ASSUMPTION for optimal-axis: 90% damage attributed to focused leg collider (Pass A HitCollider_Foot_*; no aim model). At round2 DPS (~5.57M / 26.6M HP) this yields ~1 leg break; higher real DPS clears more.",
+    "stun_recover_ratio_on_break": 0.1,
+    "decibel_on_leg_break": 1000,
+    "崩解_crit_dmg_pct_per_stack": 25,
+    "崩解_duration_s": 20,
+    "崩解_max_stacks": 4,
+    "op_score_per_break": 800,
+    "op_score_cap": 5000,
+    "pass_a_files": [
+      "ComplexCorrupted_Part_Leg_*.dat",
+      "ComplexCorrupted_PartDamage.dat",
+      "zone layer_buff 69010305/69010307"
+    ]
+  },
+  "soukaku_mindscape": 6,
+  "soukaku_mindscape_note": "Enable Talent_04 AS_AddedDamageRatio 0.5 (+50% dmgBonus) on ultimate Flag refresh; set 0 to disable"
 }

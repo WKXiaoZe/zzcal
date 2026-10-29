@@ -27,16 +27,18 @@ export function DeadlyAssaultPanel() {
         if (cancelled) return;
         setScenario(sc);
         setKits(loaded);
-        // Prefill sample result from Python CLI acceptance run
         try {
           const sample = await fetch('/da-sim/sample_result.json').then((r) => r.json());
           setResult({
             score: {
               total_damage: sample.score.total_damage,
-              hp_proxy: sample.score.hp_proxy,
+              hp_proxy: sample.score.hp_max ?? sample.score.hp_proxy,
+              hp_max: sample.score.hp_max ?? sample.score.hp_proxy,
               final_t: sample.score.final_t,
               final_decibel: sample.score.final_decibel,
               total_stun_applied: sample.score.total_stun_applied,
+              part_breaks: sample.score.part_breaks,
+              da: sample.score.da,
             },
             plan: sample.plan,
             log: sample.log,
@@ -57,7 +59,6 @@ export function DeadlyAssaultPanel() {
     if (!scenario || !kits) return;
     setBusy(true);
     setErr(null);
-    // Yield so UI can paint disabled state
     setTimeout(() => {
       try {
         const r = runDaBeamSearch(scenario, kits, { beam: 16, steps: 90 });
@@ -69,6 +70,8 @@ export function DeadlyAssaultPanel() {
       }
     }, 30);
   }, [scenario, kits]);
+
+  const da = result?.score.da;
 
   return (
     <div className={`sub-module ${styles.panel}`}>
@@ -94,8 +97,18 @@ export function DeadlyAssaultPanel() {
       {result && (
         <>
           <div className={styles.score}>
-            预估伤害 {result.score.total_damage.toLocaleString()} / HP代理 {result.score.hp_proxy.toLocaleString()} ·
-            失衡 {result.score.total_stun_applied.toFixed(1)} · 喧响 {result.score.final_decibel} · t=
+            预估伤害 {result.score.total_damage.toLocaleString()} / HP{' '}
+            {(result.score.hp_max ?? result.score.hp_proxy).toLocaleString()}
+            {da ? (
+              <>
+                {' '}
+                · 危局分 {da.total_score.toLocaleString()}（伤害 {da.damage_score} + 操作{' '}
+                {da.operation_score}）· 档位 {da.rank}
+                {typeof result.score.part_breaks === 'number' ? ` · 部位破坏 ${result.score.part_breaks}` : ''}
+              </>
+            ) : null}
+            {' '}
+            · 失衡 {result.score.total_stun_applied.toFixed(1)} · 喧响 {result.score.final_decibel} · t=
             {result.score.final_t}s · 轴 {result.plan.length} 步
           </div>
           <div className={styles.log}>
@@ -110,9 +123,10 @@ export function DeadlyAssaultPanel() {
         </>
       )}
       <div className={styles.note}>
-        倍率来自 Pass A AttackProperty.fixedValue；伤害公式=zzcal calculateDamage。完整 CLI：
+        倍率来自 Pass A AttackProperty.fixedValue；苍角 FlagAtkBuffRatio=0.25 平加攻 + Ice AddedDamage 12% +
+        IceResist-20%（AbilitySpecials）；危局分=min(60000,60000×伤害/HP)+部位破坏×800。完整 CLI：
         <code> python3 nanoka-zzz/da-sim/cli.py </code>
-        。招架窗口/终结技代理/苍角 Buff 仍为假设，详见 nanoka-zzz/da-sim/progress.md。场地 Buff ≠ 环境 Buff。
+        。招架窗口时长仍手填；详见 nanoka-zzz/da-sim/ASSUMPTIONS.md。场地 Buff ≠ 环境 Buff。
       </div>
     </div>
   );

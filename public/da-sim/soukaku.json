@@ -3,12 +3,14 @@
   "cn": "苍角",
   "profession": "Support",
   "element": "Ice",
-  "source": "zzcal support preset approximation (no AttackProperty DPS focus)",
-  "confidence": "low — support buff magnitudes from zzcal community presets, not Pass A Ability floats",
+  "pass_a_code": "Aokaku",
+  "source": "Pass A TextAsset Aokaku_UniqueSkill / Talent_02/03/04 AbilitySpecials",
+  "confidence": "medium — FlagAtkBuffRatio/Ice AddedDamage/IceResist decoded; buff duration & vortex stacks still assumed",
+  "ability_specials_ref": "data/pass_a_buffs/soukaku_aokaku.json",
   "actions": [
     {
       "id": "ex_buff",
-      "label": "强化特殊技·加攻",
+      "label": "强化特殊技·旗幡加攻",
       "kind": "ex",
       "duration_s": 1.2,
       "energy_cost": 60,
@@ -17,11 +19,19 @@
       "multiplier_pct": 40.0,
       "stun": 0.2,
       "applies_buff": {
-        "inCombatAtkPct": 20,
-        "duration_s": 20
+        "inCombatAtkFlat_from_caster_atk_ratio": 0.25,
+        "dmgBonus": 12,
+        "resShred": 20,
+        "duration_s": 20,
+        "pass_a": {
+          "AS_FlagAtkBuffRatio": 0.25,
+          "AS_Actor_AddedDamageRatio_Ice": 0.12,
+          "AS_IceDamageResist": -0.2,
+          "duration_note": "AS_FlagBuffDuration unresolved in binary; 20s refresh-on-EX"
+        }
       },
-      "pass_a_families": [],
-      "note": "ASSUMED +20% in-combat ATK for 20s (placeholder until Ability Specials wired)"
+      "pass_a_families": ["Aokaku_UniqueSkill", "Aokaku_SpecialSkill"],
+      "note": "inCombatAtkFlat = caster_atk * 0.25; dmgBonus+12 (Ice AddedDamageRatio); resShred+20 (Talent_03 IceResist-20%)"
     },
     {
       "id": "basic",
@@ -45,7 +55,7 @@
       "decibel_gain": 100,
       "multiplier_pct": 50.0,
       "stun": 0.2,
-      "pass_a_families": []
+      "pass_a_families": ["Aokaku_AidAttack"]
     },
     {
       "id": "ultimate",
@@ -59,10 +69,18 @@
       "stun": 0.5,
       "needs_decibel": 3000,
       "applies_buff": {
-        "inCombatAtkPct": 30,
-        "duration_s": 15
+        "inCombatAtkFlat_from_caster_atk_ratio": 0.25,
+        "dmgBonus": 12,
+        "resShred": 20,
+        "duration_s": 20,
+        "cinema_m6_dmgBonus": 50,
+        "pass_a": {
+          "AS_FlagAtkBuffRatio": 0.25,
+          "AS_AddedDamageRatio_Talent_04": 0.5,
+          "talent_04_note": "M6 AddedDamageRatio 0.5; enabled when scenario soukaku_mindscape>=6"
+        }
       },
-      "pass_a_families": []
+      "pass_a_families": ["Aokaku_UniqueSkill"]
     }
   ]
 }
