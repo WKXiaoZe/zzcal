@@ -4,11 +4,11 @@
   "profession": "Attack",
   "element": "Ice",
   "source": "PassA AttackProperty_Avatar_Female_Size02_Ellen.dat fixedValue",
-  "confidence": "medium — no level-grow; only fixedValue hits; dynamicKey expressions dropped",
+  "confidence": "medium — no level-grow; Ult still SwitchIn proxy after round3 dig",
   "actions": [
     {
       "id": "basic_enhance",
-      "label": "蓄力强化普攻",
+      "label": "普通攻击：急冻修剪法",
       "kind": "basic",
       "duration_s": 1.2,
       "energy_cost": 0,
@@ -22,11 +22,12 @@
         "Ellen_Attack_Normal_Enhance_02_04",
         "Ellen_Attack_Normal_Enhance_02_05"
       ],
-      "needs_flash": true
+      "needs_flash": true,
+      "skill_cn": "普通攻击：急冻修剪法"
     },
     {
       "id": "dash_slash",
-      "label": "闪避反击斩",
+      "label": "冲刺攻击：冰渊潜袭",
       "kind": "basic",
       "duration_s": 0.7,
       "energy_cost": 0,
@@ -36,11 +37,12 @@
       "stun": 0.3115,
       "pass_a_families": [
         "Ellen_Attack_Dash_Slash_01"
-      ]
+      ],
+      "skill_cn": "冲刺攻击：冰渊潜袭"
     },
     {
       "id": "ex",
-      "label": "强化特殊技",
+      "label": "强化特殊技：鲨卷风",
       "kind": "ex",
       "duration_s": 1.5,
       "energy_cost": 60,
@@ -51,11 +53,12 @@
       "pass_a_families": [
         "Ellen_Card_A_01",
         "Ellen_Card_A_02"
-      ]
+      ],
+      "skill_cn": "强化特殊技：鲨卷风"
     },
     {
       "id": "branch",
-      "label": "闪避分支连段",
+      "label": "普通攻击：冰刃浪/霜锋（分支）",
       "kind": "basic",
       "duration_s": 1.0,
       "energy_cost": 0,
@@ -67,11 +70,12 @@
         "Ellen_Attack_Branch_02",
         "Ellen_Attack_Branch_04"
       ],
-      "needs_flash": true
+      "needs_flash": true,
+      "skill_cn": "普通攻击：冰刃浪/霜锋"
     },
     {
       "id": "ultimate",
-      "label": "连携技/终结技近似",
+      "label": "终结技：永冬狂宴（SwitchIn代理）",
       "kind": "ultimate",
       "duration_s": 2.0,
       "energy_cost": 0,
@@ -83,11 +87,19 @@
         "Ellen_Attack_SwitchIn_Attack"
       ],
       "needs_decibel": 3000,
-      "note": "Ultimate AttackProperty family incomplete; using SwitchIn as proxy placeholder"
+      "note": "ASSUMPTION round3: AttackProperty has no Ultimate/Card_S skill family (Card_S only appears as SFX). SwitchIn_Attack dmg_sum_pct=222.488 used as proxy. AssaultAid family exists (dmg%≈32.8 stun≈0.73) but is assist not ult. level-grow still missing.",
+      "pass_a_ult_dig": {
+        "ultimate_family_found": false,
+        "card_s_attackproperty": false,
+        "card_s_sfx_only": true,
+        "assault_aid_pct": 32.843,
+        "switch_in_pct": 222.488
+      },
+      "skill_cn": "终结技：永冬狂宴"
     },
     {
       "id": "switch_in",
-      "label": "切人入场攻击",
+      "label": "快速支援：护卫鲛",
       "kind": "switch",
       "duration_s": 0.8,
       "energy_cost": 0,
@@ -97,7 +109,17 @@
       "stun": 0.5,
       "pass_a_families": [
         "Ellen_Attack_SwitchIn_Attack"
-      ]
+      ],
+      "skill_cn": "快速支援：护卫鲛"
     }
-  ]
+  ],
+  "flash_rules": {
+    "max": 3,
+    "on_perfect_assist": 1,
+    "on_ex": 1,
+    "on_field_regen_s": 6.0,
+    "on_field_regen_amount": 1,
+    "note": "Pass A flash economy not fully decoded; EX+1 and 6s on-field regen are ASSUMPTION so ASL-long boss locks (fewer parries) do not hard-starve Flash Freeze branch"
+  },
+  "skill_text_map": "data/pass_a_buffs/skill_text_pass_a_map.json"
 }

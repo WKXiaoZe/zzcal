@@ -114,7 +114,8 @@ export function DeadlyAssaultPanel() {
           <div className={styles.log}>
             {result.log.slice(0, 30).map((row, i) => (
               <div key={i}>
-                t={row.t.toFixed(2)}-{row.t_end.toFixed(2)} {row.agent.padEnd(8)} {row.action.padEnd(14)} dmg=
+                t={row.t.toFixed(2)}-{row.t_end.toFixed(2)} {row.agent.padEnd(8)}{' '}
+                {(row.label || row.action).padEnd(18)} dmg=
                 {row.dmg.toFixed(0).padStart(8)} Σ={row.total_dmg.toFixed(0)}
               </div>
             ))}
@@ -123,10 +124,12 @@ export function DeadlyAssaultPanel() {
         </>
       )}
       <div className={styles.note}>
-        倍率来自 Pass A AttackProperty.fixedValue；苍角 FlagAtkBuffRatio=0.25 平加攻 + Ice AddedDamage 12% +
-        IceResist-20%（AbilitySpecials）；危局分=min(60000,60000×伤害/HP)+部位破坏×800。完整 CLI：
+        轴动作显示 kit.label（真实技能名，见 skill_text_pass_a_map）。倍率来自 Pass A
+        AttackProperty.fixedValue；苍角 FlagAtkBuffRatio=0.25 + Ice AddedDamage 12% + IceResist-20%。危局伤害分=
+        boss_adjust 1001–1029 非线性血条（非 dmg/HP 线性）；操作分=部位破坏×800。啜泣团队增伤 Pass A sourced
+        R5=39.8%；玉壶团队增伤 refine 仍 ASSUMPTION。完整 CLI：
         <code> python3 nanoka-zzz/da-sim/cli.py </code>
-        。招架窗口时长仍手填；详见 nanoka-zzz/da-sim/ASSUMPTIONS.md。场地 Buff ≠ 环境 Buff。
+        。详见 nanoka-zzz/da-sim/ASSUMPTIONS.md。场地 Buff ≠ 环境 Buff。
       </div>
     </div>
   );

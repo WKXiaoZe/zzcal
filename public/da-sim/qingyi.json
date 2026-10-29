@@ -8,7 +8,7 @@
   "actions": [
     {
       "id": "basic",
-      "label": "普攻连段(1-2-4)",
+      "label": "普通攻击：一煞",
       "kind": "basic",
       "duration_s": 1.1,
       "energy_cost": 0,
@@ -20,11 +20,12 @@
         "QingYi_Attack_Normal_01",
         "QingYi_Attack_Normal_02",
         "QingYi_Attack_Normal_04"
-      ]
+      ],
+      "skill_cn": "普通攻击：一煞"
     },
     {
       "id": "charged",
-      "label": "蓄力普攻(Normal_07)",
+      "label": "普通攻击：醉花云",
       "kind": "basic",
       "duration_s": 1.3,
       "energy_cost": 0,
@@ -34,11 +35,12 @@
       "stun": 0.646421,
       "pass_a_families": [
         "QingYi_Attack_Normal_07"
-      ]
+      ],
+      "skill_cn": "普通攻击：醉花云"
     },
     {
       "id": "ex",
-      "label": "强化特殊技",
+      "label": "强化特殊技：月上海棠",
       "kind": "ex",
       "duration_s": 1.8,
       "energy_cost": 60,
@@ -48,11 +50,12 @@
       "stun": 0.5555,
       "pass_a_families": [
         "QingYi_Attack_ExSpecial_01"
-      ]
+      ],
+      "skill_cn": "强化特殊技：月上海棠"
     },
     {
       "id": "switch_in",
-      "label": "切人入场",
+      "label": "快速支援：风入松",
       "kind": "switch",
       "duration_s": 0.8,
       "energy_cost": 0,
@@ -62,11 +65,12 @@
       "stun": 0.418,
       "pass_a_families": [
         "QingYi_SwitchIn_Attack_01"
-      ]
+      ],
+      "skill_cn": "快速支援：风入松"
     },
     {
       "id": "switch_ex",
-      "label": "切人强化入场",
+      "label": "支援突击：清江引",
       "kind": "switch",
       "duration_s": 1.6,
       "energy_cost": 40,
@@ -77,11 +81,12 @@
       "pass_a_families": [
         "QingYi_SwitchIn_Attack_Ex_01"
       ],
-      "note": "High stun entry — preferred for opening stun window"
+      "note": "High stun entry — preferred for opening stun window",
+      "skill_cn": "支援突击：清江引"
     },
     {
       "id": "ultimate",
-      "label": "终结技(用SwitchIn_Ex作倍率代理)",
+      "label": "终结技：八声甘州（SwitchIn_Ex代理）",
       "kind": "ultimate",
       "duration_s": 2.2,
       "energy_cost": 0,
@@ -93,7 +98,9 @@
       "pass_a_families": [
         "QingYi_SwitchIn_Attack_Ex_01"
       ],
-      "note": "Ultimate AttackProperty family not fully resolved; proxy"
+      "note": "ASSUMPTION round3: no Ultimate family in QingYi AttackProperty; SwitchIn_Ex_01 remains proxy (dmg% 417.675 stun 2.1942). level-grow missing.",
+      "skill_cn": "终结技：八声甘州"
     }
-  ]
+  ],
+  "skill_text_map": "data/pass_a_buffs/skill_text_pass_a_map.json"
 }
