@@ -1,0 +1,76 @@
+{
+  "period_id": 690481,
+  "period_cn": "试炼",
+  "boss_key": "ComplexCorrupted",
+  "boss_cn": "未知复合侵蚀体",
+  "monster_id": 11414,
+  "selectable_buff_id": 69014802,
+  "selectable_buff_cn": "烁穹",
+  "buff_note": "击破向：失衡+20%、能量获取+20%；EX后锐化伤害+30%/抗性无视。当期也可切炽陨/极韵。",
+  "team": ["qingyi", "ellen", "soukaku"],
+  "team_roles": {"qingyi": "stun", "ellen": "dps", "soukaku": "support"},
+  "fight_duration_s": 180,
+  "distance_default": 8.0,
+  "boss": {
+    "defBase": 900,
+    "defBonus": 0,
+    "res": 0.2,
+    "weak": true,
+    "weak_element": "Ice",
+    "dazeBase": 100,
+    "stun_threshold": 100.0,
+    "stun_window_s": 12.0,
+    "hp_proxy": 25000000,
+    "hp_note": "HP 为相对评价代理值，非 Pass A 精确读表；用于排轴相对排序"
+  },
+  "agent_stats": {
+    "ellen": {
+      "battleType": "attack",
+      "baseAtk": 938,
+      "weapon": {"baseAtk": 684, "critRate": 20, "critDmg": 50, "dmgBonus": 0},
+      "critRate": 19,
+      "critDmg": 198,
+      "dmgBonus": 30,
+      "resShred": 10,
+      "penRatio": 0,
+      "extraStats": {"critRate": 24, "critDmg": 48, "atkPct": 30, "dmgBonus": 30, "slot5_Dmg": 30},
+      "energy_max": 120,
+      "energy_start": 40
+    },
+    "qingyi": {
+      "battleType": "attack",
+      "baseAtk": 750,
+      "weapon": {"baseAtk": 594, "critRate": 0, "dmgBonus": 0},
+      "critRate": 5,
+      "critDmg": 50,
+      "dmgBonus": 0,
+      "resShred": 0,
+      "dazeVuln": 0,
+      "extraStats": {"atkPct": 30, "critRate": 0},
+      "energy_max": 120,
+      "energy_start": 60,
+      "note": "青衣以失衡为主；伤害用 attack 公式近似"
+    },
+    "soukaku": {
+      "battleType": "attack",
+      "baseAtk": 700,
+      "weapon": {"baseAtk": 460},
+      "critRate": 5,
+      "critDmg": 50,
+      "dmgBonus": 0,
+      "extraStats": {"atkPct": 30},
+      "energy_max": 120,
+      "energy_start": 80
+    }
+  },
+  "field_buffs_from_selectable": {
+    "note": "烁穹：击破代理人永久 AddedBreakStunRatio=0.2 → 映射为 stun 乘区；SkillBuff 15s SharpDamageRatio=0.3 → field.dmgBonus+=30；Energy AS_SPGetRatio=0.2",
+    "stun_agent_break_stun_ratio": 0.2,
+    "sp_get_ratio": 0.2,
+    "skill_buff_dmg_bonus_pct": 30,
+    "skill_buff_duration_s": 15,
+    "skill_buff_res_shred_pct": 20
+  },
+  "env_buff_note": "场地 Buff ≠ 环境 Buff；本场景未叠 EnvBuff_Hard，仅 selectable",
+  "seed": 42
+}

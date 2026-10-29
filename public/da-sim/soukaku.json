@@ -1,0 +1,68 @@
+{
+  "agent_id": "soukaku",
+  "cn": "苍角",
+  "profession": "Support",
+  "element": "Ice",
+  "source": "zzcal support preset approximation (no AttackProperty DPS focus)",
+  "confidence": "low — support buff magnitudes from zzcal community presets, not Pass A Ability floats",
+  "actions": [
+    {
+      "id": "ex_buff",
+      "label": "强化特殊技·加攻",
+      "kind": "ex",
+      "duration_s": 1.2,
+      "energy_cost": 60,
+      "energy_gain": 0,
+      "decibel_gain": 200,
+      "multiplier_pct": 40.0,
+      "stun": 0.2,
+      "applies_buff": {
+        "inCombatAtkPct": 20,
+        "duration_s": 20
+      },
+      "pass_a_families": [],
+      "note": "ASSUMED +20% in-combat ATK for 20s (placeholder until Ability Specials wired)"
+    },
+    {
+      "id": "basic",
+      "label": "普攻充能",
+      "kind": "basic",
+      "duration_s": 0.9,
+      "energy_cost": 0,
+      "energy_gain": 15,
+      "decibel_gain": 60,
+      "multiplier_pct": 30.0,
+      "stun": 0.1,
+      "pass_a_families": []
+    },
+    {
+      "id": "switch_in",
+      "label": "切人",
+      "kind": "switch",
+      "duration_s": 0.6,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 100,
+      "multiplier_pct": 50.0,
+      "stun": 0.2,
+      "pass_a_families": []
+    },
+    {
+      "id": "ultimate",
+      "label": "终结技",
+      "kind": "ultimate",
+      "duration_s": 2.0,
+      "energy_cost": 0,
+      "energy_gain": 0,
+      "decibel_gain": -3000,
+      "multiplier_pct": 120.0,
+      "stun": 0.5,
+      "needs_decibel": 3000,
+      "applies_buff": {
+        "inCombatAtkPct": 30,
+        "duration_s": 15
+      },
+      "pass_a_families": []
+    }
+  ]
+}

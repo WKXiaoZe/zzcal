@@ -1,0 +1,55 @@
+.panel {
+  margin-bottom: 20px;
+  border-color: #ff6b4a;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: 1px solid var(--zzz-primary, #ff6b4a);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.meta {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.score {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.log {
+  max-height: 280px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.note {
+  font-size: 0.8rem;
+  opacity: 0.75;
+  margin-top: 8px;
+}

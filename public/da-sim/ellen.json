@@ -1,0 +1,103 @@
+{
+  "agent_id": "ellen",
+  "cn": "艾莲·乔Ⅵ",
+  "profession": "Attack",
+  "element": "Ice",
+  "source": "PassA AttackProperty_Avatar_Female_Size02_Ellen.dat fixedValue",
+  "confidence": "medium — no level-grow; only fixedValue hits; dynamicKey expressions dropped",
+  "actions": [
+    {
+      "id": "basic_enhance",
+      "label": "蓄力强化普攻",
+      "kind": "basic",
+      "duration_s": 1.2,
+      "energy_cost": 0,
+      "energy_gain": 8,
+      "decibel_gain": 120,
+      "multiplier_pct": 179.814,
+      "stun": 0.280667,
+      "pass_a_families": [
+        "Ellen_Attack_Normal_Enhance_01",
+        "Ellen_Attack_Normal_Enhance_02",
+        "Ellen_Attack_Normal_Enhance_02_04",
+        "Ellen_Attack_Normal_Enhance_02_05"
+      ],
+      "needs_flash": true
+    },
+    {
+      "id": "dash_slash",
+      "label": "闪避反击斩",
+      "kind": "basic",
+      "duration_s": 0.7,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 60,
+      "multiplier_pct": 31.15,
+      "stun": 0.3115,
+      "pass_a_families": [
+        "Ellen_Attack_Dash_Slash_01"
+      ]
+    },
+    {
+      "id": "ex",
+      "label": "强化特殊技",
+      "kind": "ex",
+      "duration_s": 1.5,
+      "energy_cost": 60,
+      "energy_gain": 0,
+      "decibel_gain": 300,
+      "multiplier_pct": 189.55,
+      "stun": 0.5,
+      "pass_a_families": [
+        "Ellen_Card_A_01",
+        "Ellen_Card_A_02"
+      ]
+    },
+    {
+      "id": "branch",
+      "label": "闪避分支连段",
+      "kind": "basic",
+      "duration_s": 1.0,
+      "energy_cost": 0,
+      "energy_gain": 10,
+      "decibel_gain": 150,
+      "multiplier_pct": 258.748,
+      "stun": 1.87926,
+      "pass_a_families": [
+        "Ellen_Attack_Branch_02",
+        "Ellen_Attack_Branch_04"
+      ],
+      "needs_flash": true
+    },
+    {
+      "id": "ultimate",
+      "label": "连携技/终结技近似",
+      "kind": "ultimate",
+      "duration_s": 2.0,
+      "energy_cost": 0,
+      "energy_gain": 0,
+      "decibel_gain": -3000,
+      "multiplier_pct": 222.488,
+      "stun": 1.0,
+      "pass_a_families": [
+        "Ellen_Attack_SwitchIn_Attack"
+      ],
+      "needs_decibel": 3000,
+      "note": "Ultimate AttackProperty family incomplete; using SwitchIn as proxy placeholder"
+    },
+    {
+      "id": "switch_in",
+      "label": "切人入场攻击",
+      "kind": "switch",
+      "duration_s": 0.8,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 200,
+      "multiplier_pct": 222.488,
+      "stun": 0.5,
+      "pass_a_families": [
+        "Ellen_Attack_SwitchIn_Attack"
+      ]
+    }
+  ]
+}

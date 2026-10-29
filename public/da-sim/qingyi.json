@@ -1,0 +1,99 @@
+{
+  "agent_id": "qingyi",
+  "cn": "青衣",
+  "profession": "Stun",
+  "element": "Electric",
+  "source": "PassA AttackProperty_Avatar_Female_Size01_QingYi.dat",
+  "confidence": "medium",
+  "actions": [
+    {
+      "id": "basic",
+      "label": "普攻连段(1-2-4)",
+      "kind": "basic",
+      "duration_s": 1.1,
+      "energy_cost": 0,
+      "energy_gain": 12,
+      "decibel_gain": 90,
+      "multiplier_pct": 79.16,
+      "stun": 0.7342,
+      "pass_a_families": [
+        "QingYi_Attack_Normal_01",
+        "QingYi_Attack_Normal_02",
+        "QingYi_Attack_Normal_04"
+      ]
+    },
+    {
+      "id": "charged",
+      "label": "蓄力普攻(Normal_07)",
+      "kind": "basic",
+      "duration_s": 1.3,
+      "energy_cost": 0,
+      "energy_gain": 15,
+      "decibel_gain": 140,
+      "multiplier_pct": 98.695,
+      "stun": 0.646421,
+      "pass_a_families": [
+        "QingYi_Attack_Normal_07"
+      ]
+    },
+    {
+      "id": "ex",
+      "label": "强化特殊技",
+      "kind": "ex",
+      "duration_s": 1.8,
+      "energy_cost": 60,
+      "energy_gain": 0,
+      "decibel_gain": 280,
+      "multiplier_pct": 226.05,
+      "stun": 0.5555,
+      "pass_a_families": [
+        "QingYi_Attack_ExSpecial_01"
+      ]
+    },
+    {
+      "id": "switch_in",
+      "label": "切人入场",
+      "kind": "switch",
+      "duration_s": 0.8,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 180,
+      "multiplier_pct": 194.37,
+      "stun": 0.418,
+      "pass_a_families": [
+        "QingYi_SwitchIn_Attack_01"
+      ]
+    },
+    {
+      "id": "switch_ex",
+      "label": "切人强化入场",
+      "kind": "switch",
+      "duration_s": 1.6,
+      "energy_cost": 40,
+      "energy_gain": 0,
+      "decibel_gain": 350,
+      "multiplier_pct": 417.675,
+      "stun": 2.1942,
+      "pass_a_families": [
+        "QingYi_SwitchIn_Attack_Ex_01"
+      ],
+      "note": "High stun entry — preferred for opening stun window"
+    },
+    {
+      "id": "ultimate",
+      "label": "终结技(用SwitchIn_Ex作倍率代理)",
+      "kind": "ultimate",
+      "duration_s": 2.2,
+      "energy_cost": 0,
+      "energy_gain": 0,
+      "decibel_gain": -3000,
+      "needs_decibel": 3000,
+      "multiplier_pct": 417.675,
+      "stun": 2.1942,
+      "pass_a_families": [
+        "QingYi_SwitchIn_Attack_Ex_01"
+      ],
+      "note": "Ultimate AttackProperty family not fully resolved; proxy"
+    }
+  ]
+}
