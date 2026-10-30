@@ -1,21 +1,25 @@
 /// <reference lib="webworker" />
 import { loadBundle, runDaSim, type RunOptions } from './runner';
+import type { TeamSlot } from './types';
 
 export interface WorkerRequest {
   base: string; // absolute URL of public/da-sim/
+  /** Period/boss template scenario file (presets supply one; free pick uses matching period+boss file). */
   scenarioFile: string;
+  /** Free composition: exactly 3 agent ids (or TeamSlot[]). Omit to use scenario file's baked team. */
+  team?: string[] | TeamSlot[];
   options: Omit<RunOptions, 'onProgress'>;
 }
 
 self.onmessage = async (ev: MessageEvent<WorkerRequest>) => {
-  const { base, scenarioFile, options } = ev.data;
+  const { base, scenarioFile, team, options } = ev.data;
   try {
     const read = async (p: string) => {
       const r = await fetch(new URL(p, base).toString());
       if (!r.ok) throw new Error(`加载失败 ${p}: HTTP ${r.status}`);
       return r.json();
     };
-    const bundle = await loadBundle(read, scenarioFile);
+    const bundle = await loadBundle(read, scenarioFile, team ? { team } : undefined);
     let last = 0;
     const result = runDaSim(bundle, {
       ...options,

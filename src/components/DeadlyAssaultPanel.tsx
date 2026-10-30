@@ -1,9 +1,8 @@
 // 危局强袭战 · 最优排轴模拟器（nanoka-zzz/da-sim Python 版完整移植）
-// 数据：public/da-sim/（index / scenarios / kits / boss / score_curve / builds）
-// 计算：src/calc/daSim/*，在 Web Worker 中运行束搜索。
+// 自由配队：任意 3 代理人 + 可选预设快捷填充；数据 public/da-sim/，计算在 Web Worker。
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { DaIndex } from '../calc/daSim/runner';
+import type { DaIndex, DaIndexScenario } from '../calc/daSim/runner';
 import type { RunResult } from '../calc/daSim/runner';
 import type { BuildMode } from '../calc/daSim/types';
 import styles from './DeadlyAssaultPanel.module.css';
@@ -22,14 +21,26 @@ const ACTION_CN: Record<string, string> = {
   basic_enhance: '强化普攻', basic_finisher: '普攻终结', branch: '普攻分支', charged: '蓄力攻击', dash_slash: '冲刺攻击',
   ex_buff: '强化特殊技（增益）', switch_ex: '切人强化特殊技',
 };
+const DEFAULT_SLOT_LABELS = ['击破', '主C', '辅助'];
+const EMPTY_TEAM: [string, string, string] = ['', '', ''];
+const PROF_ROLE_CN: Record<string, string> = {
+  stun: '击破', attack: '输出', support: '支援', defense: '防护', anomaly: '异常',
+};
+
 const fmt = (n: number | null | undefined, d = 0) =>
   n == null || Number.isNaN(n) ? '—' : Number(n).toLocaleString('zh-CN', { maximumFractionDigits: d, minimumFractionDigits: d });
+
+function teamsEqual(a: string[], b: string[] | undefined): boolean {
+  if (!b || b.length !== 3) return false;
+  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
+}
 
 export function DeadlyAssaultPanel() {
   const [index, setIndex] = useState<DaIndex | null>(null);
   const [period, setPeriod] = useState<number | null>(null);
   const [bossKey, setBossKey] = useState<string>('ComplexCorrupted');
-  const [scenarioId, setScenarioId] = useState<string>('');
+  const [presetId, setPresetId] = useState<string>(''); // '' = 自由配队
+  const [team, setTeam] = useState<[string, string, string]>(EMPTY_TEAM);
   const [buildMode, setBuildMode] = useState<BuildMode>('auto');
   const [beamWidth, setBeamWidth] = useState(40);
   const [maxSteps, setMaxSteps] = useState(140);
@@ -52,12 +63,15 @@ export function DeadlyAssaultPanel() {
         setIndex(ix);
         const first = ix.scenarios[0];
         if (!first) {
-          setErr('数据索引为空：未找到可用场景。');
+          setErr('数据索引为空：未找到可用场景模板。');
           return;
         }
+        // Default to first preset as a convenience shortcut (still free-editable).
         setPeriod(first.period_id);
         setBossKey(first.boss_key);
-        setScenarioId(first.id);
+        setPresetId(first.id);
+        const t = (first.team || EMPTY_TEAM) as [string, string, string];
+        setTeam([t[0] || '', t[1] || '', t[2] || '']);
         setBuildMode(first.default_build_mode);
       })
       .catch((e) => {
@@ -69,45 +83,114 @@ export function DeadlyAssaultPanel() {
     };
   }, []);
 
+  const slotLabels = index?.slot_labels?.length === 3 ? index.slot_labels : DEFAULT_SLOT_LABELS;
+  const agents = index?.agents ?? [];
+
   const periods = useMemo(() => {
     const m = new Map<number, string>();
     index?.scenarios.forEach((s) => m.set(s.period_id, s.period_label));
     return [...m.entries()];
   }, [index]);
-  const teams = useMemo(
+
+  /** Presets matching current period+boss (shortcuts only). */
+  const presets = useMemo(
     () => index?.scenarios.filter((s) => s.period_id === period && s.boss_key === bossKey) ?? [],
     [index, period, bossKey],
   );
-  const current = index?.scenarios.find((s) => s.id === scenarioId) ?? null;
+
+  /** Template scenario file for current period+boss (any matching preset file). */
+  const templateScenario: DaIndexScenario | null = useMemo(() => {
+    if (!index || period == null) return null;
+    if (presetId) {
+      const p = index.scenarios.find((s) => s.id === presetId);
+      if (p) return p;
+    }
+    return (
+      index.scenarios.find((s) => s.period_id === period && s.boss_key === bossKey)
+      ?? index.scenarios.find((s) => s.boss_key === bossKey)
+      ?? null
+    );
+  }, [index, period, bossKey, presetId]);
+
+  const activePreset = index?.scenarios.find((s) => s.id === presetId) ?? null;
+  const teamReady = team.every(Boolean) && new Set(team).size === 3;
 
   const pickPeriod = (p: number) => {
     setPeriod(p);
-    const s = index?.scenarios.find((x) => x.period_id === p && x.boss_key === bossKey) ?? index?.scenarios.find((x) => x.period_id === p);
-    if (s) {
-      setBossKey(s.boss_key);
-      setScenarioId(s.id);
-      setBuildMode(s.default_build_mode);
+    const match =
+      index?.scenarios.find((x) => x.period_id === p && x.boss_key === bossKey)
+      ?? index?.scenarios.find((x) => x.period_id === p);
+    if (match) {
+      setBossKey(match.boss_key);
+      // Keep free team if possible; only auto-apply preset when none selected.
+      const still = index?.scenarios.find(
+        (x) => x.period_id === p && x.boss_key === match.boss_key && teamsEqual(team, x.team),
+      );
+      if (still) {
+        setPresetId(still.id);
+        setBuildMode(still.default_build_mode);
+      } else {
+        setPresetId('');
+      }
     }
   };
+
   const pickBoss = (key: string) => {
     setBossKey(key);
-    const s = index?.scenarios.find((x) => x.period_id === period && x.boss_key === key)
+    const match =
+      index?.scenarios.find((x) => x.period_id === period && x.boss_key === key)
       ?? index?.scenarios.find((x) => x.boss_key === key);
-    if (s) {
-      setScenarioId(s.id);
-      setBuildMode(s.default_build_mode);
+    if (!match) {
+      setPresetId('');
+      return;
+    }
+    const still = index?.scenarios.find(
+      (x) => x.period_id === (period ?? match.period_id) && x.boss_key === key && teamsEqual(team, x.team),
+    );
+    if (still) {
+      setPresetId(still.id);
+      setBuildMode(still.default_build_mode);
     } else {
-      setScenarioId('');
+      setPresetId('');
     }
   };
-  const pickTeam = (id: string) => {
-    setScenarioId(id);
+
+  const applyPreset = (id: string) => {
+    if (!id) {
+      setPresetId('');
+      return;
+    }
     const s = index?.scenarios.find((x) => x.id === id);
-    if (s) setBuildMode(s.default_build_mode);
+    if (!s) return;
+    setPresetId(s.id);
+    setPeriod(s.period_id);
+    setBossKey(s.boss_key);
+    const t = (s.team || EMPTY_TEAM) as [string, string, string];
+    setTeam([t[0] || '', t[1] || '', t[2] || '']);
+    setBuildMode(s.default_build_mode);
+  };
+
+  const pickSlot = (idx: number, agentId: string) => {
+    const next: [string, string, string] = [...team];
+    next[idx] = agentId;
+    setTeam(next);
+    const match = index?.scenarios.find(
+      (s) => s.period_id === period && s.boss_key === bossKey && teamsEqual(next, s.team),
+    );
+    setPresetId(match?.id ?? '');
+    if (match) setBuildMode(match.default_build_mode);
+    else if (buildMode === 'file') setBuildMode('auto'); // file builds are preset-specific
   };
 
   const run = () => {
-    if (!current) return;
+    if (!templateScenario) {
+      setErr('当前期数/首领没有可用的场景模板。');
+      return;
+    }
+    if (!teamReady) {
+      setErr('请选择 3 名不重复的代理人。');
+      return;
+    }
     workerRef.current?.terminate();
     const w = new Worker(new URL('../calc/daSim/worker.ts', import.meta.url), { type: 'module' });
     workerRef.current = w;
@@ -134,8 +217,14 @@ export function DeadlyAssaultPanel() {
       setBusy(false);
       setProgress(null);
     };
-    w.postMessage({ base: BASE, scenarioFile: current.file, options: { buildMode, beamWidth, maxSteps, seed } });
+    w.postMessage({
+      base: BASE,
+      scenarioFile: templateScenario.file,
+      team: [...team],
+      options: { buildMode, beamWidth, maxSteps, seed },
+    });
   };
+
   const stop = () => {
     workerRef.current?.terminate();
     workerRef.current = null;
@@ -149,12 +238,20 @@ export function DeadlyAssaultPanel() {
     ? Math.min(100, Math.round((progress.step / progress.max) * 100))
     : 0;
 
+  const agentOptionsFor = (slotIdx: number) => {
+    const taken = new Set(team.filter((id, i) => id && i !== slotIdx));
+    return agents.map((a) => ({
+      ...a,
+      disabled: taken.has(a.id),
+    }));
+  };
+
   return (
     <section className={`sub-module ${styles.panel}`} id="mod-da-sim" aria-labelledby="da-sim-title">
       <div className="module-title"><span id="da-sim-title">危局强袭 · 排轴模拟</span></div>
 
       <p className={styles.intro}>
-        用束搜索估算本期危局强袭的最优排轴与得分。得分 = 伤害曲线分段分 + 部位破坏（每次 800，上限 5000）；评级门槛 S/A/B = 20000 / 14000 / 6000。
+        自由配队：任选 3 名代理人（需有 Pass A kit），用束搜索估算最优排轴与得分。预设仅作快捷填充；得分 = 伤害曲线分段分 + 部位破坏（每次 800，上限 5000）；评级门槛 S/A/B = 20000 / 14000 / 6000。
       </p>
 
       {!index && !err && (
@@ -162,7 +259,7 @@ export function DeadlyAssaultPanel() {
       )}
 
       {index && index.scenarios.length === 0 && !err && (
-        <p className={styles.empty}>暂无可用场景。请确认 <code>da-sim/index.json</code> 已部署。</p>
+        <p className={styles.empty}>暂无可用场景模板。请确认 <code>da-sim/index.json</code> 已部署。</p>
       )}
 
       {index && index.scenarios.length > 0 && (
@@ -187,16 +284,22 @@ export function DeadlyAssaultPanel() {
               </select>
             </label>
             <label className={styles.field}>
-              <span className={styles.fieldLabel}>队伍</span>
+              <span className={styles.fieldLabel}>预设（快捷）</span>
               <select
-                value={scenarioId}
-                onChange={(e) => pickTeam(e.target.value)}
-                disabled={busy || teams.length === 0}
+                value={presetId}
+                onChange={(e) => applyPreset(e.target.value)}
+                disabled={busy}
               >
-                {teams.length === 0 && <option value="">该首领本期暂无队伍</option>}
-                {teams.map((s) => (
+                <option value="">自由配队</option>
+                {presets.map((s) => (
                   <option key={s.id} value={s.id}>{s.team_label}</option>
                 ))}
+                {/* Show other-period presets so user can jump */}
+                {index.scenarios
+                  .filter((s) => !(s.period_id === period && s.boss_key === bossKey))
+                  .map((s) => (
+                    <option key={s.id} value={s.id}>{s.period_label} · {s.team_label}</option>
+                  ))}
               </select>
             </label>
             <label className={styles.field}>
@@ -241,9 +344,38 @@ export function DeadlyAssaultPanel() {
             </label>
           </div>
 
+          <div className={styles.teamSection}>
+            <div className={styles.teamHeader}>
+              <span className={styles.fieldLabel}>队伍（自由配队 · 顺序 = 开场→切人）</span>
+              {agents.length === 0 && (
+                <span className={styles.meta}>暂无代理人目录，请检查 index.json 的 agents 字段。</span>
+              )}
+            </div>
+            <div className={styles.teamGrid}>
+              {slotLabels.map((label, i) => (
+                <label key={i} className={styles.field}>
+                  <span className={styles.fieldLabel}>{label}</span>
+                  <select
+                    value={team[i]}
+                    onChange={(e) => pickSlot(i, e.target.value)}
+                    disabled={busy || agents.length === 0}
+                  >
+                    <option value="">选择代理人…</option>
+                    {agentOptionsFor(i).map((a) => (
+                      <option key={a.id} value={a.id} disabled={a.disabled}>
+                        {a.cn}（{PROF_ROLE_CN[(a.profession || '').toLowerCase()] ?? a.profession}）
+                        {a.disabled ? ' · 已选用' : ''}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ))}
+            </div>
+          </div>
+
           <div className={styles.actions}>
             {!busy ? (
-              <button type="button" className={styles.btn} onClick={run} disabled={!current}>
+              <button type="button" className={styles.btn} onClick={run} disabled={!teamReady || !templateScenario}>
                 开始模拟
               </button>
             ) : (
@@ -252,7 +384,7 @@ export function DeadlyAssaultPanel() {
               </button>
             )}
             <p className={styles.meta} id="da-beam-hint">
-              束宽越大搜索越稳、越慢；默认 40 / 140 步便于与 Python 参考对照。
+              束宽越大搜索越稳、越慢；默认 40 / 140 步便于与 Python 参考对照。自由配队默认用自动配装。
             </p>
           </div>
 
@@ -274,12 +406,12 @@ export function DeadlyAssaultPanel() {
             </div>
           )}
 
-          {current?.python_ref && (
+          {activePreset?.python_ref && teamsEqual(team, activePreset.team) && (
             <p className={styles.meta}>
               <span className={styles.metaStrong}>参考：</span>
-              Python（束宽 40 / 140 步 / 种子 42 / {BUILD_MODE_CN[current.python_ref.build].slice(0, 4)}）
-              {fmt(current.python_ref.total_score, 1)} 分 · {fmt(current.python_ref.final_t, 1)} 秒
-              {current.human_ref != null ? `；玩家实测 ${fmt(current.human_ref)} 分` : ''}
+              Python（束宽 40 / 140 步 / 种子 42 / {BUILD_MODE_CN[activePreset.python_ref.build].slice(0, 4)}）
+              {fmt(activePreset.python_ref.total_score, 1)} 分 · {fmt(activePreset.python_ref.final_t, 1)} 秒
+              {activePreset.human_ref != null ? `；玩家实测 ${fmt(activePreset.human_ref)} 分` : ''}
             </p>
           )}
         </div>
@@ -331,6 +463,8 @@ export function DeadlyAssaultPanel() {
             </div>
             <p className={styles.scoreMeta}>
               配装 {BUILD_MODE_CN[result.build_mode]} · 束宽 {result.search?.beam_width} · 步数 {result.search?.max_steps} · 种子 {result.search?.seed} · 耗时 {fmt(result.elapsed_ms / 1000, 1)} 秒
+              {' · 队伍 '}
+              {result.team.map((aid) => result.agent_cn[aid] || aid).join(' / ')}
             </p>
           </div>
 

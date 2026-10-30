@@ -31,6 +31,18 @@ export interface DaKit {
   [k: string]: any;
 }
 
+/**
+ * One slot in a free-composition team (array of 3).
+ * Future exhaustive search can iterate TeamSlot[] without an enum of named comps.
+ */
+export interface TeamSlot {
+  agentId: string;
+  /** Optional future: mindscape / weapon / disc overrides per slot */
+  mindscape?: number;
+  weapon?: string;
+  weaponRefine?: number;
+}
+
 export type DaScenario = Record<string, any> & {
   team: string[];
   boss: Record<string, any>;
@@ -92,4 +104,24 @@ export interface SearchOptions {
   seed: number;
   buildMode: BuildMode;
   budget?: number;
+}
+
+/** Map Pass-A kit profession → scenario team_roles key. */
+export function professionToRole(profession?: string): string {
+  const p = (profession || '').toLowerCase();
+  if (p === 'stun') return 'stun';
+  if (p === 'attack') return 'dps';
+  if (p === 'support') return 'support';
+  if (p === 'defense') return 'support';
+  if (p === 'anomaly') return 'anomaly';
+  return 'dps';
+}
+
+/** Normalize UI/engine team input → 3 agent id strings. */
+export function normalizeTeam(team: string[] | TeamSlot[]): string[] {
+  const ids = team.map((t) => (typeof t === 'string' ? t : t.agentId));
+  if (ids.length !== 3) throw new Error(`队伍必须是 3 名代理人，当前 ${ids.length} 名`);
+  if (ids.some((id) => !id)) throw new Error('队伍槽位不能为空，请为每个位置选择代理人');
+  if (new Set(ids).size !== 3) throw new Error('队伍中代理人不能重复');
+  return ids;
 }

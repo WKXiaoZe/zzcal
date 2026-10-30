@@ -79,3 +79,30 @@ describe('da-sim beam search parity (width 40, steps 140, seed 42)', () => {
     pyPlan('690481_complex_corrupted.json', r.plan);
   }, 600000);
 });
+
+describe('da-sim free team composition', () => {
+  it('loads arbitrary 3-agent team onto a period/boss template', async () => {
+    const b = await loadBundle(read, ICE, { team: ['qingyi', 'anby_s0', 'soukaku'] });
+    expect(b.scenario.team).toEqual(['qingyi', 'anby_s0', 'soukaku']);
+    expect(b.kits.qingyi.cn).toBeTruthy();
+    expect(b.kits.anby_s0.cn).toBeTruthy();
+    expect(b.kits.soukaku.cn).toBeTruthy();
+    expect(b.scenario.team_roles.qingyi).toBe('stun');
+    expect(b.scenario.team_roles.anby_s0).toBe('dps');
+    expect(b.scenario.team_roles.soukaku).toBe('support');
+  });
+
+  it('clear error when kit is missing', async () => {
+    await expect(loadBundle(read, ICE, { team: ['qingyi', 'ellen', 'not_a_real_agent'] })).rejects.toThrow(
+      /缺少代理人 kit/,
+    );
+  });
+
+  it('preset-equivalent team override keeps ice parity inputs', async () => {
+    const b0 = await loadBundle(read, ICE);
+    const b1 = await loadBundle(read, ICE, { team: ['qingyi', 'ellen', 'soukaku'] });
+    expect(b1.scenario.team).toEqual(b0.scenario.team);
+    expect(b1.scenario.team_roles).toEqual({ qingyi: 'stun', ellen: 'dps', soukaku: 'support' });
+    expect(b1.scenario.soukaku_mindscape).toBe(b0.scenario.soukaku_mindscape);
+  });
+});
