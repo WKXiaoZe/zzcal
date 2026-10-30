@@ -79,13 +79,13 @@ export function OutputPanel() {
           fontSize: '2rem',
           color: 'var(--zzz-primary)',
           textAlign: 'right',
-          textShadow: '0 0 10px var(--zzz-primary)',
+          textShadow: '0 2px 6px rgba(0,0,0,0.55)',
         }}
       >
         {Math.floor(result.dmg).toLocaleString()}
       </div>
 
-      <h3 style={{ marginTop: 20 }}>最终面板</h3>
+      <h2 style={{ marginTop: 20, fontSize: "1.1rem", fontWeight: 600 }}>最终面板</h2>
       <div className={styles.panelData}>
         {rows.map((r) => (
           <div key={r.label} className={styles.panelRow}>

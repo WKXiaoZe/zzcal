@@ -1,0 +1,234 @@
+{
+  "agent_id": "qingyi",
+  "cn": "青衣",
+  "profession": "Stun",
+  "element": "Electric",
+  "source": "PassA AttackProperty_Avatar_Female_Size01_QingYi.dat",
+  "confidence": "medium",
+  "actions": [
+    {
+      "id": "basic",
+      "label": "普通攻击：一煞",
+      "kind": "basic",
+      "duration_s": 0.9333,
+      "energy_cost": 0,
+      "energy_gain": 12,
+      "decibel_gain": 90,
+      "multiplier_pct": 79.16,
+      "stun": 0.7342,
+      "pass_a_families": [
+        "QingYi_Attack_Normal_01",
+        "QingYi_Attack_Normal_02",
+        "QingYi_Attack_Normal_04"
+      ],
+      "skill_cn": "普通攻击：一煞",
+      "duration_note": "R15: chain sum Pass A hits N01@7 + N02@8 + N04@13 → 28/30=0.9333s (cancel_frames_qingyi.json). Each has Normal_*_End idle_sf=0. See cancel_frames_zone_end_hit_occupancy_r15.json. ≠R14 Ability Soft.",
+      "asl_states": [
+        "Attack_Normal_01",
+        "Attack_Normal_02",
+        "Attack_Normal_04"
+      ]
+    },
+    {
+      "id": "charged",
+      "label": "普通攻击：醉花云",
+      "kind": "basic",
+      "duration_s": 1.3,
+      "energy_cost": 0,
+      "energy_gain": 15,
+      "decibel_gain": 140,
+      "multiplier_pct": 98.695,
+      "stun": 0.646421,
+      "pass_a_families": [
+        "QingYi_Attack_Normal_07"
+      ],
+      "skill_cn": "普通攻击：醉花云",
+      "asl_state": "Attack_Normal_07",
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). Attack_Normal_07 hit[12] End idle_sf0 → 0.4. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    },
+    {
+      "id": "ex",
+      "label": "强化特殊技：月上海棠",
+      "kind": "ex",
+      "duration_s": 1.5,
+      "energy_cost": 60,
+      "energy_gain": 0,
+      "decibel_gain": 280,
+      "multiplier_pct": 226.05,
+      "stun": 0.5555,
+      "pass_a_families": [
+        "QingYi_Attack_ExSpecial_01"
+      ],
+      "skill_cn": "强化特殊技：月上海棠",
+      "asl_state": "Attack_ExSpecial_01",
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). Attack_ExSpecial_01 hit[9] End idle_sf0 → 0.3. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    },
+    {
+      "id": "switch_in",
+      "label": "快速支援：风入松",
+      "kind": "switch",
+      "duration_s": 0.8,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 180,
+      "multiplier_pct": 194.37,
+      "stun": 0.418,
+      "pass_a_families": [
+        "QingYi_SwitchIn_Attack_01"
+      ],
+      "skill_cn": "快速支援：风入松",
+      "duration_note": "R14: no Ability FrameCount on SwitchIn states. See occupancy_r14."
+    },
+    {
+      "id": "switch_ex",
+      "label": "支援突击：清江引",
+      "kind": "switch",
+      "duration_s": 1.6,
+      "energy_cost": 40,
+      "energy_gain": 0,
+      "decibel_gain": 350,
+      "multiplier_pct": 417.675,
+      "stun": 2.1942,
+      "pass_a_families": [
+        "QingYi_SwitchIn_Attack_Ex_01"
+      ],
+      "note": "High stun entry — preferred for opening stun window",
+      "skill_cn": "支援突击：清江引",
+      "asl_state": "SwitchIn_Attack_Ex",
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). SwitchIn_Attack_Ex hit[3] End idle_sf0 → 0.1. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    },
+    {
+      "id": "ultimate",
+      "label": "终结技：八声甘州（SwitchIn_Ex代理）",
+      "kind": "ultimate",
+      "duration_s": 1.8167,
+      "energy_cost": 0,
+      "energy_gain": 0,
+      "decibel_gain": -3000,
+      "needs_decibel": 3000,
+      "multiplier_pct": 417.675,
+      "stun": 2.1942,
+      "pass_a_families": [
+        "QingYi_SwitchIn_Attack_Ex_01"
+      ],
+      "note": "ASSUMPTION round3: no Ultimate family in QingYi AttackProperty; SwitchIn_Ex_01 remains proxy (dmg% 417.675 stun 2.1942). level-grow missing.",
+      "skill_cn": "终结技：八声甘州",
+      "asl_state": "SwitchIn_Attack_Ex",
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). SwitchIn_Attack_Ex hit[3] End idle_sf0 → 0.1. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    }
+  ],
+  "skill_text_map": "data/pass_a_buffs/skill_text_pass_a_map.json",
+  "round9_asl": {
+    "source": "data/pass_a_buffs/qingyi_state_lengths.json",
+    "policy": "shorten when kit>ASL main"
+  },
+  "round12_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_qingyi.json",
+    "idle_cancels": {
+      "Attack_Branch_01": {
+        "cancel_s": 2.5,
+        "cancel_frame": 75,
+        "asl_s": 5.4833
+      },
+      "Attack_Branch_01_Enhance_End": {
+        "cancel_s": 3.1667,
+        "cancel_frame": 95,
+        "asl_s": 5.9167
+      }
+    },
+    "note": "Attack_Branch_01 cancel_s=2.5 (ASL 5.48); kit has no branch action id yet — not wired into duration"
+  },
+  "round15_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_zone_end_hit_occupancy_r15.json",
+    "basic": {
+      "old": 1.1,
+      "new": 0.9333,
+      "frames": [
+        7,
+        8,
+        13
+      ]
+    }
+  },
+  "round16_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_zone_end_hit_occupancy_r16.json",
+    "policy": "same as R15: End idle_sf=0 + event_hit_frames/30; wire iff < kit; no invented pad",
+    "wired": [
+      {
+        "action": "charged",
+        "old": 1.3,
+        "new": 0.4
+      },
+      {
+        "action": "ex",
+        "old": 1.5,
+        "new": 0.3
+      },
+      {
+        "action": "switch_ex",
+        "old": 1.6,
+        "new": 0.1
+      },
+      {
+        "action": "ultimate",
+        "old": 1.817,
+        "new": 0.1
+      }
+    ],
+    "unwired_gaps": [
+      {
+        "agent": "qingyi",
+        "action": "switch_in",
+        "old": 0.8,
+        "new": 0.8,
+        "formula": 1.0,
+        "wired": false,
+        "reason": "SwitchIn_Attack hits=[30] end_ok=True formula=1.0 (no shorten)"
+      }
+    ]
+  },
+  "round_passc_cancel": {
+    "source": "data/pass_c_animator/occupancy_passc.json",
+    "script": "scripts/parse_animator_controller.py",
+    "policy": "Pass C AnimatorController @60fps. Chain basic: earliest FrameCount gate to next Normal (Trigger_PressAttackA). Singles: hasExitTime→*_End or totalFramesSrc/60; NEVER earliest button cancel (protects multi-hit/stun). Wire only if max(passc, last_AP/30) < kit_s; refuse crush below AP floor. occupancy_src=passc when wired.",
+    "wired": [],
+    "kept_r17": [
+      {
+        "action": "basic",
+        "kit_s": 0.9333,
+        "passc_s": 1.7166,
+        "reason": "chain passc 1.7166 >= kit 0.9333 (no shorten)"
+      },
+      {
+        "action": "charged",
+        "kit_s": 1.3,
+        "passc_s": 1.6667,
+        "reason": "single passc_hasExitTime_to_End 1.6667 >= kit 1.3 (R17 keep)"
+      },
+      {
+        "action": "ex",
+        "kit_s": 1.5,
+        "passc_s": 1.5,
+        "reason": "single passc_hasExitTime_to_End 1.8333 >= kit 1.5 (R17 keep)"
+      },
+      {
+        "action": "switch_in",
+        "kit_s": 0.8,
+        "passc_s": 1.8333,
+        "reason": "single passc_hasExitTime_to_End 3.1667 >= kit 0.8 (R17 keep)"
+      },
+      {
+        "action": "switch_ex",
+        "kit_s": 1.6,
+        "passc_s": 1.8167,
+        "reason": "single passc_hasExitTime_to_End 2.5333 >= kit 1.6 (R17 keep)"
+      },
+      {
+        "action": "ultimate",
+        "kit_s": 1.8167,
+        "passc_s": 1.8167,
+        "reason": "single passc_hasExitTime_to_End 2.5333 >= kit 1.8167 (R17 keep)"
+      }
+    ]
+  }
+}

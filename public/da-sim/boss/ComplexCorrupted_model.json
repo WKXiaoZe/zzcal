@@ -1,0 +1,133 @@
+{
+ "boss_key": "ComplexCorrupted",
+ "cd_variables": [],
+ "attacks": [
+  {
+   "skill": "Attack_01",
+   "weight": 100.0,
+   "weight_var": "Weight_01_Default",
+   "distance_min": null,
+   "distance_max": 11.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_02",
+   "weight": 100.0,
+   "weight_var": "Weight_02_Default",
+   "distance_min": null,
+   "distance_max": 11.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_03",
+   "weight": 0.0,
+   "weight_var": "Weight_03_Default",
+   "distance_min": null,
+   "distance_max": 12.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_04",
+   "weight": 100.0,
+   "weight_var": "Weight_04_Default",
+   "distance_min": null,
+   "distance_max": 12.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_05",
+   "weight": 100.0,
+   "weight_var": "Weight_05_Default",
+   "distance_min": 11.0,
+   "distance_max": 15.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_06",
+   "weight": 100.0,
+   "weight_var": "Weight_06_Default",
+   "distance_min": null,
+   "distance_max": null,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_07",
+   "weight": 150.0,
+   "weight_var": "Weight_07_Default",
+   "distance_min": null,
+   "distance_max": 17.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_08",
+   "weight": 100.0,
+   "weight_var": "Weight_08_Default",
+   "distance_min": null,
+   "distance_max": 12.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_09",
+   "weight": 100.0,
+   "weight_var": "Weight_09_Default",
+   "distance_min": null,
+   "distance_max": null,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_Range_01",
+   "weight": 0.0,
+   "weight_var": "Weight_10_Default",
+   "distance_min": 14.0,
+   "distance_max": 30.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_Range_02",
+   "weight": 50.0,
+   "weight_var": "Weight_11_Default",
+   "distance_min": null,
+   "distance_max": 14.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_Range_03",
+   "weight": 150.0,
+   "weight_var": "Weight_12_Default",
+   "distance_min": null,
+   "distance_max": 14.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_13",
+   "weight": 25.0,
+   "weight_var": "Weight_13_Default",
+   "distance_min": null,
+   "distance_max": null,
+   "cd_var": null,
+   "cd_set_literal": null
+  },
+  {
+   "skill": "Attack_15",
+   "weight": 25.0,
+   "weight_var": "Weight_15_Default",
+   "distance_min": null,
+   "distance_max": 15.0,
+   "cd_var": null,
+   "cd_set_literal": null
+  }
+ ],
+ "note": "Exported from scripts/boss_attack_select.py build_model(ComplexCorrupted); Pass A behavior-tree Weight_*_Default"
+}

@@ -1,0 +1,183 @@
+{
+  "source": "nanoka 3.4.1+19851435/zh/boss/690481.json boss_adjust 1001-1029 (Trial Mode)",
+  "note": "Each bar: absolute_hp = boss_hp_max * hp_bp / sum(hp_bp). Clearing a bar awards `points` damage score (partial bar = proportional). sum(points)=60000. atk_bp is enemy ATK scaling per segment — NOT score. Community (arca.live / r/ZZZ_Discussion): early bars cheaper score/HP than late bars.",
+  "sum_hp_bp": 87400,
+  "sum_points": 60000,
+  "base_H_multiplier": 8.74,
+  "bars": [
+    {
+      "id": "1001",
+      "hp_bp": 1200,
+      "points": 1000,
+      "atk_bp": -5000
+    },
+    {
+      "id": "1002",
+      "hp_bp": 1200,
+      "points": 1000,
+      "atk_bp": -3000
+    },
+    {
+      "id": "1003",
+      "hp_bp": 1200,
+      "points": 1000,
+      "atk_bp": -3000
+    },
+    {
+      "id": "1004",
+      "hp_bp": 1200,
+      "points": 1000,
+      "atk_bp": -3000
+    },
+    {
+      "id": "1005",
+      "hp_bp": 1700,
+      "points": 1200,
+      "atk_bp": -2500
+    },
+    {
+      "id": "1006",
+      "hp_bp": 1700,
+      "points": 1200,
+      "atk_bp": -2500
+    },
+    {
+      "id": "1007",
+      "hp_bp": 1700,
+      "points": 1200,
+      "atk_bp": -2000
+    },
+    {
+      "id": "1008",
+      "hp_bp": 1700,
+      "points": 1200,
+      "atk_bp": -2000
+    },
+    {
+      "id": "1009",
+      "hp_bp": 2200,
+      "points": 1800,
+      "atk_bp": -1000
+    },
+    {
+      "id": "1010",
+      "hp_bp": 2200,
+      "points": 1800,
+      "atk_bp": 0
+    },
+    {
+      "id": "1011",
+      "hp_bp": 2200,
+      "points": 1800,
+      "atk_bp": 800
+    },
+    {
+      "id": "1012",
+      "hp_bp": 2200,
+      "points": 1800,
+      "atk_bp": 1500
+    },
+    {
+      "id": "1013",
+      "hp_bp": 2500,
+      "points": 2400,
+      "atk_bp": 2000
+    },
+    {
+      "id": "1014",
+      "hp_bp": 2500,
+      "points": 2400,
+      "atk_bp": 2000
+    },
+    {
+      "id": "1015",
+      "hp_bp": 2500,
+      "points": 2400,
+      "atk_bp": 2000
+    },
+    {
+      "id": "1016",
+      "hp_bp": 2500,
+      "points": 2400,
+      "atk_bp": 2000
+    },
+    {
+      "id": "1017",
+      "hp_bp": 3000,
+      "points": 2600,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1018",
+      "hp_bp": 3000,
+      "points": 2600,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1019",
+      "hp_bp": 3000,
+      "points": 2600,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1020",
+      "hp_bp": 3000,
+      "points": 2600,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1021",
+      "hp_bp": 5000,
+      "points": 2600,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1022",
+      "hp_bp": 5000,
+      "points": 2600,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1023",
+      "hp_bp": 5000,
+      "points": 2600,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1024",
+      "hp_bp": 5000,
+      "points": 2700,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1025",
+      "hp_bp": 5000,
+      "points": 2700,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1026",
+      "hp_bp": 5000,
+      "points": 2700,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1027",
+      "hp_bp": 5000,
+      "points": 2700,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1028",
+      "hp_bp": 5000,
+      "points": 2700,
+      "atk_bp": 2500
+    },
+    {
+      "id": "1029",
+      "hp_bp": 5000,
+      "points": 2700,
+      "atk_bp": 2500
+    }
+  ]
+}

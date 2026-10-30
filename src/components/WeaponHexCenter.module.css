@@ -24,7 +24,7 @@
 }
 .centerBtn:hover {
   transform: translate(-50%, -50%) scale(1.06);
-  filter: drop-shadow(0 0 12px rgba(253, 178, 200, 0.7));
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.55));
 }
 .centerBtn:active {
   transform: translate(-50%, -50%) scale(0.98);
@@ -56,7 +56,7 @@
   }
   50% {
     opacity: 1;
-    box-shadow: 0 0 18px 2px rgba(253, 178, 200, 0.35);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
   }
 }
 

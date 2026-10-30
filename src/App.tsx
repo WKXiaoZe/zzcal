@@ -7,6 +7,7 @@ import { WeaponPanel } from './components/WeaponPanel';
 import { DiscPanel } from './components/DiscPanel';
 import { BossPanel } from './components/BossPanel';
 import { FieldBuffPanel } from './components/FieldBuffPanel';
+import { DeadlyAssaultPanel } from './components/DeadlyAssaultPanel';
 import { ManualOptPanel } from './components/ManualOptPanel';
 import { AutoOptPanel } from './components/AutoOptPanel';
 import { OutputPanel } from './components/OutputPanel';
@@ -58,6 +59,7 @@ export default function App() {
         </section>
         <DiscHexCard />
         <FieldBuffPanel />
+        <DeadlyAssaultPanel />
         <section className="grid-2-split">
           <ManualOptPanel />
           <AutoOptPanel />

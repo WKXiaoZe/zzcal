@@ -1,0 +1,518 @@
+{
+  "schema": "da-sim-build-v1",
+  "source": {
+    "type": "archive_seed_plus_zzcal_discs_fallback",
+    "archive_file": "data/archive_seed-data.js",
+    "archive_id": "seed-da-002",
+    "archive_score": 48220,
+    "archive_timeSeconds": 108,
+    "archive_bangbooId": "54012",
+    "archive_bangbooNameZh": "阿崔巡查",
+    "live_api_checked": "https://zzz-run-archive.onrender.com/api/submissions?seasonId=69034",
+    "note": "Archive submission team fields = agentId/mindscape/weaponId/phase/bangboo ONLY. No drive-disc / set / mainstat / substat rolls in archive_seed-data.js nor live API v2. subStat in that JS file = weapon catalog secondary (ATK/CRIT/…), NOT disc rolls. Discs remain zzcal greedy @budget36 from parent build 690481_seed_da002_archive_r1_auto.json.",
+    "generated_at": "2026-10-30T00:45:00+08:00"
+  },
+  "assumptions": [
+    "weapon_refine_default",
+    "mindscape_default",
+    "substat_budget",
+    "impact",
+    "weapons_ext",
+    "fallback_weapons",
+    "substat_budget_note",
+    "R11: discs still zzcal@36 — archive does not ship disc inventory for seed-da-002"
+  ],
+  "agents": {
+    "qingyi": {
+      "battleType": "attack",
+      "optimizer_battleType": "break",
+      "baseAtk": 758.0,
+      "critRate": 5.0,
+      "critDmg": 80.0,
+      "dmgBonus": 0,
+      "resShred": 0,
+      "penRatio": 0,
+      "defShred": 0,
+      "dazeVuln": 0,
+      "anomalyMastery": 94.0,
+      "baseHp": 8251.0,
+      "hpPct": 0,
+      "inCombatAtkPct": 0,
+      "weapon": {
+        "baseAtk": 713.0,
+        "impactPct": 18.0
+      },
+      "extraStats": {
+        "critRate": 48.0,
+        "critDmg": 76.8,
+        "slot5_Dmg": 30.0,
+        "set2_AtkPct": 10.0
+      },
+      "energy_start": 60,
+      "energy_max": 120,
+      "build": {
+        "source": "zzcal_greedy",
+        "zzcal_char": "青衣",
+        "mindscape": 0,
+        "weapon_name": "玉壶青冰",
+        "weapon_refine": 1,
+        "weapon_meta": {
+          "name": "玉壶青冰",
+          "refine": 1,
+          "from_zzcal": false,
+          "from_weapons_ext": true,
+          "source": "nanoka weapon.json + Pass A Weapon_Ability_14125 + param blob 644577… (BreakStun refine); team_dmg refine GAP",
+          "fallback": false,
+          "passive": {
+            "tea_impact_per_stack": [
+              0.7,
+              0.88,
+              1.05,
+              1.22,
+              1.4
+            ],
+            "tea_impact_source": "pass_a param_blob AS_BreakStunRatio*100",
+            "tea_max_stacks": 30,
+            "tea_min_stacks_team_dmg": 15,
+            "tea_stack_duration_s": 8,
+            "tea_team_dmg_duration_s": 10,
+            "team_dmg_at_15": [
+              20,
+              23,
+              26,
+              29,
+              32
+            ],
+            "assumption_stacks_for_stun": 30,
+            "assumption_team_dmg": true,
+            "team_dmg_gap": {
+              "ability_specials_baked": 0.3,
+              "files": [
+                "Weapon_Ability_14125.dat",
+                "6445772635280955354.dat"
+              ],
+              "detail": "param blob has no AS_AddedDamageRatio R1–R5 under 14125; AbilitySpecials baked 0.30 only; sim keeps zzcal/wiki 20–32 as ASSUMPTION"
+            }
+          },
+          "note": "青衣专武；Impact 茶劲 Pass A sourced；团队增伤 refine GAP（见 team_dmg_gap）"
+        },
+        "set4_key": "mountain",
+        "set4_name": "山大王",
+        "set2_key": "jisu",
+        "slot5": "5号位:增伤",
+        "slot4Type": "critRate",
+        "substat_counts": {
+          "cr": 20,
+          "cd": 16,
+          "atk": 0,
+          "hp": 0,
+          "am": 0
+        },
+        "optimizer_dmg": 6905.04,
+        "config_name": "山大王/5号位:增伤 + 2件套:激素朋克",
+        "budget": 36,
+        "gaps": [],
+        "impact_detail": {
+          "impact_base_break_stun": 118.0,
+          "impact_pct_total": 57.0,
+          "impact": 185.26,
+          "slot6_impact": true
+        },
+        "weapon_team_dmg_assumption": {
+          "tea_impact_per_stack": [
+            0.7,
+            0.88,
+            1.05,
+            1.22,
+            1.4
+          ],
+          "tea_impact_source": "pass_a param_blob AS_BreakStunRatio*100",
+          "tea_max_stacks": 30,
+          "tea_min_stacks_team_dmg": 15,
+          "tea_stack_duration_s": 8,
+          "tea_team_dmg_duration_s": 10,
+          "team_dmg_at_15": [
+            20,
+            23,
+            26,
+            29,
+            32
+          ],
+          "assumption_stacks_for_stun": 30,
+          "assumption_team_dmg": true,
+          "team_dmg_gap": {
+            "ability_specials_baked": 0.3,
+            "files": [
+              "Weapon_Ability_14125.dat",
+              "6445772635280955354.dat"
+            ],
+            "detail": "param blob has no AS_AddedDamageRatio R1–R5 under 14125; AbilitySpecials baked 0.30 only; sim keeps zzcal/wiki 20–32 as ASSUMPTION"
+          }
+        },
+        "discs_source": "zzcal_greedy_budget36",
+        "discs_archive_import": false,
+        "archive_verified": {
+          "mindscape_match": true,
+          "weapon_refine_match": true,
+          "weapon_name_match": true,
+          "build_mindscape": 0,
+          "archive_mindscape": 0,
+          "build_weapon": "玉壶青冰",
+          "archive_weapon": "玉壶青冰",
+          "build_refine": 1,
+          "archive_phase": 1,
+          "discs_source": "zzcal_greedy_budget36",
+          "discs_archive_present": false
+        }
+      },
+      "impact": 185.26,
+      "impact_detail": {
+        "impact_base_break_stun": 118.0,
+        "impact_pct_total": 57.0,
+        "impact": 185.26,
+        "slot6_impact": true
+      }
+    },
+    "anby_s0": {
+      "battleType": "attack",
+      "optimizer_battleType": "attack",
+      "baseAtk": 659.0,
+      "critRate": 5.0,
+      "critDmg": 50.0,
+      "dmgBonus": 40.0,
+      "resShred": 0,
+      "penRatio": 0,
+      "defShred": 0,
+      "dazeVuln": 0,
+      "anomalyMastery": 93.0,
+      "baseHp": 7498.0,
+      "hpPct": 0,
+      "inCombatAtkPct": 0,
+      "weapon": {
+        "baseAtk": 713.0,
+        "critDmg": 108.0,
+        "dmgBonus": 20.0
+      },
+      "extraStats": {
+        "set2_Dmg": 15.0,
+        "critRate": 67.2,
+        "critDmg": 38.4,
+        "slot5_AtkPct": 30.0,
+        "set2_AtkPct": 10.0,
+        "dmgBonus": 23.0,
+        "pass_a_elec_dmg": 23.0,
+        "pass_a_elec_dmg_note": "牺牲洁纯 AS_AddedDamageRatio_Elec R1=0.23 from param blob; electric-only but Anby kit is Elec"
+      },
+      "energy_start": 60,
+      "energy_max": 120,
+      "build": {
+        "source": "zzcal_greedy",
+        "zzcal_char": "安比",
+        "mindscape": 1,
+        "weapon_name": "牺牲洁纯",
+        "weapon_refine": 1,
+        "weapon_meta": {
+          "name": "牺牲洁纯",
+          "refine": 1,
+          "from_zzcal": true,
+          "from_weapons_ext": true,
+          "source": "nanoka weapon.json + zzcal wpDPS + Pass A param blob",
+          "fallback": false,
+          "passive": {
+            "AS_AddedDamageRatio_Elec": [
+              0.23,
+              0.26,
+              0.29,
+              0.32
+            ],
+            "zzcal_sheet_dmgBonus": [
+              20,
+              23,
+              26,
+              29,
+              32
+            ],
+            "note": "zzcal weapon.dmgBonus already in formulas.py personal path; NOT seeded as field team_dmg (would double-count). Pass A Elec ratio ranks incomplete (4 vals)."
+          },
+          "note": "零号安比专武；副属性暴伤；sheet dmgBonus→个人伤害；archive 校准用"
+        },
+        "set4_key": "fuxiao",
+        "set4_name": "拂晓生花",
+        "set2_key": "jisu",
+        "slot5": "5号位:攻击",
+        "slot4Type": "critRate",
+        "substat_counts": {
+          "cr": 28,
+          "cd": 8,
+          "atk": 0,
+          "hp": 0,
+          "am": 0
+        },
+        "optimizer_dmg": 7304.37,
+        "config_name": "拂晓生花/5号位:攻击 + 2件套:激素朋克",
+        "budget": 36,
+        "gaps": [],
+        "impact_detail": {
+          "impact_base_break_stun": 118.0,
+          "impact_pct_total": 0.0,
+          "impact": 118.0,
+          "slot6_impact": false
+        },
+        "discs_source": "zzcal_greedy_budget36",
+        "discs_archive_import": false,
+        "archive_verified": {
+          "mindscape_match": true,
+          "weapon_refine_match": true,
+          "weapon_name_match": true,
+          "build_mindscape": 1,
+          "archive_mindscape": 1,
+          "build_weapon": "牺牲洁纯",
+          "archive_weapon": "牺牲洁纯",
+          "build_refine": 1,
+          "archive_phase": 1,
+          "discs_source": "zzcal_greedy_budget36",
+          "discs_archive_present": false
+        }
+      },
+      "impact": 118.0,
+      "impact_detail": {
+        "impact_base_break_stun": 118.0,
+        "impact_pct_total": 0.0,
+        "impact": 118.0,
+        "slot6_impact": false
+      }
+    },
+    "caesar": {
+      "battleType": "attack",
+      "optimizer_battleType": "break",
+      "baseAtk": 712.0,
+      "critRate": 5.0,
+      "critDmg": 80.0,
+      "dmgBonus": 0,
+      "resShred": 0,
+      "penRatio": 0,
+      "defShred": 0,
+      "dazeVuln": 0,
+      "anomalyMastery": 90.0,
+      "baseHp": 9526.0,
+      "hpPct": 0,
+      "inCombatAtkPct": 0,
+      "weapon": {
+        "baseAtk": 713.0,
+        "impactPct": 18.0
+      },
+      "extraStats": {
+        "critRate": 48.0,
+        "critDmg": 76.8,
+        "slot5_Dmg": 30.0,
+        "set2_AtkPct": 10.0
+      },
+      "energy_start": 60,
+      "energy_max": 120,
+      "build": {
+        "source": "zzcal_greedy",
+        "zzcal_char": "凯撒",
+        "mindscape": 0,
+        "weapon_name": "奔袭獠牙",
+        "weapon_refine": 1,
+        "weapon_meta": {
+          "name": "奔袭獠牙",
+          "refine": 1,
+          "from_zzcal": false,
+          "from_weapons_ext": true,
+          "source": "nanoka weapon.json + zzcal wpSUP + Pass A Weapon_Ability_14107",
+          "fallback": false,
+          "passive": {
+            "AS_CriticalDelta": [
+              0.2,
+              0.23,
+              0.26,
+              0.29,
+              0.32
+            ],
+            "AS_AddedSkipDefDamageRatio": [
+              0.06,
+              0.07,
+              0.08,
+              0.09,
+              0.1
+            ],
+            "zzcal_dmgBonus": [
+              18,
+              22.5,
+              27,
+              31.5,
+              36
+            ],
+            "assumption_team_dmg": true,
+            "team_dmg_at_15": [
+              18,
+              22.5,
+              27,
+              31.5,
+              36
+            ],
+            "note": "archive Caesar weapon; zzcal dmgBonus ranks used as team field ASSUMPTION. Pass A Weapon_Ability_14107 has AS_CriticalDelta + AS_AddedSkipDefDamageRatio — NOT a team AddedDamageRatio array; team_dmg_gap until shield-aura decode."
+          },
+          "note": "凯撒专武；冲击力副属性；archive 校准用"
+        },
+        "set4_key": "mountain",
+        "set4_name": "山大王",
+        "set2_key": "jisu",
+        "slot5": "5号位:增伤",
+        "slot4Type": "critRate",
+        "substat_counts": {
+          "cr": 20,
+          "cd": 16,
+          "atk": 0,
+          "hp": 0,
+          "am": 0
+        },
+        "optimizer_dmg": 7409.27,
+        "config_name": "山大王/5号位:增伤 + 2件套:激素朋克",
+        "budget": 36,
+        "gaps": [],
+        "impact_detail": {
+          "impact_base_break_stun": 105.0,
+          "impact_pct_total": 36.0,
+          "impact": 142.8,
+          "slot6_impact": true
+        },
+        "weapon_team_dmg_assumption": {
+          "AS_CriticalDelta": [
+            0.2,
+            0.23,
+            0.26,
+            0.29,
+            0.32
+          ],
+          "AS_AddedSkipDefDamageRatio": [
+            0.06,
+            0.07,
+            0.08,
+            0.09,
+            0.1
+          ],
+          "zzcal_dmgBonus": [
+            18,
+            22.5,
+            27,
+            31.5,
+            36
+          ],
+          "assumption_team_dmg": true,
+          "team_dmg_at_15": [
+            18,
+            22.5,
+            27,
+            31.5,
+            36
+          ],
+          "note": "archive Caesar weapon; zzcal dmgBonus ranks used as team field ASSUMPTION. Pass A Weapon_Ability_14107 has AS_CriticalDelta + AS_AddedSkipDefDamageRatio — NOT a team AddedDamageRatio array; team_dmg_gap until shield-aura decode."
+        },
+        "discs_source": "zzcal_greedy_budget36",
+        "discs_archive_import": false,
+        "archive_verified": {
+          "mindscape_match": true,
+          "weapon_refine_match": true,
+          "weapon_name_match": true,
+          "build_mindscape": 0,
+          "archive_mindscape": 0,
+          "build_weapon": "奔袭獠牙",
+          "archive_weapon": "奔袭獠牙",
+          "build_refine": 1,
+          "archive_phase": 1,
+          "discs_source": "zzcal_greedy_budget36",
+          "discs_archive_present": false
+        }
+      },
+      "impact": 142.8,
+      "impact_detail": {
+        "impact_base_break_stun": 105.0,
+        "impact_pct_total": 36.0,
+        "impact": 142.8,
+        "slot6_impact": true
+      }
+    }
+  },
+  "gaps": [
+    {
+      "id": "archive_drive_discs_missing",
+      "severity": "blocking_for_disc_import",
+      "detail": "Cannot replace zzcal@36 discs: seed-da-002 has zero disc fields in archive_seed-data.js and zzz-run-archive API submissions (team keys: slot,agentId,agentName,agentNameZh,mindscape,weaponId,weaponName,weaponNameZh,phase)."
+    }
+  ],
+  "archive_team": {
+    "anby_s0": {
+      "agentId": "1381",
+      "agentNameZh": "零号·安比",
+      "mindscape": 1,
+      "weaponId": "14138",
+      "weaponNameZh": "牺牲洁纯",
+      "phase": 1
+    },
+    "qingyi": {
+      "agentId": "1251",
+      "agentNameZh": "青衣",
+      "mindscape": 0,
+      "weaponId": "14125",
+      "weaponNameZh": "玉壶青冰",
+      "phase": 1
+    },
+    "caesar": {
+      "agentId": "1071",
+      "agentNameZh": "凯撒",
+      "mindscape": 0,
+      "weaponId": "14107",
+      "weaponNameZh": "奔袭獠牙",
+      "phase": 1
+    }
+  },
+  "archive_verification": {
+    "anby_s0": {
+      "mindscape_match": true,
+      "weapon_refine_match": true,
+      "weapon_name_match": true,
+      "build_mindscape": 1,
+      "archive_mindscape": 1,
+      "build_weapon": "牺牲洁纯",
+      "archive_weapon": "牺牲洁纯",
+      "build_refine": 1,
+      "archive_phase": 1,
+      "discs_source": "zzcal_greedy_budget36",
+      "discs_archive_present": false
+    },
+    "qingyi": {
+      "mindscape_match": true,
+      "weapon_refine_match": true,
+      "weapon_name_match": true,
+      "build_mindscape": 0,
+      "archive_mindscape": 0,
+      "build_weapon": "玉壶青冰",
+      "archive_weapon": "玉壶青冰",
+      "build_refine": 1,
+      "archive_phase": 1,
+      "discs_source": "zzcal_greedy_budget36",
+      "discs_archive_present": false
+    },
+    "caesar": {
+      "mindscape_match": true,
+      "weapon_refine_match": true,
+      "weapon_name_match": true,
+      "build_mindscape": 0,
+      "archive_mindscape": 0,
+      "build_weapon": "奔袭獠牙",
+      "archive_weapon": "奔袭獠牙",
+      "build_refine": 1,
+      "archive_phase": 1,
+      "discs_source": "zzcal_greedy_budget36",
+      "discs_archive_present": false
+    },
+    "bangboo": {
+      "archive_id": "54012",
+      "archive_nameZh": "阿崔巡查",
+      "scenario_id": 54012,
+      "match": true
+    }
+  }
+}

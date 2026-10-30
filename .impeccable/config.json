@@ -1,0 +1,24 @@
+{
+  "buildPath": "code",
+  "telemetry": false,
+  "detector": {
+    "ignoreRules": [
+      "gradient-text"
+    ],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-10-30T08:51:03.043Z",
+        "reason": "Brand UI font"
+      },
+      {
+        "rule": "overused-font",
+        "value": "outfit",
+        "createdAt": "2026-10-30T08:51:03.856Z",
+        "reason": "Brand display font"
+      }
+    ]
+  }
+}

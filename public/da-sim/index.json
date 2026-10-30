@@ -1,0 +1,45 @@
+{
+  "note": "危局强袭战排轴模拟：自由配队（任意 3 代理人）+ 预设快捷填充。scenarios 仅作预设/校验参考，非封闭枚举。",
+  "bosses": [
+    { "key": "Trivia", "cn": "以太异体·特里薇亚", "available": false },
+    { "key": "ComplexCorrupted", "cn": "未知复合侵蚀体", "available": true },
+    { "key": "Vesper", "cn": "叛律孤歌·薇斯珀", "available": false },
+    { "key": "GirReborn", "cn": "绝境 异构·滞变畸兽", "available": false }
+  ],
+  "buffs_690481": ["炽陨", "烁穹", "极韵"],
+  "agents": [
+    { "id": "qingyi", "cn": "青衣", "profession": "Stun", "element": "Electric", "kit": "kits/qingyi.json" },
+    { "id": "ellen", "cn": "艾莲·乔Ⅵ", "profession": "Attack", "element": "Ice", "kit": "kits/ellen.json" },
+    { "id": "soukaku", "cn": "苍角", "profession": "Support", "element": "Ice", "kit": "kits/soukaku.json" },
+    { "id": "anby_s0", "cn": "零号·安比", "profession": "Attack", "element": "Electric", "kit": "kits/anby_s0.json" },
+    { "id": "caesar", "cn": "凯撒", "profession": "Defense", "element": "Physical", "kit": "kits/caesar.json" }
+  ],
+  "slot_labels": ["击破", "主C", "辅助"],
+  "scenarios": [
+    {
+      "id": "690481_complex_corrupted",
+      "file": "scenarios/690481_complex_corrupted.json",
+      "period_id": 690481,
+      "period_label": "690481 当期",
+      "boss_key": "ComplexCorrupted",
+      "team": ["qingyi", "ellen", "soukaku"],
+      "team_label": "冰队（青衣 / 艾莲 / 苍角）",
+      "preset": true,
+      "default_build_mode": "auto",
+      "python_ref": { "total_score": 34420.7, "final_t": 130.8, "total_damage": 11523959.5, "build": "auto" }
+    },
+    {
+      "id": "69034_seed_da002_anby_qingyi_caesar",
+      "file": "scenarios/69034_seed_da002_anby_qingyi_caesar.json",
+      "period_id": 69034,
+      "period_label": "69034 seed-da-002（存档校准）",
+      "boss_key": "ComplexCorrupted",
+      "team": ["qingyi", "anby_s0", "caesar"],
+      "team_label": "seed-da-002（青衣 / 零号安比 / 凯撒）",
+      "preset": true,
+      "default_build_mode": "file",
+      "human_ref": 48220,
+      "python_ref": { "total_score": 46323.7, "final_t": 137.737, "total_damage": 13858404.6, "build": "file" }
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "period_id": 690481,
+  "period_cn": "试炼",
+  "boss_key": "ComplexCorrupted",
+  "boss_cn": "未知复合侵蚀体",
+  "monster_id": 11414,
+  "selectable_buff_id": 69014802,
+  "selectable_buff_cn": "烁穹",
+  "buff_note": "击破向：失衡+20%、能量获取+20%；EX后锐化伤害+30%/抗性无视。当期也可切炽陨/极韵。",
+  "team": [
+    "qingyi",
+    "ellen",
+    "soukaku"
+  ],
+  "team_roles": {
+    "qingyi": "stun",
+    "ellen": "dps",
+    "soukaku": "support"
+  },
+  "fight_duration_s": 180,
+  "distance_default": 8.0,
+  "boss": {
+    "defBase": 952.8,
+    "defBonus": 0,
+    "res": 0.2,
+    "weak": true,
+    "weak_element": "Ice",
+    "dazeBase": 100,
+    "stun_threshold": 16894.15,
+    "stun_window_s": 12.0,
+    "hp_max": 26639351.28,
+    "hp_proxy": 26639351.28,
+    "stun_max_real": 16894.15,
+    "attack_real": 2738.909090909091,
+    "hp_source": "nanoka 3.4.1+19851435/zh/boss/690481.json modes[690481].zone[69048102].monster 11414",
+    "stun_sim_note": "round7: fill_fraction ≈ BreakStunRatio when impact≈MaxStun/100; was ratio×impact/MaxStun (=ratio/100) — 100× too slow",
+    "stun_unit_bridge": {
+      "max_stun": 16894.15,
+      "round2_threshold": 100,
+      "impact_bridge": 168.94150000000002,
+      "formula": "applied = BreakStunRatio * MaxStun * (impact/impact_bridge) * (1+烁穹0.2 if Stun); when impact≈bridge, fill≈ratio (round2 parity). round7 fixed 100× under-fill."
+    }
+  },
+  "agent_stats": {
+    "ellen": {
+      "battleType": "attack",
+      "baseAtk": 938,
+      "weapon": {
+        "baseAtk": 684,
+        "critRate": 20,
+        "critDmg": 50,
+        "dmgBonus": 0
+      },
+      "critRate": 19,
+      "critDmg": 198,
+      "dmgBonus": 30,
+      "resShred": 10,
+      "penRatio": 0,
+      "extraStats": {
+        "critRate": 24,
+        "critDmg": 48,
+        "atkPct": 30,
+        "dmgBonus": 30,
+        "slot5_Dmg": 30
+      },
+      "energy_max": 120,
+      "energy_start": 40,
+      "impact": 160.49,
+      "impact_note": "round3: Impact bridged to MaxStun/100=168.94 so BreakStunRatio×Impact/MaxStun ≈ round2 relative (ratio/100). Profession flavor ±5–15%; not a Pass A sheet read."
+    },
+    "qingyi": {
+      "battleType": "attack",
+      "baseAtk": 750,
+      "weapon": {
+        "baseAtk": 594,
+        "critRate": 0,
+        "dmgBonus": 0
+      },
+      "critRate": 5,
+      "critDmg": 50,
+      "dmgBonus": 0,
+      "resShred": 0,
+      "dazeVuln": 0,
+      "extraStats": {
+        "atkPct": 30,
+        "critRate": 0
+      },
+      "energy_max": 120,
+      "energy_start": 60,
+      "note": "青衣以失衡为主；伤害用 attack 公式近似",
+      "impact": 177.39,
+      "impact_note": "round3: Impact bridged to MaxStun/100=168.94 so BreakStunRatio×Impact/MaxStun ≈ round2 relative (ratio/100). Profession flavor ±5–15%; not a Pass A sheet read."
+    },
+    "soukaku": {
+      "battleType": "attack",
+      "baseAtk": 750,
+      "weapon": {
+        "baseAtk": 594,
+        "atkPct": 25
+      },
+      "critRate": 5,
+      "critDmg": 50,
+      "dmgBonus": 0,
+      "extraStats": {
+        "atkPct": 30
+      },
+      "energy_max": 120,
+      "energy_start": 80,
+      "note": "Support ATK used for FlagAtkBuffRatio*Attack flat share",
+      "impact": 143.6,
+      "impact_note": "round3: Impact bridged to MaxStun/100=168.94 so BreakStunRatio×Impact/MaxStun ≈ round2 relative (ratio/100). Profession flavor ±5–15%; not a Pass A sheet read."
+    }
+  },
+  "field_buffs_from_selectable": {
+    "note": "烁穹：击破代理人永久 AddedBreakStunRatio=0.2 → stun 乘区；SkillBuff 15s SharpDamageRatio=0.3 → field.dmgBonus+=30；Energy AS_SPGetRatio=0.2；SkillBuff 另有电/以太抗性无视 20%→resShred+20",
+    "stun_agent_break_stun_ratio": 0.2,
+    "sp_get_ratio": 0.2,
+    "skill_buff_dmg_bonus_pct": 30,
+    "skill_buff_duration_s": 15,
+    "skill_buff_res_shred_pct": 20
+  },
+  "env_buff_note": "场地 Buff ≠ 环境 Buff。ComplexCorrupted 场地=zone layer_buff 69010305/07（部位破坏→崩解/喧响/op，已进状态机）；EnvBuff_Hard 刻意不加。详见 data/pass_a_buffs/complex_corrupted_field_buffs.json",
+  "seed": 42,
+  "score": {
+    "damage_score_cap": 60000,
+    "operation_score_cap": 5000,
+    "op_per_part_break": 800,
+    "rank_goals": {
+      "s": 20000,
+      "a": 14000,
+      "b": 6000
+    },
+    "zone_id": "69048102",
+    "source": "nanoka boss_adjust 1001-1029 nonlinear HP bars (data/da_damage_score_curve.json)",
+    "curve": "data/da_damage_score_curve.json",
+    "linear_forbidden": true
+  },
+  "part_break": {
+    "enabled": true,
+    "max_part_hp_ratio": 0.1,
+    "leg_count": 6,
+    "damage_to_part_ratio": 0.9,
+    "damage_to_part_ratio_note": "ASSUMPTION for optimal-axis: 90% damage attributed to focused leg collider (Pass A HitCollider_Foot_*; no aim model). At round2 DPS (~5.57M / 26.6M HP) this yields ~1 leg break; higher real DPS clears more.",
+    "stun_recover_ratio_on_break": 0.1,
+    "decibel_on_leg_break": 1000,
+    "崩解_crit_dmg_pct_per_stack": 25,
+    "崩解_duration_s": 20,
+    "崩解_max_stacks": 4,
+    "op_score_per_break": 800,
+    "op_score_cap": 5000,
+    "pass_a_files": [
+      "ComplexCorrupted_Part_Leg_*.dat",
+      "ComplexCorrupted_PartDamage.dat",
+      "zone layer_buff 69010305/69010307"
+    ]
+  },
+  "soukaku_mindscape": 6,
+  "soukaku_mindscape_note": "Enable Talent_04 AS_AddedDamageRatio 0.5 (+50% dmgBonus) on ultimate Flag refresh; set 0 to disable",
+  "round": 16,
+  "window_source": "data/pass_a_buffs/complex_corrupted_attack_windows.json",
+  "builds_file": "data/builds/690481_ice_team_auto.json",
+  "builds_note": "默认 --build auto 走 zzcal 贪心；--build file 读 builds_file；--build none 用手填 agent_stats",
+  "search_heuristics": {
+    "min_dps_action_share": 0.42,
+    "dps_share_warmup_steps": 5,
+    "max_non_dps_streak": 5,
+    "max_dps_streak": 10,
+    "role_damage_weight": {
+      "dps": 1.0,
+      "stun": 0.55,
+      "support": 0.35
+    },
+    "support_buff_once_bonus": 200000.0,
+    "stun_need_bonus": 220000.0,
+    "min_stun_action_share": 0.1,
+    "stun_share_warmup_steps": 8,
+    "stun_starvation_bonus": 350000.0,
+    "force_stun_if_zero_after": 6,
+    "min_support_buff_actions": 2,
+    "force_support_buff_after": 6,
+    "note": "R17: Ellen DPS + force QingYi stun + Soukaku Flag buffs (avoid R16 starve)"
+  },
+  "mindscape_note": "冰队默认：ellen M0 / qingyi M0 / soukaku M6（soukaku_mindscape）。Ellen 影画乘区未强制接线；kit multi-hit family sums round8。",
+  "multi_hit_note": "round8: Ellen basic_enhance = Enhance_* + Normal_Cut_01 family sums; branch/ex already multi-family damage_sum.",
+  "bangboo": {
+    "enabled": false,
+    "assumption_team_dmg_share_pct": 12.0,
+    "note": "冰队对照默认关闭邦布估伤；seed 校准开启阿崔 ASSUMPTION。"
+  },
+  "build_overrides": {
+    "ellen": {
+      "mindscape": 0
+    }
+  },
+  "round9_note": "kit ASL duration pass (Ellen mostly cancel-kept; Qingyi EX/Ult shortened)"
+}
