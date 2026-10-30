@@ -1,0 +1,229 @@
+{
+  "agent_id": "caesar",
+  "cn": "凯撒",
+  "profession": "Defense",
+  "element": "Physical",
+  "source": "PassA AttackProperty_Avatar_Female_Size03_Caesar.dat",
+  "confidence": "medium — Ult SwitchIn_Ex proxy; EX Branch_02; Radiant Aegis ATK flat Pass A+wiki; AA +25% dmg taken Pass A",
+  "actions": [
+    {
+      "id": "basic",
+      "label": "普通攻击：横行斩打",
+      "kind": "basic",
+      "duration_s": 1.0,
+      "energy_cost": 0,
+      "energy_gain": 10,
+      "decibel_gain": 80,
+      "multiplier_pct": 106.938,
+      "stun": 0.31731,
+      "pass_a_families": [
+        "Caesar_Attack_Normal_05"
+      ],
+      "skill_cn": "普通攻击：横行斩打",
+      "note": "round7: was Normal_06 399.9% spam (finisher); now Normal_05 repeatable",
+      "duration_note": "R17: AP last_hit occupancy; End idle_sf=0."
+    },
+    {
+      "id": "basic_finisher",
+      "label": "普通攻击：横行斩打（段6终结）",
+      "kind": "basic",
+      "duration_s": 1.6,
+      "energy_cost": 0,
+      "energy_gain": 12,
+      "decibel_gain": 100,
+      "multiplier_pct": 399.9,
+      "stun": 0.0,
+      "pass_a_families": [
+        "Caesar_Attack_Normal_06"
+      ],
+      "skill_cn": "普通攻击：横行斩打",
+      "note": "Normal_06 sum — combo finisher, not infinite spam"
+    },
+    {
+      "id": "ex",
+      "label": "强化特殊技：超强力盾击（Branch_02代理）",
+      "kind": "ex",
+      "duration_s": 1.2667,
+      "energy_cost": 60,
+      "energy_gain": 0,
+      "decibel_gain": 280,
+      "multiplier_pct": 297.99,
+      "stun": 0.8652,
+      "pass_a_families": [
+        "Caesar_Attack_Branch_02"
+      ],
+      "applies_buff": {
+        "inCombatAtkFlat": 1000.0,
+        "duration_s": 65,
+        "note": "Pass A+wiki Radiant Aegis: core Lv7 flat ATK +1000 to shield bearer / active; replaces R8–R9 +15% inCombatAtkPct ASSUMPTION",
+        "source": "AS_AddedAttackDeltaBase core ladder max 1000; wiki Barrier of Resilience"
+      },
+      "skill_cn": "强化特殊技：超强力盾击",
+      "asl_state": "Attack_Branch_02",
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). Attack_Branch_02 hit[14] End idle_sf0 → 0.4667. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    },
+    {
+      "id": "switch_in",
+      "label": "快速支援：变道支援",
+      "kind": "switch",
+      "duration_s": 0.9,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 180,
+      "multiplier_pct": 44.055,
+      "stun": 0.96503,
+      "pass_a_families": [
+        "Caesar_SwitchIn_Attack"
+      ],
+      "skill_cn": "快速支援：变道支援"
+    },
+    {
+      "id": "ultimate",
+      "label": "终结技（SwitchIn_Ex代理）",
+      "kind": "ultimate",
+      "duration_s": 2.4,
+      "energy_cost": 0,
+      "energy_gain": 0,
+      "decibel_gain": -3000,
+      "needs_decibel": 3000,
+      "multiplier_pct": 812.66,
+      "stun": 0.32158,
+      "pass_a_families": [
+        "Caesar_SwitchIn_Attack_Ex"
+      ],
+      "note": "ASSUMPTION: no Ultimate family; SwitchIn_Ex proxy",
+      "skill_cn": "终结技",
+      "applies_buff": {
+        "inCombatAtkFlat": 1000.0,
+        "duration_s": 65,
+        "note": "Pass A+wiki Radiant Aegis: core Lv7 flat ATK +1000 to shield bearer / active; replaces R8–R9 +15% inCombatAtkPct ASSUMPTION",
+        "source": "AS_AddedAttackDeltaBase core ladder max 1000; wiki Barrier of Resilience"
+      },
+      "asl_state": "Attack_Branch_01",
+      "duration_note": "R17 keep / pre-passc kit duration."
+    }
+  ],
+  "skill_text_map": "data/pass_a_buffs/skill_text_pass_a_map.json",
+  "round9_asl": {
+    "source": "data/pass_a_buffs/caesar_state_lengths.json",
+    "policy": "kit ≤ASL for ult/ex; keep cancel"
+  },
+  "core_skill": {
+    "id": "Barrier of Resilience / Radiant Aegis",
+    "inCombatAtkFlat_by_core_level": [
+      40,
+      135,
+      240,
+      400,
+      650,
+      900,
+      1000
+    ],
+    "core_level_used": 7,
+    "inCombatAtkFlat": 1000,
+    "duration_s": 65,
+    "duration_note": "shield 60s + 5s after shield ends (wiki/Pass A)",
+    "shield": {
+      "AS_ShieldPercentage": 14,
+      "AS_ShieldBaseValue": 1400,
+      "note": "Impact% + flat — shield HP only; ATK buff is flat core ladder not Impact×rate"
+    },
+    "source": "param blob AS_AddedAttackDeltaBase ladder + wiki Barrier of Resilience; UniqueSkill/Talent"
+  },
+  "additional_ability": {
+    "id": "Battle Spirit",
+    "dmgBonus": 25.0,
+    "duration_s": 999,
+    "condition": "teammate Defensive Assist (Qingyi/Anby stun assist present)",
+    "source": "Caesar MathSkill/Talent AS_AddedDamageRatio:0.25 + wiki",
+    "note": "R10: fight-long pad — optimized DA assist uptime near-permanent with Qingyi"
+  },
+  "round10": {
+    "aura": "inCombatAtkFlat 1000 / 65s on EX+Ult",
+    "aa": "dmgBonus +25 fight-long via additional_ability",
+    "cancel_gap": "AnimatorZone StartFrame/EndFrame unbound; AnimationTransitionConfig=NPCCrowd only"
+  },
+  "round16_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_zone_end_hit_occupancy_r16.json",
+    "policy": "same as R15: End idle_sf=0 + event_hit_frames/30; wire iff < kit; no invented pad",
+    "wired": [
+      {
+        "action": "basic",
+        "old": 1.0,
+        "new": 0.3333
+      },
+      {
+        "action": "ex",
+        "old": 1.5,
+        "new": 0.4667
+      }
+    ],
+    "unwired_gaps": [
+      {
+        "agent": "caesar",
+        "action": "switch_in",
+        "old": 0.9,
+        "new": 0.9,
+        "formula": 1.0667,
+        "wired": false,
+        "reason": "SwitchIn_Attack hits=[32] end_ok=True formula=1.0667"
+      },
+      {
+        "agent": "caesar",
+        "action": "basic_finisher",
+        "old": 1.6,
+        "new": 1.6,
+        "formula": 0.5667,
+        "wired": false,
+        "reason": "no State_End in Zone; hits=[17] end_ok=False"
+      },
+      {
+        "agent": "caesar",
+        "action": "ultimate",
+        "old": 2.4,
+        "new": 2.4,
+        "formula": 0.4,
+        "wired": false,
+        "reason": "SwitchIn_Attack_Ex has no _End; Branch_01 kit asl_state also no End; hits=[12] end_ok=False"
+      }
+    ]
+  },
+  "round_passc_cancel": {
+    "source": "data/pass_c_animator/occupancy_passc.json",
+    "script": "scripts/parse_animator_controller.py",
+    "policy": "Pass C AnimatorController @60fps. Chain basic: earliest FrameCount gate to next Normal (Trigger_PressAttackA). Singles: hasExitTime→*_End or totalFramesSrc/60; NEVER earliest button cancel (protects multi-hit/stun). Wire only if max(passc, last_AP/30) < kit_s; refuse crush below AP floor. occupancy_src=passc when wired.",
+    "wired": [],
+    "kept_r17": [
+      {
+        "action": "basic",
+        "kit_s": 1.0,
+        "passc_s": 0.8,
+        "reason": "chain passc 0.8 < AP floor 1.4 — refuse crush"
+      },
+      {
+        "action": "basic_finisher",
+        "kit_s": 1.6,
+        "passc_s": 1.6667,
+        "reason": "single passc_hasExitTime_to_End 1.9333 >= kit 1.6 (R17 keep)"
+      },
+      {
+        "action": "ex",
+        "kit_s": 1.2667,
+        "passc_s": 1.6667,
+        "reason": "single passc_hasExitTime_to_End 1.6667 >= kit 1.2667 (R17 keep)"
+      },
+      {
+        "action": "switch_in",
+        "kit_s": 0.9,
+        "passc_s": 1.25,
+        "reason": "single passc_hasExitTime_to_End 1.8667 >= kit 0.9 (R17 keep)"
+      },
+      {
+        "action": "ultimate",
+        "kit_s": 2.4,
+        "passc_s": 1.6667,
+        "reason": "single passc 1.6667 < AP floor 2.8667 — refuse crush"
+      }
+    ]
+  }
+}

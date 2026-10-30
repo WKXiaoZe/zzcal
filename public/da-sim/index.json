@@ -1,0 +1,33 @@
+{
+  "note": "危局强袭战排轴模拟器数据索引（仅随网页附带可选场景所需数据）",
+  "bosses": [
+    { "key": "Trivia", "cn": "以太异体·特里薇亚", "available": false },
+    { "key": "ComplexCorrupted", "cn": "未知复合侵蚀体", "available": true },
+    { "key": "Vesper", "cn": "叛律孤歌·薇斯珀", "available": false },
+    { "key": "GirReborn", "cn": "绝境 异构·滞变畸兽", "available": false }
+  ],
+  "buffs_690481": ["炽陨", "烁穹", "极韵"],
+  "scenarios": [
+    {
+      "id": "690481_complex_corrupted",
+      "file": "scenarios/690481_complex_corrupted.json",
+      "period_id": 690481,
+      "period_label": "690481 当期",
+      "boss_key": "ComplexCorrupted",
+      "team_label": "青衣 / 艾莲 / 苍角（冰队）",
+      "default_build_mode": "auto",
+      "python_ref": { "total_score": 34420.7, "final_t": 130.8, "total_damage": 11523959.5, "build": "auto" }
+    },
+    {
+      "id": "69034_seed_da002_anby_qingyi_caesar",
+      "file": "scenarios/69034_seed_da002_anby_qingyi_caesar.json",
+      "period_id": 69034,
+      "period_label": "69034 seed-da-002（存档校准）",
+      "boss_key": "ComplexCorrupted",
+      "team_label": "青衣 / 零号安比 / 凯撒",
+      "default_build_mode": "file",
+      "human_ref": 48220,
+      "python_ref": { "total_score": 46323.7, "final_t": 137.737, "total_damage": 13858404.6, "build": "file" }
+    }
+  ]
+}

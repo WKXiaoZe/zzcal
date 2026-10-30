@@ -1,0 +1,293 @@
+{
+  "agent_id": "anby_s0",
+  "cn": "零号·安比",
+  "profession": "Attack",
+  "element": "Electric",
+  "source": "PassA AttackProperty_Avatar_Female_Size02_SilverAnby.dat + UniqueSkill/Talent_01",
+  "confidence": "medium — Ult SwitchIn_Ex proxy (no Final/Ultimate AP family); Unique ADR/CritDMG Pass A max-skill; ChargeValue_Max numeric GAP",
+  "unique_skill": {
+    "added_damage_ratio_pct": 25.0,
+    "crit_dmg_ratio_pct": 30.0,
+    "charge_on_value": 20,
+    "charge_on_value_cd_s": 5.0,
+    "charge_max": null,
+    "source": "param blob 6445772635280955354 near SilverAnby_UniqueSkill: AS_AddedDamageRatio_Unique 0.125→0.250; AS_CriticalDamageRatio_SilverAnby 0.150→0.300; AS_AddedMarkOnValue:20 AS_AddedMarkOnValueCD:5",
+    "note": "R10: ADR 30→25 (max skill Pass A, was R8 ASSUMPTION 0.3 from UniqueSkill default embed); crit DMG +30% agent-scoped. ChargeVal: Special_02 adds 20 w/ CD5 toward ChargeValue_Max — Max numeric not in AbilitySpecials (property compare only) → keep EX/Ult→mark_stacks gate; ChargeValue_Max = Pass A GAP"
+  },
+  "white_thunder": {
+    "family": "SilverAnby_Attack_Mark",
+    "damage_pct": 167.2,
+    "note": "White Thunder aftershock = Mark AttackProperty_01 DamagePercentage"
+  },
+  "mindscape_effects": {
+    "1": {
+      "id": "Static Charge",
+      "on_action": "ex",
+      "extra_white_thunder_procs": 3,
+      "consume_stacks": false,
+      "source": "zenlessdb/prydwen M1 + UniqueSkill Talent_01 near ExSpecial",
+      "note": "EX hit triggers White Thunder DMG 3× without consuming stacks → +3×167.2% on EX"
+    },
+    "2": {
+      "id": "Fail-Safe Protocol",
+      "sheet": "zzcal critRate +12 at cinema index 2",
+      "note": "sheet via parse_agent_value; Thunder's Cry not modeled"
+    }
+  },
+  "actions": [
+    {
+      "id": "basic",
+      "label": "普通攻击（Pass A Normal_02+03+03_02 多段累加）",
+      "kind": "basic",
+      "duration_s": 0.9667,
+      "energy_cost": 0,
+      "energy_gain": 12,
+      "decibel_gain": 120,
+      "multiplier_pct": 91.165,
+      "stun": 0.346625,
+      "pass_a_families": [
+        "SilverAnby_Attack_Normal_02",
+        "SilverAnby_Attack_Normal_03",
+        "SilverAnby_Attack_Normal_03_02"
+      ],
+      "multi_hit_note": "round8: sum DamagePercentage across Normal chain families (was only Normal_03_02=40.04%)",
+      "skill_cn": "普通攻击",
+      "asl_states": [
+        "Attack_Normal_02",
+        "Attack_Normal_03",
+        "Attack_Normal_03_02"
+      ],
+      "duration_note": "R15: Zone End + EventPattern hit path (≠R14 Ability Soft). Chain sum Pass A hits: N02@10 + N03@12 + N03_02@7 → 29/30=0.9667s (cancel_frames_silver_anby.json). N02/N03 have Attack_*_End idle_sf=0 (enter End ⇒ immediate Idle cancel, End cost 0); N03_02 no sibling End — finisher still uses hit under chain policy (SwitchCharacter full-span). Semantics: hit → next chain attack or End. min(ASL, hit/30) per seg; no invented pad. See cancel_frames_zone_end_hit_occupancy_r15.json."
+    },
+    {
+      "id": "mark",
+      "label": "标记追击 / 白雷（ASL Special_02 循环）",
+      "kind": "basic",
+      "duration_s": 0.2667,
+      "energy_cost": 0,
+      "energy_gain": 8,
+      "decibel_gain": 120,
+      "multiplier_pct": 167.2,
+      "stun": 0.0,
+      "pass_a_families": [
+        "SilverAnby_Attack_Mark"
+      ],
+      "multi_hit_note": "family damage_sum already (Mark_01=167.2%; Mark_02_2 empty)",
+      "skill_cn": "标记追击",
+      "asl_state": "Attack_Special_02",
+      "requires_mark_stacks": 1,
+      "consumes_mark_stacks": 1,
+      "duration_note": "Pass C occupancy_src=passc: 0.267→0.2667s. single passc_hasExitTime_to_End 0.2667 < kit 0.267. FPS=60 FrameCount/totalFramesSrc. See data/pass_c_animator/occupancy_passc.json.",
+      "occupancy_src": "passc"
+    },
+    {
+      "id": "ex",
+      "label": "强化特殊技（Pass A ExSpecial_01 14段累加）",
+      "kind": "ex",
+      "duration_s": 1.6,
+      "energy_cost": 60,
+      "energy_gain": 0,
+      "decibel_gain": 300,
+      "multiplier_pct": 154.652,
+      "stun": 0.67941,
+      "pass_a_families": [
+        "SilverAnby_Attack_ExSpecial_01"
+      ],
+      "multi_hit_note": "round8: ExSpecial_01 family already sums 5 damage hits (154.652%). M1 adds 3× White Thunder via eval.",
+      "cinema_m1_white_thunder_procs": 3,
+      "skill_cn": "强化特殊技",
+      "grants_mark_stacks": 1,
+      "asl_state": "Attack_ExSpecial_01",
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). Attack_ExSpecial_01 hit[24] End idle_sf0 → min(ASL,24/30)=0.8. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    },
+    {
+      "id": "switch_in",
+      "label": "切人入场（Pass A SwitchIn 多段）",
+      "kind": "switch",
+      "duration_s": 0.9,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 180,
+      "multiplier_pct": 96.651,
+      "stun": 0.7075,
+      "pass_a_families": [
+        "SilverAnby_Attack_SwitchIn_Attack"
+      ],
+      "multi_hit_note": "family damage_sum",
+      "skill_cn": "切人入场",
+      "asl_state": "SwitchIn_Attack",
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). SwitchIn_Attack hit[13] End idle_sf0 → min(ASL,13/30)=0.4333. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    },
+    {
+      "id": "ultimate",
+      "label": "终结技（SwitchIn_Ex代理 多段）",
+      "kind": "ultimate",
+      "duration_s": 2.1,
+      "energy_cost": 0,
+      "energy_gain": 0,
+      "decibel_gain": -3000,
+      "needs_decibel": 3000,
+      "multiplier_pct": 394.295,
+      "stun": 0.75518,
+      "pass_a_families": [
+        "SilverAnby_Attack_SwitchIn_Attack_Ex"
+      ],
+      "note": "ASSUMPTION: no Ultimate AttackProperty family; SwitchIn_Ex is best available high-mult proxy",
+      "multi_hit_note": "family damage_sum 394.295% across 12 entries",
+      "skill_cn": "终结技",
+      "asl_state": "SwitchIn_Attack_Ex",
+      "grants_mark_stacks": 1,
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). SwitchIn_Attack_Ex hit[12] End idle_sf0 → min(ASL,12/30)=0.4. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    }
+  ],
+  "skill_text_map": "data/pass_a_buffs/skill_text_pass_a_map.json",
+  "round9_asl": {
+    "source": "data/pass_a_buffs/silver_anby_state_lengths.json",
+    "policy": "shorten kit when > ASL main (non-_End); keep cancel ASSUMPTION when kit < ASL; mark=Special_02 loop + stack gate"
+  },
+  "round10_charge": {
+    "assets": [
+      "SilverAnby_UniqueSkill.dat (ChargeValue_Cur/Max, MarkCount_Cur/Max, AddMarkOnValueModifier)",
+      "SilverAnby_Upgrade_01.dat (AS_AddedMarkOnValue / CD refs)"
+    ],
+    "sourced": {
+      "AS_AddedMarkOnValue": 20,
+      "AS_AddedMarkOnValueCD": 5
+    },
+    "gap": "SilverAnby_MarkOnEnemy_ChargeValue_Max MaxPropertyInitValue not decoded as clean number"
+  },
+  "round12_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_silver_anby.json",
+    "script": "scripts/parse_animator_zone_cancel_frames.py",
+    "policy_final": "ONLY TagZone_Animator_Idle.StartFrame (or Attack.EndFrame) hard cancel when cancel_s < ASL; SwitchCharacter full-span = can switch-out any time (sim models switch as separate action — do NOT shorten skill occupancy by hit frame); EventPattern frame = hit timing not cancel.",
+    "r12_beam_trial": {
+      "aggressive_hit_plus_0.2": {
+        "ex": 1.0,
+        "switch_in": 0.6333,
+        "score": 34082,
+        "t": 114.9
+      },
+      "reverted_to": {
+        "ex": 1.6,
+        "switch_in": 0.9
+      },
+      "r11_baseline": {
+        "score": 43329.8,
+        "t": 173.076
+      }
+    },
+    "hard_cancels_found": {
+      "Attack_Branch_02_End": {
+        "cancel_frame": 60,
+        "cancel_s": 2.0,
+        "asl_s": 4.6
+      },
+      "Attack_Special_02_End": {
+        "cancel_frame": 60,
+        "cancel_s": 2.0,
+        "asl_s": 4.6
+      },
+      "Attack_Special_02": {
+        "cancel_frame": 8,
+        "cancel_s": 0.2667,
+        "asl_s": 0.2667,
+        "note": "attack_end capped to ASL"
+      }
+    },
+    "r13_ability_framecount": {
+      "Normal_04_evade": {
+        "low": 8,
+        "high": 30,
+        "early_cancel_s": 0.266667,
+        "wired": false
+      },
+      "note": "Ability FrameCount soft evade window; Zone hard cancel unchanged. basic/ex/switch_in durations unchanged."
+    }
+  },
+  "round15_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_zone_end_hit_occupancy_r15.json",
+    "zone": "data/pass_a_buffs/cancel_frames_silver_anby.json",
+    "policy": "chain basic = sum(Pass A event_hit_frame/30); End idle_sf=0 ⇒ End cost 0; singles use last AP for End-leave (no invented +0.2)",
+    "basic": {
+      "old": 1.4,
+      "new": 0.9667,
+      "frames": [
+        10,
+        12,
+        7
+      ]
+    },
+    "ex_switch_ult": "not shortened (last AP ≥ kit ASSUMPTION)",
+    "vs_r14": "Ability early Low Soft still unwired; this is Zone End + hit path"
+  },
+  "round16_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_zone_end_hit_occupancy_r16.json",
+    "policy": "same as R15: End idle_sf=0 + event_hit_frames/30; wire iff < kit; no invented pad",
+    "wired": [
+      {
+        "action": "ex",
+        "old": 1.6,
+        "new": 0.8
+      },
+      {
+        "action": "switch_in",
+        "old": 0.9,
+        "new": 0.4333
+      },
+      {
+        "action": "ultimate",
+        "old": 2.1,
+        "new": 0.4
+      }
+    ],
+    "unwired_gaps": [
+      {
+        "agent": "anby_s0",
+        "action": "mark",
+        "old": 0.267,
+        "new": 0.267,
+        "formula": 0.267,
+        "wired": false,
+        "reason": "Special_02_End idle_sf=60≠0; keep attack_end 0.267"
+      }
+    ]
+  },
+  "round_passc_cancel": {
+    "source": "data/pass_c_animator/occupancy_passc.json",
+    "script": "scripts/parse_animator_controller.py",
+    "policy": "Pass C AnimatorController @60fps. Chain basic: earliest FrameCount gate to next Normal (Trigger_PressAttackA). Singles: hasExitTime→*_End or totalFramesSrc/60; NEVER earliest button cancel (protects multi-hit/stun). Wire only if max(passc, last_AP/30) < kit_s; refuse crush below AP floor. occupancy_src=passc when wired.",
+    "wired": [
+      {
+        "action": "mark",
+        "old": 0.267,
+        "new": 0.2667
+      }
+    ],
+    "kept_r17": [
+      {
+        "action": "basic",
+        "kit_s": 0.9667,
+        "passc_s": 1.7,
+        "reason": "chain passc 1.7 >= kit 0.9667 (no shorten)"
+      },
+      {
+        "action": "ex",
+        "kit_s": 1.6,
+        "passc_s": 2.0,
+        "reason": "single passc_hasExitTime_to_End 2.0 >= kit 1.6 (R17 keep)"
+      },
+      {
+        "action": "switch_in",
+        "kit_s": 0.9,
+        "passc_s": 2.0,
+        "reason": "single passc_hasExitTime_to_End 2.0 >= kit 0.9 (R17 keep)"
+      },
+      {
+        "action": "ultimate",
+        "kit_s": 2.1,
+        "passc_s": 2.1,
+        "reason": "single passc_hasExitTime_to_End 3.1333 >= kit 2.1 (R17 keep)"
+      }
+    ]
+  }
+}

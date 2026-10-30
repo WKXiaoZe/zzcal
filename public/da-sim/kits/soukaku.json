@@ -1,0 +1,180 @@
+{
+  "agent_id": "soukaku",
+  "cn": "苍角",
+  "profession": "Support",
+  "element": "Ice",
+  "pass_a_code": "Aokaku",
+  "source": "Pass A TextAsset Aokaku_UniqueSkill / Talent_02/03/04 AbilitySpecials",
+  "confidence": "medium — FlagAtkBuffRatio/Ice AddedDamage/IceResist decoded; buff duration & vortex stacks still assumed",
+  "ability_specials_ref": "data/pass_a_buffs/soukaku_aokaku.json",
+  "actions": [
+    {
+      "id": "ex_buff",
+      "label": "特殊技：集合啦！（展旗）",
+      "kind": "ex",
+      "duration_s": 1.2,
+      "energy_cost": 60,
+      "energy_gain": 0,
+      "decibel_gain": 200,
+      "multiplier_pct": 40.0,
+      "stun": 0.2,
+      "applies_buff": {
+        "inCombatAtkFlat_from_caster_atk_ratio": 0.25,
+        "dmgBonus": 12,
+        "resShred": 20,
+        "duration_s": 20,
+        "pass_a": {
+          "AS_FlagAtkBuffRatio": 0.25,
+          "AS_Actor_AddedDamageRatio_Ice": 0.12,
+          "AS_IceDamageResist": -0.2,
+          "duration_note": "AS_FlagBuffDuration unresolved in binary; 20s refresh-on-EX"
+        }
+      },
+      "pass_a_families": [
+        "Aokaku_UniqueSkill",
+        "Aokaku_SpecialSkill"
+      ],
+      "note": "inCombatAtkFlat = caster_atk * 0.25; dmgBonus+12 (Ice AddedDamageRatio); resShred+20 (Talent_03 IceResist-20%)",
+      "skill_cn": "特殊技：集合啦！"
+    },
+    {
+      "id": "basic",
+      "label": "普通攻击：打年糕",
+      "kind": "basic",
+      "duration_s": 0.9,
+      "energy_cost": 0,
+      "energy_gain": 15,
+      "decibel_gain": 60,
+      "multiplier_pct": 30.0,
+      "stun": 0.1,
+      "pass_a_families": [],
+      "skill_cn": "普通攻击：打年糕"
+    },
+    {
+      "id": "switch_in",
+      "label": "快速支援：双人套餐",
+      "kind": "switch",
+      "duration_s": 0.6,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 100,
+      "multiplier_pct": 50.0,
+      "stun": 0.2,
+      "pass_a_families": [
+        "Aokaku_AidAttack"
+      ],
+      "skill_cn": "快速支援：双人套餐"
+    },
+    {
+      "id": "ultimate",
+      "label": "终结技：大份鹅鸡斩",
+      "kind": "ultimate",
+      "duration_s": 2.0,
+      "energy_cost": 0,
+      "energy_gain": 0,
+      "decibel_gain": -3000,
+      "multiplier_pct": 120.0,
+      "stun": 0.5,
+      "needs_decibel": 3000,
+      "applies_buff": {
+        "inCombatAtkFlat_from_caster_atk_ratio": 0.25,
+        "dmgBonus": 12,
+        "resShred": 20,
+        "duration_s": 20,
+        "cinema_m6_dmgBonus": 50,
+        "pass_a": {
+          "AS_FlagAtkBuffRatio": 0.25,
+          "AS_AddedDamageRatio_Talent_04": 0.5,
+          "talent_04_note": "M6 AddedDamageRatio 0.5; enabled when scenario soukaku_mindscape>=6"
+        }
+      },
+      "pass_a_families": [
+        "Aokaku_UniqueSkill"
+      ],
+      "skill_cn": "终结技：大份鹅鸡斩",
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). SwitchIn_Attack_Ex hit[6] End idle_sf0 → 0.2 (ult/switch proxy). See cancel_frames_zone_end_hit_occupancy_r16.json."
+    }
+  ],
+  "skill_text_map": "data/pass_a_buffs/skill_text_pass_a_map.json",
+  "round16_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_zone_end_hit_occupancy_r16.json",
+    "policy": "same as R15: End idle_sf=0 + event_hit_frames/30; wire iff < kit; no invented pad",
+    "wired": [
+      {
+        "action": "ultimate",
+        "old": 2.0,
+        "new": 0.2
+      }
+    ],
+    "unwired_gaps": [
+      {
+        "agent": "soukaku",
+        "action": "basic",
+        "old": 0.9,
+        "new": 0.9,
+        "formula": 2.7333,
+        "wired": false,
+        "reason": "Normal_01+02+03 sum=2.7333 ≫ kit — keep 0.9 ASSUMPTION (no Pass A kit chain declared)"
+      },
+      {
+        "agent": "soukaku",
+        "action": "switch_in",
+        "old": 0.6,
+        "new": 0.6,
+        "formula": 1.2667,
+        "wired": false,
+        "reason": "SwitchIn_Attack hits=[38] formula=1.2667 end_ok=True"
+      },
+      {
+        "agent": "soukaku",
+        "action": "switch_in_assault_alt",
+        "old": 0.6,
+        "new": 0.6,
+        "formula": 0.6333,
+        "wired": false,
+        "reason": "AssaultAid hit[19] formula=0.6333 (AidAttack fam; kit already 0.6≤0.6333)"
+      },
+      {
+        "agent": "soukaku",
+        "action": "ex_buff",
+        "old": 1.2,
+        "new": 1.2,
+        "formula": 0.3667,
+        "wired": false,
+        "reason": "Branch_01 hits=[11] end_ok=False — no End; Flag/UniqueSkill duration GAP keep 1.2"
+      }
+    ]
+  },
+  "round_passc_cancel": {
+    "source": "data/pass_c_animator/occupancy_passc.json",
+    "script": "scripts/parse_animator_controller.py",
+    "policy": "Pass C AnimatorController @60fps. Chain basic: earliest FrameCount gate to next Normal (Trigger_PressAttackA). Singles: hasExitTime→*_End or totalFramesSrc/60; NEVER earliest button cancel (protects multi-hit/stun). Wire only if max(passc, last_AP/30) < kit_s; refuse crush below AP floor. occupancy_src=passc when wired.",
+    "wired": [],
+    "kept_r17": [
+      {
+        "action": "ex_buff",
+        "kit_s": 1.2,
+        "passc_s": 2.2667,
+        "reason": "single passc_hasExitTime_to_End 2.8333 >= kit 1.2 (R17 keep)"
+      },
+      {
+        "action": "basic",
+        "kit_s": 0.9,
+        "passc_s": 3.0,
+        "reason": "chain passc 3.0 >= kit 0.9 (no shorten)"
+      },
+      {
+        "action": "switch_in",
+        "kit_s": 0.6,
+        "passc_s": 2.1667,
+        "reason": "single passc_hasExitTime_to_End 4.3 >= kit 0.6 (R17 keep)"
+      },
+      {
+        "action": "ultimate",
+        "kit_s": 2.0,
+        "passc_s": 2.1667,
+        "reason": "single passc_hasExitTime_to_End 4.3 >= kit 2.0 (R17 keep)"
+      }
+    ]
+  }
+}

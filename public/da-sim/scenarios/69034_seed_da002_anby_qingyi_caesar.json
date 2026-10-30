@@ -1,0 +1,289 @@
+{
+  "period_id": 69034,
+  "period_cn": "试炼",
+  "calibration_of": "archive seed-da-002",
+  "calibration_note": "Archive seed-da-002. R11 attempted real disc import from archive_seed-data.js — FAILED (no disc fields). Weapon/M/refine/bangboo match. Discs remain zzcal@36.",
+  "archive_reference": {
+    "id": "seed-da-002",
+    "score": 48220,
+    "timeSeconds": 108,
+    "seasonId": "69034",
+    "team_zh": [
+      "零号·安比",
+      "青衣",
+      "凯撒"
+    ],
+    "submittedAt": "2026-04-22T14:05:00+08:00",
+    "mindscape": {
+      "anby_s0": 1,
+      "qingyi": 0,
+      "caesar": 0
+    },
+    "weapon_phase": 1,
+    "weapons": {
+      "anby_s0": {
+        "id": 14138,
+        "zh": "牺牲洁纯",
+        "phase": 1
+      },
+      "qingyi": {
+        "id": 14125,
+        "zh": "玉壶青冰",
+        "phase": 1
+      },
+      "caesar": {
+        "id": 14107,
+        "zh": "奔袭獠牙",
+        "phase": 1
+      }
+    }
+  },
+  "boss_key": "ComplexCorrupted",
+  "boss_cn": "未知复合侵蚀体",
+  "monster_id": 11414,
+  "selectable_buff_id": 69012403,
+  "selectable_buff_cn": "合击",
+  "buff_note": "合击：1名强攻→全队暴伤+20%；发动强化特殊技/终结技后电伤+20%、强攻伤害额外+30%，持续20秒。",
+  "team": [
+    "qingyi",
+    "anby_s0",
+    "caesar"
+  ],
+  "team_roles": {
+    "qingyi": "stun",
+    "anby_s0": "dps",
+    "caesar": "support"
+  },
+  "fight_duration_s": 180,
+  "distance_default": 8.0,
+  "boss": {
+    "defBase": 952.8,
+    "defBonus": 0,
+    "res": 0.2,
+    "weak": true,
+    "weak_element": "Electric",
+    "dazeBase": 100,
+    "stun_threshold": 16894.15,
+    "stun_window_s": 12.0,
+    "hp_max": 22199459.4,
+    "hp_proxy": 22199459.4,
+    "stun_max_real": 16894.15,
+    "attack_real": 2738.909090909091,
+    "hp_source": "nanoka 3.4.1+19851435/zh/boss/69034.json modes[69034].zone[6903402].monster 11414",
+    "stun_sim_note": "round7: fill_fraction ≈ BreakStunRatio when impact≈MaxStun/100; was ratio×impact/MaxStun (=ratio/100) — 100× too slow",
+    "stun_unit_bridge": {
+      "max_stun": 16894.15,
+      "round2_threshold": 100,
+      "impact_bridge": 168.94150000000002,
+      "formula": "applied = BreakStunRatio * MaxStun * (impact/impact_bridge) * (1+烁穹0.2 if Stun); when impact≈bridge, fill≈ratio (round2 parity). round7 fixed 100× under-fill."
+    }
+  },
+  "agent_stats": {
+    "qingyi": {
+      "battleType": "attack",
+      "baseAtk": 750,
+      "weapon": {
+        "baseAtk": 594,
+        "critRate": 0,
+        "dmgBonus": 0
+      },
+      "critRate": 5,
+      "critDmg": 50,
+      "dmgBonus": 0,
+      "resShred": 0,
+      "dazeVuln": 0,
+      "extraStats": {
+        "atkPct": 30,
+        "critRate": 0
+      },
+      "energy_max": 120,
+      "energy_start": 60,
+      "note": "青衣以失衡为主；伤害用 attack 公式近似",
+      "impact": 177.39,
+      "impact_note": "round3: Impact bridged to MaxStun/100=168.94 so BreakStunRatio×Impact/MaxStun ≈ round2 relative (ratio/100). Profession flavor ±5–15%; not a Pass A sheet read."
+    },
+    "anby_s0": {
+      "battleType": "attack",
+      "baseAtk": 900,
+      "weapon": {
+        "baseAtk": 684,
+        "critRate": 20,
+        "critDmg": 50
+      },
+      "critRate": 19,
+      "critDmg": 180,
+      "dmgBonus": 30,
+      "resShred": 10,
+      "penRatio": 0,
+      "extraStats": {
+        "critRate": 24,
+        "critDmg": 48,
+        "atkPct": 30,
+        "dmgBonus": 30,
+        "slot5_Dmg": 30
+      },
+      "energy_max": 120,
+      "energy_start": 40,
+      "impact": 160.49,
+      "impact_note": "round3: Impact bridged to MaxStun/100=168.94 so BreakStunRatio×Impact/MaxStun ≈ round2 relative (ratio/100). Profession flavor ±5–15%; not a Pass A sheet read.",
+      "note": "Calibration DPS panel — not archive-exact gear"
+    },
+    "caesar": {
+      "battleType": "attack",
+      "baseAtk": 750,
+      "weapon": {
+        "baseAtk": 594,
+        "atkPct": 25
+      },
+      "critRate": 5,
+      "critDmg": 50,
+      "dmgBonus": 0,
+      "extraStats": {
+        "atkPct": 30
+      },
+      "energy_max": 120,
+      "energy_start": 80,
+      "impact": 143.6,
+      "impact_note": "round3: Impact bridged to MaxStun/100=168.94 so BreakStunRatio×Impact/MaxStun ≈ round2 relative (ratio/100). Profession flavor ±5–15%; not a Pass A sheet read.",
+      "note": "Defense support; ATK buff on EX is placeholder"
+    }
+  },
+  "field_buffs_from_selectable": {
+    "note": "合击：永久暴伤+20%（1强攻）；EX/Ult → dmgBonus+50（电20+强攻30）/20s。无烁穹失衡/能量。",
+    "permanent_crit_dmg_pct": 20,
+    "skill_buff_dmg_bonus_pct": 50,
+    "skill_buff_duration_s": 20,
+    "skill_buff_res_shred_pct": 0,
+    "skill_buff_on_kinds": [
+      "ex",
+      "ultimate"
+    ],
+    "stun_agent_break_stun_ratio": 0.0,
+    "sp_get_ratio": 0.0
+  },
+  "env_buff_note": "场地 Buff = zone 6903402 layer_buff 69010305/07（崩解/操作分，同 ComplexCorrupted）。EnvBuff_Hard 不加。合击替换烁穹。",
+  "seed": 42,
+  "score": {
+    "damage_score_cap": 60000,
+    "operation_score_cap": 5000,
+    "op_per_part_break": 800,
+    "rank_goals": {
+      "s": 20000,
+      "a": 14000,
+      "b": 6000
+    },
+    "zone_id": "6903402",
+    "source": "nanoka boss_adjust 1001-1029 (69034 curve == 690481 bar points)",
+    "curve": "data/da_damage_score_curve.json",
+    "linear_forbidden": true
+  },
+  "part_break": {
+    "enabled": true,
+    "max_part_hp_ratio": 0.1,
+    "leg_count": 6,
+    "damage_to_part_ratio": 0.9,
+    "damage_to_part_ratio_note": "ASSUMPTION for optimal-axis: 90% damage attributed to focused leg collider (Pass A HitCollider_Foot_*; no aim model). At round2 DPS (~5.57M / 26.6M HP) this yields ~1 leg break; higher real DPS clears more.",
+    "stun_recover_ratio_on_break": 0.1,
+    "decibel_on_leg_break": 1000,
+    "崩解_crit_dmg_pct_per_stack": 25,
+    "崩解_duration_s": 20,
+    "崩解_max_stacks": 4,
+    "op_score_per_break": 800,
+    "op_score_cap": 5000,
+    "pass_a_files": [
+      "ComplexCorrupted_Part_Leg_*.dat",
+      "ComplexCorrupted_PartDamage.dat",
+      "zone layer_buff 69010305/69010307"
+    ]
+  },
+  "round": 16,
+  "window_source": "data/pass_a_buffs/complex_corrupted_attack_windows.json",
+  "builds_file": "data/builds/69034_seed_da002_archive_discs.json",
+  "builds_note": "R11: archive weapon/mindscape/phase/bangboo verified; drive discs NOT in archive_seed-data.js nor live API — still zzcal@36 (see builds gaps archive_drive_discs_missing).",
+  "build_overrides": {
+    "anby_s0": {
+      "weapon": "牺牲洁纯",
+      "weapon_refine": 1,
+      "mindscape": 1,
+      "battleType": "attack",
+      "slot4Type": "critRate",
+      "set4_candidates": [
+        "woodpecker",
+        "fuxiao",
+        "zhezhi",
+        "jidi"
+      ],
+      "set2_extra_candidates": [
+        "jidi",
+        "jisu",
+        "qiutu"
+      ],
+      "slot6_impact": false
+    },
+    "qingyi": {
+      "weapon": "玉壶青冰",
+      "weapon_refine": 1,
+      "mindscape": 0,
+      "battleType": "break",
+      "slot6_impact": true
+    },
+    "caesar": {
+      "weapon": "奔袭獠牙",
+      "weapon_refine": 1,
+      "mindscape": 0,
+      "battleType": "break",
+      "slot6_impact": true,
+      "slot4Type": "critRate",
+      "set4_candidates": [
+        "jisu",
+        "woodpecker",
+        "mountain"
+      ],
+      "set2_extra_candidates": [
+        "jisu",
+        "jiayin",
+        "mountain"
+      ]
+    }
+  },
+  "search_heuristics": {
+    "min_dps_action_share": 0.45,
+    "dps_share_warmup_steps": 5,
+    "max_non_dps_streak": 4,
+    "max_dps_streak": 12,
+    "dps_starvation_bonus": 400000.0,
+    "non_dps_starvation_penalty": 350000.0,
+    "streak_penalty_per_extra": 150000.0,
+    "stun_window_dps_bonus": 200000.0,
+    "support_buff_once_bonus": 180000.0,
+    "role_damage_weight": {
+      "dps": 1.0,
+      "stun": 0.55,
+      "support": 0.25
+    },
+    "stun_need_bonus": 220000.0,
+    "min_stun_action_share": 0.06,
+    "stun_share_warmup_steps": 8,
+    "stun_starvation_bonus": 350000.0,
+    "force_stun_if_zero_after": 6,
+    "min_support_buff_actions": 1,
+    "force_support_buff_after": 8,
+    "support_buff_action_ids": [
+      "ex",
+      "ex_buff",
+      "ultimate"
+    ],
+    "note": "R17 baseline heuristics (from round17 result) + Pass C occupancy gate"
+  },
+  "bangboo": {
+    "id": 54012,
+    "cn": "阿崔巡查",
+    "en": "Officer Cui",
+    "enabled": true,
+    "assumption_team_dmg_share_pct": 12.0,
+    "toggle": "set bangboo.enabled false to disable",
+    "note": "ASSUMPTION round8: nanoka bangboo.json metadata-only (no AttackProperty/Ability DPS). Apply +12% of agent hit damage as bangboo contribution (mid of prior 8–15% estimate). Not Pass A sourced."
+  },
+  "mindscape_note": "archive: anby_s0 M1 / qingyi M0 / caesar M0 via build_overrides; M1 Static Charge wired in eval_hit (EX +3× White Thunder 167.2%). zzcal sheet M1 adds 0 (critRate+12 is M2).",
+  "multi_hit_note": "round8: Anby kit basic=Normal_02+03+03_02 sum; ExSpecial/Mark/SwitchIn family damage_sum; M1 White Thunder on EX."
+}

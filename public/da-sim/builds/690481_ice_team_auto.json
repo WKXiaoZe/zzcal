@@ -1,0 +1,362 @@
+{
+  "schema": "da-sim-build-v1",
+  "source": "zzcal runGreedyOptimization port (sim/build_optimizer.py)",
+  "assumptions": {
+    "weapon_refine_default": 5,
+    "mindscape_default": "per-role (ellen/qingyi/anby/caesar=0; soukaku=6)",
+    "substat_budget": 36,
+    "impact": "break_stun_base*(1+weapon.impactPct+slot6+passive ASSUMPTION)/100",
+    "weapons_ext": "weapons_ext.json",
+    "fallback_weapons": [],
+    "substat_budget_note": "default 36 (owner); not legacy 48"
+  },
+  "agents": {
+    "qingyi": {
+      "battleType": "attack",
+      "optimizer_battleType": "break",
+      "baseAtk": 758.0,
+      "critRate": 5.0,
+      "critDmg": 80.0,
+      "dmgBonus": 0,
+      "resShred": 0,
+      "penRatio": 0,
+      "defShred": 0,
+      "dazeVuln": 0,
+      "anomalyMastery": 94.0,
+      "baseHp": 8251.0,
+      "hpPct": 0,
+      "inCombatAtkPct": 0,
+      "weapon": {
+        "baseAtk": 713.0,
+        "impactPct": 18.0
+      },
+      "extraStats": {
+        "critRate": 48.0,
+        "critDmg": 76.8,
+        "slot5_Dmg": 30.0,
+        "set2_AtkPct": 10.0
+      },
+      "energy_start": 60,
+      "energy_max": 120,
+      "build": {
+        "source": "zzcal_greedy",
+        "zzcal_char": "青衣",
+        "mindscape": 0,
+        "weapon_name": "玉壶青冰",
+        "weapon_refine": 5,
+        "weapon_meta": {
+          "name": "玉壶青冰",
+          "refine": 5,
+          "from_zzcal": false,
+          "from_weapons_ext": true,
+          "source": "nanoka weapon.json + Pass A Weapon_Ability_14125 + param blob 644577… (BreakStun refine); team_dmg refine GAP",
+          "fallback": false,
+          "passive": {
+            "tea_impact_per_stack": [
+              0.7,
+              0.88,
+              1.05,
+              1.22,
+              1.4
+            ],
+            "tea_impact_source": "pass_a param_blob AS_BreakStunRatio*100",
+            "tea_max_stacks": 30,
+            "tea_min_stacks_team_dmg": 15,
+            "tea_stack_duration_s": 8,
+            "tea_team_dmg_duration_s": 10,
+            "team_dmg_at_15": [
+              20,
+              23,
+              26,
+              29,
+              32
+            ],
+            "assumption_stacks_for_stun": 30,
+            "assumption_team_dmg": true,
+            "team_dmg_gap": {
+              "ability_specials_baked": 0.3,
+              "files": [
+                "Weapon_Ability_14125.dat",
+                "6445772635280955354.dat"
+              ],
+              "detail": "param blob has no AS_AddedDamageRatio R1–R5 under 14125; AbilitySpecials baked 0.30 only; sim keeps zzcal/wiki 20–32 as ASSUMPTION"
+            }
+          },
+          "note": "青衣专武；Impact 茶劲 Pass A sourced；团队增伤 refine GAP（见 team_dmg_gap）"
+        },
+        "set4_key": "mountain",
+        "set4_name": "山大王",
+        "set2_key": "jisu",
+        "slot5": "5号位:增伤",
+        "slot4Type": "critRate",
+        "substat_counts": {
+          "cr": 20,
+          "cd": 16,
+          "atk": 0,
+          "hp": 0,
+          "am": 0
+        },
+        "optimizer_dmg": 6905.04,
+        "config_name": "山大王/5号位:增伤 + 2件套:激素朋克",
+        "budget": 36,
+        "gaps": [],
+        "impact_detail": {
+          "impact_base_break_stun": 118.0,
+          "impact_pct_total": 78.0,
+          "impact": 210.04,
+          "slot6_impact": true
+        },
+        "weapon_team_dmg_assumption": {
+          "tea_impact_per_stack": [
+            0.7,
+            0.88,
+            1.05,
+            1.22,
+            1.4
+          ],
+          "tea_impact_source": "pass_a param_blob AS_BreakStunRatio*100",
+          "tea_max_stacks": 30,
+          "tea_min_stacks_team_dmg": 15,
+          "tea_stack_duration_s": 8,
+          "tea_team_dmg_duration_s": 10,
+          "team_dmg_at_15": [
+            20,
+            23,
+            26,
+            29,
+            32
+          ],
+          "assumption_stacks_for_stun": 30,
+          "assumption_team_dmg": true,
+          "team_dmg_gap": {
+            "ability_specials_baked": 0.3,
+            "files": [
+              "Weapon_Ability_14125.dat",
+              "6445772635280955354.dat"
+            ],
+            "detail": "param blob has no AS_AddedDamageRatio R1–R5 under 14125; AbilitySpecials baked 0.30 only; sim keeps zzcal/wiki 20–32 as ASSUMPTION"
+          }
+        }
+      },
+      "impact": 210.04,
+      "impact_detail": {
+        "impact_base_break_stun": 118.0,
+        "impact_pct_total": 78.0,
+        "impact": 210.04,
+        "slot6_impact": true
+      }
+    },
+    "ellen": {
+      "battleType": "attack",
+      "optimizer_battleType": "attack",
+      "baseAtk": 938.0,
+      "critRate": 19.0,
+      "critDmg": 198.0,
+      "dmgBonus": 30.0,
+      "resShred": 10.0,
+      "penRatio": 0,
+      "defShred": 0,
+      "dazeVuln": 0,
+      "anomalyMastery": 0,
+      "baseHp": 0,
+      "hpPct": 0,
+      "inCombatAtkPct": 27.0,
+      "weapon": {
+        "baseAtk": 713.0,
+        "critRate": 64.0,
+        "dmgBonus": 50.0
+      },
+      "extraStats": {
+        "critDmg": 57.6,
+        "atkPct": 72.0,
+        "slot5_Dmg": 30.0,
+        "set2_Dmg": 15.0
+      },
+      "energy_start": 40,
+      "energy_max": 120,
+      "build": {
+        "source": "zzcal_greedy",
+        "zzcal_char": "艾莲·乔Ⅵ",
+        "mindscape": 0,
+        "weapon_name": "深海访客",
+        "weapon_refine": 5,
+        "weapon_meta": {
+          "name": "深海访客",
+          "refine": 5,
+          "from_zzcal": true
+        },
+        "set4_key": "woodpecker",
+        "set4_name": "啄木鸟电音",
+        "set2_key": "ruying",
+        "slot5": "5号位:增伤",
+        "slot4Type": "critRate",
+        "substat_counts": {
+          "cr": 0,
+          "cd": 12,
+          "atk": 24,
+          "hp": 0,
+          "am": 0
+        },
+        "optimizer_dmg": 21922.14,
+        "config_name": "啄木鸟电音/5号位:增伤 + 2件套:如影相随",
+        "budget": 36,
+        "gaps": [],
+        "impact_detail": {
+          "impact_base_break_stun": 93.0,
+          "impact_pct_total": 0.0,
+          "impact": 93.0,
+          "slot6_impact": false
+        }
+      },
+      "impact": 93.0,
+      "impact_detail": {
+        "impact_base_break_stun": 93.0,
+        "impact_pct_total": 0.0,
+        "impact": 93.0,
+        "slot6_impact": false
+      }
+    },
+    "soukaku": {
+      "battleType": "attack",
+      "optimizer_battleType": "attack",
+      "baseAtk": 665.0,
+      "critRate": 5.0,
+      "critDmg": 50.0,
+      "dmgBonus": 0,
+      "resShred": 0,
+      "penRatio": 0,
+      "defShred": 0,
+      "dazeVuln": 0,
+      "anomalyMastery": 96.0,
+      "baseHp": 8027.0,
+      "hpPct": 0,
+      "inCombatAtkPct": 25.0,
+      "weapon": {
+        "baseAtk": 684.0,
+        "penRatio": 24.0,
+        "penRate": 24.0
+      },
+      "extraStats": {
+        "set2_AtkPct": 10.0,
+        "critRate": 19.2,
+        "atkPct": 84.0,
+        "slot5_Dmg": 30.0,
+        "set2_Dmg": 10.0
+      },
+      "energy_start": 80,
+      "energy_max": 120,
+      "build": {
+        "source": "zzcal_greedy",
+        "zzcal_char": "苍角",
+        "mindscape": 6,
+        "weapon_name": "啜泣摇篮",
+        "weapon_refine": 5,
+        "weapon_meta": {
+          "name": "啜泣摇篮",
+          "refine": 5,
+          "from_zzcal": false,
+          "from_weapons_ext": true,
+          "source": "nanoka weapon.json + Pass A Weapon_Ability_14121 formula + param blob 644577… refine",
+          "fallback": false,
+          "passive": {
+            "off_field_energy_per_s": [
+              0.6,
+              0.75,
+              0.9,
+              1.05,
+              1.2
+            ],
+            "AS_AddedDamageRatio_Default": [
+              0.1,
+              0.125,
+              0.15,
+              0.175,
+              0.2
+            ],
+            "AS_AddedDamageRatio_Tick": [
+              0.017,
+              0.02,
+              0.025,
+              0.03,
+              0.033
+            ],
+            "team_dmg_max_pct": [
+              20.2,
+              24.5,
+              30.0,
+              35.5,
+              39.8
+            ],
+            "pass_a_team_dmg_pct": 39.8,
+            "pass_a_formula": "Default[R]+Tick[R]*6",
+            "pass_a_sourced": true
+          },
+          "note": "穿透率副属性；团队伤害 Pass A sourced（R5=39.8%=0.20+0.033*6）；不再标 ASSUMPTION"
+        },
+        "set4_key": "jisu",
+        "set4_name": "激素朋克",
+        "set2_key": "jidi",
+        "slot5": "5号位:增伤",
+        "slot4Type": "atk",
+        "substat_counts": {
+          "cr": 8,
+          "cd": 0,
+          "atk": 28,
+          "hp": 0,
+          "am": 0
+        },
+        "optimizer_dmg": 4607.81,
+        "config_name": "激素朋克/5号位:增伤 + 2件套:极地重金属",
+        "budget": 36,
+        "gaps": [],
+        "impact_detail": {
+          "impact_base_break_stun": 86.0,
+          "impact_pct_total": 0.0,
+          "impact": 86.0,
+          "slot6_impact": false
+        },
+        "weapon_team_dmg_assumption": {
+          "off_field_energy_per_s": [
+            0.6,
+            0.75,
+            0.9,
+            1.05,
+            1.2
+          ],
+          "AS_AddedDamageRatio_Default": [
+            0.1,
+            0.125,
+            0.15,
+            0.175,
+            0.2
+          ],
+          "AS_AddedDamageRatio_Tick": [
+            0.017,
+            0.02,
+            0.025,
+            0.03,
+            0.033
+          ],
+          "team_dmg_max_pct": [
+            20.2,
+            24.5,
+            30.0,
+            35.5,
+            39.8
+          ],
+          "pass_a_team_dmg_pct": 39.8,
+          "pass_a_formula": "Default[R]+Tick[R]*6",
+          "pass_a_sourced": true
+        }
+      },
+      "impact": 86.0,
+      "impact_detail": {
+        "impact_base_break_stun": 86.0,
+        "impact_pct_total": 0.0,
+        "impact": 86.0,
+        "slot6_impact": false
+      }
+    }
+  },
+  "gaps": []
+}

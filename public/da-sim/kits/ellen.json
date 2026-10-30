@@ -1,0 +1,260 @@
+{
+  "agent_id": "ellen",
+  "cn": "艾莲·乔Ⅵ",
+  "profession": "Attack",
+  "element": "Ice",
+  "source": "PassA AttackProperty_Avatar_Female_Size02_Ellen.dat fixedValue; Enhance Ability refs",
+  "confidence": "medium — Ult SwitchIn proxy (Card_S AP family missing); multi-hit family sums; no level-grow",
+  "actions": [
+    {
+      "id": "basic_enhance",
+      "label": "普通攻击：急冻修剪法（Enhance+Cut 多段累加）",
+      "kind": "basic",
+      "duration_s": 1.3,
+      "energy_cost": 0,
+      "energy_gain": 8,
+      "decibel_gain": 120,
+      "multiplier_pct": 200.514,
+      "stun": 0.280667,
+      "pass_a_families": [
+        "Ellen_Attack_Normal_Enhance_01",
+        "Ellen_Attack_Normal_Enhance_02",
+        "Ellen_Attack_Normal_Enhance_02_04",
+        "Ellen_Attack_Normal_Enhance_02_05",
+        "Ellen_Attack_Normal_Cut_01"
+      ],
+      "needs_flash": true,
+      "skill_cn": "普通攻击：急冻修剪法",
+      "multi_hit_note": "round8: sum Enhance_01/02/02_04/02_05 + Normal_Cut_01 (Ability Ellen_Attack_Enhance refs Cut+Branch; Cut folded here; Branch stays own action)",
+      "duration_note": "R17 keep / pre-passc kit duration."
+    },
+    {
+      "id": "dash_slash",
+      "label": "冲刺攻击：冰渊潜袭",
+      "kind": "basic",
+      "duration_s": 0.7,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 60,
+      "multiplier_pct": 31.15,
+      "stun": 0.3115,
+      "pass_a_families": [
+        "Ellen_Attack_Dash_Slash_01"
+      ],
+      "skill_cn": "冲刺攻击：冰渊潜袭",
+      "multi_hit_note": "Dash_Slash_01 family damage_sum",
+      "asl_state": "Dash_Slash_01",
+      "duration_note": "R14: keep 0.7 cancel (<ASL 1.3). PE Tag Low=26 MaxH (0.867s) / ChargeFade Low=29: tag FROM Low to end; kit 0.7 already < PE-open; Low≠leave-early cancel. Dash_Cut iframe [0,18] Soft. See occupancy_r14."
+    },
+    {
+      "id": "ex",
+      "label": "强化特殊技：鲨卷风",
+      "kind": "ex",
+      "duration_s": 1.5,
+      "energy_cost": 60,
+      "energy_gain": 0,
+      "decibel_gain": 300,
+      "multiplier_pct": 189.55,
+      "stun": 0.5,
+      "pass_a_families": [
+        "Ellen_Card_A_01",
+        "Ellen_Card_A_02"
+      ],
+      "skill_cn": "强化特殊技：鲨卷风",
+      "multi_hit_note": "Card_A_01+A_02 family damage_sum (162.05+27.50); projectile AP segments included in family",
+      "duration_note": "R9: keep 1.5 (Card_A; no direct ASL ExSpecial) R14: Card_A states; no occupancy early-Low leave-cancel. See occupancy_r14."
+    },
+    {
+      "id": "branch",
+      "label": "普通攻击：冰刃浪/霜锋（分支）",
+      "kind": "basic",
+      "duration_s": 1.0,
+      "energy_cost": 0,
+      "energy_gain": 10,
+      "decibel_gain": 150,
+      "multiplier_pct": 258.748,
+      "stun": 1.87926,
+      "pass_a_families": [
+        "Ellen_Attack_Branch_02",
+        "Ellen_Attack_Branch_04"
+      ],
+      "needs_flash": true,
+      "skill_cn": "普通攻击：冰刃浪/霜锋",
+      "multi_hit_note": "Branch_02+04 family damage_sum (135.792+122.956); Ability multi-hit segments already in AP families",
+      "asl_states": [
+        "Attack_Branch_02",
+        "Attack_Branch_04"
+      ],
+      "duration_note": "R9: keep 1.0 cancel (ASL Branch_02=1.17 Branch_04=2.0) R14: Branch HitModifier AttachState; no early-Low leave-cancel wired. See occupancy_r14."
+    },
+    {
+      "id": "ultimate",
+      "label": "终结技：永冬狂宴（SwitchIn代理）",
+      "kind": "ultimate",
+      "duration_s": 2.0,
+      "energy_cost": 0,
+      "energy_gain": 0,
+      "decibel_gain": -3000,
+      "multiplier_pct": 222.488,
+      "stun": 1.0,
+      "pass_a_families": [
+        "Ellen_Attack_SwitchIn_Attack"
+      ],
+      "needs_decibel": 3000,
+      "note": "ASSUMPTION R3–R10: AttackProperty has no Card_S / Ultimate DamagePercentage family. Pass A Ellen_Card_S_* abilities exist but ref Card_A / Branch_02/04 / Dash_Cut APs (no dedicated Ult mult). Keep SwitchIn_Attack dmg_sum_pct=222.488 proxy. GAP assets: Ellen_Card_S_* TextAsset abilities without matching Ult AP families.",
+      "pass_a_ult_dig": {
+        "ultimate_family_found": false,
+        "card_s_attackproperty": false,
+        "card_s_sfx_only": true,
+        "assault_aid_pct": 32.843,
+        "switch_in_pct": 222.488
+      },
+      "skill_cn": "终结技：永冬狂宴",
+      "multi_hit_note": "SwitchIn_Attack family damage_sum (Ult proxy)",
+      "round10_ult_gap": {
+        "ability_assets": "Ellen_Card_S_*",
+        "ap_families_referenced": [
+          "Card_A",
+          "Branch_02",
+          "Branch_04",
+          "Dash_Cut"
+        ],
+        "dedicated_ult_damage_percentage": false
+      },
+      "duration_note": "R16: Zone End + EventPattern hit (≠R14 Ability Soft; extends R15). SwitchIn_Attack hit[36] End idle_sf0 → 1.2. See cancel_frames_zone_end_hit_occupancy_r16.json."
+    },
+    {
+      "id": "switch_in",
+      "label": "快速支援：护卫鲛",
+      "kind": "switch",
+      "duration_s": 0.8,
+      "energy_cost": 0,
+      "energy_gain": 5,
+      "decibel_gain": 200,
+      "multiplier_pct": 222.488,
+      "stun": 0.5,
+      "pass_a_families": [
+        "Ellen_Attack_SwitchIn_Attack"
+      ],
+      "skill_cn": "快速支援：护卫鲛",
+      "multi_hit_note": "SwitchIn_Attack family damage_sum (Ult proxy)"
+    }
+  ],
+  "flash_rules": {
+    "max": 3,
+    "on_perfect_assist": 1,
+    "on_ex": 1,
+    "on_field_regen_s": 6.0,
+    "on_field_regen_amount": 1,
+    "note": "Pass A flash economy not fully decoded; EX+1 and 6s on-field regen are ASSUMPTION so ASL-long boss locks (fewer parries) do not hard-starve Flash Freeze branch"
+  },
+  "skill_text_map": "data/pass_a_buffs/skill_text_pass_a_map.json",
+  "mindscape_default": 0,
+  "mindscape_note": "冰队默认 M0；影画乘区未强制。seed 安比单独走 build_overrides.mindscape=1",
+  "round9_asl": {
+    "source": "data/pass_a_buffs/ellen_state_lengths.json",
+    "policy": "kit already ≤ASL main for most; no shorten needed"
+  },
+  "round16_cancel": {
+    "source": "data/pass_a_buffs/cancel_frames_zone_end_hit_occupancy_r16.json",
+    "policy": "same as R15: End idle_sf=0 + event_hit_frames/30; wire iff < kit; no invented pad",
+    "wired": [
+      {
+        "action": "ultimate",
+        "old": 2.0,
+        "new": 1.2
+      }
+    ],
+    "unwired_gaps": [
+      {
+        "agent": "ellen",
+        "action": "basic_enhance",
+        "old": 1.3,
+        "new": 1.3,
+        "formula": 1.6333,
+        "wired": false,
+        "reason": "chain sum hits=1.6333 parts=[{'state': 'Attack_Normal_Enhance_01', 'hit': 12, 'seg_s': 0.4, 'end_idle_sf0': False}, {'state': 'Attack_Normal_Enhance_02', 'hit': 10, 'seg_s': 0.3333, 'end_idle_sf0': True}, {'state': 'Attack_Normal_Enhance_02_04', 'hit': 11, 'seg_s': 0.3667, 'end_idle_sf0': False}, {'state': 'Attack_Normal_Enhance_02_05', 'hit': 10, 'seg_s': 0.3333, 'end_idle_sf0': False}, {'state': 'Attack_Normal_Cut_01', 'hit': 6, 'seg_s': 0.2, 'end_idle_sf0': True}] (≥kit → no lengthen)"
+      },
+      {
+        "agent": "ellen",
+        "action": "dash_slash",
+        "old": 0.7,
+        "new": 0.7,
+        "formula": 0.5333,
+        "wired": false,
+        "reason": "Dash_Slash_01 no End (end_ok=False); hits=[16]; keep 0.7 ASSUMPTION"
+      },
+      {
+        "agent": "ellen",
+        "action": "branch",
+        "old": 1.0,
+        "new": 1.0,
+        "formula": 1.6,
+        "wired": false,
+        "reason": "chain Branch_02+04 sum=1.6 [{'state': 'Attack_Branch_02', 'hit': 26, 'seg_s': 0.8667, 'end_ok': True}, {'state': 'Attack_Branch_04', 'hit': 22, 'seg_s': 0.7333, 'end_ok': True}] (≥kit → keep)"
+      },
+      {
+        "agent": "ellen",
+        "action": "switch_in",
+        "old": 0.8,
+        "new": 0.8,
+        "formula": 1.2,
+        "wired": false,
+        "reason": "SwitchIn_Attack hits=[36] formula=1.2 end_ok=True"
+      },
+      {
+        "agent": "ellen",
+        "action": "ex",
+        "old": 1.5,
+        "new": 1.5,
+        "formula": null,
+        "wired": false,
+        "reason": "Card_A_* has no AnimatorZone State+End mapping in cancel_frames — GAP"
+      }
+    ]
+  },
+  "round_passc_cancel": {
+    "source": "data/pass_c_animator/occupancy_passc.json",
+    "script": "scripts/parse_animator_controller.py",
+    "policy": "Pass C AnimatorController @60fps. Chain basic: earliest FrameCount gate to next Normal (Trigger_PressAttackA). Singles: hasExitTime→*_End or totalFramesSrc/60; NEVER earliest button cancel (protects multi-hit/stun). Wire only if max(passc, last_AP/30) < kit_s; refuse crush below AP floor. occupancy_src=passc when wired.",
+    "wired": [],
+    "kept_r17": [
+      {
+        "action": "basic_enhance",
+        "kit_s": 1.3,
+        "passc_s": null,
+        "reason": "combo families; do not wire single-state ASL"
+      },
+      {
+        "action": "dash_slash",
+        "kit_s": 0.7,
+        "passc_s": 1.1667,
+        "reason": "single passc_hasExitTime_to_End 1.1667 >= kit 0.7 (R17 keep)"
+      },
+      {
+        "action": "ex",
+        "kit_s": 1.5,
+        "passc_s": 1.1667,
+        "reason": "single passc 1.1667 < AP floor 1.6667 — refuse crush"
+      },
+      {
+        "action": "branch",
+        "kit_s": 1.0,
+        "passc_s": 1.5,
+        "reason": "single passc_hasExitTime_to_End 1.5 >= kit 1.0 (R17 keep)"
+      },
+      {
+        "action": "ultimate",
+        "kit_s": 2.0,
+        "passc_s": 3.0,
+        "reason": "single passc_hasExitTime_to_End 3.0 >= kit 2.0 (R17 keep)"
+      },
+      {
+        "action": "switch_in",
+        "kit_s": 0.8,
+        "passc_s": 3.3333,
+        "reason": "single passc_hasExitTime_to_End 4.7333 >= kit 0.8 (R17 keep)"
+      }
+    ]
+  }
+}

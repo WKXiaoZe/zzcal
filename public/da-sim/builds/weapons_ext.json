@@ -1,0 +1,201 @@
+{
+  "version": 1,
+  "note": "Sourced local extension; Pass A AbilitySpecials/param-blob where decoded. Budget default 36.",
+  "weapons": {
+    "玉壶青冰": {
+      "meta": {
+        "id": 14125,
+        "type": "击破",
+        "rarity": "S",
+        "source": "nanoka weapon.json + Pass A Weapon_Ability_14125 + param blob 644577… (BreakStun refine); team_dmg refine GAP",
+        "fallback": false
+      },
+      "baseAtk": 713,
+      "impactPct": 18.0,
+      "passive": {
+        "tea_impact_per_stack": [
+          0.7,
+          0.88,
+          1.05,
+          1.22,
+          1.4
+        ],
+        "tea_impact_source": "pass_a param_blob AS_BreakStunRatio*100",
+        "tea_max_stacks": 30,
+        "tea_min_stacks_team_dmg": 15,
+        "tea_stack_duration_s": 8,
+        "tea_team_dmg_duration_s": 10,
+        "team_dmg_at_15": [
+          20,
+          23,
+          26,
+          29,
+          32
+        ],
+        "assumption_stacks_for_stun": 30,
+        "assumption_team_dmg": true,
+        "team_dmg_gap": {
+          "ability_specials_baked": 0.3,
+          "files": [
+            "Weapon_Ability_14125.dat",
+            "6445772635280955354.dat"
+          ],
+          "detail": "param blob has no AS_AddedDamageRatio R1–R5 under 14125; AbilitySpecials baked 0.30 only; sim keeps zzcal/wiki 20–32 as ASSUMPTION"
+        }
+      },
+      "note": "青衣专武；Impact 茶劲 Pass A sourced；团队增伤 refine GAP（见 team_dmg_gap）"
+    },
+    "啜泣摇篮": {
+      "meta": {
+        "id": 14121,
+        "type": "支援",
+        "rarity": "S",
+        "source": "nanoka weapon.json + Pass A Weapon_Ability_14121 formula + param blob 644577… refine",
+        "fallback": false
+      },
+      "baseAtk": 684,
+      "penRate": 24.0,
+      "passive": {
+        "off_field_energy_per_s": [
+          0.6,
+          0.75,
+          0.9,
+          1.05,
+          1.2
+        ],
+        "AS_AddedDamageRatio_Default": [
+          0.1,
+          0.125,
+          0.15,
+          0.175,
+          0.2
+        ],
+        "AS_AddedDamageRatio_Tick": [
+          0.017,
+          0.02,
+          0.025,
+          0.03,
+          0.033
+        ],
+        "team_dmg_max_pct": [
+          20.2,
+          24.5,
+          30.0,
+          35.5,
+          39.8
+        ],
+        "pass_a_team_dmg_pct": 39.8,
+        "pass_a_formula": "Default[R]+Tick[R]*6",
+        "pass_a_sourced": true
+      },
+      "note": "穿透率副属性；团队伤害 Pass A sourced（R5=39.8%=0.20+0.033*6）；不再标 ASSUMPTION"
+    },
+    "燃狱齿轮": {
+      "meta": {
+        "id": 14110,
+        "type": "击破",
+        "rarity": "S",
+        "source": "nanoka + Pass A Weapon_Ability_14110 partial",
+        "fallback": false
+      },
+      "baseAtk": 684,
+      "impactPct": 18.0,
+      "passive": {
+        "ex_impact_pct": [
+          10,
+          12.5,
+          15,
+          17.5,
+          20
+        ],
+        "ex_stacks": 2,
+        "assumption_impact_passive_pct": 40.0
+      },
+      "note": "冲击力副属性；EX 期间冲击被动按满层 ASSUMPTION"
+    },
+    "正版变身器": {
+      "meta": {
+        "id": 13007,
+        "type": "防护",
+        "rarity": "A",
+        "source": "nanoka weapon.json (原「原初之芦」误名已废)",
+        "fallback": false
+      },
+      "baseAtk": 594,
+      "hpPct": 25.0,
+      "note": "凯撒用；HP% 副属性供 break/防护面板"
+    },
+    "牺牲洁纯": {
+      "meta": {
+        "id": 14138,
+        "type": "强攻",
+        "rarity": "S",
+        "source": "nanoka weapon.json + zzcal wpDPS + Pass A param blob",
+        "fallback": false
+      },
+      "baseAtk": 713,
+      "critDmg": 144.0,
+      "passive": {
+        "AS_AddedDamageRatio_Elec": [
+          0.23,
+          0.26,
+          0.29,
+          0.32
+        ],
+        "zzcal_sheet_dmgBonus": [
+          20,
+          23,
+          26,
+          29,
+          32
+        ],
+        "note": "zzcal weapon.dmgBonus already in formulas.py personal path; NOT seeded as field team_dmg (would double-count). Pass A Elec ratio ranks incomplete (4 vals)."
+      },
+      "note": "零号安比专武；副属性暴伤；sheet dmgBonus→个人伤害；archive 校准用"
+    },
+    "奔袭獠牙": {
+      "meta": {
+        "id": 14107,
+        "type": "防护",
+        "rarity": "S",
+        "source": "nanoka weapon.json + zzcal wpSUP + Pass A Weapon_Ability_14107",
+        "fallback": false
+      },
+      "baseAtk": 713,
+      "impactPct": 18.0,
+      "passive": {
+        "AS_CriticalDelta": [
+          0.2,
+          0.23,
+          0.26,
+          0.29,
+          0.32
+        ],
+        "AS_AddedSkipDefDamageRatio": [
+          0.06,
+          0.07,
+          0.08,
+          0.09,
+          0.1
+        ],
+        "zzcal_dmgBonus": [
+          18,
+          22.5,
+          27,
+          31.5,
+          36
+        ],
+        "assumption_team_dmg": true,
+        "team_dmg_at_15": [
+          18,
+          22.5,
+          27,
+          31.5,
+          36
+        ],
+        "note": "archive Caesar weapon; zzcal dmgBonus ranks used as team field ASSUMPTION. Pass A Weapon_Ability_14107 has AS_CriticalDelta + AS_AddedSkipDefDamageRatio — NOT a team AddedDamageRatio array; team_dmg_gap until shield-aura decode."
+      },
+      "note": "凯撒专武；冲击力副属性；archive 校准用"
+    }
+  }
+}

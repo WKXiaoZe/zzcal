@@ -1,0 +1,253 @@
+{
+  "source_asl": "MonoBehaviour/AnimatorStateLength_Monster_ComplexCorrupted.dat",
+  "source_aid": "TextAsset/ComplexCorrupted_AidTriggerControl.dat",
+  "fps_note": "lengths are Absolute Time seconds from StateLengthDic (hash→float) joined to name map",
+  "parryable_states_in_aid": [
+    "Attack_01_F",
+    "Attack_01_FR_01",
+    "Attack_01_FR_02",
+    "Attack_01_Pre",
+    "Attack_01_R",
+    "Attack_01_SlowPre",
+    "Attack_02_F",
+    "Attack_02_FL_01",
+    "Attack_02_FL_02",
+    "Attack_02_L",
+    "Attack_02_Pre",
+    "Attack_03_01_B",
+    "Attack_03_01_F",
+    "Attack_03_02_B",
+    "Attack_03_02_F",
+    "Attack_04",
+    "Attack_05",
+    "Attack_05_SlowPre",
+    "Attack_06_01",
+    "Attack_06_02",
+    "Attack_06_03",
+    "Attack_06_Combo_01",
+    "Attack_06_Combo_02",
+    "Attack_07_Stay_B",
+    "Attack_07_Stay_F",
+    "Attack_07_Turn_B",
+    "Attack_07_Turn_F",
+    "Attack_Turn_01",
+    "Attack_Turn_02",
+    "Base_Attack_Leg_BL",
+    "Base_Attack_Leg_BL_P2",
+    "Base_Attack_Leg_BL_Weak",
+    "Base_Attack_Leg_BR",
+    "Base_Attack_Leg_BR_P2",
+    "Base_Attack_Leg_BR_Weak",
+    "Base_Attack_Leg_FL",
+    "Base_Attack_Leg_FL_P2",
+    "Base_Attack_Leg_FL_Weak",
+    "Base_Attack_Leg_FR",
+    "Base_Attack_Leg_FR_P2",
+    "Base_Attack_Leg_FR_Weak",
+    "Base_Attack_Leg_L",
+    "Base_Attack_Leg_L_P2",
+    "Base_Attack_Leg_L_Weak",
+    "Base_Attack_Leg_R",
+    "Base_Attack_Leg_R_P2",
+    "Base_Attack_Leg_R_Weak",
+    "SpecialAttack_01_End"
+  ],
+  "unresolved": [
+    "Exact frame of HeavyParry window open/close inside clip (FrameCountLow/High values not bound per Attack_XX in clean ints)",
+    "Which facing variant BT picks (F vs FR vs R) — using representative F",
+    "Attack_09/13/15 absent from ASL — hand-tier"
+  ],
+  "windows": {
+    "Attack_01": {
+      "telegraph_s": 1.3333,
+      "active_s": 3.5333,
+      "recover_s": 0.0,
+      "parryable": true,
+      "source_states": [
+        "Attack_01_Pre",
+        "Attack_01_F"
+      ],
+      "window_assumption": "pass_a_state_length_representative",
+      "note": "Pre+F representative; FR_01/FR_02/R are alternate facings not summed",
+      "parry_active_s": 0.4,
+      "parry_tier": "short",
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_02": {
+      "telegraph_s": 1.8333,
+      "active_s": 4.1667,
+      "recover_s": 0.0,
+      "parryable": true,
+      "source_states": [
+        "Attack_02_Pre",
+        "Attack_02_F"
+      ],
+      "window_assumption": "pass_a_state_length_representative",
+      "parry_active_s": 0.55,
+      "parry_tier": "mid",
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_03": {
+      "telegraph_s": 0.5,
+      "active_s": 5.5,
+      "recover_s": 0.0,
+      "parryable": true,
+      "source_states": [
+        "Attack_03_01_F"
+      ],
+      "window_assumption": "pass_a_active_only_telegraph_assumed_0.5",
+      "note": "No Attack_03_Pre in ASL; telegraph 0.5s assumed",
+      "parry_active_s": 0.55,
+      "parry_tier": "mid",
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_04": {
+      "telegraph_s": 0.4,
+      "active_s": 7.3,
+      "recover_s": 0.0,
+      "parryable": true,
+      "source_states": [
+        "Attack_04"
+      ],
+      "window_assumption": "pass_a_active_only_telegraph_assumed_0.4",
+      "parry_active_s": 0.7,
+      "parry_tier": "long",
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_05": {
+      "telegraph_s": 0.0,
+      "active_s": 6.5,
+      "recover_s": 0.0,
+      "parryable": false,
+      "source_states": [
+        "Attack_05"
+      ],
+      "window_assumption": "pass_a_active_non_parry",
+      "note": "AidTrigger lists Attack_05 but treated non-parry (heavy/roar class); SlowPre not default path",
+      "parry_active_s": 0.0,
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_06": {
+      "telegraph_s": 1.1667,
+      "active_s": 6.4333,
+      "recover_s": 0.0,
+      "parryable": true,
+      "source_states": [
+        "Attack_06_Pre",
+        "Attack_06_01"
+      ],
+      "window_assumption": "pass_a_state_length_representative",
+      "parry_active_s": 0.7,
+      "parry_tier": "long",
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_07": {
+      "telegraph_s": 0.4,
+      "active_s": 7.6,
+      "recover_s": 0.0,
+      "parryable": true,
+      "source_states": [
+        "Attack_07_Stay_F"
+      ],
+      "window_assumption": "pass_a_active_only_telegraph_assumed_0.4",
+      "parry_active_s": 0.7,
+      "parry_tier": "long",
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_08": {
+      "telegraph_s": 0.3,
+      "active_s": 4.0167,
+      "recover_s": 1.8167,
+      "parryable": true,
+      "source_states": [
+        "Attack_08_F",
+        "Attack_08_F_End"
+      ],
+      "window_assumption": "pass_a_state_length_with_end",
+      "parry_active_s": 0.55,
+      "parry_tier": "mid",
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_09": {
+      "telegraph_s": 0.8,
+      "active_s": 2.0,
+      "recover_s": 1.0,
+      "parryable": false,
+      "source_states": [],
+      "window_assumption": "no_asl_state_hand_tier_long",
+      "note": "Attack_09 not in AnimatorStateLength; hand-tier long non-parry",
+      "parry_active_s": 0.0,
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_13": {
+      "telegraph_s": 0.7,
+      "active_s": 2.0,
+      "recover_s": 1.0,
+      "parryable": false,
+      "source_states": [],
+      "window_assumption": "no_asl_state_hand_tier_mid",
+      "parry_active_s": 0.0,
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_15": {
+      "telegraph_s": 0.7,
+      "active_s": 2.0,
+      "recover_s": 1.0,
+      "parryable": false,
+      "source_states": [],
+      "window_assumption": "no_asl_state_hand_tier_mid",
+      "parry_active_s": 0.0,
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_Range_01": {
+      "telegraph_s": 1.0,
+      "active_s": 8.3333,
+      "recover_s": 0.0,
+      "parryable": false,
+      "source_states": [
+        "Attack_Range_01"
+      ],
+      "window_assumption": "pass_a_full_clip_non_parry",
+      "parry_active_s": 0.0,
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_Range_02": {
+      "telegraph_s": 0.8,
+      "active_s": 5.8667,
+      "recover_s": 0.0,
+      "parryable": false,
+      "source_states": [
+        "Attack_Range_02"
+      ],
+      "window_assumption": "pass_a_full_clip_non_parry",
+      "parry_active_s": 0.0,
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Attack_Range_03": {
+      "telegraph_s": 0.8,
+      "active_s": 6.6667000000000005,
+      "recover_s": 0.0,
+      "parryable": false,
+      "source_states": [
+        "Attack_Range_03"
+      ],
+      "window_assumption": "pass_a_full_clip_non_parry",
+      "parry_active_s": 0.0,
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    },
+    "Base_Attack_Leg": {
+      "telegraph_s": 0.3,
+      "active_s": 2.0667,
+      "recover_s": 0.0,
+      "parryable": true,
+      "source_states": [
+        "Base_Attack_Leg_FR"
+      ],
+      "window_assumption": "pass_a_leg_stomp",
+      "parry_active_s": 0.4,
+      "parry_tier": "short",
+      "parry_frame_note": "AidTrigger tags state as parryable; FrameCountLow/High not bound to Attack_XX — parry_active_s is tiered ASSUMPTION on clip length"
+    }
+  },
+  "round3_note": "Timeline occupancy = full ASL clip (Pre+representative active+End). Parry sub-window = late-Pre open + tiered parry_active_s. Not frame-accurate."
+}
