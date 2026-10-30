@@ -41,18 +41,32 @@ export function DeadlyAssaultPanel() {
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     fetch(`${BASE}index.json`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((ix: DaIndex) => {
+        if (cancelled) return;
         setIndex(ix);
         const first = ix.scenarios[0];
+        if (!first) {
+          setErr('数据索引为空：未找到可用场景。');
+          return;
+        }
         setPeriod(first.period_id);
         setBossKey(first.boss_key);
         setScenarioId(first.id);
         setBuildMode(first.default_build_mode);
       })
-      .catch((e) => setErr(`数据索引加载失败：${e}`));
-    return () => workerRef.current?.terminate();
+      .catch((e) => {
+        if (!cancelled) setErr(`数据索引加载失败：${e instanceof Error ? e.message : String(e)}`);
+      });
+    return () => {
+      cancelled = true;
+      workerRef.current?.terminate();
+    };
   }, []);
 
   const periods = useMemo(() => {
@@ -75,6 +89,17 @@ export function DeadlyAssaultPanel() {
       setBuildMode(s.default_build_mode);
     }
   };
+  const pickBoss = (key: string) => {
+    setBossKey(key);
+    const s = index?.scenarios.find((x) => x.period_id === period && x.boss_key === key)
+      ?? index?.scenarios.find((x) => x.boss_key === key);
+    if (s) {
+      setScenarioId(s.id);
+      setBuildMode(s.default_build_mode);
+    } else {
+      setScenarioId('');
+    }
+  };
   const pickTeam = (id: string) => {
     setScenarioId(id);
     const s = index?.scenarios.find((x) => x.id === id);
@@ -95,48 +120,65 @@ export function DeadlyAssaultPanel() {
       else if (m.type === 'done') {
         setResult(m.result);
         setBusy(false);
+        setProgress(null);
         w.terminate();
       } else if (m.type === 'error') {
         setErr(m.message);
         setBusy(false);
+        setProgress(null);
         w.terminate();
       }
     };
     w.onerror = (e) => {
-      setErr(`Worker 出错：${e.message}`);
+      setErr(`Worker 出错：${e.message || '未知错误'}`);
       setBusy(false);
+      setProgress(null);
     };
     w.postMessage({ base: BASE, scenarioFile: current.file, options: { buildMode, beamWidth, maxSteps, seed } });
   };
   const stop = () => {
     workerRef.current?.terminate();
+    workerRef.current = null;
     setBusy(false);
+    setProgress(null);
   };
 
   const sc = result?.score;
   const da = sc?.da;
+  const progressPct = progress && progress.max > 0
+    ? Math.min(100, Math.round((progress.step / progress.max) * 100))
+    : 0;
 
   return (
-    <section className={styles.panel}>
-      <h2>危局强袭战 · 最优排轴模拟</h2>
-      <p className={styles.note}>
-        束搜索（R17 启发式）+ 首领 Pass A 权重出招 + 本站伤害公式；得分 = 29 段伤害曲线 + 每次部位破坏 800（上限 5000）；评级 S/A/B = 20000/14000/6000。
+    <section className={`sub-module ${styles.panel}`} id="mod-da-sim" aria-labelledby="da-sim-title">
+      <div className="module-title"><span id="da-sim-title">危局强袭 · 排轴模拟</span></div>
+
+      <p className={styles.intro}>
+        用束搜索估算本期危局强袭的最优排轴与得分。得分 = 伤害曲线分段分 + 部位破坏（每次 800，上限 5000）；评级门槛 S/A/B = 20000 / 14000 / 6000。
       </p>
-      {!index && !err && <p>加载数据中…</p>}
-      {index && (
-        <>
-          <div className={styles.row}>
-            <label>
-              期数{' '}
+
+      {!index && !err && (
+        <p className={styles.loading} role="status">正在加载场景数据…</p>
+      )}
+
+      {index && index.scenarios.length === 0 && !err && (
+        <p className={styles.empty}>暂无可用场景。请确认 <code>da-sim/index.json</code> 已部署。</p>
+      )}
+
+      {index && index.scenarios.length > 0 && (
+        <div className={styles.controls}>
+          <div className={styles.fieldGrid}>
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>期数</span>
               <select value={period ?? ''} onChange={(e) => pickPeriod(Number(e.target.value))} disabled={busy}>
                 {periods.map(([id, label]) => (
                   <option key={id} value={id}>{label}</option>
                 ))}
               </select>
             </label>
-            <label>
-              首领{' '}
-              <select value={bossKey} onChange={(e) => setBossKey(e.target.value)} disabled={busy}>
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>首领</span>
+              <select value={bossKey} onChange={(e) => pickBoss(e.target.value)} disabled={busy}>
                 {index.bosses.map((b) => (
                   <option key={b.key} value={b.key} disabled={!b.available}>
                     {b.cn}{b.available ? '' : '（暂无数据）'}
@@ -144,116 +186,235 @@ export function DeadlyAssaultPanel() {
                 ))}
               </select>
             </label>
-            <label>
-              队伍{' '}
-              <select value={scenarioId} onChange={(e) => pickTeam(e.target.value)} disabled={busy || teams.length === 0}>
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>队伍</span>
+              <select
+                value={scenarioId}
+                onChange={(e) => pickTeam(e.target.value)}
+                disabled={busy || teams.length === 0}
+              >
+                {teams.length === 0 && <option value="">该首领本期暂无队伍</option>}
                 {teams.map((s) => (
                   <option key={s.id} value={s.id}>{s.team_label}</option>
                 ))}
               </select>
             </label>
-          </div>
-          {period === 690481 && index.buffs_690481 && (
-            <p className={styles.meta}>本期增益：{(index.buffs_690481 as string[]).join(' / ')}</p>
-          )}
-          <div className={styles.row}>
-            <label>
-              配装{' '}
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>配装</span>
               <select value={buildMode} onChange={(e) => setBuildMode(e.target.value as BuildMode)} disabled={busy}>
                 {(Object.keys(BUILD_MODE_CN) as BuildMode[]).map((m) => (
                   <option key={m} value={m}>{BUILD_MODE_CN[m]}</option>
                 ))}
               </select>
             </label>
-            <label>
-              束宽 <input type="number" min={1} max={400} value={beamWidth} onChange={(e) => setBeamWidth(Number(e.target.value) || 1)} disabled={busy} style={{ width: 64 }} />
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>束宽</span>
+              <input
+                type="number"
+                min={1}
+                max={400}
+                value={beamWidth}
+                onChange={(e) => setBeamWidth(Number(e.target.value) || 1)}
+                disabled={busy}
+                aria-describedby="da-beam-hint"
+              />
             </label>
-            <label>
-              步数 <input type="number" min={1} max={600} value={maxSteps} onChange={(e) => setMaxSteps(Number(e.target.value) || 1)} disabled={busy} style={{ width: 64 }} />
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>最大步数</span>
+              <input
+                type="number"
+                min={1}
+                max={600}
+                value={maxSteps}
+                onChange={(e) => setMaxSteps(Number(e.target.value) || 1)}
+                disabled={busy}
+              />
             </label>
-            <label>
-              随机种子 <input type="number" value={seed} onChange={(e) => setSeed(Number(e.target.value) || 0)} disabled={busy} style={{ width: 64 }} />
+            <label className={styles.field}>
+              <span className={styles.fieldLabel}>随机种子</span>
+              <input
+                type="number"
+                value={seed}
+                onChange={(e) => setSeed(Number(e.target.value) || 0)}
+                disabled={busy}
+              />
             </label>
-            {!busy ? (
-              <button className={styles.btn} onClick={run} disabled={!current}>开始模拟</button>
-            ) : (
-              <button className={styles.btn} onClick={stop}>停止</button>
-            )}
           </div>
-          {busy && progress && (
-            <p className={styles.meta}>搜索中… 第 {progress.step} / {progress.max} 步</p>
-          )}
-          {current?.python_ref && (
+
+          <div className={styles.actions}>
+            {!busy ? (
+              <button type="button" className={styles.btn} onClick={run} disabled={!current}>
+                开始模拟
+              </button>
+            ) : (
+              <button type="button" className={`${styles.btn} ${styles.btnStop}`} onClick={stop}>
+                停止
+              </button>
+            )}
+            <p className={styles.meta} id="da-beam-hint">
+              束宽越大搜索越稳、越慢；默认 40 / 140 步便于与 Python 参考对照。
+            </p>
+          </div>
+
+          {period === 690481 && index.buffs_690481 && (
             <p className={styles.meta}>
-              Python 参考（束宽 40 / 140 步 / 种子 42 / {BUILD_MODE_CN[current.python_ref.build].slice(0, 4)}）：{fmt(current.python_ref.total_score, 1)} 分，{fmt(current.python_ref.final_t, 1)} 秒
-              {current.human_ref ? `；玩家实测 ${fmt(current.human_ref)} 分` : ''}
+              <span className={styles.metaStrong}>本期增益：</span>
+              {(index.buffs_690481 as string[]).join(' / ')}
             </p>
           )}
-        </>
+
+          {busy && progress && (
+            <div className={styles.statusBlock} role="status" aria-live="polite">
+              <p className={styles.meta}>
+                搜索中… 第 {progress.step} / {progress.max} 步（{progressPct}%）
+              </p>
+              <div className={styles.progressTrack} aria-hidden="true">
+                <div className={styles.progressFill} style={{ width: `${progressPct}%` }} />
+              </div>
+            </div>
+          )}
+
+          {current?.python_ref && (
+            <p className={styles.meta}>
+              <span className={styles.metaStrong}>参考：</span>
+              Python（束宽 40 / 140 步 / 种子 42 / {BUILD_MODE_CN[current.python_ref.build].slice(0, 4)}）
+              {fmt(current.python_ref.total_score, 1)} 分 · {fmt(current.python_ref.final_t, 1)} 秒
+              {current.human_ref != null ? `；玩家实测 ${fmt(current.human_ref)} 分` : ''}
+            </p>
+          )}
+        </div>
       )}
-      {err && <p className={styles.note} style={{ color: '#e66' }}>{err}</p>}
+
+      {err && (
+        <p className={styles.error} role="alert">
+          {err}
+        </p>
+      )}
 
       {result && sc && da && (
         <>
-          <h3>得分</h3>
-          <div className={styles.score}>
-            <div>总分 <b>{fmt(da.total_score, 1)}</b>（评级 {da.rank}）</div>
-            <div>伤害分 {fmt(da.damage_score, 1)} / {fmt(da.damage_score_cap)}</div>
-            <div>操作分 {fmt(da.operation_score)} / {fmt(da.operation_score_cap)}（部位破坏 {sc.part_breaks} 次 × 800）</div>
-            <div>总伤害 {fmt(sc.total_damage, 1)} / 首领血量 {fmt(da.hp_max, 1)}（剩余 {fmt((da.hp_max ? Math.max(0, da.hp_max - sc.total_damage) / da.hp_max : 0) * 100, 1)}%）</div>
-            <div>用时 {fmt(sc.final_t, 1)} 秒 · 招架 {sc.parry_count} 次 · 终局喧响 {fmt(sc.final_decibel)}</div>
-            <div className={styles.meta}>
-              配装 {BUILD_MODE_CN[result.build_mode]} · 束宽 {result.search?.beam_width} · 步数 {result.search?.max_steps} · 种子 {result.search?.seed} · 耗时 {fmt(result.elapsed_ms / 1000, 1)} 秒
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>得分</h2>
+            <div className={styles.scoreGrid}>
+              <div className={styles.scoreCard}>
+                <span className={styles.scoreLabel}>总分 / 评级</span>
+                <div className={`${styles.scoreValue} ${styles.scoreValuePrimary}`}>
+                  {fmt(da.total_score, 1)} · {da.rank}
+                </div>
+              </div>
+              <div className={styles.scoreCard}>
+                <span className={styles.scoreLabel}>伤害分</span>
+                <div className={styles.scoreValue}>{fmt(da.damage_score, 1)} / {fmt(da.damage_score_cap)}</div>
+              </div>
+              <div className={styles.scoreCard}>
+                <span className={styles.scoreLabel}>操作分（破坏 ×800）</span>
+                <div className={styles.scoreValue}>
+                  {fmt(da.operation_score)} / {fmt(da.operation_score_cap)}
+                  <span className={styles.scoreMeta}> · {sc.part_breaks} 次</span>
+                </div>
+              </div>
+              <div className={styles.scoreCard}>
+                <span className={styles.scoreLabel}>总伤害 / 血量</span>
+                <div className={styles.scoreValue}>
+                  {fmt(sc.total_damage, 1)} / {fmt(da.hp_max, 1)}
+                </div>
+                <div className={styles.scoreMeta}>
+                  剩余 {fmt((da.hp_max ? Math.max(0, da.hp_max - sc.total_damage) / da.hp_max : 0) * 100, 1)}%
+                </div>
+              </div>
+              <div className={styles.scoreCard}>
+                <span className={styles.scoreLabel}>用时 · 招架 · 喧响</span>
+                <div className={styles.scoreValue}>
+                  {fmt(sc.final_t, 1)}s · {sc.parry_count} · {fmt(sc.final_decibel)}
+                </div>
+              </div>
             </div>
+            <p className={styles.scoreMeta}>
+              配装 {BUILD_MODE_CN[result.build_mode]} · 束宽 {result.search?.beam_width} · 步数 {result.search?.max_steps} · 种子 {result.search?.seed} · 耗时 {fmt(result.elapsed_ms / 1000, 1)} 秒
+            </p>
           </div>
 
-          <h3>角色配装</h3>
-          <table className={styles.log}>
-            <thead>
-              <tr><th>角色</th><th>定位</th><th>音擎</th><th>驱动盘</th><th>主要属性</th><th>冲击力</th></tr>
-            </thead>
-            <tbody>
-              {result.team.map((aid) => {
-                const st: any = result.agent_stats?.[aid] || {};
-                const b: any = (result.builds?.agents || {})[aid]?.build || {};
-                return (
-                  <tr key={aid}>
-                    <td>{result.agent_cn[aid]}{b.mindscape != null ? ` ${b.mindscape}影` : ''}</td>
-                    <td>{ROLE_CN[result.team_roles[aid]] ?? result.team_roles[aid] ?? '—'}</td>
-                    <td>{b.weapon_name ? `${b.weapon_name} 精${b.weapon_refine ?? 1}` : '—'}</td>
-                    <td>{[b.set4_name, b.set2_name || b.set2_key].filter(Boolean).join(' + ') || '—'}{b.slot5 ? ` · ${b.slot5}` : ''}</td>
-                    <td>
-                      攻击 {fmt(st.baseAtk)}{st.atk_final ? `→${fmt(st.atk_final)}` : ''} · 暴击 {fmt(st.critRate, 1)}% · 暴伤 {fmt(st.critDmg, 1)}% · 增伤 {fmt(st.dmgBonus, 1)}%
-                    </td>
-                    <td>{fmt(st.impact)}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>角色配装</h2>
+            {result.team.length === 0 ? (
+              <p className={styles.empty}>本次结果没有队伍数据。</p>
+            ) : (
+              <div className={styles.tableWrap}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>角色</th>
+                      <th>定位</th>
+                      <th>音擎</th>
+                      <th>驱动盘</th>
+                      <th>主要属性</th>
+                      <th>冲击力</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.team.map((aid) => {
+                      const st: any = result.agent_stats?.[aid] || {};
+                      const b: any = (result.builds?.agents || {})[aid]?.build || {};
+                      return (
+                        <tr key={aid}>
+                          <td>{result.agent_cn[aid]}{b.mindscape != null ? ` ${b.mindscape}影` : ''}</td>
+                          <td>{ROLE_CN[result.team_roles[aid]] ?? result.team_roles[aid] ?? '—'}</td>
+                          <td className={styles.cellWrap}>{b.weapon_name ? `${b.weapon_name} 精${b.weapon_refine ?? 1}` : '—'}</td>
+                          <td className={styles.cellWrap}>
+                            {[b.set4_name, b.set2_name || b.set2_key].filter(Boolean).join(' + ') || '—'}
+                            {b.slot5 ? ` · ${b.slot5}` : ''}
+                          </td>
+                          <td className={styles.cellWrap}>
+                            攻击 {fmt(st.baseAtk)}{st.atk_final ? `→${fmt(st.atk_final)}` : ''} · 暴击 {fmt(st.critRate, 1)}% · 暴伤 {fmt(st.critDmg, 1)}% · 增伤 {fmt(st.dmgBonus, 1)}%
+                          </td>
+                          <td>{fmt(st.impact)}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
 
-          <h3>排轴日志（{result.log.length} 个动作）</h3>
-          <div style={{ maxHeight: 480, overflow: 'auto' }}>
-            <table className={styles.log}>
-              <thead>
-                <tr><th>时间</th><th>角色</th><th>动作</th><th>技能</th><th>伤害</th><th>失衡</th><th>喧响</th><th>累计伤害</th><th>破坏</th></tr>
-              </thead>
-              <tbody>
-                {result.log.map((e: any, i: number) => (
-                  <tr key={i} style={e.boss_stunned ? { background: 'rgba(255,200,0,0.08)' } : undefined}>
-                    <td>{fmt(e.t, 2)}–{fmt(e.t_end, 2)}</td>
-                    <td>{result.agent_cn[e.agent] ?? e.agent}</td>
-                    <td>{ACTION_CN[e.action] ?? e.action}</td>
-                    <td>{e.skill_cn || e.label || '—'}</td>
-                    <td>{fmt(e.dmg)}</td>
-                    <td>{fmt(e.stun, 1)}</td>
-                    <td>{fmt(e.decibel)}</td>
-                    <td>{fmt(e.total_dmg)}</td>
-                    <td>{e.part_breaks}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className={styles.section}>
+            <h2 className={styles.sectionTitle}>排轴日志（{result.log.length} 个动作）</h2>
+            {result.log.length === 0 ? (
+              <p className={styles.empty}>没有动作记录。可增大步数或检查场景数据后重试。</p>
+            ) : (
+              <div className={styles.tableWrap}>
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th>时间</th>
+                      <th>角色</th>
+                      <th>动作</th>
+                      <th>技能</th>
+                      <th>伤害</th>
+                      <th>失衡</th>
+                      <th>喧响</th>
+                      <th>累计伤害</th>
+                      <th>破坏</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.log.map((e: any, i: number) => (
+                      <tr key={i} className={e.boss_stunned ? styles.rowStunned : undefined}>
+                        <td>{fmt(e.t, 2)}–{fmt(e.t_end, 2)}</td>
+                        <td>{result.agent_cn[e.agent] ?? e.agent}</td>
+                        <td>{ACTION_CN[e.action] ?? e.action}</td>
+                        <td className={styles.cellWrap}>{e.skill_cn || e.label || '—'}</td>
+                        <td>{fmt(e.dmg)}</td>
+                        <td>{fmt(e.stun, 1)}</td>
+                        <td>{fmt(e.decibel)}</td>
+                        <td>{fmt(e.total_dmg)}</td>
+                        <td>{e.part_breaks}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </>
       )}

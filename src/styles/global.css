@@ -269,10 +269,10 @@ h1 {
     /* White Light Flowing Stroke Effect */
     -webkit-text-stroke: 0px transparent;
     /* Placeholder */
-    animation: flow 4s linear infinite, float 3s ease-in-out infinite;
+    animation: flow 6s linear infinite;
 
-    /* Glow */
-    filter: drop-shadow(0 0 5px rgba(255, 128, 171, 0.5));
+    /* Soft brand tint — offset, not zero-halo costume */
+    filter: drop-shadow(0 2px 6px rgba(255, 128, 171, 0.35));
 }
 
 /* The White Light Flowing Overlay */
@@ -362,7 +362,7 @@ h1::before {
     font-weight: 700;
     font-size: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 5px 20px var(--zzz-primary-glow);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), 0 2px 6px var(--zzz-primary-dim);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-family: var(--font-display);
@@ -473,7 +473,6 @@ h1::before {
     background: var(--zzz-primary);
     border-radius: 50%;
     margin-right: 12px;
-    box-shadow: 0 0 10px var(--zzz-primary);
 }
 
 /* Preset & Rank Layout */
@@ -613,7 +612,7 @@ input[type="text"]:focus {
 .zzz-btn.active {
     background: var(--zzz-primary);
     color: #000;
-    box-shadow: 0 0 25px var(--zzz-primary-glow);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 2px 8px var(--zzz-primary-dim);
     font-weight: 800;
 }
 
@@ -643,7 +642,7 @@ input[type="text"]:focus {
     height: 28px;
     border: 1px solid #333;
     background: #111;
-    color: #555;
+    color: var(--zzz-text-muted);
     font-size: 0.75rem;
     cursor: pointer;
     display: flex;
@@ -655,15 +654,15 @@ input[type="text"]:focus {
 }
 
 .rank-btn:hover {
-    border-color: #555;
-    color: #888;
+    border-color: #777;
+    color: #ccc;
 }
 
 .rank-btn.active {
     background: var(--zzz-primary);
     color: #000;
     border-color: var(--zzz-primary);
-    box-shadow: 0 0 15px var(--zzz-primary-glow);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), 0 1px 4px var(--zzz-primary-dim);
     font-weight: bold;
 }
 

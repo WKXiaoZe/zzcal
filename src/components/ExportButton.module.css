@@ -22,7 +22,7 @@
   /* Enhanced visibility */
   box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.6),
-    0 0 30px var(--zzz-primary-dim);
+    0 6px 18px rgba(0, 0, 0, 0.45);
 
   /* Sizing (was .btn-large + #export-btn combined) */
   font-size: 1.1rem;
@@ -41,7 +41,7 @@
   transform: translateY(-2px);
   box-shadow:
     0 6px 25px rgba(0, 0, 0, 0.8),
-    0 0 40px var(--zzz-primary-glow);
+    0 8px 22px rgba(0, 0, 0, 0.5), 0 2px 8px var(--zzz-primary-dim);
 }
 
 .exportBtn:active {
