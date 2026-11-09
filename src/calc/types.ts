@@ -12,9 +12,9 @@
 //   boss   ← DOM read of #boss-def-base / #boss-def-bonus / #boss-daze-base + globalState
 //   skill  ← DOM read of #skill-multiplier / #slot4-select / #slot6-anomaly-select / etc.
 
-export type BattleType = 'attack' | 'break' | 'anomaly';
+export type BattleType = 'attack' | 'break' | 'anomaly' | 'vanguard';
 
-export type Slot4Type = 'atk' | 'critRate' | 'critDmg' | 'anomalyMastery' | '';
+export type Slot4Type = 'atk' | 'critRate' | 'critDmg' | 'anomalyMastery' | 'def' | '';
 export type Slot6AnomalyType = 'anomalyMastery' | '';
 
 /**
@@ -28,11 +28,15 @@ export type Slot6AnomalyType = 'anomalyMastery' | '';
 export interface AgentStats {
   baseAtk?: number;
   baseHp?: number;
+  baseDef?: number;
   atkPct?: number;
   hpPct?: number;
+  defPct?: number;
   flatHp?: number;
+  flatDef?: number;
   critRate?: number;
   critDmg?: number;
+  sharpCritDmg?: number;
   dmgBonus?: number;
   penRatio?: number;
   penValue?: number;
@@ -45,6 +49,8 @@ export interface AgentStats {
   inCombatAtkPct?: number;
   inCombatAtkFlat?: number;
   inCombatHpPct?: number;
+  inCombatDefPct?: number;
+  inCombatDefFlat?: number;
   inCombatPen?: number;
 }
 
@@ -56,11 +62,15 @@ export interface AgentStats {
 export interface WeaponStats {
   baseAtk?: number;
   baseHp?: number;
+  baseDef?: number;
   atkPct?: number;
   hpPct?: number;
+  defPct?: number;
   flatHp?: number;
+  flatDef?: number;
   critRate?: number;
   critDmg?: number;
+  sharpCritDmg?: number;
   dmgBonus?: number;
   penRatio?: number;
   penValue?: number;
@@ -72,6 +82,8 @@ export interface WeaponStats {
   inCombatAtkPct?: number;
   inCombatAtkFlat?: number;
   inCombatHpPct?: number;
+  inCombatDefPct?: number;
+  inCombatDefFlat?: number;
   inCombatPen?: number;
 }
 
@@ -90,8 +102,11 @@ export interface SupportSlots {
 export interface DiscSet4Stats {
   atkPct?: number;
   inCombatAtkPct?: number;
+  defPct?: number;
+  inCombatDefPct?: number;
   critRate?: number;
   critDmg?: number;
+  sharpCritDmg?: number;
   dmgBonus?: number;
 }
 
@@ -100,8 +115,10 @@ export interface DiscSet4Stats {
  */
 export interface FieldBuffs {
   inCombatAtkPct?: number;
+  inCombatDefPct?: number;
   critRate?: number;
   critDmg?: number;
+  sharpCritDmg?: number;
   dmgBonus?: number;
   resShred?: number;
   defShred?: number;
@@ -149,20 +166,25 @@ export interface ExtraSubStats {
   // Plain sub-stat counters
   atkPct?: number;
   hpPct?: number;
+  defPct?: number;
   flatAtk?: number;
+  flatDef?: number;
   critRate?: number;
   critDmg?: number;
+  sharpCritDmg?: number;
   dmgBonus?: number;
   penRatio?: number;
   anomalyMastery?: number;
   // Slot-5 main-stat candidates
   slot5_AtkPct?: number;
   slot5_HpPct?: number;
+  slot5_DefPct?: number;
   slot5_Dmg?: number;
   slot5_Pen?: number;
   // 2-piece set bonus candidates
   set2_AtkPct?: number;
   set2_HpPct?: number;
+  set2_DefPct?: number;
   set2_Dmg?: number;
   set2_Pen?: number;
   set2_CD?: number;
@@ -218,6 +240,14 @@ export interface CalcDetails {
   totalPierce: number;
   totalAnomalyMastery: number;
   maxHpInCombat: number;
+  agentBaseDef?: number;
+  outCombatDefPct?: number;
+  outCombatFlatDef?: number;
+  sheetDef?: number;
+  inCombatDefPct?: number;
+  totalDef?: number;
+  totalSharpCD?: number;
+  convertedCR?: number;
   totalCR: number;
   totalCD: number;
   totalDmgBonus: number;

@@ -1,17 +1,377 @@
 /* OutputPanel.module.css
- * Per-component styles for the final damage + summary panel.
- * Migrated from src/styles/global.css: .panel-data, .panel-row.
+ * Styles for the final damage, skill selector, stun/anomaly/energy metrics,
+ * per-hit breakdown, and summary stat panel.
  */
 
 .outputPanel {
-  /* Marker hook on the outer <section>. */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
+/* ---------- Skill Selector & Level Bar ---------- */
+
+.skillControlBox {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skillTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.catTabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.catTab {
+  padding: 5px 11px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.catTab:hover {
+  background: rgba(253, 178, 200, 0.12);
+  color: #fff;
+}
+
+.catTabActive {
+  background: linear-gradient(135deg, var(--zzz-primary), var(--zzz-accent));
+  color: #0f172a;
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.levelControl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.levelLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.levelCapBadge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(250, 204, 21, 0.18);
+  color: #fde047;
+  border: 1px solid rgba(250, 204, 21, 0.35);
+}
+
+.levelQuickGroup {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lvQuickBtn {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+.lvQuickBtn:hover:not(:disabled) {
+  background: rgba(250, 204, 21, 0.2);
+  border-color: #facc15;
+}
+
+.lvQuickBtnActive {
+  background: #facc15;
+  color: #0f172a;
+  border-color: #facc15;
+}
+
+.lvQuickBtnLocked {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.levelInput {
+  width: 58px !important;
+  text-align: center;
+  font-weight: 700;
+}
+
+.moveSelectorRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.moveSelectWrap {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.moveSelectLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.moveSelectTrigger {
+  width: 100% !important;
+}
+
+.customMultBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.customMultInput {
+  width: 120px !important;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* ---------- Hero Metrics Cards (Damage + Stun + Anomaly/Energy/Decibel) ---------- */
+
+.metricsHeroGrid {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr 1.1fr;
+  gap: 14px;
+}
+
+@media (max-width: 1024px) {
+  .metricsHeroGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.heroCardPrimary {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(253, 178, 200, 0.16), rgba(228, 133, 52, 0.12));
+  border: 1px solid rgba(253, 178, 200, 0.38);
+}
+
+.heroCardSecondary {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.heroCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.heroCardTitle {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.heroBadgePink {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(253, 178, 200, 0.22);
+  color: var(--zzz-pink);
+  border: 1px solid rgba(253, 178, 200, 0.4);
+}
+
+.heroBadgeAmber {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(250, 204, 21, 0.18);
+  color: #fde047;
+  border: 1px solid rgba(250, 204, 21, 0.35);
+}
+
+.heroBadgeCyan {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.2);
+  color: #7dd3fc;
+}
+
+.heroDamageNumber {
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: var(--zzz-primary);
+  text-shadow: 0 0 12px rgba(253, 178, 200, 0.45);
+  font-family: var(--font-mono);
+  line-height: 1.1;
+}
+
+.heroFormulaSub {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.stunMainRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.subMetricLabel {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 2px;
+}
+
+.stunNumber {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fde047;
+  font-family: var(--font-mono);
+  line-height: 1.15;
+}
+
+.stunMultVal {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fed7aa;
+  font-family: var(--font-mono);
+}
+
+.extraDataGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.extraDataCell {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.extraDataVal {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #7dd3fc;
+  font-family: var(--font-mono);
+}
+
+.extraDataHint {
+  font-size: 10px;
+  color: #86efac;
+  margin-top: 2px;
+}
+
+/* ---------- Per-Hit Breakdown Table ---------- */
+
+.hitBreakdownSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.hitBreakdownHeader {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.hitTableWrap {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.hitTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.hitTable th {
+  text-align: left;
+  padding: 6px 10px;
+  color: #94a3b8;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hitTable td {
+  padding: 6px 10px;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: var(--font-mono);
+}
+
+.hitDmgCell {
+  color: var(--zzz-pink) !important;
+  font-weight: 700;
+}
+
+/* ---------- Summary Stat Panel ---------- */
 
 .panelData {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 25px;
+  gap: 18px 25px;
   font-size: 0.95rem;
+}
+
+@media (max-width: 680px) {
+  .panelData {
+    grid-template-columns: 1fr;
+  }
 }
 
 .panelRow {
@@ -19,7 +379,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
 .panelRow span:first-child {
@@ -31,4 +391,67 @@
   font-family: var(--font-mono);
   font-weight: bold;
   font-size: 1rem;
+}
+
+@media (max-width: 680px) {
+  .skillControlBox {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .skillTopBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .levelControl {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .moveSelectWrap {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .customMultBox {
+    width: 100%;
+  }
+
+  .customMultInput {
+    width: 100% !important;
+  }
+
+  .heroCardPrimary,
+  .heroCardSecondary {
+    padding: 12px 14px;
+  }
+
+  .heroDamageNumber {
+    font-size: 1.75rem;
+  }
+
+  .stunNumber {
+    font-size: 1.45rem;
+  }
+
+  .extraDataGrid {
+    gap: 6px;
+  }
+
+  .extraDataVal {
+    font-size: 0.92rem;
+  }
+
+  .hitTableWrap {
+    overflow-x: auto;
+  }
+
+  .hitTable th,
+  .hitTable td {
+    padding: 5px 6px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
 }

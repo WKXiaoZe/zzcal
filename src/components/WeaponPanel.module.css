@@ -1,13 +1,81 @@
-/* WeaponPanel.module.css
- * Per-component styles for WeaponPanel. Like AgentPanel, this currently rides
- * on shared utility classes. Anything weapon-only goes here.
- */
+/* WeaponPanel.module.css */
 
 .weaponPanel {
-  /* Marker hook for future weapon-only tweaks. */
 }
 
 .weaponFields {
-  /* Container around the per-weapon stat-override inputs. Kept here so any
-   * future tweak (e.g. tighter row gap) does not bleed into the agent grid. */
+  display: contents;
+}
+
+.buffSection {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 8px;
+}
+
+.buffCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.buffCardActive {
+  background: rgba(234, 179, 8, 0.14);
+  border-color: rgba(250, 204, 21, 0.65);
+}
+
+.buffTopRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.buffCheckbox {
+  accent-color: #facc15;
+  cursor: pointer;
+}
+
+.subTypeTag {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(168, 85, 247, 0.22);
+  color: #d8b4fe;
+  font-weight: 600;
+}
+
+.buffTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.statBadges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.statBadge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(34, 197, 94, 0.22);
+  color: #86efac;
+  font-weight: 600;
+}
+
+.buffDesc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #94a3b8;
+  white-space: pre-wrap;
 }

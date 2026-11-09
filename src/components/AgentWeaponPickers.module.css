@@ -1,0 +1,402 @@
+/* src/components/AgentWeaponPickers.module.css */
+
+.pairDock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(12, 14, 22, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.singleDock {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(12, 14, 22, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.slotCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 6px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: border-color 0.15s ease, background 0.15s ease;
+  min-width: 0;
+}
+
+.slotCard:hover {
+  border-color: rgba(253, 178, 200, 0.35);
+  background: rgba(253, 178, 200, 0.04);
+}
+
+.slotHeaderLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--zzz-text-muted, #94a3b8);
+  letter-spacing: 0.04em;
+}
+
+/* Medallion button — mirrors WeaponHexCenter circular style */
+.medallionBtn {
+  position: relative;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  background: radial-gradient(circle at 50% 38%, rgba(45, 48, 68, 0.9), rgba(14, 15, 22, 0.96));
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(0, 0, 0, 0.65);
+}
+
+.medallionBtn:hover {
+  transform: scale(1.05);
+  border-color: var(--zzz-pink, #fdb2c8);
+  box-shadow: 0 0 16px rgba(253, 178, 200, 0.45), inset 0 0 10px rgba(253, 178, 200, 0.15);
+}
+
+.medallionBtnS {
+  border-color: rgba(250, 204, 21, 0.65);
+  box-shadow: 0 4px 16px rgba(234, 179, 8, 0.22), inset 0 0 12px rgba(250, 204, 21, 0.15);
+}
+
+.medallionBtnA {
+  border-color: rgba(216, 180, 254, 0.6);
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2), inset 0 0 12px rgba(192, 132, 252, 0.15);
+}
+
+.avatarClip {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.agentAvatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.weaponAvatarImg {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+}
+
+.emptyPlus {
+  width: 68%;
+  height: 68%;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(253, 178, 200, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--zzz-pink, #fdb2c8);
+  background: rgba(20, 20, 28, 0.4);
+}
+
+.fallbackInitial {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--zzz-pink, #fdb2c8);
+}
+
+/* Corner UI Badges on Medallion & Picker Cards */
+.badgeTopLeft {
+  position: absolute;
+  top: -4px;
+  left: -6px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.badgeTopRight {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.uiIconBadge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(10, 12, 18, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 2px;
+  object-fit: contain;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
+}
+
+.rarityIconBadge {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+}
+
+.slotNameText {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #f8fafc;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: 1.25;
+}
+
+.slotSubMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  color: #cbd5e1;
+}
+
+.inlineUiIcon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+/* Cinema Bar (M0 / 1 / 2 / 4 / 6) */
+.cinemaBar {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.42);
+  padding: 2px 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cinemaBtn {
+  min-width: 20px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.12s ease;
+}
+
+.cinemaBtn:hover {
+  border-color: var(--zzz-pink, #fdb2c8);
+  color: #fff;
+}
+
+.cinemaBtnActive {
+  background: linear-gradient(135deg, var(--zzz-primary, #fdb2c8), var(--zzz-accent, #e48534));
+  color: #090d16;
+  border-color: transparent;
+  box-shadow: 0 0 8px rgba(253, 178, 200, 0.45);
+}
+
+/* Filter Bar in Picker Modal */
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(12, 14, 22, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.filterGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.filterGroupLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-right: 2px;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.filterChip:hover {
+  border-color: rgba(253, 178, 200, 0.5);
+  color: #fff;
+}
+
+.filterChipActive {
+  background: rgba(253, 178, 200, 0.2);
+  border-color: var(--zzz-primary, #fdb2c8);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(253, 178, 200, 0.25);
+}
+
+.filterChipIcon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.clearBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  background: rgba(239, 68, 68, 0.1);
+  color: #fca5a5;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.clearBtn:hover {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: rgba(248, 113, 113, 0.65);
+  color: #fff;
+}
+
+/* Picker Card enhancements for Agent & Weapon modals */
+.pickerCardRel {
+  position: relative;
+}
+
+.pickerCardBadgesLeft {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  z-index: 2;
+}
+
+.pickerCardBadgeRight {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+}
+
+.pickerBadgeIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(10, 12, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2px;
+  object-fit: contain;
+}
+
+.pickerRarityIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.agentPickerArt {
+  width: 78px;
+  height: 78px;
+  border-radius: 12px;
+  object-fit: cover;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.35));
+}
+
+@media (max-width: 600px) {
+  .pairDock {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .medallionBtn {
+    width: 72px;
+    height: 72px;
+  }
+
+  .dockTitle {
+    font-size: 13px;
+  }
+
+  .cinemaBar {
+    gap: 2px;
+    padding: 2px 3px;
+  }
+
+  .cinemaBtn {
+    min-width: 21px;
+    height: 21px;
+    font-size: 10.5px;
+    padding: 0 3px;
+  }
+
+  .filterBar {
+    padding: 10px 12px;
+    gap: 8px;
+    max-height: 36vh;
+    overflow-y: auto;
+  }
+
+  .filterChip {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+
+  .agentPickerArt {
+    width: 60px;
+    height: 60px;
+  }
+}

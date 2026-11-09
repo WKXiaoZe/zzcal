@@ -62,3 +62,15 @@
     min-width: 160px;
   }
 }
+
+
+@media (max-width: 768px) {
+  .exportBtn {
+    bottom: 14px;
+    right: 14px;
+    font-size: 0.9rem;
+    padding: 10px 18px;
+    min-width: auto;
+    height: 42px;
+  }
+}

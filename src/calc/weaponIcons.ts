@@ -1,23 +1,6 @@
 // src/calc/weaponIcons.ts
-// Auto-generated from _tmp_nanoka_weapon.json — zh weapon name → icon filename.
-// Filenames live at /resources/weapon-icons/<name>.
-// Regenerate by running the snippet in commit history of this file (not committed
-// as a build script since the input data is a one-off snapshot).
-
-export const WEAPON_ICON: Readonly<Record<string, string>> = Object.freeze({
-  "德玛拉电池Ⅱ型": "Weapon_A_1011Big.png",
-  "聚宝箱": "Weapon_A_1031Big.png",
-  "家政员": "Weapon_A_1061Big.png",
-  "仿制星徽引擎": "Weapon_A_1081Big.png",
-  "旋钻机-赤轴": "Weapon_A_1111Big.png",
-  "比格气缸": "Weapon_A_1121Big.png",
-  "含羞恶面": "Weapon_A_1131Big.png",
-  "好斗的阿炮": "Weapon_A_1151Big.png",
-  "维序者-特化型": "Weapon_A_1271Big.png",
-  "轰鸣座驾": "Weapon_A_1281Big.png",
-  "裁纸刀": "Weapon_A_1351Big.png",
-  "震元奇枢": "Weapon_A_1421Big.png",
-  "燔火胧夜": "Weapon_A_1441Big.png",
+// Auto-generated mapping from Chinese W-Engine name -> resources/weapon-icons/<file>.png (3.4.3)
+export const WEAPON_ICON_FILE: Record<string, string> = {
   "街头巨星": "Weapon_A_Common_01Big.png",
   "时光切片": "Weapon_A_Common_02Big.png",
   "雨林饕客": "Weapon_A_Common_03Big.png",
@@ -34,9 +17,28 @@ export const WEAPON_ICON: Readonly<Record<string, string>> = Object.freeze({
   "电波漫步": "Weapon_A_Common_14Big.png",
   "强音热望": "Weapon_A_Common_15Big.png",
   "光影刻刀": "Weapon_A_Common_16Big.png",
+  "喵运当头": "Weapon_A_Common_17Big.png",
   "咚哒回声": "Weapon_A_Common_18Big.png",
   "青漪灵鼎": "Weapon_A_Common_19Big.png",
   "炎炙沸釜": "Weapon_A_Common_20Big.png",
+  "血髓秘匣": "Weapon_A_Common_21Big.png",
+  "烛光诡计": "Weapon_A_Common_22Big.png",
+  "德玛拉电池Ⅱ型": "Weapon_A_1011Big.png",
+  "聚宝箱": "Weapon_A_1031Big.png",
+  "家政员": "Weapon_A_1061Big.png",
+  "仿制星徽引擎": "Weapon_A_1081Big.png",
+  "旋钻机-赤轴": "Weapon_A_1111Big.png",
+  "比格气缸": "Weapon_A_1121Big.png",
+  "含羞恶面": "Weapon_A_1131Big.png",
+  "好斗的阿炮": "Weapon_A_1151Big.png",
+  "维序者-特化型": "Weapon_A_1271Big.png",
+  "轰鸣座驾": "Weapon_A_1281Big.png",
+  "裁纸刀": "Weapon_A_1351Big.png",
+  "震元奇枢": "Weapon_A_1421Big.png",
+  "燔火胧夜": "Weapon_A_1441Big.png",
+  "加农转子": "Weapon_S_Common_01Big.png",
+  "逍遥游球": "Weapon_S_Common_02Big.png",
+  "左轮转子": "Weapon_S_Common_03Big.png",
   "钢铁肉垫": "Weapon_S_1021Big.png",
   "硫磺石": "Weapon_S_1041Big.png",
   "海妖摇篮": "Weapon_S_1051Big.png",
@@ -77,11 +79,24 @@ export const WEAPON_ICON: Readonly<Record<string, string>> = Object.freeze({
   "鳞齿寻踪": "Weapon_S_1521Big.png",
   "辉骑面铠": "Weapon_S_1531Big.png",
   "朔月裁霜": "Weapon_S_1541Big.png",
+  "日冕遗蜕": "Weapon_S_Common_04Big.png",
   "琳琅鎏心": "Weapon_S_1561Big.png",
   "首席跟班": "Weapon_S_1571Big.png",
-  "加农转子": "Weapon_S_Common_01Big.png",
-  "逍遥游球": "Weapon_S_Common_02Big.png",
-  "左轮转子": "Weapon_S_Common_03Big.png",
-  "Item_Weapon_S_Common_04_Name": "Weapon_S_Common_04Big.png",
-  "日冕遗蜕": "Weapon_S_Common_04Big.png",
-});
+  "空羽复归之诗": "Weapon_S_1581Big.png",
+  "骁骑礼赞": "Weapon_S_1591Big.png",
+  "蜃炎梦火": "Weapon_S_1601Big.png",
+  "猩红渴望": "Weapon_S_1611Big.png",
+  "...": "Weapon_S_1621Big.png",
+  "禁罪囚笼": "Weapon_S_1631Big.png",
+  "涅槃初翎": "Weapon_S_1641Big.png",
+  "(Test1)卡芙卡测试音擎": "Weapon_S_1651Big.png",
+  "知更鸟专属音擎": "Weapon_S_1661Big.png"
+};
+
+export const WEAPON_ICON = WEAPON_ICON_FILE;
+
+export function weaponIconUrl(name: string | undefined | null): string | null {
+  if (!name) return null;
+  const f = WEAPON_ICON_FILE[name] || WEAPON_ICON_FILE[name.replace(/[「」]/g, '')];
+  return f ? `/resources/weapon-icons/${f}` : null;
+}

@@ -1,10 +1,8 @@
 // src/components/DiscPanel.tsx
-// 03 // 驱动盘主副词条 — DOM mirrors legacy/index-legacy.html lines 202-246.
-// Renders the 4-slot main stat dropdown, 4-set + 2-set selectors, and the
-// substat count inputs whose visible subset depends on battleType.
-import type { ChangeEvent } from 'react';
+import { useMemo, type ChangeEvent } from 'react';
 import { useAppState, useAppDispatch } from '../state/AppContext';
-import { DISC_4_SETS, DISC_2_SETS } from '../calc/discSets';
+import { DISC_4_SETS, DISC_2_SETS, DISC_ROLE } from '../calc/discSets';
+import { DISC_BUFFS, formatBuffStatsSummary, stripGameTags } from '../calc/buffs';
 import type { DiscConfig } from '../state/types';
 import {
   Select,
@@ -21,7 +19,6 @@ type SubKey = keyof DiscConfig['subCounts'];
 interface Slot4Option {
   value: Slot4Stat;
   label: string;
-  /** When true, only render in anomaly battle mode. */
   anomalyOnly?: boolean;
 }
 
@@ -55,8 +52,12 @@ const SUBCOUNT_FIELDS_ANOMALY: SubCountField[] = [
 ];
 
 export function DiscPanel() {
-  const { battleType, disc } = useAppState();
+  const state = useAppState();
+  const { battleType, disc } = state;
   const dispatch = useAppDispatch();
+
+  const mainDisc4BuffEnabled = state.buffs?.mainDisc4BuffEnabled ?? true;
+  const teamDiscBuffs = state.buffs?.teamDiscBuffs ?? {};
 
   const slot4Options = SLOT4_OPTIONS.filter(
     (opt) => !opt.anomalyOnly || battleType === 'anomaly',
@@ -73,9 +74,6 @@ export function DiscPanel() {
     dispatch({ type: 'SET_DISC_SLOT4', payload: v as Slot4Stat });
   const handleSet4Change = (v: string) =>
     dispatch({ type: 'SET_DISC_SET4', payload: v });
-  // Legacy single-select dropdown: collapses set2Keys to its first entry for
-  // display, and writes a single-element list (or empty) on change. Hex picker
-  // is the way to express 2+2+2 multi-set bonuses.
   const set2Display = disc.set2Keys[0] ?? 'none';
   const handleSet2Change = (v: string) =>
     dispatch({ type: 'SET_DISC_SET2', payload: v });
@@ -87,10 +85,22 @@ export function DiscPanel() {
       dispatch({ type: 'SET_DISC_SUBCOUNT', key, value });
     };
 
+  const mainSet4Buff = disc.set4Key && disc.set4Key !== 'none' ? DISC_BUFFS[disc.set4Key] : undefined;
+
+  // Sort team disc buffs: sup sets first, then dps sets
+  const sortedDiscEntries = useMemo(() => {
+    const entries = Object.entries(DISC_BUFFS);
+    return entries.sort(([kA], [kB]) => {
+      const rA = DISC_ROLE[kA] === 'sup' ? 0 : 1;
+      const rB = DISC_ROLE[kB] === 'sup' ? 0 : 1;
+      return rA - rB;
+    });
+  }, []);
+
   return (
     <div className={`module ${styles.discPanel}`} id="mod-preset-stats">
       <div className="module-title">
-        <span>03 // 驱动盘主副词条</span>
+        <span>03 // 驱动盘主副词条 & 驱动盘Buff</span>
       </div>
       <div className="sub-module">
         <div className="input-group">
@@ -154,6 +164,86 @@ export function DiscPanel() {
             />
           </div>
         ))}
+
+        {/* 主C 当前穿戴 4件套 Buff 开关与描述 */}
+        {mainSet4Buff && (
+          <div className={styles.buffSection}>
+            <div className={styles.buffHeader}>
+              <span>当前主C 驱动盘 4件套 Buff</span>
+            </div>
+            <label
+              className={`${styles.buffCard} ${mainDisc4BuffEnabled ? styles.buffCardActive : ''}`}
+            >
+              <div className={styles.buffTopRow}>
+                <input
+                  type="checkbox"
+                  className={styles.buffCheckbox}
+                  checked={mainDisc4BuffEnabled}
+                  onChange={(e) =>
+                    dispatch({ type: 'TOGGLE_MAIN_DISC4_BUFF', enabled: e.target.checked })
+                  }
+                />
+                <span className={styles.subTypeTag}>{mainSet4Buff.subType}</span>
+                <span className={styles.buffTitle}>{mainSet4Buff.title}</span>
+                <div className={styles.statBadges}>
+                  {formatBuffStatsSummary(mainSet4Buff.stats).map((bd, i) => (
+                    <span key={i} className={styles.statBadge}>
+                      {bd}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className={styles.buffDesc}>{stripGameTags(mainSet4Buff.desc)}</div>
+            </label>
+          </div>
+        )}
+
+        {/* 队友/额外可选 驱动盘 4件套 Buff 选择区 */}
+        <div className={styles.buffSection}>
+          <div className={styles.buffHeader}>
+            <span>可选驱动盘 4件套 Buff (队友/全队光环等)</span>
+          </div>
+          <div className={styles.buffList}>
+            {sortedDiscEntries.map(([key, b]) => {
+              if (key === disc.set4Key) return null;
+              const checked = !!teamDiscBuffs[key];
+              const badges = formatBuffStatsSummary(b.stats);
+              return (
+                <label
+                  key={key}
+                  className={`${styles.buffCard} ${checked ? styles.buffCardActive : ''}`}
+                >
+                  <div className={styles.buffTopRow}>
+                    <input
+                      type="checkbox"
+                      className={styles.buffCheckbox}
+                      checked={checked}
+                      onChange={(e) =>
+                        dispatch({
+                          type: 'TOGGLE_TEAM_DISC_BUFF',
+                          setKey: key,
+                          enabled: e.target.checked,
+                        })
+                      }
+                    />
+                    <span className={styles.subTypeTag}>{b.subType}</span>
+                    <span className={styles.buffTitle}>{b.title}</span>
+                    {badges.length > 0 && (
+                      <div className={styles.statBadges}>
+                        {badges.map((bd, i) => (
+                          <span key={i} className={styles.statBadge}>
+                            {bd}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className={styles.buffDesc}>{stripGameTags(b.desc)}</div>
+                </label>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );

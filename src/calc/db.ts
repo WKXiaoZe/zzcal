@@ -37,6 +37,12 @@ export interface CharacterEntry {
   };
   baseAtk?: DbStatValue;
   baseHp?: DbStatValue;
+  baseDef?: DbStatValue;
+  defPct?: DbStatValue;
+  flatDef?: DbStatValue;
+  inCombatDefPct?: DbStatValue;
+  inCombatDefFlat?: DbStatValue;
+  sharpCritDmg?: DbStatValue;
   critRate?: DbStatValue;
   critDmg?: DbStatValue;
   dmgBonus?: DbStatValue;
@@ -66,8 +72,14 @@ export interface WeaponEntry {
   meta?: { type?: string; rarity?: string };
   baseAtk?: DbStatValue;
   baseHp?: DbStatValue;
+  baseDef?: DbStatValue;
   atkPct?: DbStatValue;
   hpPct?: DbStatValue;
+  defPct?: DbStatValue;
+  flatDef?: DbStatValue;
+  inCombatDefPct?: DbStatValue;
+  inCombatDefFlat?: DbStatValue;
+  sharpCritDmg?: DbStatValue;
   critRate?: DbStatValue;
   critDmg?: DbStatValue;
   dmgBonus?: DbStatValue;

@@ -1,14 +1,6 @@
 // src/calc/optimizer.ts
-// Port of legacy `runOptimizationDataOnly` (legacy/index-legacy.html line ~1828).
-//
-// Differences from the legacy version:
-//   - Legacy reads slot5/set2 candidates, start-counts, and the wrapped
-//     calculateDamage from DOM/closure. This port takes them as explicit
-//     parameters so it is pure and testable.
-//   - Step semantics are unchanged: a fixed 48-substat budget, greedy gain
-//     comparison among CR / CD / Atk / Hp / AM depending on battleType.
-//
-// See `optimizer.test.ts` for a numeric snapshot pinning the algorithm.
+// Port of legacy `runOptimizationDataOnly`, extended with unified 'vanguard' (锋御)
+// optimization over CR (+2.4%), CD (+4.8% -> +1.68% CR), and DEF (+4.8%).
 
 import { calculateDamage } from './formulas';
 import type { BattleType, CalcInput, ExtraSubStats } from './types';
@@ -34,6 +26,7 @@ export interface SubstatCounts {
   atk: number;
   hp: number;
   am: number;
+  def?: number;
 }
 
 export interface OptimizerOptions {
@@ -56,10 +49,11 @@ export interface OptimizeStep {
     atkPct: number;
     hpPct: number;
     anomalyMastery: number;
-    [key: string]: number;
+    defPct?: number;
+    [key: string]: number | undefined;
   };
   configName: string;
-  gains: { cr: number; cd: number; atk: number; hp: number; am: number };
+  gains: { cr: number; cd: number; atk: number; hp: number; am: number; def?: number };
   counts: SubstatCounts;
 }
 
@@ -68,12 +62,13 @@ export interface OptimizeResult {
   history: OptimizeStep[];
 }
 
-// Per-substat gains. Legacy values:
-//   1 substat roll  ≈  CR +2.4 / CD +4.8 / Atk% +3.0 / HP% +3.0 / AM +9.0
+// Per-substat gains:
+//   1 substat roll ≈ CR +2.4 / CD +4.8 / Atk% +3.0 / HP% +3.0 / DEF% +4.8 / AM +9.0
 const ROLL_CR = 2.4;
 const ROLL_CD = 4.8;
 const ROLL_ATK = 3.0;
 const ROLL_HP = 3.0;
+const ROLL_DEF = 4.8;
 const ROLL_AM = 9.0;
 
 /**
@@ -85,6 +80,13 @@ export function defaultSlot5Opts(battleType: BattleType): Slot5Option[] {
       { val: { slot5_AtkPct: 30 }, name: '5号位:攻击' },
       { val: { slot5_Dmg: 30 }, name: '5号位:增伤' },
       { val: { slot5_HpPct: 30 }, name: '5号位:生命' },
+    ];
+  }
+  if (battleType === 'vanguard') {
+    return [
+      { val: { slot5_DefPct: 30 }, name: '5号位:防御' },
+      { val: { slot5_Dmg: 30 }, name: '5号位:增伤' },
+      { val: { slot5_Pen: 24 }, name: '5号位:穿透' },
     ];
   }
   return [
@@ -106,6 +108,14 @@ export function defaultSet2Opts(battleType: BattleType): Set2Option[] {
       { val: { set2_CD: 16 }, name: '2件套:爆伤' },
     ];
   }
+  if (battleType === 'vanguard') {
+    return [
+      { val: { set2_DefPct: 16 }, name: '2件套:防御' },
+      { val: { set2_Dmg: 10 }, name: '2件套:增伤' },
+      { val: { set2_Pen: 8 }, name: '2件套:穿透' },
+      { val: { set2_CD: 16 }, name: '2件套:爆伤' },
+    ];
+  }
   return [
     { val: { set2_AtkPct: 10 }, name: '2件套:攻击' },
     { val: { set2_Dmg: 10 }, name: '2件套:增伤' },
@@ -116,16 +126,6 @@ export function defaultSet2Opts(battleType: BattleType): Set2Option[] {
 
 /**
  * Greedy substat optimizer.
- *
- * For every (slot5, set2) combination, allocates remaining sub-stat rolls
- * one-by-one, each time picking the channel that yields the highest damage
- * given the current state. The full history (including step 0) is returned
- * so the UI can plot damage curves and breakeven points.
- *
- * @param baseInput  Calc input minus the optimizer-controlled extraStats.
- *                   The optimizer will merge slot5/set2/substat-roll values
- *                   into a fresh extraStats per step; any extraStats already
- *                   on baseInput are preserved as a constant baseline.
  */
 export function runGreedyOptimization(
   baseInput: CalcInput,
@@ -141,14 +141,11 @@ export function runGreedyOptimization(
   const startAtk = options.startCounts?.atk ?? 0;
   const startHp = options.startCounts?.hp ?? 0;
   const startAm = options.startCounts?.am ?? 0;
-  const startTotal = startCR + startCD + startAtk + startHp + startAm;
+  const startDef = options.startCounts?.def ?? 0;
+  const startTotal = startCR + startCD + startAtk + startHp + startAm + startDef;
 
-  // Snapshot any baseline extraStats from the caller (e.g. character/weapon-
-  // independent sub-stat seeds). They are preserved across all candidate combos.
   const baselineExtra: ExtraSubStats = { ...(baseInput.extraStats || {}) };
 
-  // Helper: build a CalcInput where extraStats merges the baseline +
-  // candidate-specific values + per-step counter increments.
   const calc = (currentStats: Record<string, number>): number => {
     const merged: ExtraSubStats = { ...baselineExtra, ...(currentStats as Partial<ExtraSubStats>) };
     return calculateDamage({ ...baseInput, extraStats: merged }).dmg;
@@ -163,6 +160,7 @@ export function runGreedyOptimization(
         critDmg: startCD * ROLL_CD,
         atkPct: startAtk * ROLL_ATK,
         hpPct: startHp * ROLL_HP,
+        defPct: startDef * ROLL_DEF,
         anomalyMastery: startAm * ROLL_AM,
         ...(s5.val as Record<string, number>),
         ...(s2.val as Record<string, number>),
@@ -175,6 +173,7 @@ export function runGreedyOptimization(
         atk: startAtk,
         hp: startHp,
         am: startAm,
+        def: startDef,
       };
 
       // Step 0 (actually startTotal — the pre-rolled baseline)
@@ -183,7 +182,7 @@ export function runGreedyOptimization(
         dmg: currentDmg,
         stats: { ...currentStats } as OptimizeStep['stats'],
         configName: `${s5.name} + ${s2.name}`,
-        gains: { cr: 0, cd: 0, atk: 0, hp: 0, am: 0 },
+        gains: { cr: 0, cd: 0, atk: 0, hp: 0, am: 0, def: 0 },
         counts: { ...counts },
       });
 
@@ -201,6 +200,7 @@ export function runGreedyOptimization(
         let dAtk = -1;
         let dHp = -1;
         let dAm = -1;
+        let dDef = -1;
         let bestMove = -1;
         if (battleType === 'break') {
           dHp = calc({ ...currentStats, hpPct: currentStats.hpPct + ROLL_HP });
@@ -209,6 +209,9 @@ export function runGreedyOptimization(
           dAtk = calc({ ...currentStats, atkPct: currentStats.atkPct + ROLL_ATK });
           dAm = calc({ ...currentStats, anomalyMastery: currentStats.anomalyMastery + ROLL_AM });
           bestMove = Math.max(dAtk, dAm);
+        } else if (battleType === 'vanguard') {
+          dDef = calc({ ...currentStats, defPct: (currentStats.defPct ?? 0) + ROLL_DEF });
+          bestMove = Math.max(dCR, dCD, dDef);
         } else {
           dAtk = calc({ ...currentStats, atkPct: currentStats.atkPct + ROLL_ATK });
           bestMove = Math.max(dCR, dCD, dAtk);
@@ -219,8 +222,9 @@ export function runGreedyOptimization(
         const gAtk = dAtk !== -1 && dAtk > 0 ? ((dAtk - currentDmg) / currentDmg) * 100 : 0;
         const gHp = dHp !== -1 && dHp > 0 ? ((dHp - currentDmg) / currentDmg) * 100 : 0;
         const gAm = dAm !== -1 && dAm > 0 ? ((dAm - currentDmg) / currentDmg) * 100 : 0;
+        const gDef = dDef !== -1 && dDef > 0 ? ((dDef - currentDmg) / currentDmg) * 100 : 0;
 
-        // Same precedence ladder as legacy: CR > CD > HP/AM > Atk
+        // Same precedence ladder as legacy: CR > CD > HP/AM/DEF > Atk
         if (bestMove === dCR && battleType !== 'anomaly') {
           currentStats.critRate += ROLL_CR;
           counts.cr++;
@@ -233,6 +237,9 @@ export function runGreedyOptimization(
         } else if (battleType === 'anomaly' && bestMove === dAm) {
           currentStats.anomalyMastery += ROLL_AM;
           counts.am++;
+        } else if (battleType === 'vanguard' && bestMove === dDef) {
+          currentStats.defPct = (currentStats.defPct ?? 0) + ROLL_DEF;
+          counts.def = (counts.def ?? 0) + 1;
         } else {
           currentStats.atkPct += ROLL_ATK;
           counts.atk++;
@@ -244,7 +251,7 @@ export function runGreedyOptimization(
           dmg: currentDmg,
           stats: { ...currentStats } as OptimizeStep['stats'],
           configName: `${s5.name} + ${s2.name}`,
-          gains: { cr: gCR, cd: gCD, atk: gAtk, hp: gHp, am: gAm },
+          gains: { cr: gCR, cd: gCD, atk: gAtk, hp: gHp, am: gAm, def: gDef },
           counts: { ...counts },
         });
       }

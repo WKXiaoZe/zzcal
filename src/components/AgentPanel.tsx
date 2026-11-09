@@ -1,31 +1,14 @@
 // src/components/AgentPanel.tsx
-// Single reusable panel for one of the three agent slots (main / sup1 / sup2).
-// Mirrors legacy `<div class="sub-module" id="agent-main|sup1|sup2">` (legacy
-// HTML L73-143) plus the JS-generated input grid driven by `agentFields`
-// (legacy L579-599).
-//
-// Behavior carried over from legacy:
-//   - main slot: preset list filtered by `battleType` (MODE_TYPE_MAP, L669).
-//   - sup slots: preset list drawn from `CHARACTER_DB.sup`.
-//   - cinema buttons toggle the slot's cinema rank and write `customOverrides`.
-//   - field inputs default to 0 and only persist into `customOverrides` once
-//     edited (preset values for those fields are applied lazily elsewhere).
-//   - break/anomaly-specific fields are hidden in modes that don't use them,
-//     matching legacy CSS classes `default-hidden` / `break-hidden` /
-//     `anomaly-only` (legacy L584-598).
-
 import { useEffect, useMemo } from 'react';
 import { useAppState, useAppDispatch } from '../state/AppContext';
 import { CHARACTER_DB } from '../calc/db';
+import { AGENT_BUFFS, WEAPON_BUFFS, formatBuffStatsSummary, stripGameTags } from '../calc/buffs';
+import { evaluateAdditionalAbility, type AgentSlotKey } from '../calc/additionalAbility';
+import { buildAgent, resolveBattleTypeForAgent } from '../calc/buildInput';
 import { PRESET_FILES, loadPresetJson } from '../calc/presets';
 import { parseAgentValue } from '../calc/utils';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from './ui/select';
+import { AgentSelectorSlot, WeaponSelectorSlot } from './AgentWeaponPickers';
+import pickerStyles from './AgentWeaponPickers.module.css';
 import type { BattleType } from '../calc/types';
 import styles from './AgentPanel.module.css';
 
@@ -39,15 +22,18 @@ interface Props {
 interface FieldDef {
   id: string;
   label: string;
-  /** Visibility class as in legacy CSS. */
-  cls?: 'default-hidden' | 'break-hidden' | 'anomaly-only';
+  cls?: 'default-hidden' | 'break-hidden' | 'anomaly-only' | 'vanguard-only';
 }
 
-// Copied verbatim from legacy `agentFields` (index-legacy.html L579-599).
 const AGENT_FIELDS: FieldDef[] = [
   { id: 'baseAtk', label: '基础攻击' },
+  { id: 'baseDef', label: '基础防御', cls: 'vanguard-only' },
+  { id: 'defPct', label: '防御力%', cls: 'vanguard-only' },
+  { id: 'flatDef', label: '固定防御', cls: 'vanguard-only' },
+  { id: 'inCombatDefPct', label: '局内防御%', cls: 'vanguard-only' },
   { id: 'critRate', label: '暴击率%' },
   { id: 'critDmg', label: '暴击伤害%' },
+  { id: 'sharpCritDmg', label: '锐暴伤害%', cls: 'vanguard-only' },
   { id: 'dmgBonus', label: '增伤%' },
   { id: 'penRatio', label: '穿透率%', cls: 'break-hidden' },
   { id: 'penValue', label: '穿透值', cls: 'break-hidden' },
@@ -56,78 +42,73 @@ const AGENT_FIELDS: FieldDef[] = [
   { id: 'resShred', label: '减抗%' },
   { id: 'inCombatAtkPct', label: '局内攻击%' },
   { id: 'inCombatAtkFlat', label: '局内固定攻击' },
-  // Break-mode-only fields (hidden by default, shown only when battleType==='break')
   { id: 'baseHp', label: '基础生命', cls: 'default-hidden' },
   { id: 'hpPct', label: '生命值%', cls: 'default-hidden' },
   { id: 'flatHp', label: '固定生命', cls: 'default-hidden' },
   { id: 'inCombatHpPct', label: '局内生命%', cls: 'default-hidden' },
   { id: 'inCombatPen', label: '局内贯穿力', cls: 'default-hidden' },
   { id: 'ppDmgBonus', label: '贯穿增伤%', cls: 'default-hidden' },
-  // Anomaly-mode-only field
   { id: 'anomalyMastery', label: '异常精通', cls: 'anomaly-only' },
 ];
 
-// Legacy MODE_TYPE_MAP (L669) — used to filter the main-DPS preset list.
-const MODE_TYPE_MAP: Record<BattleType, string> = {
-  attack: '强攻',
-  break: '命破',
-  anomaly: '异常',
-};
-
-/** Returns true if a field with the given class should render in the current battleType. */
 function isFieldVisible(cls: FieldDef['cls'], battleType: BattleType): boolean {
   if (!cls) return true;
   if (cls === 'break-hidden') return battleType !== 'break';
   if (cls === 'default-hidden') return battleType === 'break';
   if (cls === 'anomaly-only') return battleType === 'anomaly';
+  if (cls === 'vanguard-only') return battleType === 'vanguard';
   return true;
 }
 
 export function AgentPanel({ slot, label }: Props) {
   const state = useAppState();
   const dispatch = useAppDispatch();
-  const { battleType } = state;
+  const battleType = resolveBattleTypeForAgent(state.agents.main.presetName, state.battleType);
   const slotState = state.agents[slot];
+  const wpCfg = state.weapons[slot];
+  const weaponBuffEnabled = state.buffs?.weaponBuffEnabled?.[slot] ?? true;
+  const wpStar = Math.max(1, Math.min(5, wpCfg.cinemaOrStar || 1));
+  const wpBuff = wpCfg.presetName ? WEAPON_BUFFS[wpCfg.presetName] : undefined;
+  const wpRefDesc = wpBuff?.refinementDescs?.[wpStar - 1] ?? wpBuff?.desc ?? '';
+  const wpRefStats = wpBuff?.refinementStats?.[wpStar - 1] ?? wpBuff?.stats;
+  const wpBadges = useMemo(() => formatBuffStatsSummary(wpRefStats), [wpRefStats]);
 
-  // Preset options: main pulls from `characters` filtered by battleType,
-  // sup slots pull from the `sup` map. PRESET_FILES entries are merged in as
-  // a fallback so presets that only exist as on-disk JSON (legacy data
-  // backups) remain selectable — see ./calc/presets.ts.
-  const presetOptions = useMemo<string[]>(() => {
-    const dbNames = (() => {
-      if (slot === 'main') {
-        const targetType = MODE_TYPE_MAP[battleType];
-        return Object.entries(CHARACTER_DB.characters)
-          .filter(([, data]) => data.meta?.type === targetType)
-          .map(([name]) => name);
-      }
-      return Object.keys(CHARACTER_DB.sup ?? {});
-    })();
-    const jsonNames = slot === 'main' ? PRESET_FILES.dps : PRESET_FILES.sup;
-    // Union, DB-first, drop JSON entries whose name already appears in DB.
-    const seen = new Set(dbNames);
-    const extra = jsonNames.filter((n) => !seen.has(n));
-    return [...dbNames, ...extra];
-  }, [slot, battleType]);
+  const enabledBuffMap = state.buffs?.agentBuffs?.[slot] ?? {};
+  const teamNames: Record<AgentSlotKey, string> = useMemo(
+    () => ({
+      main: state.agents.main.presetName,
+      sup1: state.agents.sup1.presetName,
+      sup2: state.agents.sup2.presetName,
+    }),
+    [state.agents.main.presetName, state.agents.sup1.presetName, state.agents.sup2.presetName],
+  );
 
   const visibleFields = useMemo(
     () => AGENT_FIELDS.filter((f) => isFieldVisible(f.cls, battleType)),
     [battleType],
   );
 
+  const resolvedStats = useMemo(
+    () => buildAgent(slotState, slot, enabledBuffMap),
+    [slotState, slot, enabledBuffMap],
+  );
+
+  const agentBuffList = useMemo(() => {
+    if (!slotState.presetName) return [];
+    const raw = AGENT_BUFFS[slotState.presetName] ?? [];
+    // Only display Mindscape Cinema buffs (M1/M2/M4/M6) that are unlocked by current cinemaOrStar
+    return raw.filter((b) => !b.cinemaRank || b.cinemaRank <= slotState.cinemaOrStar);
+  }, [slotState.presetName, slotState.cinemaOrStar]);
+
   const prefix = slot === 'main' ? 'a_main' : slot === 'sup1' ? 'a_sup1' : 'a_sup2';
 
-  // Async JSON preset loader. Runs whenever presetName or cinema rank changes
-  // for a selection that exists only in PRESET_FILES (not in the in-memory DB).
-  // Mirrors legacy loadPreset() (index-legacy.html L1057+): raw JSON values are
-  // parsed at the current cinema and written into customOverrides, so the
-  // existing build pipeline picks them up without DB knowledge.
   useEffect(() => {
     const name = slotState.presetName;
     if (!name) return;
-    const inDb = slot === 'main'
-      ? !!CHARACTER_DB.characters[name]
-      : !!(CHARACTER_DB.sup ?? {})[name];
+    const inDb =
+      slot === 'main'
+        ? !!CHARACTER_DB.characters[name]
+        : !!(CHARACTER_DB.characters[name] || (CHARACTER_DB.sup ?? {})[name]);
     if (inDb) return;
     const folder = slot === 'main' ? 'dps' : 'sup';
     if (!PRESET_FILES[folder].includes(name)) return;
@@ -147,77 +128,28 @@ export function AgentPanel({ slot, label }: Props) {
       .catch((err) => {
         console.warn(`[AgentPanel] failed to load preset ${folder}/${name}.json:`, err);
       });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [slot, slotState.presetName, slotState.cinemaOrStar, dispatch]);
 
   return (
     <div className={`sub-module ${styles.agentPanel}`} id={`agent-${slot}`}>
-      <div className="module-title"><span>{label}</span></div>
+      <div className="module-title">
+        <span>{label}</span>
+      </div>
 
-      {/* Preset selector + cinema buttons */}
-      <div className="preset-container">
-        <div className="preset-row">
-          <label htmlFor={`preset-${slot}-select`}>预设文件</label>
-          <Select
-            value={slotState.presetName || '__none__'}
-            onValueChange={(v) =>
-              dispatch({
-                type: 'SET_AGENT_PRESET',
-                slot,
-                preset: v === '__none__' ? '' : v,
-              })
-            }
-          >
-            <SelectTrigger id={`preset-${slot}-select`}>
-              <SelectValue placeholder="-- 选择预设 --" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="__none__">-- 选择预设 --</SelectItem>
-              {presetOptions.map((name) => (
-                <SelectItem key={name} value={name}>
-                  {name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="rank-row">
-          <div className="rank-selector cinema-group" id={`cinema-${prefix}`}>
-            {/* Legacy cinema buttons: [1, 2, 4, 6] only — the four cinematic
-             *  thresholds that actually advance the stat array. Active class
-             *  applies to every threshold <= current level (legacy L946-951).
-             *  Toggle-down logic mirrors legacy `toggleCinema` (L922-937):
-             *  re-clicking the highest active rank steps down through the
-             *  ladder 6→4→2→1→0. */}
-            {[1, 2, 4, 6].map((rank) => (
-              <button
-                key={rank}
-                type="button"
-                id={`btn-${prefix}-c${rank}`}
-                className={`rank-btn${rank <= slotState.cinemaOrStar ? ' active' : ''}`}
-                onClick={() => {
-                  const current = slotState.cinemaOrStar;
-                  let newLevel = rank;
-                  if (current === rank) {
-                    if (rank === 6) newLevel = 4;
-                    else if (rank === 4) newLevel = 2;
-                    else if (rank === 2) newLevel = 1;
-                    else newLevel = 0;
-                  }
-                  dispatch({ type: 'SET_AGENT_CINEMA', slot, cinema: newLevel });
-                }}
-              >
-                {rank}
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* Visual Agent Selector + Side-by-Side W-Engine Selector */}
+      <div className={pickerStyles.pairDock}>
+        <AgentSelectorSlot slot={slot} />
+        <WeaponSelectorSlot slot={slot} />
       </div>
 
       {/* Field inputs */}
       {visibleFields.map((f) => {
         const overridden = slotState.customOverrides[f.id];
-        const value = overridden ?? 0;
+        const resolved = (resolvedStats as Record<string, number | undefined>)[f.id] ?? 0;
+        const value = overridden ?? resolved;
         return (
           <div key={f.id} className={`input-group ${f.cls ?? ''}`.trim()}>
             <label htmlFor={`${prefix}_${f.id}`}>{f.label}</label>
@@ -239,6 +171,173 @@ export function AgentPanel({ slot, label }: Props) {
           </div>
         );
       })}
+
+      {/* 角色可主动、被动、影画及音擎特效 Buff 选择区 */}
+      {(agentBuffList.length > 0 || wpBuff) && (
+        <div className={styles.buffSection}>
+          <div className={styles.buffHeader}>
+            <span>
+              角色 & 音擎 Buff ({slotState.presetName || '未选代理人'}
+              {wpCfg.presetName ? ` · ${wpCfg.presetName}` : ''})
+            </span>
+            <div className={styles.buffActions}>
+              <button
+                type="button"
+                className={styles.miniBtn}
+                onClick={() => {
+                  const nextMap: Record<string, boolean> = {};
+                  for (const b of agentBuffList) {
+                    if (b.subType === '额外能力') {
+                      if (evaluateAdditionalAbility(slot, teamNames, b.desc).triggered) {
+                        nextMap[b.id] = true;
+                      }
+                    } else if (!b.cinemaRank || b.cinemaRank <= slotState.cinemaOrStar) {
+                      nextMap[b.id] = true;
+                    }
+                  }
+                  dispatch({ type: 'SET_ALL_AGENT_BUFFS', slot, buffMap: nextMap });
+                  if (wpBuff) {
+                    dispatch({ type: 'TOGGLE_WEAPON_BUFF', slot, enabled: true });
+                  }
+                }}
+              >
+                全选当前可用
+              </button>
+              <button
+                type="button"
+                className={styles.miniBtn}
+                onClick={() => {
+                  dispatch({ type: 'SET_ALL_AGENT_BUFFS', slot, buffMap: {} });
+                  if (wpBuff) {
+                    dispatch({ type: 'TOGGLE_WEAPON_BUFF', slot, enabled: false });
+                  }
+                }}
+              >
+                清空
+              </button>
+            </div>
+          </div>
+          <div className={styles.buffList}>
+            {wpBuff && (
+              <label
+                className={`${styles.buffCard} ${weaponBuffEnabled ? styles.buffCardActive : ''}`}
+              >
+                <div className={styles.buffTopRow}>
+                  <input
+                    type="checkbox"
+                    className={styles.buffCheckbox}
+                    checked={weaponBuffEnabled}
+                    onChange={(e) =>
+                      dispatch({
+                        type: 'TOGGLE_WEAPON_BUFF',
+                        slot,
+                        enabled: e.target.checked,
+                      })
+                    }
+                  />
+                  <span className={styles.wpSubTypeTag}>音擎特效 ★{wpStar}</span>
+                  <span className={styles.buffTitle}>
+                    {wpCfg.presetName} · {wpBuff.title}
+                  </span>
+                  {wpBadges.length > 0 && (
+                    <div className={styles.statBadges}>
+                      {wpBadges.map((bd, i) => (
+                        <span key={i} className={styles.statBadge}>
+                          {bd}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className={styles.buffDesc}>{stripGameTags(wpRefDesc)}</div>
+              </label>
+            )}
+            {slotState.cinemaOrStar >= 3 && (
+              <div className={`${styles.buffCard} ${styles.buffCardActive}`}>
+                <div className={styles.buffTopRow}>
+                  <span className={styles.subTypeTag}>影画M3</span>
+                  <span className={styles.buffTitle}>技能等级上限提升</span>
+                  <div className={styles.statBadges}>
+                    <span className={styles.statBadge}>技能上限 Lv.12 → Lv.14</span>
+                  </div>
+                </div>
+                <div className={styles.buffDesc}>
+                  [普通攻击]、[闪避]、[支援技]、[特殊技]、[连携技] 技能等级上限 +2（最高可升至 14 级）。
+                </div>
+              </div>
+            )}
+            {slotState.cinemaOrStar >= 5 && (
+              <div className={`${styles.buffCard} ${styles.buffCardActive}`}>
+                <div className={styles.buffTopRow}>
+                  <span className={styles.subTypeTag}>影画M5</span>
+                  <span className={styles.buffTitle}>技能等级上限再提升</span>
+                  <div className={styles.statBadges}>
+                    <span className={styles.statBadge}>技能上限 Lv.14 → Lv.16</span>
+                  </div>
+                </div>
+                <div className={styles.buffDesc}>
+                  [普通攻击]、[闪避]、[支援技]、[特殊技]、[连携技] 技能等级上限再 +2（最高可升至 16 级）。
+                </div>
+              </div>
+            )}
+            {agentBuffList.map((b) => {
+              const checked = !!enabledBuffMap[b.id];
+              const badges = formatBuffStatsSummary(b.stats);
+              const addEval =
+                b.subType === '额外能力'
+                  ? evaluateAdditionalAbility(slot, teamNames, b.desc)
+                  : null;
+              return (
+                <label
+                  key={b.id}
+                  className={`${styles.buffCard} ${checked ? styles.buffCardActive : ''}`}
+                >
+                  <div className={styles.buffTopRow}>
+                    <input
+                      type="checkbox"
+                      className={styles.buffCheckbox}
+                      checked={checked}
+                      onChange={(e) =>
+                        dispatch({
+                          type: 'TOGGLE_AGENT_BUFF',
+                          slot,
+                          buffId: b.id,
+                          enabled: e.target.checked,
+                        })
+                      }
+                    />
+                    <span className={styles.subTypeTag}>{b.subType}</span>
+                    <span className={styles.buffTitle}>{b.title}</span>
+                    {addEval && (
+                      <span
+                        className={
+                          addEval.triggered
+                            ? styles.addTriggerOk
+                            : styles.addTriggerPending
+                        }
+                      >
+                        {addEval.triggered
+                          ? `⚡ 已触发: ${addEval.matchedReasons.join('、')}`
+                          : '未满足组队条件'}
+                      </span>
+                    )}
+                    {badges.length > 0 && (
+                      <div className={styles.statBadges}>
+                        {badges.map((bd, i) => (
+                          <span key={i} className={styles.statBadge}>
+                            {bd}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className={styles.buffDesc}>{stripGameTags(b.desc)}</div>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

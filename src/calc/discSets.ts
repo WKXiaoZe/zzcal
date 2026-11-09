@@ -46,6 +46,11 @@ export const DISC_ROLE: Record<string, DiscRole> = {
   canglang:     'dps',
   liuguang:     'dps',
   qiutu:        'dps',
+  huxiao:       'dps',
+  fuxiaoxingji: 'dps',
+  chenyu:       'dps',
+  jingji:       'dps',
+  xingzhibei:   'dps',
   // SUP
   jisu:         'sup',
   linghun:      'sup',
@@ -55,6 +60,7 @@ export const DISC_ROLE: Record<string, DiscRole> = {
   mountain:     'sup',
   moon:         'sup',
   xuetu:        'sup',
+  chiyi:        'sup',
 };
 
 /** Internal-key → Suit*.png filename mapping for UI thumbnails. */
@@ -85,6 +91,12 @@ export const SUIT_ART: Record<string, string> = {
   liuguang:     'SuitShiningAria.png',
   xuetu:        'SuitBunnyinWonderland.png',
   qiutu:        'SuitNotesFromtheChained.png',
+  huxiao:       'SuitWutheringSalon.png',
+  fuxiaoxingji: 'SuitTheSkyAblaze.png',
+  chenyu:       'SuitFeatheredFate.png',
+  jingji:       'SuitThornedRose.png',
+  xingzhibei:   'SuitMonumentoftheStar.png',
+  chiyi:        'SuitBloodwingNocturne.png',
 };
 
 export const DISC_4_SETS: Record<string, DiscSet> = {
@@ -117,6 +129,12 @@ export const DISC_4_SETS: Record<string, DiscSet> = {
   liuguang:     { id: 33600, name: '流光咏叹',     stats: { anomalyMastery: 36, dmgBonus: 25 }, note: '装备者发动<color=#FFFFFF>[普通攻击]</color>命中敌人时，自身异常精通提升36点，持续8秒，重复触发时刷新持续时间；当场上有敌人进入失衡状态时，装备者造成的伤害提升25%，持续18秒，重复触发时刷新持续时间。' },
   xuetu:        { id: 33700, name: '雪兔梦游仙境', stats: { dmgBonus: 18 }, note: '[防护]角色装备时：装备者发动<color=#FFFFFF>[强化特殊技]</color>或队伍中任意队友发动<color=#FFFFFF>[招架支援]</color>、<color=#FFFFFF>[回避支援]</color>时，全队角色造成伤害提升6%，最多叠加3层，持续25秒，层数逐层衰减，获得或者衰减时刷新持续时间，同名被动效果之间不可叠加。' },
   qiutu:        { id: 33800, name: '囚徒手记',     stats: { anomalyMastery: 48, dmgBonus: 16 }, note: '装备者触发<color=#FFFFFF>[异放]</color>时，装备者异常精通提升48点，持续30秒；重复触发时刷新持续时间；装备者触发<color=#FFFFFF>[冻结]</color>效果时，装备者造成的所有属性异常伤害、<color=#FFFFFF>[紊乱]</color>伤害提升16%，持续30秒，重复触发时刷新持续时间。' },
+  huxiao:       { id: 33900, name: '呼啸沙龙',     stats: { anomalyMastery: 50, dmgBonus: 18 }, note: '装备者发动<color=#FFFFFF>[强化特殊技]</color>时，装备者异常精通提升25点，最多叠加2层，持续40秒，重复触发时刷新持续时间；装备者触发<color=#FFFFFF>[风化]</color>效果后，装备者造成的伤害提升18%，持续40秒，重复触发时刷新持续时间。' },
+  fuxiaoxingji: { id: 34000, name: '拂晓行纪',     stats: { critDmg: 30, inCombatAtkPct: 10 }, note: '装备者为以太属性代理人时，暴击伤害提升30%；装备者发动<color=#FFFFFF>[强化特殊技]</color>或<color=#FFFFFF>[终结技]</color>时，装备者的攻击力提升10%，持续30秒，重复触发时刷新持续时间。' },
+  chenyu:       { id: 34100, name: '谶羽之誓',     stats: { anomalyMastery: 50, dmgBonus: 15 }, note: '装备者进入战场时，或被切换为当前操作中角色时，获得增益效果：异常精通提升50点，若装备者为流明属性，造成的属性异常伤害提升15%，持续15秒；当装备者为非操作中角色时，则始终持有该增益效果。' },
+  jingji:       { id: 34200, name: '荆棘玫瑰',     stats: { dmgBonus: 15, critRate: 16 }, note: '装备者造成的伤害提升15%，装备者初始防御力大于等于1000/1800点时，暴击率提升8/16%。' },
+  xingzhibei:   { id: 34300, name: '星之碑',       stats: { critRate: 12, defShred: 16 }, note: '装备者的暴击率提升12%，装备者造成火属性锐化伤害时，无视敌人16%防御力。' },
+  chiyi:        { id: 34400, name: '赤翼夜曲',     stats: { critDmg: 30, dmgBonus: 8 }, note: '装备者暴击率大于等于50%时，暴击伤害提升30%，攻击造成的失衡值提升5%。装备者为<color=#FFFFFF>[击破]</color>角色时，发动<color=#FFFFFF>[强化特殊技]</color>或<color=#FFFFFF>[连携技]</color>会使全队角色造成的锐化伤害提升8%，持续25秒，重复触发时刷新持续时间，该效果全队唯一。' },
 };
 
 // DISC 2-set bonuses — pair-wise sibling of DISC_4_SETS.
@@ -129,7 +147,7 @@ export const DISC_2_SETS: Record<string, DiscSet> = {
   zhenxing:     { id: 31200, name: '震星迪斯科',   stats: {}, note: '冲击力+6%。' },
   ziyou:        { id: 31300, name: '自由蓝调',     stats: { anomalyMastery: 30 }, note: '异常精通+30点。' },
   jisu:         { id: 31400, name: '激素朋克',     stats: { atkPct: 10 }, note: '攻击力+10%。' },
-  linghun:      { id: 31500, name: '灵魂摇滚',     stats: {}, note: '防御力+16%。' },
+  linghun:      { id: 31500, name: '灵魂摇滚',     stats: { defPct: 16 }, note: '防御力+16%。' },
   yaoba:        { id: 31600, name: '摇摆爵士',     stats: {}, note: '能量自动回复+20%。' },
   hunduo:       { id: 31800, name: '混沌爵士',     stats: { anomalyMastery: 30 }, note: '异常精通+30点。' },
   yuanshi:      { id: 31900, name: '原始朋克',     stats: {}, note: '施加的护盾值提升15%。' },
@@ -150,4 +168,10 @@ export const DISC_2_SETS: Record<string, DiscSet> = {
   liuguang:     { id: 33600, name: '流光咏叹',     stats: { dmgBonus: 10 }, note: '<color=#FE437E>以太伤害</color>+10%。' },
   xuetu:        { id: 33700, name: '雪兔梦游仙境', stats: { hpPct: 10 }, note: '生命值+10%' },
   qiutu:        { id: 33800, name: '囚徒手记',     stats: { dmgBonus: 10 }, note: '<color=#98EFF0>冰属性伤害</color>+10%。' },
+  huxiao:       { id: 33900, name: '呼啸沙龙',     stats: { dmgBonus: 10 }, note: '<color=#2BAD00>风属性伤害</color>+10%。' },
+  fuxiaoxingji: { id: 34000, name: '拂晓行纪',     stats: { dmgBonus: 10 }, note: '<color=#FE437E>以太伤害</color>+10%。' },
+  chenyu:       { id: 34100, name: '谶羽之誓',     stats: { anomalyMastery: 30 }, note: '异常精通+30点。' },
+  jingji:       { id: 34200, name: '荆棘玫瑰',     stats: { defPct: 16 }, note: '防御力+16%。' },
+  xingzhibei:   { id: 34300, name: '星之碑',       stats: { defPct: 16 }, note: '防御力+16%。' },
+  chiyi:        { id: 34400, name: '赤翼夜曲',     stats: {}, note: '能量自动回复+20%。' },
 };

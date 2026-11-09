@@ -376,7 +376,7 @@ h1::before {
 /* Grid Systems */
 .grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
     gap: 30px;
 }
 
@@ -762,4 +762,162 @@ body[data-mode="anomaly"] .input-group.anomaly-only {
 
 body[data-mode="anomaly"] .input-group.anomaly-hidden {
     display: none;
+}
+
+
+/* ---------- Mobile Responsive Enhancements ---------- */
+@media (max-width: 768px) {
+    body,
+    html body[data-scroll-locked] {
+        padding: 10px !important;
+    }
+
+    /* Keep header in normal document flow on mobile so there is no
+       empty 100vh gap and no fixed overlay blocking content while scrolling */
+    header,
+    body.u-scrolled header {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 22px 0;
+        padding: 16px;
+        border-radius: 16px;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    header h1,
+    body.u-scrolled header h1 {
+        font-size: 1.45rem;
+        letter-spacing: 2px;
+    }
+
+    header .header-subtitle,
+    body.u-scrolled header .header-subtitle {
+        font-size: 0.72rem;
+        margin-bottom: 10px;
+        opacity: 0.7;
+        max-height: none;
+    }
+
+    header .type-switch,
+    body.u-scrolled header .type-switch {
+        padding-top: 10px;
+        gap: 6px;
+    }
+
+    header .type-btn,
+    body.u-scrolled header .type-btn {
+        padding: 6px 10px;
+        font-size: 0.78rem;
+    }
+
+    .container {
+        margin-top: 0;
+        padding-bottom: 96px;
+    }
+
+    .container > * + * {
+        margin-top: 22px;
+    }
+
+    .module {
+        padding: 28px 14px 18px;
+        margin-bottom: 24px;
+        border-radius: 16px;
+    }
+
+    .module-title {
+        left: 14px;
+        top: -14px;
+        padding: 6px 14px;
+        font-size: 0.94rem;
+        max-width: calc(100% - 28px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .sub-module {
+        padding: 28px 14px 16px;
+        border-radius: 14px;
+    }
+
+    .sub-module h4 {
+        font-size: 0.94rem;
+        margin: 18px 0 12px 0;
+    }
+
+    .grid-3 {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .grid-2-split {
+        gap: 22px;
+    }
+
+    .input-group {
+        gap: 10px;
+        margin-bottom: 14px;
+        font-size: 0.88rem;
+    }
+
+    .input-group label {
+        white-space: normal;
+        line-height: 1.25;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+        width: 96px;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+
+    select,
+    .u-select-trigger {
+        font-size: 0.88rem;
+        padding: 9px 30px 9px 10px;
+    }
+
+    .zzz-btn {
+        padding: 0 14px;
+        height: 36px;
+        font-size: 0.82rem;
+    }
+
+    .u-tooltip .u-tooltip-content {
+        min-width: min(260px, calc(100vw - 32px));
+        max-width: calc(100vw - 24px);
+        left: 0;
+        transform: translateY(10px);
+    }
+
+    .u-tooltip:hover .u-tooltip-content {
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 420px) {
+    header h1,
+    body.u-scrolled header h1 {
+        font-size: 1.25rem;
+        letter-spacing: 1px;
+    }
+
+    .module-title {
+        font-size: 0.85rem;
+        padding: 5px 12px;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+        width: 84px;
+        padding: 7px 8px;
+        font-size: 0.85rem;
+    }
 }

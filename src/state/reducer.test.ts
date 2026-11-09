@@ -29,6 +29,21 @@ describe('reducer', () => {
     const reset = reducer(withOverride, { type: 'SET_AGENT_PRESET', slot: 'main', preset: '伊埃斯' });
     expect(reset.agents.main.customOverrides).toEqual({});
   });
+  it('SET_AGENT_PRESET on main slot automatically unifies battleType across 强攻 / 命破 / 异常 / 锋御', () => {
+    const sBreak = reducer(initialState, { type: 'SET_AGENT_PRESET', slot: 'main', preset: '仪玄' });
+    expect(sBreak.battleType).toBe('break');
+
+    const sAnomaly = reducer(sBreak, { type: 'SET_AGENT_PRESET', slot: 'main', preset: '简' });
+    expect(sAnomaly.battleType).toBe('anomaly');
+    expect(sAnomaly.disc.slot4Stat).toBe('anomalyMastery');
+
+    const sVanguard = reducer(sAnomaly, { type: 'SET_AGENT_PRESET', slot: 'main', preset: '挽昼' });
+    expect(sVanguard.battleType).toBe('vanguard');
+    expect(sVanguard.disc.slot4Stat).toBe('critRate');
+
+    const sAttack = reducer(sVanguard, { type: 'SET_AGENT_PRESET', slot: 'main', preset: '叶瞬光' });
+    expect(sAttack.battleType).toBe('attack');
+  });
   it('SET_DISC_SUBCOUNT updates one key', () => {
     const next = reducer(initialState, { type: 'SET_DISC_SUBCOUNT', key: 'CR', value: 4 });
     expect(next.disc.subCounts.CR).toBe(4);

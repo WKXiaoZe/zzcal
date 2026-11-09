@@ -1,36 +1,19 @@
 // NOTE: 这个面板的本地 set2 选择会与 DiscPanel 选的 set2Key 在 extraStats.set2_* 桶里叠加，
 // 是 legacy 行为的保留。如果你想纯净测算"假设切换到另一套2件套"，请把 DiscPanel 的 2件套设回 "无套装"。
 // src/components/ManualOptPanel.tsx
-// Manual optimization panel — mirrors legacy `#manual-ui` block
-// (legacy/index-legacy.html lines 325-404) and the calc dispatch in
-// `manualUpdate()` (legacy line 1521-1609).
-//
-// Slot-5 main stat and 2-set bonus selections are local-only React state
-// (useState) because they only affect *this panel's* display, not the
-// shared AppState. Subcount counters DO live in AppState
-// (`state.disc.subCounts`) so they are read directly via context.
-//
-// Buff folding mimics legacy `extraStats.slot5_* / set2_*` exactly:
-//   slot5: atkPct:30 / dmgBonus:30 / penRatio:24 / hpPct:30
-//   set2 : atkPct:10 / dmgBonus:10 / penRatio:8 / hpPct:10 / critDmg:16
-//
-// Subcount coefficients are NOT re-derived here — `buildCalcInput` already
-// applies them. We only need to layer slot5/set2 on top of the buildInput
-// output's extraStats before calling `calculateDamage`.
+// Manual optimization panel — supports unified adaptive battleType
+// (attack / break / anomaly / vanguard).
 
 import { useMemo, useState } from 'react';
 import { useAppState } from '../state/AppContext';
-import { buildCalcInput } from '../calc/buildInput';
+import { buildCalcInput, resolveBattleTypeForAgent } from '../calc/buildInput';
 import { calculateDamage } from '../calc/formulas';
 import type { ExtraSubStats, BattleType } from '../calc/types';
 import styles from './ManualOptPanel.module.css';
 
 // --- Option tables --------------------------------------------------------
-// Each option's `extra` payload is merged additively into `extraStats`.
-// Keys map onto the buckets `calculateDamage` already understands.
-
-type Slot5Key = 'atk' | 'dmg' | 'pen' | 'hp';
-type Set2Key = 'atk' | 'dmg' | 'pen' | 'hp' | 'cd';
+type Slot5Key = 'atk' | 'dmg' | 'pen' | 'hp' | 'def';
+type Set2Key = 'atk' | 'dmg' | 'pen' | 'hp' | 'cd' | 'def';
 
 interface OptionDef<K extends string> {
   key: K;
@@ -41,55 +24,71 @@ interface OptionDef<K extends string> {
 function slot5OptionsFor(battleType: BattleType): OptionDef<Slot5Key>[] {
   if (battleType === 'break') {
     return [
-      { key: 'atk', label: '5号位攻击%',  extra: { slot5_AtkPct: 30 } },
-      { key: 'dmg', label: '5号位增伤%',  extra: { slot5_Dmg: 30 } },
-      { key: 'hp',  label: '5号位生命%',  extra: { slot5_HpPct: 30 } },
+      { key: 'atk', label: '5号位攻击%', extra: { slot5_AtkPct: 30 } },
+      { key: 'dmg', label: '5号位增伤%', extra: { slot5_Dmg: 30 } },
+      { key: 'hp', label: '5号位生命%', extra: { slot5_HpPct: 30 } },
+    ];
+  }
+  if (battleType === 'vanguard') {
+    return [
+      { key: 'def', label: '5号位防御%', extra: { slot5_DefPct: 30 } },
+      { key: 'dmg', label: '5号位增伤%', extra: { slot5_Dmg: 30 } },
+      { key: 'pen', label: '5号位穿透%', extra: { slot5_Pen: 24 } },
     ];
   }
   // attack / anomaly share the same slot5 options
   return [
-    { key: 'atk', label: '5号位攻击%',  extra: { slot5_AtkPct: 30 } },
-    { key: 'dmg', label: '5号位增伤%',  extra: { slot5_Dmg: 30 } },
-    { key: 'pen', label: '5号位穿透%',  extra: { slot5_Pen: 24 } },
+    { key: 'atk', label: '5号位攻击%', extra: { slot5_AtkPct: 30 } },
+    { key: 'dmg', label: '5号位增伤%', extra: { slot5_Dmg: 30 } },
+    { key: 'pen', label: '5号位穿透%', extra: { slot5_Pen: 24 } },
   ];
 }
 
 function set2OptionsFor(battleType: BattleType): OptionDef<Set2Key>[] {
   if (battleType === 'break') {
     return [
-      { key: 'dmg', label: '2件套增伤 10%',     extra: { set2_Dmg: 10 } },
-      { key: 'pen', label: '2件套穿透 8%',      extra: { set2_Pen: 8 } },
-      { key: 'hp',  label: '2件套生命 10%',     extra: { set2_HpPct: 10 } },
-      { key: 'cd',  label: '2件套爆伤 16%',     extra: { set2_CD: 16 } },
+      { key: 'dmg', label: '2件套增伤 10%', extra: { set2_Dmg: 10 } },
+      { key: 'pen', label: '2件套穿透 8%', extra: { set2_Pen: 8 } },
+      { key: 'hp', label: '2件套生命 10%', extra: { set2_HpPct: 10 } },
+      { key: 'cd', label: '2件套爆伤 16%', extra: { set2_CD: 16 } },
+    ];
+  }
+  if (battleType === 'vanguard') {
+    return [
+      { key: 'def', label: '2件套防御 16%', extra: { set2_DefPct: 16 } },
+      { key: 'dmg', label: '2件套增伤 10%', extra: { set2_Dmg: 10 } },
+      { key: 'pen', label: '2件套穿透 8%', extra: { set2_Pen: 8 } },
+      { key: 'cd', label: '2件套爆伤 16%', extra: { set2_CD: 16 } },
     ];
   }
   // attack / anomaly share the same set2 options
   return [
-    { key: 'atk', label: '2件套攻击 10%',     extra: { set2_AtkPct: 10 } },
-    { key: 'dmg', label: '2件套增伤 10%',     extra: { set2_Dmg: 10 } },
-    { key: 'pen', label: '2件套穿透 8%',      extra: { set2_Pen: 8 } },
-    { key: 'cd',  label: '2件套爆伤 16%',     extra: { set2_CD: 16 } },
+    { key: 'atk', label: '2件套攻击 10%', extra: { set2_AtkPct: 10 } },
+    { key: 'dmg', label: '2件套增伤 10%', extra: { set2_Dmg: 10 } },
+    { key: 'pen', label: '2件套穿透 8%', extra: { set2_Pen: 8 } },
+    { key: 'cd', label: '2件套爆伤 16%', extra: { set2_CD: 16 } },
   ];
 }
 
-// --- Subcount preview coefficients (matches legacy/index-legacy.html ~1882)
 const SUBCOUNT_COEFF = {
   CR: 2.4, // %
   CD: 4.8, // %
   ATK: 3.0, // %
   HP: 3.0, // %
+  DEF: 4.8, // %
   AM: 9.0, // flat
 } as const;
 
-// Pick a sensible default selection for the current battle type.
 function defaultSlot5(battleType: BattleType): Slot5Key {
-  return battleType === 'break' ? 'atk' : 'atk';
+  if (battleType === 'vanguard') return 'def';
+  return 'atk';
 }
 function defaultSet2(battleType: BattleType): Set2Key {
-  return battleType === 'break' ? 'dmg' : 'cd';
+  if (battleType === 'break') return 'dmg';
+  if (battleType === 'vanguard') return 'def';
+  return 'cd';
 }
 
-// Merge two ExtraSubStats payloads additively (right-hand keys add to left).
 function mergeExtra(base: ExtraSubStats, add: Partial<ExtraSubStats>): ExtraSubStats {
   const out: ExtraSubStats = { ...base };
   for (const [k, v] of Object.entries(add)) {
@@ -99,8 +98,6 @@ function mergeExtra(base: ExtraSubStats, add: Partial<ExtraSubStats>): ExtraSubS
   }
   return out;
 }
-
-// --- Sub-buttons ---------------------------------------------------------
 
 interface ButtonGroupProps<K extends string> {
   options: OptionDef<K>[];
@@ -130,41 +127,27 @@ function ButtonGroup<K extends string>({ options, selected, onSelect, ariaLabel 
   );
 }
 
-// --- Main component ------------------------------------------------------
-
 export function ManualOptPanel() {
   const state = useAppState();
-  const battleType = state.battleType;
+  const battleType = resolveBattleTypeForAgent(state.agents.main.presetName, state.battleType);
 
-  // Local-only selections (intentionally NOT in AppState — only this panel
-  // consumes them). When battleType changes, the options list may no longer
-  // contain the previous selection; we fall back to the default in that case
-  // via a defensive `currentSlot5Opts.find(...)` below.
   const [slot5Key, setSlot5Key] = useState<Slot5Key>(defaultSlot5(battleType));
   const [set2Key, setSet2Key] = useState<Set2Key>(defaultSet2(battleType));
 
   const slot5Opts = useMemo(() => slot5OptionsFor(battleType), [battleType]);
   const set2Opts = useMemo(() => set2OptionsFor(battleType), [battleType]);
 
-  // Defensive lookup — if a previously valid key is no longer in the option
-  // list (e.g. user toggled to break mode after selecting `pen`), treat as
-  // the first available option without mutating state (state correction would
-  // require an effect and is overkill for a display-only panel).
   const slot5Active = slot5Opts.find((o) => o.key === slot5Key)?.key ?? slot5Opts[0].key;
-  const set2Active  = set2Opts.find((o) => o.key === set2Key)?.key ?? set2Opts[0].key;
+  const set2Active = set2Opts.find((o) => o.key === set2Key)?.key ?? set2Opts[0].key;
 
   const slot5Extra = slot5Opts.find((o) => o.key === slot5Active)?.extra ?? {};
-  const set2Extra  = set2Opts.find((o) => o.key === set2Active)?.extra ?? {};
+  const set2Extra = set2Opts.find((o) => o.key === set2Active)?.extra ?? {};
 
-  // Build the calc input and layer slot5/set2 on top of the existing
-  // extraStats produced by buildCalcInput (which already encodes subCounts
-  // and 2-set DB stats). Slot5 is purely a manual override — buildCalcInput
-  // does not populate slot5_* buckets.
   const result = useMemo(() => {
     const baseInput = buildCalcInput(state);
     const mergedExtra = mergeExtra(
       mergeExtra(baseInput.extraStats ?? {}, slot5Extra),
-      set2Extra
+      set2Extra,
     );
     return calculateDamage({ ...baseInput, extraStats: mergedExtra });
   }, [state, slot5Extra, set2Extra]);
@@ -172,7 +155,7 @@ export function ManualOptPanel() {
   const dmg = result.dmg;
   const d = result.details;
   const sc = state.disc.subCounts;
-  const subTotal = sc.CR + sc.CD + sc.ATK + sc.HP + sc.AM;
+  const subTotal = sc.CR + sc.CD + sc.ATK + sc.HP + sc.AM + (sc.DEF ?? 0);
 
   return (
     <section className={`sub-module ${styles.manualOptPanel}`}>
@@ -208,7 +191,7 @@ export function ManualOptPanel() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(84px, 1fr))',
             gap: 8,
             fontSize: '0.8rem',
             background: 'rgba(255,255,255,0.04)',
@@ -219,6 +202,7 @@ export function ManualOptPanel() {
           <SubCell label="暴击率"   count={sc.CR}  unit="%" total={sc.CR  * SUBCOUNT_COEFF.CR} />
           <SubCell label="暴击伤害" count={sc.CD}  unit="%" total={sc.CD  * SUBCOUNT_COEFF.CD} />
           <SubCell label="攻击力%"  count={sc.ATK} unit="%" total={sc.ATK * SUBCOUNT_COEFF.ATK} />
+          <SubCell label="防御力%"  count={sc.DEF ?? 0} unit="%" total={(sc.DEF ?? 0) * SUBCOUNT_COEFF.DEF} />
           <SubCell label="生命值%"  count={sc.HP}  unit="%" total={sc.HP  * SUBCOUNT_COEFF.HP} />
           <SubCell label="异常精通" count={sc.AM}  unit=""  total={sc.AM  * SUBCOUNT_COEFF.AM} />
         </div>
@@ -257,13 +241,20 @@ export function ManualOptPanel() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(135px, 1fr))',
             gap: 6,
             fontSize: '0.85rem',
           }}
         >
           <StatRow label="总攻击力"   value={d.totalAtk.toFixed(0)} />
           <StatRow label="面板攻击"   value={d.sheetAtk.toFixed(0)} />
+          {battleType === 'vanguard' && (
+            <>
+              <StatRow label="总防御力" value={(d.totalDef ?? 0).toFixed(0)} />
+              <StatRow label="面板防御" value={(d.sheetDef ?? 0).toFixed(0)} />
+              <StatRow label="锐暴伤害" value={`${(d.totalSharpCD ?? 50).toFixed(1)}%`} />
+            </>
+          )}
           <StatRow label="暴击率"     value={`${d.totalCR.toFixed(1)}%`} />
           <StatRow label="暴击伤害"   value={`${d.totalCD.toFixed(1)}%`} />
           <StatRow label="增伤区"     value={`${d.totalDmgBonus.toFixed(1)}%`} />
@@ -287,8 +278,6 @@ export function ManualOptPanel() {
     </section>
   );
 }
-
-// --- Small leaf components ----------------------------------------------
 
 interface SubCellProps {
   label: string;

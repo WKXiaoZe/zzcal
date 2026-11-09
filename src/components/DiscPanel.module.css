@@ -1,8 +1,96 @@
-/* DiscPanel.module.css
- * Per-component styles for the disc / substat panel.
- * Uses shared .module + .sub-module + .input-group from global.css today.
- */
+/* DiscPanel.module.css */
 
 .discPanel {
-  /* Marker hook for future disc-panel tweaks. */
+}
+
+.buffSection {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 8px;
+}
+
+.buffHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.buffList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.buffCard {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.buffCardActive {
+  background: rgba(234, 179, 8, 0.14);
+  border-color: rgba(250, 204, 21, 0.65);
+}
+
+.buffTopRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.buffCheckbox {
+  accent-color: #facc15;
+  cursor: pointer;
+}
+
+.subTypeTag {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(249, 115, 22, 0.22);
+  color: #fdba74;
+  font-weight: 600;
+}
+
+.buffTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.statBadges {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.statBadge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(34, 197, 94, 0.22);
+  color: #86efac;
+  font-weight: 600;
+}
+
+.buffDesc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #94a3b8;
+  white-space: pre-wrap;
 }

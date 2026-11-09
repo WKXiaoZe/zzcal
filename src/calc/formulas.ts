@@ -1,7 +1,6 @@
 // src/calc/formulas.ts
-// Mechanical TS port of legacy/calc-legacy.js#calculateDamage.
-// Body is line-for-line identical; only type annotations were added.
-// Any divergence here is a parity-test regression by definition.
+// Mechanical TS port of legacy/calc-legacy.js#calculateDamage, extended with
+// unified 'vanguard' (锋御) Sharp Damage & Defense-scaling formula from Pass A.
 
 import { safeFloat } from './utils';
 import type {
@@ -38,13 +37,14 @@ export function calculateDamage(input: CalcInput): CalcOutput {
 
   // Field buffs default fallbacks (mirror legacy getFieldBuffs)
   const fieldInCombatAtkPct = safeFloat(field.inCombatAtkPct);
+  const fieldInCombatDefPct = safeFloat(field.inCombatDefPct);
   const fieldCritRate = safeFloat(field.critRate);
   const fieldCritDmg = safeFloat(field.critDmg);
+  const fieldSharpCritDmg = safeFloat(field.sharpCritDmg);
   const fieldDmgBonus = safeFloat(field.dmgBonus);
   const fieldResShred = safeFloat(field.resShred);
   const fieldDefShred = safeFloat(field.defShred);
   const fieldDazeVuln = safeFloat(field.dazeVuln);
-  // const fieldHpPct = safeFloat(field.hpPct);  // legacy read but unused
   const fieldInCombatHpPct = safeFloat(field.inCombatHpPct);
   const fieldAnomalyMastery = safeFloat(field.anomalyMastery);
 
@@ -57,9 +57,14 @@ export function calculateDamage(input: CalcInput): CalcOutput {
     safeFloat((wSup2 as Record<string, unknown>)[key]);
 
   const baseAtk = safeFloat(aMain.baseAtk) + safeFloat(wMain.baseAtk);
-  if (baseAtk === 0) warnings.push('警告: 基础攻击力(白值)为 0');
+  const agentBaseDef = safeFloat(aMain.baseDef) + safeFloat(wMain.baseDef);
+  if (battleType === 'vanguard') {
+    if (agentBaseDef === 0) warnings.push('警告: 基础防御力(白值)为 0');
+  } else {
+    if (baseAtk === 0) warnings.push('警告: 基础攻击力(白值)为 0');
+  }
 
-  let disc6_AtkPct = 30;
+  let disc6_AtkPct = battleType === 'vanguard' ? 0 : 30;
   let disc6_Anomaly = 0;
   if (battleType === 'anomaly') {
     const slot6AnomalyType = skill.slot6AnomalyType;
@@ -71,6 +76,7 @@ export function calculateDamage(input: CalcInput): CalcOutput {
   const disc2_FlatAtk = 316;
   const slot4Type = skill.slot4Type;
   const disc4_AtkPct = slot4Type === 'atk' ? 30 : 0;
+  const disc4_DefPct = slot4Type === 'def' ? 30 : 0;
   const disc4_CR = slot4Type === 'critRate' ? 24 : 0;
   const disc4_CD = slot4Type === 'critDmg' ? 48 : 0;
 
@@ -78,6 +84,8 @@ export function calculateDamage(input: CalcInput): CalcOutput {
     safeFloat(extraStats.atkPct) + safeFloat(extraStats.slot5_AtkPct) + safeFloat(extraStats.set2_AtkPct);
   const extraHpPct =
     safeFloat(extraStats.hpPct) + safeFloat(extraStats.slot5_HpPct) + safeFloat(extraStats.set2_HpPct);
+  const extraDefPct =
+    safeFloat(extraStats.defPct) + safeFloat(extraStats.slot5_DefPct) + safeFloat(extraStats.set2_DefPct);
   const extraCR = safeFloat(extraStats.critRate);
   const extraCD = safeFloat(extraStats.critDmg) + safeFloat(extraStats.set2_CD);
   const extraDmg =
@@ -108,6 +116,34 @@ export function calculateDamage(input: CalcInput): CalcOutput {
 
   const sheetAtk = baseAtk * (1 + outCombatAtkPct / 100) + outCombatFlatAtk;
   const totalAtk = sheetAtk * (1 + inCombatAtkPct / 100) + inCombatFlatAtk;
+
+  // --- Vanguard (锋御) Defense Calculation ---
+  const disc6_DefPct = battleType === 'vanguard' ? 30 : 0;
+  const disc3_FlatDef = 184;
+  const outCombatDefPct =
+    safeFloat(aMain.defPct) +
+    safeFloat(wMain.defPct) +
+    sumSup('defPct') +
+    disc6_DefPct +
+    disc4_DefPct +
+    extraDefPct;
+  const outCombatFlatDef =
+    safeFloat(aMain.flatDef) +
+    safeFloat(wMain.flatDef) +
+    sumSup('flatDef') +
+    disc3_FlatDef +
+    safeFloat(extraStats.flatDef);
+  const inCombatDefPct =
+    safeFloat(aMain.inCombatDefPct) +
+    safeFloat(wMain.inCombatDefPct) +
+    sumSup('inCombatDefPct') +
+    fieldInCombatDefPct;
+  const inCombatFlatDef =
+    safeFloat(aMain.inCombatDefFlat) +
+    safeFloat(wMain.inCombatDefFlat) +
+    sumSup('inCombatDefFlat');
+  const sheetDef = agentBaseDef * (1 + outCombatDefPct / 100) + outCombatFlatDef;
+  const totalDef = sheetDef * (1 + inCombatDefPct / 100) + inCombatFlatDef;
 
   // --- Break Mode Logic (Pierce Calculation) ---
   let totalPierce = 0;
@@ -140,13 +176,22 @@ export function calculateDamage(input: CalcInput): CalcOutput {
     totalPierce = basePierce + hpTerm + atkTerm + inCombatPen;
   }
 
+  // Initial / out-of-combat Crit DMG for Vanguard 0.35x Crit Rate conversion (Pass A 1935933208303028939.dat)
+  const sheetCD =
+    Math.max(0, safeFloat(aMain.critDmg) - safeFloat(set4Main.critDmg || 0)) +
+    safeFloat(wMain.critDmg) +
+    disc4_CD +
+    extraCD;
+  const convertedCR = battleType === 'vanguard' ? Number((0.35 * sheetCD).toFixed(2)) : 0;
+
   let totalCR =
     safeFloat(aMain.critRate) +
     safeFloat(wMain.critRate) +
     sumSup('critRate') +
     disc4_CR +
     extraCR +
-    fieldCritRate;
+    fieldCritRate +
+    convertedCR;
   let totalCD =
     safeFloat(aMain.critDmg) +
     safeFloat(wMain.critDmg) +
@@ -160,9 +205,19 @@ export function calculateDamage(input: CalcInput): CalcOutput {
     totalCD = totalCD * 1.3;
   }
 
-  totalCR = Math.min(100, totalCR);
+  totalCR = battleType === 'vanguard' ? Math.min(200, totalCR) : Math.min(100, totalCR);
   // Formula: 1 + CR * CD
   const critMult = 1 + (totalCR / 100) * (totalCD / 100);
+
+  // Sharp Crit Damage (锐暴伤害) for Vanguard (锋御)
+  const baseSharpCD = safeFloat(aMain.sharpCritDmg) > 0 ? safeFloat(aMain.sharpCritDmg) : 50;
+  const totalSharpCD =
+    baseSharpCD +
+    safeFloat(wMain.sharpCritDmg) +
+    sumSup('sharpCritDmg') +
+    fieldSharpCritDmg +
+    safeFloat(extraStats.sharpCritDmg);
+  const sharpCritMult = 1 + (totalCR / 100) * (totalSharpCD / 100);
 
   const totalDmgBonus =
     safeFloat(aMain.dmgBonus) +
@@ -228,6 +283,10 @@ export function calculateDamage(input: CalcInput): CalcOutput {
     // Anomaly Mode Formula
     finalDmg =
       skillMult * totalAtk * dmgMult * (totalAnomalyMastery / 100) * defMult * resMult * dazeMult;
+  } else if (battleType === 'vanguard') {
+    // Vanguard (锋御) Sharpened Damage Formula (Defense-scaling + Sharp Crit + Dual Crit Roll up to 200% CR)
+    finalDmg =
+      skillMult * totalDef * dmgMult * sharpCritMult * resMult * defMult * dazeMult;
   } else {
     // Attack Mode Formula
     finalDmg = skillMult * totalAtk * dmgMult * critMult * resMult * defMult * dazeMult;
@@ -263,6 +322,18 @@ export function calculateDamage(input: CalcInput): CalcOutput {
                 sumSup('inCombatHpPct')) /
                 100)
           : 0,
+      ...(battleType === 'vanguard'
+        ? {
+            agentBaseDef,
+            outCombatDefPct,
+            outCombatFlatDef,
+            sheetDef,
+            inCombatDefPct,
+            totalDef,
+            totalSharpCD,
+            convertedCR,
+          }
+        : {}),
       totalCR,
       totalCD,
       totalDmgBonus,
@@ -308,7 +379,7 @@ export function calculateDamage(input: CalcInput): CalcOutput {
           disc: disc2_FlatAtk + safeFloat(extraStats.flatAtk),
         },
         totalCR: {
-          a: safeFloat(aMain.critRate) - safeFloat(set4Main.critRate || 0),
+          a: safeFloat(aMain.critRate) - safeFloat(set4Main.critRate || 0) + convertedCR,
           w: safeFloat(wMain.critRate),
           sup: sumSup('critRate'),
           disc: disc4_CR + extraCR + safeFloat(set4Main.critRate || 0),

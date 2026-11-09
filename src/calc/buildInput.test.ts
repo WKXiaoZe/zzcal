@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest';
 import { buildCalcInput } from './buildInput';
 import { calculateDamage } from './formulas';
-import { initialState } from '../state/reducer';
+import { reducer, initialState } from '../state/reducer';
 import type { AppState } from '../state/types';
 
 describe('buildCalcInput', () => {
@@ -47,9 +47,6 @@ describe('buildCalcInput', () => {
     expect(input.agent.critDmg).toBe(162);
   });
 
-  // v3: hex picker / DiscPanel write set4Key + set2Keys, and buildCalcInput
-  // must apply set4's pure-4-piece + set4's own 2-piece + every set2Keys entry's
-  // 2-piece. These tests pin the three canonical configurations.
   describe('disc set application — 4+2, 2+2+2, 6-same', () => {
     function discState(set4Key: string, set2Keys: string[]): AppState {
       return {
@@ -59,9 +56,6 @@ describe('buildCalcInput', () => {
     }
 
     it('4+2 of (woodpecker, jisu): 4p woodpecker + 2p woodpecker + 2p jisu', () => {
-      // woodpecker 4p stats: { inCombatAtkPct: 27 } (folded onto main agent)
-      // woodpecker 2p stats: { critRate: 8 } (folded into extraStats.critRate)
-      // jisu 2p stats:       { atkPct: 10 } (folded into extraStats.set2_AtkPct)
       const input = buildCalcInput(discState('woodpecker', ['jisu']));
       expect(input.agent.inCombatAtkPct).toBe(27);
       expect(input.extraStats?.critRate).toBe(8);
@@ -69,8 +63,6 @@ describe('buildCalcInput', () => {
     });
 
     it('2+2+2 of (woodpecker, jisu, mountain): three 2-pieces, no 4-piece', () => {
-      // No set4 → main agent gets no inCombatAtkPct from sets.
-      // woodpecker 2p: critRate +8; jisu 2p: atkPct +10; mountain 2p: {} (daze, unmodelled).
       const input = buildCalcInput(discState('none', ['woodpecker', 'jisu', 'mountain']));
       expect(input.agent.inCombatAtkPct ?? 0).toBe(0);
       expect(input.extraStats?.critRate).toBe(8);
@@ -78,18 +70,46 @@ describe('buildCalcInput', () => {
     });
 
     it('6-same of woodpecker: 4p + 2p (NOT 4p + 2× 2p)', () => {
-      // Hex picker emits set2Keys=[] for the 6-same case. buildCalcInput
-      // auto-adds woodpecker's own 2-piece exactly once.
       const input = buildCalcInput(discState('woodpecker', []));
       expect(input.agent.inCombatAtkPct).toBe(27);
-      expect(input.extraStats?.critRate).toBe(8); // exactly one copy
+      expect(input.extraStats?.critRate).toBe(8);
     });
 
     it('dedupes accidental set2Keys entry equal to set4Key', () => {
-      // If a caller mistakenly passes set2Keys=['woodpecker'] alongside
-      // set4Key='woodpecker', the 2-piece must NOT double-apply.
       const input = buildCalcInput(discState('woodpecker', ['woodpecker']));
       expect(input.extraStats?.critRate).toBe(8);
+    });
+  });
+
+  describe('Pass A 锋御 (Vanguard) Defense & Sharp Crit calculation', () => {
+    it('computes 挽昼 + 蜃炎梦火 + 星之碑4件套 with Defense scaling, 0.35x CD->CR conversion, and >100% CR dual Sharp Crit', () => {
+      let s = reducer(initialState, { type: 'SET_AGENT_PRESET', slot: 'main', preset: '挽昼' });
+      s = reducer(s, { type: 'SET_AGENT_PRESET', slot: 'sup1', preset: '洛克茜' }); // triggers 挽昼 额外能力 (+25% sharpCritDmg)
+      s = reducer(s, { type: 'SET_WEAPON_PRESET', slot: 'main', preset: '蜃炎梦火' });
+      s = reducer(s, { type: 'SET_DISC_SETS', set4Key: 'xingzhibei', set2Keys: ['jingji'] });
+      s = reducer(s, { type: 'TOGGLE_AGENT_BUFF', slot: 'main', buffId: 'agent_1601_core', enabled: true });
+
+      const input = buildCalcInput(s);
+      expect(input.battleType).toBe('vanguard');
+      // 挽昼 baseDef 441 + 蜃炎梦火 baseDef 446 = 887
+      expect(input.agent.baseDef).toBe(441);
+      expect(input.weapon.baseDef).toBe(446);
+      expect(input.weapon.defPct).toBe(48);
+      // 挽昼 base 50% sharpCritDmg + 额外能力 25% sharpCritDmg = 75%
+      expect(input.agent.sharpCritDmg).toBe(75);
+
+      const out = calculateDamage(input);
+      expect(out.details.agentBaseDef).toBe(887);
+      // Out-of-combat Def%: 48 (weapon) + 30 (disc6) + 16 (xingzhibei 2pc) + 16 (jingji 2pc) = 110%
+      // sheetDef = 887 * 2.1 + 184 = 2046.7
+      expect(out.details.outCombatDefPct).toBeCloseTo(110, 2);
+      expect(out.details.sheetDef).toBeCloseTo(2046.7, 1);
+      // 0.35 * 50% sheetCD = +17.5% converted CR
+      expect(out.details.convertedCR).toBeCloseTo(17.5, 2);
+      // Total CR exceeds 100% (33.8 base + 40 core + 20 weapon + 12 set4 + 24 slot4 + 17.5 converted = 147.3%)
+      expect(out.details.totalCR).toBeCloseTo(147.3, 1);
+      expect(out.details.totalSharpCD).toBe(75);
+      expect(out.dmg).toBeGreaterThan(8000);
     });
   });
 });

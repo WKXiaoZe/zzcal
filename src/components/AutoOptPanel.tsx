@@ -2,10 +2,6 @@
 // Auto-optimization panel: runs the greedy substat optimizer for the current
 // AppState and renders a Chart.js line graph of damage-vs-substat-budget per
 // (slot5 × set2) combination, plus a "best config" callout.
-//
-// Mirrors legacy/index-legacy.html auto UI (line ~406-465) and the
-// `runOptimizationDataOnly` / `drawChart` / `updateChartLine` functions
-// (lines ~1828, 1985, 1647).
 
 import { useMemo, useState } from 'react';
 import { Line } from 'react-chartjs-2';
@@ -41,13 +37,9 @@ ChartJS.register(
   Legend,
 );
 
-// Target-step button choices. Legacy exposed 30/36/42 plus the implicit 48-cap;
-// expose all four so users can inspect the curve at common milestones.
 const TARGET_STEPS = [30, 36, 42, 48] as const;
 type TargetStep = (typeof TARGET_STEPS)[number];
 
-// Distinct, reasonably color-blind-friendly palette for up to 12 lines
-// (3 slot5 × 4 set2 = 12 combos in attack/break mode).
 const LINE_COLORS = [
   '#ff4d4d',
   '#dfff00',
@@ -67,15 +59,11 @@ export function AutoOptPanel() {
   const state = useAppState();
   const [targetSteps, setTargetSteps] = useState<TargetStep>(48);
 
-  // Build calc input + run optimizer. Memoized on the relevant slices so we
-  // don't redo the (slot5×set2 × ~48 step × ~3 channel) sweep on every render.
   const results = useMemo(() => {
     const baseInput = buildCalcInput(state);
-    const slot5Opts = defaultSlot5Opts(state.battleType);
-    const set2Opts = defaultSet2Opts(state.battleType);
+    const slot5Opts = defaultSlot5Opts(baseInput.battleType);
+    const set2Opts = defaultSet2Opts(baseInput.battleType);
 
-    // Map AppState subCounts (uppercase CR/CD/ATK/HP/AM) → optimizer
-    // SubstatCounts (lowercase cr/cd/atk/hp/am).
     const sc = state.disc.subCounts;
     const startCounts = {
       cr: sc.CR,
@@ -83,6 +71,7 @@ export function AutoOptPanel() {
       atk: sc.ATK,
       hp: sc.HP,
       am: sc.AM,
+      def: sc.DEF ?? 0,
     };
 
     return runGreedyOptimization(baseInput, {
@@ -93,8 +82,6 @@ export function AutoOptPanel() {
     });
   }, [state, targetSteps]);
 
-  // X axis = union of all step values across configs (already identical per
-  // run since every config shares the same budget).
   const labels = useMemo(() => {
     if (results.length === 0) return [] as number[];
     return results[0].history.map((h) => h.step);
@@ -155,7 +142,6 @@ export function AutoOptPanel() {
     [],
   );
 
-  // Pick the (slot5, set2) combo whose final-step damage is highest.
   const best = useMemo(() => {
     let bestRes: { name: string; dmg: number } | null = null;
     for (const r of results) {
