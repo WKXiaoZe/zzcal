@@ -1,5 +1,5 @@
 // src/calc/agentSkills.ts
-// Auto-generated from ZZZ 3.4.3 Pass A:
+// Auto-generated from ZZZ 3.4.5_r20699967 Pass A:
 // - 16998780403666074439.dat (Skill Move names & formula mappings)
 // - 12615449732325789568.dat (Skill Lv.1 base multipliers, per-level growth, anomaly, energy, decibels)
 // - MonoBehaviour/AttackProperty_Avatar_*.dat (Per-Hit DamageRatioPercent & BreakStunRatioPercent)
@@ -2681,7 +2681,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 1030,
       "anomalyBuildup": 114.99,
       "spRecovery": 4.14,
-      "feverRecovery": 31.63,
+      "feverRecovery": 31.62,
       "hits": [
         {
           "d": 0.2222,
@@ -2865,7 +2865,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 550,
       "anomalyBuildup": 114.99,
       "spRecovery": 4.14,
-      "feverRecovery": 31.63,
+      "feverRecovery": 31.62,
       "hits": [
         {
           "d": 0.2222,
@@ -4513,7 +4513,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 980,
       "anomalyBuildup": 214.92,
       "spRecovery": 7.74,
-      "feverRecovery": 59.13
+      "feverRecovery": 59.12
     },
     {
       "id": "1061_16",
@@ -6164,7 +6164,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 980,
       "anomalyBuildup": 94.99,
       "spRecovery": 3.42,
-      "feverRecovery": 26.13,
+      "feverRecovery": 26.12,
       "hits": [
         {
           "d": 0.4,
@@ -6344,7 +6344,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 480,
       "anomalyBuildup": 94.99,
       "spRecovery": 3.42,
-      "feverRecovery": 26.13,
+      "feverRecovery": 26.12,
       "hits": [
         {
           "d": 0.4,
@@ -7053,7 +7053,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 1320,
       "anomalyBuildup": 174.96,
       "spRecovery": 6.3,
-      "feverRecovery": 48.13,
+      "feverRecovery": 48.12,
       "hits": [
         {
           "d": 0.2,
@@ -7205,7 +7205,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 840,
       "anomalyBuildup": 174.96,
       "spRecovery": 6.3,
-      "feverRecovery": 48.13,
+      "feverRecovery": 48.12,
       "hits": [
         {
           "d": 0.2,
@@ -10738,7 +10738,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 280,
       "anomalyBuildup": 0,
       "spRecovery": 1.98,
-      "feverRecovery": 15.13,
+      "feverRecovery": 15.12,
       "hits": [
         {
           "d": 0.25,
@@ -13310,7 +13310,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 180,
       "anomalyBuildup": 0,
       "spRecovery": 1.26,
-      "feverRecovery": 9.63,
+      "feverRecovery": 9.62,
       "hits": [
         {
           "d": 0.5,
@@ -17039,7 +17039,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 950,
       "anomalyBuildup": 389.46,
       "spRecovery": 0,
-      "feverRecovery": 235.13,
+      "feverRecovery": 235.12,
       "hits": [
         {
           "d": 0.1,
@@ -18717,7 +18717,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 250,
       "anomalyBuildup": 0,
       "spRecovery": 1.98,
-      "feverRecovery": 15.13,
+      "feverRecovery": 15.12,
       "hits": [
         {
           "d": 0.2,
@@ -19285,7 +19285,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 1070,
       "anomalyBuildup": 235,
       "spRecovery": 0,
-      "feverRecovery": 64.63,
+      "feverRecovery": 64.62,
       "hits": [
         {
           "d": 0.1,
@@ -20069,7 +20069,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 980,
       "anomalyBuildup": 95,
       "spRecovery": 3.42,
-      "feverRecovery": 26.13,
+      "feverRecovery": 26.12,
       "hits": [
         {
           "d": 0.25,
@@ -21720,7 +21720,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 240,
       "anomalyBuildup": 47.48,
       "spRecovery": 0,
-      "feverRecovery": 26.13,
+      "feverRecovery": 26.12,
       "hits": [
         {
           "d": 0.25,
@@ -25109,7 +25109,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 1300,
       "anomalyBuildup": 305.45,
       "spRecovery": 0,
-      "feverRecovery": 108.63,
+      "feverRecovery": 108.62,
       "costText": "闪能消耗: 40点",
       "hits": [
         {
@@ -25221,7 +25221,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 1080,
       "anomalyBuildup": 114.96,
       "spRecovery": 0,
-      "feverRecovery": 31.63,
+      "feverRecovery": 31.62,
       "hits": [
         {
           "d": 0.1,
@@ -33218,7 +33218,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 330,
       "anomalyBuildup": 55,
       "spRecovery": 1.98,
-      "feverRecovery": 15.13
+      "feverRecovery": 15.12
     },
     {
       "id": "1481_5",
@@ -33639,7 +33639,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 280,
       "anomalyBuildup": 54.98,
       "spRecovery": 1.98,
-      "feverRecovery": 15.13,
+      "feverRecovery": 15.12,
       "hits": [
         {
           "d": 0.25,
@@ -34934,7 +34934,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 1050,
       "anomalyBuildup": 542.46,
       "spRecovery": 0,
-      "feverRecovery": 240.63,
+      "feverRecovery": 240.62,
       "hits": [
         {
           "d": 0.0417,
@@ -37356,7 +37356,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 380,
       "anomalyBuildup": 63.73,
       "spRecovery": 2.7,
-      "feverRecovery": 20.63,
+      "feverRecovery": 20.62,
       "hits": [
         {
           "d": 0.1,
@@ -40241,7 +40241,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 750,
       "anomalyBuildup": 0,
       "spRecovery": 2.7,
-      "feverRecovery": 20.63,
+      "feverRecovery": 20.62,
       "hits": [
         {
           "d": 0.0667,
@@ -40478,7 +40478,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 150,
       "anomalyBuildup": 0,
       "spRecovery": 1.08,
-      "feverRecovery": 4.13,
+      "feverRecovery": 4.12,
       "hits": [
         {
           "d": 0.4545,
@@ -41663,13 +41663,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601101
       ],
-      "lv1Dmg": 5900,
-      "dmgGrowth": 540,
-      "lv1Stun": 3330,
-      "stunGrowth": 160,
-      "anomalyBuildup": 49,
+      "lv1Dmg": 8310,
+      "dmgGrowth": 760,
+      "lv1Stun": 5640,
+      "stunGrowth": 260,
+      "anomalyBuildup": 70,
       "spRecovery": 0,
-      "feverRecovery": 17.19,
+      "feverRecovery": 20.24,
       "hits": [
         {
           "d": 0.4,
@@ -41691,13 +41691,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601102
       ],
-      "lv1Dmg": 8470,
-      "dmgGrowth": 770,
-      "lv1Stun": 5460,
-      "stunGrowth": 250,
-      "anomalyBuildup": 70.99,
+      "lv1Dmg": 9500,
+      "dmgGrowth": 870,
+      "lv1Stun": 6450,
+      "stunGrowth": 300,
+      "anomalyBuildup": 79.99,
       "spRecovery": 0,
-      "feverRecovery": 21.81,
+      "feverRecovery": 23.1,
       "hits": [
         {
           "d": 0.1,
@@ -41723,13 +41723,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601103
       ],
-      "lv1Dmg": 17100,
-      "dmgGrowth": 1560,
-      "lv1Stun": 11620,
+      "lv1Dmg": 17020,
+      "dmgGrowth": 1550,
+      "lv1Stun": 11550,
       "stunGrowth": 530,
-      "anomalyBuildup": 144.03,
+      "anomalyBuildup": 143.36,
       "spRecovery": 0,
-      "feverRecovery": 41.5,
+      "feverRecovery": 41.41,
       "hits": [
         {
           "d": 0.125,
@@ -41767,13 +41767,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601104
       ],
-      "lv1Dmg": 32460,
-      "dmgGrowth": 2960,
-      "lv1Stun": 22970,
-      "stunGrowth": 1050,
-      "anomalyBuildup": 274.37,
+      "lv1Dmg": 31060,
+      "dmgGrowth": 2830,
+      "lv1Stun": 21080,
+      "stunGrowth": 960,
+      "anomalyBuildup": 261.63,
       "spRecovery": 0,
-      "feverRecovery": 74.99,
+      "feverRecovery": 75.57,
       "hits": [
         {
           "d": 0.0333,
@@ -41825,13 +41825,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601001
       ],
-      "lv1Dmg": 3800,
-      "dmgGrowth": 350,
-      "lv1Stun": 2150,
-      "stunGrowth": 100,
-      "anomalyBuildup": 31.52,
+      "lv1Dmg": 5350,
+      "dmgGrowth": 490,
+      "lv1Stun": 3630,
+      "stunGrowth": 170,
+      "anomalyBuildup": 45.03,
       "spRecovery": 0,
-      "feverRecovery": 11.05,
+      "feverRecovery": 13.01,
       "hits": [
         {
           "d": 0.4,
@@ -41853,13 +41853,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601002
       ],
-      "lv1Dmg": 8340,
-      "dmgGrowth": 760,
-      "lv1Stun": 5280,
-      "stunGrowth": 240,
-      "anomalyBuildup": 69.86,
+      "lv1Dmg": 9700,
+      "dmgGrowth": 890,
+      "lv1Stun": 6580,
+      "stunGrowth": 300,
+      "anomalyBuildup": 81.69,
       "spRecovery": 0,
-      "feverRecovery": 21.89,
+      "feverRecovery": 23.59,
       "hits": [
         {
           "d": 0.4,
@@ -41885,13 +41885,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601003
       ],
-      "lv1Dmg": 12720,
-      "dmgGrowth": 1160,
-      "lv1Stun": 8700,
-      "stunGrowth": 400,
-      "anomalyBuildup": 107.17,
+      "lv1Dmg": 12470,
+      "dmgGrowth": 1140,
+      "lv1Stun": 8460,
+      "stunGrowth": 390,
+      "anomalyBuildup": 105,
       "spRecovery": 0,
-      "feverRecovery": 30.64,
+      "feverRecovery": 30.33,
       "hits": [
         {
           "d": 0.1429,
@@ -41917,13 +41917,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601004
       ],
-      "lv1Dmg": 18890,
-      "dmgGrowth": 1720,
-      "lv1Stun": 13560,
-      "stunGrowth": 620,
-      "anomalyBuildup": 159.84,
+      "lv1Dmg": 16230,
+      "dmgGrowth": 1480,
+      "lv1Stun": 11010,
+      "stunGrowth": 510,
+      "anomalyBuildup": 136.66,
       "spRecovery": 0,
-      "feverRecovery": 42.82,
+      "feverRecovery": 39.46,
       "hits": [
         {
           "d": 0.1111,
@@ -41971,10 +41971,10 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601015
       ],
-      "lv1Dmg": 79090,
-      "dmgGrowth": 7190,
-      "lv1Stun": 41220,
-      "stunGrowth": 1880,
+      "lv1Dmg": 98060,
+      "dmgGrowth": 8920,
+      "lv1Stun": 38140,
+      "stunGrowth": 1740,
       "anomalyBuildup": 136.66,
       "spRecovery": 0,
       "feverRecovery": 39.46,
@@ -42035,13 +42035,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601106
       ],
-      "lv1Dmg": 59430,
-      "dmgGrowth": 5410,
-      "lv1Stun": 49510,
-      "stunGrowth": 2260,
-      "anomalyBuildup": 483.37,
+      "lv1Dmg": 70190,
+      "dmgGrowth": 6390,
+      "lv1Stun": 45930,
+      "stunGrowth": 2090,
+      "anomalyBuildup": 449.62,
       "spRecovery": 0,
-      "feverRecovery": 168.47,
+      "feverRecovery": 157.63,
       "costText": "锐能消耗: 30点",
       "hits": [
         {
@@ -42084,10 +42084,10 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601016
       ],
-      "lv1Dmg": 58280,
-      "dmgGrowth": 5300,
-      "lv1Stun": 42980,
-      "stunGrowth": 1960,
+      "lv1Dmg": 71160,
+      "dmgGrowth": 6470,
+      "lv1Stun": 41020,
+      "stunGrowth": 1870,
       "anomalyBuildup": 429.33,
       "spRecovery": 0,
       "feverRecovery": 151.11,
@@ -42145,10 +42145,10 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601107
       ],
-      "lv1Dmg": 125470,
-      "dmgGrowth": 11410,
-      "lv1Stun": 66890,
-      "stunGrowth": 3050,
+      "lv1Dmg": 96150,
+      "dmgGrowth": 8750,
+      "lv1Stun": 63810,
+      "stunGrowth": 2910,
       "anomalyBuildup": 370.03,
       "spRecovery": 0,
       "feverRecovery": 106.86,
@@ -42233,13 +42233,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601006
       ],
-      "lv1Dmg": 58350,
-      "dmgGrowth": 5310,
-      "lv1Stun": 43840,
-      "stunGrowth": 2000,
-      "anomalyBuildup": 474.33,
+      "lv1Dmg": 69110,
+      "dmgGrowth": 6290,
+      "lv1Stun": 40260,
+      "stunGrowth": 1830,
+      "anomalyBuildup": 440.58,
       "spRecovery": 0,
-      "feverRecovery": 165.55,
+      "feverRecovery": 154.74,
       "costText": "锐能消耗: 30点",
       "hits": [
         {
@@ -42294,10 +42294,10 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601115
       ],
-      "lv1Dmg": 63590,
-      "dmgGrowth": 5790,
-      "lv1Stun": 47700,
-      "stunGrowth": 2170,
+      "lv1Dmg": 76230,
+      "dmgGrowth": 6930,
+      "lv1Stun": 45530,
+      "stunGrowth": 2070,
       "anomalyBuildup": 469.83,
       "spRecovery": 0,
       "feverRecovery": 164.12,
@@ -42343,10 +42343,10 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601007
       ],
-      "lv1Dmg": 113480,
-      "dmgGrowth": 10320,
-      "lv1Stun": 64650,
-      "stunGrowth": 2940,
+      "lv1Dmg": 84150,
+      "dmgGrowth": 7650,
+      "lv1Stun": 61790,
+      "stunGrowth": 2810,
       "anomalyBuildup": 366.7,
       "spRecovery": 0,
       "feverRecovery": 105.9,
@@ -42559,13 +42559,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601014
       ],
-      "lv1Dmg": 10930,
-      "dmgGrowth": 1000,
-      "lv1Stun": 10450,
-      "stunGrowth": 480,
-      "anomalyBuildup": 94.96,
+      "lv1Dmg": 13030,
+      "dmgGrowth": 1190,
+      "lv1Stun": 12470,
+      "stunGrowth": 570,
+      "anomalyBuildup": 113.3,
       "spRecovery": 0,
-      "feverRecovery": 27.45,
+      "feverRecovery": 32.73,
       "hits": [
         {
           "d": 0.3333,
@@ -42591,8 +42591,8 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601110
       ],
-      "lv1Dmg": 74250,
-      "dmgGrowth": 6750,
+      "lv1Dmg": 89550,
+      "dmgGrowth": 8150,
       "lv1Stun": 27130,
       "stunGrowth": 1240,
       "anomalyBuildup": 446.13,
@@ -42643,8 +42643,8 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601111
       ],
-      "lv1Dmg": 161860,
-      "dmgGrowth": 14720,
+      "lv1Dmg": 141740,
+      "dmgGrowth": 12890,
       "lv1Stun": 31720,
       "stunGrowth": 1450,
       "anomalyBuildup": 288.33,
@@ -42795,8 +42795,8 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601010
       ],
-      "lv1Dmg": 74250,
-      "dmgGrowth": 6750,
+      "lv1Dmg": 89550,
+      "dmgGrowth": 8150,
       "lv1Stun": 27130,
       "stunGrowth": 1240,
       "anomalyBuildup": 446.13,
@@ -42847,10 +42847,10 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601011
       ],
-      "lv1Dmg": 156660,
-      "dmgGrowth": 14250,
-      "lv1Stun": 69230,
-      "stunGrowth": 3150,
+      "lv1Dmg": 115370,
+      "dmgGrowth": 10490,
+      "lv1Stun": 66370,
+      "stunGrowth": 3020,
       "anomalyBuildup": 408.3,
       "spRecovery": 0,
       "feverRecovery": 0
@@ -43029,13 +43029,13 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "skillIds": [
         1601205
       ],
-      "lv1Dmg": 44980,
-      "dmgGrowth": 4090,
-      "lv1Stun": 37770,
-      "stunGrowth": 1720,
-      "anomalyBuildup": 367.22,
+      "lv1Dmg": 16900,
+      "dmgGrowth": 1540,
+      "lv1Stun": 12430,
+      "stunGrowth": 570,
+      "anomalyBuildup": 113,
       "spRecovery": 0,
-      "feverRecovery": 126.75
+      "feverRecovery": 32.64
     },
     {
       "id": "1601_35",
@@ -43275,7 +43275,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 250,
       "anomalyBuildup": 49.96,
       "spRecovery": 0,
-      "feverRecovery": 15.13,
+      "feverRecovery": 15.12,
       "hits": [
         {
           "d": 0.5,
@@ -44572,7 +44572,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 1280,
       "anomalyBuildup": 155,
       "spRecovery": 5.58,
-      "feverRecovery": 42.63,
+      "feverRecovery": 42.62,
       "hits": [
         {
           "d": 0.2,
@@ -46432,9 +46432,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_0",
       "category": 0,
       "categoryName": "普通攻击",
-      "header": "(Test1)普通攻击：折磨",
+      "header": "普通攻击：折磨",
       "subName": "一段",
-      "fullName": "(Test1)普通攻击：折磨 · 一段",
+      "fullName": "普通攻击：折磨 · 一段",
       "skillIds": [
         1651001
       ],
@@ -46442,7 +46442,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "dmgGrowth": 640,
       "lv1Stun": 3860,
       "stunGrowth": 180,
-      "anomalyBuildup": 35,
+      "anomalyBuildup": 39.46,
       "spRecovery": 1.26,
       "feverRecovery": 11.71,
       "hits": [
@@ -46460,37 +46460,37 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_1",
       "category": 0,
       "categoryName": "普通攻击",
-      "header": "(Test1)普通攻击：折磨",
+      "header": "普通攻击：折磨",
       "subName": "二段",
-      "fullName": "(Test1)普通攻击：折磨 · 二段",
+      "fullName": "普通攻击：折磨 · 二段",
       "skillIds": [
         1651002
       ],
-      "lv1Dmg": 7370,
-      "dmgGrowth": 670,
-      "lv1Stun": 4370,
-      "stunGrowth": 200,
-      "anomalyBuildup": 39.64,
-      "spRecovery": 1.43,
-      "feverRecovery": 11.41
+      "lv1Dmg": 8680,
+      "dmgGrowth": 790,
+      "lv1Stun": 5390,
+      "stunGrowth": 250,
+      "anomalyBuildup": 52.83,
+      "spRecovery": 1.76,
+      "feverRecovery": 12.71
     },
     {
       "id": "1651_2",
       "category": 0,
       "categoryName": "普通攻击",
-      "header": "(Test1)普通攻击：折磨",
+      "header": "普通攻击：折磨",
       "subName": "三段",
-      "fullName": "(Test1)普通攻击：折磨 · 三段",
+      "fullName": "普通攻击：折磨 · 三段",
       "skillIds": [
         1651003
       ],
-      "lv1Dmg": 16720,
-      "dmgGrowth": 1520,
-      "lv1Stun": 10110,
-      "stunGrowth": 460,
-      "anomalyBuildup": 91.85,
-      "spRecovery": 3.31,
-      "feverRecovery": 25.25,
+      "lv1Dmg": 15690,
+      "dmgGrowth": 1430,
+      "lv1Stun": 9250,
+      "stunGrowth": 430,
+      "anomalyBuildup": 92.36,
+      "spRecovery": 3.03,
+      "feverRecovery": 24.39,
       "hits": [
         {
           "d": 0.1111,
@@ -46534,19 +46534,19 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_3",
       "category": 0,
       "categoryName": "普通攻击",
-      "header": "(Test1)普通攻击：折磨",
+      "header": "普通攻击：折磨",
       "subName": "四段",
-      "fullName": "(Test1)普通攻击：折磨 · 四段",
+      "fullName": "普通攻击：折磨 · 四段",
       "skillIds": [
         1651004
       ],
-      "lv1Dmg": 46270,
-      "dmgGrowth": 4210,
-      "lv1Stun": 28440,
-      "stunGrowth": 1300,
-      "anomalyBuildup": 258.46,
-      "spRecovery": 9.3,
-      "feverRecovery": 68.56,
+      "lv1Dmg": 40830,
+      "dmgGrowth": 3720,
+      "lv1Stun": 25150,
+      "stunGrowth": 1150,
+      "anomalyBuildup": 247.38,
+      "spRecovery": 8.23,
+      "feverRecovery": 60.31,
       "hits": [
         {
           "d": 0.0833,
@@ -46602,19 +46602,19 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_4",
       "category": 0,
       "categoryName": "普通攻击",
-      "header": "(Test1)普通攻击：失序回响",
+      "header": "普通攻击：失序回响",
       "subName": "",
-      "fullName": "(Test1)普通攻击：失序回响",
+      "fullName": "普通攻击：失序回响",
       "skillIds": [
         1651005
       ],
-      "lv1Dmg": 98610,
-      "dmgGrowth": 8970,
-      "lv1Stun": 27870,
-      "stunGrowth": 1270,
-      "anomalyBuildup": 503.33,
-      "spRecovery": 9.12,
-      "feverRecovery": 69.69,
+      "lv1Dmg": 107340,
+      "dmgGrowth": 9760,
+      "lv1Stun": 29340,
+      "stunGrowth": 1340,
+      "anomalyBuildup": 392.7,
+      "spRecovery": 9.6,
+      "feverRecovery": 73.37,
       "hits": [
         {
           "d": 0.0714,
@@ -46670,9 +46670,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_5",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)特殊技：暮夜猎曲",
+      "header": "特殊技：暮夜猎曲",
       "subName": "",
-      "fullName": "(Test1)特殊技：暮夜猎曲",
+      "fullName": "特殊技：暮夜猎曲",
       "skillIds": [
         1651006
       ],
@@ -46710,9 +46710,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_6",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)特殊技：暮夜猎曲·狂想",
+      "header": "特殊技：暮夜猎曲·狂想",
       "subName": "",
-      "fullName": "(Test1)特殊技：暮夜猎曲·狂想",
+      "fullName": "特殊技：暮夜猎曲·狂想",
       "skillIds": [
         1651007
       ],
@@ -46746,9 +46746,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_7",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)强化特殊技：暮夜猎曲·宣叙",
+      "header": "强化特殊技：暮夜猎曲·宣叙",
       "subName": "",
-      "fullName": "(Test1)强化特殊技：暮夜猎曲·宣叙",
+      "fullName": "强化特殊技：暮夜猎曲·宣叙",
       "skillIds": [
         1651008
       ],
@@ -46756,10 +46756,10 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "dmgGrowth": 3810,
       "lv1Stun": 17990,
       "stunGrowth": 820,
-      "anomalyBuildup": 36.08,
+      "anomalyBuildup": 97.13,
       "spRecovery": 0,
       "feverRecovery": 63.63,
-      "costText": "(Test1)[暮夜猎曲·宣叙]能量消耗: (Test1)20点",
+      "costText": "[暮夜猎曲·宣叙]能量消耗: 20点",
       "hits": [
         {
           "d": 0.25,
@@ -46807,40 +46807,40 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_8",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)强化特殊技：暮夜猎曲·宣叙",
-      "subName": "(Test1)末轮",
-      "fullName": "(Test1)强化特殊技：暮夜猎曲·宣叙 · (Test1)末轮",
+      "header": "强化特殊技：暮夜猎曲·宣叙",
+      "subName": "末轮",
+      "fullName": "强化特殊技：暮夜猎曲·宣叙 · 末轮",
       "skillIds": [
         1651008,
         1651019
       ],
-      "lv1Dmg": 58570,
-      "dmgGrowth": 5330,
-      "lv1Stun": 28000,
-      "stunGrowth": 1280,
-      "anomalyBuildup": 55,
+      "lv1Dmg": 56190,
+      "dmgGrowth": 5110,
+      "lv1Stun": 26570,
+      "stunGrowth": 1210,
+      "anomalyBuildup": 151.19,
       "spRecovery": 0,
-      "feverRecovery": 92.54,
-      "costText": "(Test1)[暮夜猎曲·宣叙]能量消耗: (Test1)20点"
+      "feverRecovery": 88.41,
+      "costText": "[暮夜猎曲·宣叙]能量消耗: 20点"
     },
     {
       "id": "1651_9",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)强化特殊技：暮夜猎曲·咏叹",
+      "header": "强化特殊技：暮夜猎曲·咏叹",
       "subName": "",
-      "fullName": "(Test1)强化特殊技：暮夜猎曲·咏叹",
+      "fullName": "强化特殊技：暮夜猎曲·咏叹",
       "skillIds": [
         1651009
       ],
-      "lv1Dmg": 21400,
-      "dmgGrowth": 1950,
+      "lv1Dmg": 23810,
+      "dmgGrowth": 2170,
       "lv1Stun": 18710,
       "stunGrowth": 860,
-      "anomalyBuildup": 190.83,
+      "anomalyBuildup": 179.2,
       "spRecovery": 0,
       "feverRecovery": 65.72,
-      "costText": "(Test1)[暮夜猎曲·咏叹]能量消耗: (Test1)20点",
+      "costText": "[暮夜猎曲·咏叹]能量消耗: 20点",
       "hits": [
         {
           "d": 0.125,
@@ -46880,29 +46880,29 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_10",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)强化特殊技：暮夜猎曲·咏叹",
-      "subName": "(Test1)末轮",
-      "fullName": "(Test1)强化特殊技：暮夜猎曲·咏叹 · (Test1)末轮",
+      "header": "强化特殊技：暮夜猎曲·咏叹",
+      "subName": "末轮",
+      "fullName": "强化特殊技：暮夜猎曲·咏叹 · 末轮",
       "skillIds": [
         1651009,
         1651020
       ],
-      "lv1Dmg": 34800,
-      "dmgGrowth": 3170,
+      "lv1Dmg": 37750,
+      "dmgGrowth": 3440,
       "lv1Stun": 29660,
       "stunGrowth": 1360,
-      "anomalyBuildup": 279.59,
+      "anomalyBuildup": 265.37,
       "spRecovery": 0,
       "feverRecovery": 97.32,
-      "costText": "(Test1)[暮夜猎曲·咏叹]能量消耗: (Test1)20点"
+      "costText": "[暮夜猎曲·咏叹]能量消耗: 20点"
     },
     {
       "id": "1651_11",
       "category": 2,
       "categoryName": "闪避",
-      "header": "(Test1)冲刺攻击：掠夺",
+      "header": "冲刺攻击：掠夺",
       "subName": "",
-      "fullName": "(Test1)冲刺攻击：掠夺",
+      "fullName": "冲刺攻击：掠夺",
       "skillIds": [
         1651010
       ],
@@ -46944,19 +46944,19 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_12",
       "category": 2,
       "categoryName": "闪避",
-      "header": "(Test1)闪避反击：倏逝",
+      "header": "闪避反击：倏逝",
       "subName": "",
-      "fullName": "(Test1)闪避反击：倏逝",
+      "fullName": "闪避反击：倏逝",
       "skillIds": [
         1651011
       ],
-      "lv1Dmg": 35540,
-      "dmgGrowth": 3240,
-      "lv1Stun": 24020,
-      "stunGrowth": 1100,
-      "anomalyBuildup": 118.3,
-      "spRecovery": 4.26,
-      "feverRecovery": 32.56,
+      "lv1Dmg": 32510,
+      "dmgGrowth": 2960,
+      "lv1Stun": 22190,
+      "stunGrowth": 1010,
+      "anomalyBuildup": 101.7,
+      "spRecovery": 3.66,
+      "feverRecovery": 28,
       "hits": [
         {
           "d": 0.1429,
@@ -46992,9 +46992,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_13",
       "category": 3,
       "categoryName": "连携技/终结技",
-      "header": "(Test1)连携技：巡弋",
+      "header": "连携技：巡弋",
       "subName": "",
-      "fullName": "(Test1)连携技：巡弋",
+      "fullName": "连携技：巡弋",
       "skillIds": [
         1651012
       ],
@@ -47002,7 +47002,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "dmgGrowth": 9730,
       "lv1Stun": 32830,
       "stunGrowth": 1500,
-      "anomalyBuildup": 630.86,
+      "anomalyBuildup": 763.86,
       "spRecovery": 0,
       "feverRecovery": 264.94,
       "hits": [
@@ -47116,17 +47116,17 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_14",
       "category": 3,
       "categoryName": "连携技/终结技",
-      "header": "(Test1)终结技：致昨日的挽歌",
+      "header": "终结技：致昨日的挽歌",
       "subName": "",
-      "fullName": "(Test1)终结技：致昨日的挽歌",
+      "fullName": "终结技：致昨日的挽歌",
       "skillIds": [
         1651013
       ],
-      "lv1Dmg": 201260,
-      "dmgGrowth": 18300,
-      "lv1Stun": 16510,
-      "stunGrowth": 760,
-      "anomalyBuildup": 772.5,
+      "lv1Dmg": 199510,
+      "dmgGrowth": 18140,
+      "lv1Stun": 15410,
+      "stunGrowth": 710,
+      "anomalyBuildup": 936,
       "spRecovery": 0,
       "feverRecovery": 0,
       "hits": [
@@ -47176,19 +47176,19 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_15",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)快速支援：摩挲",
+      "header": "快速支援：摩挲",
       "subName": "",
-      "fullName": "(Test1)快速支援：摩挲",
+      "fullName": "快速支援：摩挲",
       "skillIds": [
         1651014
       ],
-      "lv1Dmg": 8290,
-      "dmgGrowth": 760,
-      "lv1Stun": 6510,
-      "stunGrowth": 300,
-      "anomalyBuildup": 59.15,
-      "spRecovery": 2.13,
-      "feverRecovery": 16.28,
+      "lv1Dmg": 7120,
+      "dmgGrowth": 650,
+      "lv1Stun": 5600,
+      "stunGrowth": 260,
+      "anomalyBuildup": 50.85,
+      "spRecovery": 1.83,
+      "feverRecovery": 14,
       "hits": [
         {
           "d": 0.1429,
@@ -47224,9 +47224,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_16",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)招架支援：",
+      "header": "招架支援：",
       "subName": "轻招架",
-      "fullName": "(Test1)招架支援： · 轻招架",
+      "fullName": "招架支援： · 轻招架",
       "skillIds": [
         1651015
       ],
@@ -47242,9 +47242,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_17",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)招架支援：",
+      "header": "招架支援：",
       "subName": "重招架",
-      "fullName": "(Test1)招架支援： · 重招架",
+      "fullName": "招架支援： · 重招架",
       "skillIds": [
         1651016
       ],
@@ -47260,9 +47260,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_18",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)招架支援：",
+      "header": "招架支援：",
       "subName": "连续招架",
-      "fullName": "(Test1)招架支援： · 连续招架",
+      "fullName": "招架支援： · 连续招架",
       "skillIds": [
         1651017
       ],
@@ -47278,19 +47278,19 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1651_19",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)支援突击：独白",
+      "header": "支援突击：独白",
       "subName": "",
-      "fullName": "(Test1)支援突击：独白",
+      "fullName": "支援突击：独白",
       "skillIds": [
         1651018
       ],
-      "lv1Dmg": 43650,
-      "dmgGrowth": 3970,
-      "lv1Stun": 29660,
-      "stunGrowth": 1350,
-      "anomalyBuildup": 290.67,
+      "lv1Dmg": 43320,
+      "dmgGrowth": 3940,
+      "lv1Stun": 29430,
+      "stunGrowth": 1340,
+      "anomalyBuildup": 288.42,
       "spRecovery": 0,
-      "feverRecovery": 97.32,
+      "feverRecovery": 96.64,
       "hits": [
         {
           "d": 0.0313,
@@ -47332,9 +47332,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_0",
       "category": 0,
       "categoryName": "普通攻击",
-      "header": "(Test1)普通攻击：轻奏连音",
+      "header": "普通攻击：轻奏连音",
       "subName": "一段",
-      "fullName": "(Test1)普通攻击：轻奏连音 · 一段",
+      "fullName": "普通攻击：轻奏连音 · 一段",
       "skillIds": [
         1661001
       ],
@@ -47350,9 +47350,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_1",
       "category": 0,
       "categoryName": "普通攻击",
-      "header": "(Test1)普通攻击：轻奏连音",
+      "header": "普通攻击：轻奏连音",
       "subName": "二段",
-      "fullName": "(Test1)普通攻击：轻奏连音 · 二段",
+      "fullName": "普通攻击：轻奏连音 · 二段",
       "skillIds": [
         1661002
       ],
@@ -47368,9 +47368,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_2",
       "category": 0,
       "categoryName": "普通攻击",
-      "header": "(Test1)普通攻击：轻奏连音",
+      "header": "普通攻击：轻奏连音",
       "subName": "三段",
-      "fullName": "(Test1)普通攻击：轻奏连音 · 三段",
+      "fullName": "普通攻击：轻奏连音 · 三段",
       "skillIds": [
         1661003
       ],
@@ -47400,9 +47400,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_3",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)特殊技：万籁与我同歌",
+      "header": "特殊技：万籁与我同歌",
       "subName": "",
-      "fullName": "(Test1)特殊技：万籁与我同歌",
+      "fullName": "特殊技：万籁与我同歌",
       "skillIds": [
         1661004
       ],
@@ -47432,9 +47432,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_4",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)特殊技：弦歌相和",
+      "header": "特殊技：弦歌相和",
       "subName": "",
-      "fullName": "(Test1)特殊技：弦歌相和",
+      "fullName": "特殊技：弦歌相和",
       "skillIds": [
         1661005
       ],
@@ -47460,9 +47460,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_5",
       "category": 1,
       "categoryName": "特殊技",
-      "header": "(Test1)强化特殊技：震律齐鸣",
+      "header": "强化特殊技：震律齐鸣",
       "subName": "",
-      "fullName": "(Test1)强化特殊技：震律齐鸣",
+      "fullName": "强化特殊技：震律齐鸣",
       "skillIds": [
         1661006
       ],
@@ -47496,9 +47496,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_6",
       "category": 2,
       "categoryName": "闪避",
-      "header": "(Test1)冲刺攻击：飘羽踏音",
+      "header": "冲刺攻击：飘羽踏音",
       "subName": "",
-      "fullName": "(Test1)冲刺攻击：飘羽踏音",
+      "fullName": "冲刺攻击：飘羽踏音",
       "skillIds": [
         1661007
       ],
@@ -47524,9 +47524,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_7",
       "category": 2,
       "categoryName": "闪避",
-      "header": "(Test1)闪避反击：闪烁节拍",
+      "header": "闪避反击：闪烁节拍",
       "subName": "",
-      "fullName": "(Test1)闪避反击：闪烁节拍",
+      "fullName": "闪避反击：闪烁节拍",
       "skillIds": [
         1661008
       ],
@@ -47552,9 +47552,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_8",
       "category": 3,
       "categoryName": "连携技/终结技",
-      "header": "(Test1)连携技：强音重拍",
+      "header": "连携技：强音重拍",
       "subName": "",
-      "fullName": "(Test1)连携技：强音重拍",
+      "fullName": "连携技：强音重拍",
       "skillIds": [
         1661009
       ],
@@ -47588,9 +47588,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_9",
       "category": 3,
       "categoryName": "连携技/终结技",
-      "header": "(Test1)终结技：星辰协奏曲",
+      "header": "终结技：星辰协奏曲",
       "subName": "",
-      "fullName": "(Test1)终结技：星辰协奏曲",
+      "fullName": "终结技：星辰协奏曲",
       "skillIds": [
         1661010
       ],
@@ -47620,9 +47620,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_10",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)登场技：星耀时刻",
+      "header": "登场技：星耀时刻",
       "subName": "",
-      "fullName": "(Test1)登场技：星耀时刻",
+      "fullName": "登场技：星耀时刻",
       "skillIds": [
         1661011
       ],
@@ -47660,9 +47660,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_11",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)快速支援：临时登场",
+      "header": "快速支援：临时登场",
       "subName": "",
-      "fullName": "(Test1)快速支援：临时登场",
+      "fullName": "快速支援：临时登场",
       "skillIds": [
         1661012
       ],
@@ -47688,9 +47688,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_12",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)招架支援：音浪回荡",
+      "header": "招架支援：音浪回荡",
       "subName": "轻招架",
-      "fullName": "(Test1)招架支援：音浪回荡 · 轻招架",
+      "fullName": "招架支援：音浪回荡 · 轻招架",
       "skillIds": [
         1661013
       ],
@@ -47706,9 +47706,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_13",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)招架支援：音浪回荡",
+      "header": "招架支援：音浪回荡",
       "subName": "重招架",
-      "fullName": "(Test1)招架支援：音浪回荡 · 重招架",
+      "fullName": "招架支援：音浪回荡 · 重招架",
       "skillIds": [
         1661014
       ],
@@ -47724,9 +47724,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_14",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)招架支援：音浪回荡",
+      "header": "招架支援：音浪回荡",
       "subName": "连续招架",
-      "fullName": "(Test1)招架支援：音浪回荡 · 连续招架",
+      "fullName": "招架支援：音浪回荡 · 连续招架",
       "skillIds": [
         1661015
       ],
@@ -47742,9 +47742,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_15",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)支援突击：闪耀应援",
+      "header": "支援突击：闪耀应援",
       "subName": "",
-      "fullName": "(Test1)支援突击：闪耀应援",
+      "fullName": "支援突击：闪耀应援",
       "skillIds": [
         1661016
       ],
@@ -47774,9 +47774,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_16",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)反制支援：不息和鸣",
+      "header": "反制支援：不息和鸣",
       "subName": "",
-      "fullName": "(Test1)反制支援：不息和鸣",
+      "fullName": "反制支援：不息和鸣",
       "skillIds": [
         1661017
       ],
@@ -47792,9 +47792,9 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "id": "1661_17",
       "category": 6,
       "categoryName": "支援技",
-      "header": "(Test1)支援突击：完美节拍",
+      "header": "支援突击：完美节拍",
       "subName": "",
-      "fullName": "(Test1)支援突击：完美节拍",
+      "fullName": "支援突击：完美节拍",
       "skillIds": [
         1661019
       ],
@@ -49147,7 +49147,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 1030,
       "anomalyBuildup": 114.99,
       "spRecovery": 4.14,
-      "feverRecovery": 31.63,
+      "feverRecovery": 31.62,
       "hits": [
         {
           "d": 0.2222,
@@ -49331,7 +49331,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 550,
       "anomalyBuildup": 114.99,
       "spRecovery": 4.14,
-      "feverRecovery": 31.63,
+      "feverRecovery": 31.62,
       "hits": [
         {
           "d": 0.2222,
@@ -50891,7 +50891,7 @@ export const AGENT_SKILLS: Record<string, AgentSkillMove[]> = {
       "stunGrowth": 180,
       "anomalyBuildup": 0,
       "spRecovery": 1.26,
-      "feverRecovery": 9.63,
+      "feverRecovery": 9.62,
       "hits": [
         {
           "d": 0.5,

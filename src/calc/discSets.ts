@@ -134,7 +134,7 @@ export const DISC_4_SETS: Record<string, DiscSet> = {
   chenyu:       { id: 34100, name: '谶羽之誓',     stats: { anomalyMastery: 50, dmgBonus: 15 }, note: '装备者进入战场时，或被切换为当前操作中角色时，获得增益效果：异常精通提升50点，若装备者为流明属性，造成的属性异常伤害提升15%，持续15秒；当装备者为非操作中角色时，则始终持有该增益效果。' },
   jingji:       { id: 34200, name: '荆棘玫瑰',     stats: { dmgBonus: 15, critRate: 16 }, note: '装备者造成的伤害提升15%，装备者初始防御力大于等于1000/1800点时，暴击率提升8/16%。' },
   xingzhibei:   { id: 34300, name: '星之碑',       stats: { critRate: 12, defShred: 16 }, note: '装备者的暴击率提升12%，装备者造成火属性锐化伤害时，无视敌人16%防御力。' },
-  chiyi:        { id: 34400, name: '赤翼夜曲',     stats: { critDmg: 30, dmgBonus: 8 }, note: '装备者暴击率大于等于50%时，暴击伤害提升30%，攻击造成的失衡值提升5%。装备者为<color=#FFFFFF>[击破]</color>角色时，发动<color=#FFFFFF>[强化特殊技]</color>或<color=#FFFFFF>[连携技]</color>会使全队角色造成的锐化伤害提升8%，持续25秒，重复触发时刷新持续时间，该效果全队唯一。' },
+  chiyi:        { id: 34400, name: '赤翼夜曲',     stats: { critDmg: 30, dmgBonus: 8 }, note: '装备者暴击伤害提升30%，攻击造成的失衡值提升5%。装备者为<color=#FFFFFF>[击破]</color>角色时，发动<color=#FFFFFF>[强化特殊技]</color>或<color=#FFFFFF>[连携技]</color>时若自身暴击率大于等于50%，会使全队角色造成的锐化伤害提升8%，持续25秒，重复触发时刷新持续时间，该效果全队唯一。' },
 };
 
 // DISC 2-set bonuses — pair-wise sibling of DISC_4_SETS.

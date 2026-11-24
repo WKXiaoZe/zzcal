@@ -1,14 +1,22 @@
 {
-  "name": "zzz神秘小算盘",
+  "name": "zzcalc",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run build:worker",
+    "build:worker": "esbuild worker/index.ts --bundle --format=esm --target=es2022 --platform=neutral --outfile=dist/_worker.js",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:worker": "vitest run --config worker/vitest.config.ts",
+    "sim:pack": "node scripts/pack_sim_data.mjs",
+    "cf:types": "wrangler types worker/worker-configuration.d.ts --include-runtime=false --include-main-module=false",
+    "cf:dry-run": "npm run build",
+    "cf:deploy": "npm run build && wrangler pages deploy dist --project-name zzzcalc --branch main",
+    "ops:dry-run": "node scripts/publish_spec_update.mjs --dry-run",
+    "ops:publish": "node scripts/publish_spec_update.mjs"
   },
   "devDependencies": {
     "@types/jsdom": "^28.0.3",
@@ -24,7 +32,8 @@
     "tsx": "^4.22.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0",
-    "vitest": "^2.1.9"
+    "vitest": "^2.1.9",
+    "wrangler": "^4.165.0"
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.6",

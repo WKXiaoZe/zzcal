@@ -9,11 +9,12 @@ import {
   DA_WEATHER_BUFFS,
 } from './buffs';
 import { buildCalcInput } from './buildInput';
+import { AGENT_SKILLS, calcSkillAtLevel } from './agentSkills';
 import { calculateDamage } from './formulas';
 import { initialState, reducer } from '../state/reducer';
 
-describe('3.4.3 Character, Weapon, Disc, and 5-Category Buff Integration', () => {
-  it('loads all 65 playable characters (up to 3.4.3) with Lv.60 base panels', () => {
+describe('3.4.5_r20699967 Character, Weapon, Disc, and 5-Category Buff Integration', () => {
+  it('loads all 65 playable characters (up to 3.4.5_r20699967) with Lv.60 base panels', () => {
     const nonLegacy = Object.entries(CHARACTER_DB.characters).filter(
       ([, v]) => !(v.meta as Record<string, unknown> | undefined)?.legacyAlias,
     );
@@ -120,5 +121,51 @@ describe('3.4.3 Character, Weapon, Disc, and 5-Category Buff Integration', () =>
         (bossBuffWithStats.stats.dmgBonus ?? 0) +
         (weatherBuffWithStats.stats.dmgBonus ?? 0),
     );
+  });
+
+  it('matches 3.4.5_r20699967 Sunbringer Lv.12 multipliers, M2/M4/M6 buffs, Robin kit, and DA52 weather', () => {
+    const sunSkills = AGENT_SKILLS['挽昼'];
+    const multLv12 = (sid: number) => {
+      const m = sunSkills.find((s) => s.skillIds.length === 1 && s.skillIds[0] === sid)!;
+      expect(m).toBeDefined();
+      return calcSkillAtLevel(m, 12).dmgMultPct;
+    };
+    expect(multLv12(1601015)).toBeCloseTo(1961.8, 1); // 执旌·聚锋
+    expect(multLv12(1601007)).toBeCloseTo(1683.0, 1); // 燃灯·永昼之炬
+    expect(multLv12(1601107)).toBeCloseTo(1924.0, 1); // 焚夜·长暗终焉
+    expect(multLv12(1601111)).toBeCloseTo(2835.3, 1); // 此行，共赴前路
+    expect(multLv12(1601011)).toBeCloseTo(2307.6, 1); // 此愿，重塑万象
+    expect(multLv12(1601114)).toBeCloseTo(161.9, 1);  // 毁伤
+
+    // Verify Sunbringer M2/M4/M6 3.4.5_r20699967 stats & texts
+    const m2 = AGENT_BUFFS['挽昼'].find((b) => b.id === 'agent_1601_m2')!;
+    const m4 = AGENT_BUFFS['挽昼'].find((b) => b.id === 'agent_1601_m4')!;
+    const m6 = AGENT_BUFFS['挽昼'].find((b) => b.id === 'agent_1601_m6')!;
+    expect(m2.desc).toContain('30%');
+    expect(m2.desc).toContain('35%');
+    expect(m2.desc).toContain('200点喧响值');
+    expect(m2.desc).toContain('1000点');
+    expect(m4.stats.dmgBonus).toBe(10);
+    expect(m4.desc).toContain('65%');
+    expect(m6.stats.defShred).toBe(15);
+    expect(m6.desc).toContain('愿核');
+    expect(m6.desc).toContain('80%');
+
+    // Verify Robin (1661) & 星韵流彩 (14166)
+    const robinCore = AGENT_BUFFS['知更鸟'].find((b) => b.id === 'agent_1661_core')!;
+    const robinGuard = AGENT_BUFFS['知更鸟'].find((b) => b.id === 'agent_1661_guard')!;
+    const robinM1 = AGENT_BUFFS['知更鸟'].find((b) => b.id === 'agent_1661_m1')!;
+    expect(robinCore.stats.dmgBonus).toBe(20);
+    expect(robinGuard.stats.inCombatDefFlat).toBe(1000);
+    expect(robinM1.stats.defShred).toBe(20);
+    expect(WEAPON_BUFFS['星韵流彩']?.stats).toEqual({ sharpCritDmg: 15, dmgBonus: 17 });
+
+    // Verify DA52 weather 69015201 (10% def / 20% sharp dmg) & 69015205 ([凋蚀印记])
+    const w5201 = DA_WEATHER_BUFFS.find((b) => b.id === 'da_weather_69015201')!;
+    expect(w5201.stats.inCombatDefPct).toBe(10);
+    expect(w5201.stats.dmgBonus).toBe(20);
+    const b5205 = DA_BOSS_STAGE_BUFFS.find((b) => b.id === 'da_boss_69015205')!;
+    expect(b5205).toBeDefined();
+    expect(b5205.desc).toContain('凋蚀印记');
   });
 });

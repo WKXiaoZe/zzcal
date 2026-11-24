@@ -1,0 +1,1299 @@
+/* src/sim/sim.module.css
+ * ZZZ 神秘小算盘 · 实战排轴与 WASM 搜轴工作台样式体系
+ * 延续 global.css 的粉橙霓虹暗色毛玻璃风格 (--zzz-pink / --zzz-accent / JetBrains Mono)
+ * 全响应式支持：1440px 桌面端 -> 1024px 平板 -> 390px 手机竖屏
+ */
+
+/* ---------- 顶层视图切换与 Header 自适应 ---------- */
+:global(body[data-app-view="sim"] .container) {
+  margin-top: 0 !important;
+  padding-top: 4px;
+  padding-bottom: 96px;
+}
+
+:global(body[data-app-view="sim"] header) {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 20px 0 !important;
+  padding: 18px 24px !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px 20px !important;
+  background: rgba(16, 16, 22, 0.82) !important;
+  border: 1px solid rgba(253, 178, 200, 0.22) !important;
+  transform: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+:global(body[data-app-view="sim"] header h1) {
+  font-size: 1.65rem !important;
+  margin: 0 !important;
+}
+
+:global(body[data-app-view="sim"] header .credits) {
+  margin-top: 4px !important;
+}
+
+:global(body[data-app-view="sim"] header .version) {
+  margin-top: 0 !important;
+}
+
+/* HeroHeader 双模式胶囊导航条 */
+.modeNavRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+:global(body[data-app-view="sim"]) .modeNavRow {
+  margin-top: 0;
+  width: auto;
+}
+
+.modeCapsuleGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(5, 5, 10, 0.72);
+  border: 1px solid rgba(253, 178, 200, 0.24);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.modeCapsuleBtn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.modeCapsuleBtn:hover:not(.modeCapsuleBtnActive) {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.modeCapsuleBtnActive {
+  background: linear-gradient(135deg, var(--zzz-pink) 0%, #ff8fab 48%, var(--zzz-accent) 100%);
+  color: #09090b;
+  box-shadow: 0 0 22px rgba(253, 178, 200, 0.48);
+  font-weight: 800;
+}
+
+.opsMiniTrigger {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(15, 15, 22, 0.65);
+  color: rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.opsMiniTrigger:hover {
+  color: var(--zzz-pink);
+  border-color: rgba(253, 178, 200, 0.5);
+  background: rgba(253, 178, 200, 0.12);
+}
+
+/* ---------- SimWorkspace 主骨架 ---------- */
+.simRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  color: var(--zzz-text-main);
+}
+
+.glassCard {
+  background: rgba(16, 16, 22, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  padding: 20px 22px;
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  box-shadow: 0 12px 38px -12px rgba(0, 0, 0, 0.65);
+  position: relative;
+}
+
+.glassCardPinkGlow {
+  border-color: rgba(253, 178, 200, 0.26);
+  box-shadow: 0 12px 42px -12px rgba(0, 0, 0, 0.7), 0 0 28px rgba(253, 178, 200, 0.08);
+}
+
+.sectionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sectionTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sectionDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--zzz-pink), var(--zzz-accent));
+  box-shadow: 0 0 12px var(--zzz-pink);
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionSub {
+  font-size: 0.76rem;
+  color: var(--zzz-text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ---------- 双引擎切换与工作台控制区 ---------- */
+.engineTopBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.engineSwitchTabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.engineTabBtn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 9px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.engineTabBtn:hover:not(.engineTabBtnActive) {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.engineTabBtnActive {
+  background: linear-gradient(135deg, rgba(253, 178, 200, 0.22), rgba(228, 133, 52, 0.22));
+  border-color: rgba(253, 178, 200, 0.65);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(253, 178, 200, 0.2);
+}
+
+.engineTagPill {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(253, 178, 200, 0.18);
+  color: var(--zzz-pink);
+  border: 1px solid rgba(253, 178, 200, 0.35);
+}
+
+.runtimeStatusRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #d4d4d8;
+}
+
+.statusBadgeGood {
+  background: rgba(46, 196, 182, 0.13);
+  border-color: rgba(46, 196, 182, 0.45);
+  color: #5eead4;
+}
+
+.statusBadgeWarn {
+  background: rgba(228, 133, 52, 0.15);
+  border-color: rgba(228, 133, 52, 0.45);
+  color: #fdba74;
+}
+
+/* 预设秒开栏 + 配装微调网格 */
+.presetBar {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  margin-bottom: 14px;
+}
+
+.fieldCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.simSelect,
+.simInput {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: rgba(8, 8, 12, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-family: var(--font-ui);
+  font-size: 0.83rem;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.simSelect:focus,
+.simInput:focus {
+  outline: none;
+  border-color: var(--zzz-pink);
+  box-shadow: 0 0 0 2px rgba(253, 178, 200, 0.22);
+}
+
+/* 三人配装卡片网格 */
+.squadBuildGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.slotBuildCard {
+  background: rgba(8, 8, 14, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.slotBuildHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.slotBadge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(253, 178, 200, 0.15);
+  color: var(--zzz-pink);
+}
+
+.slotAgentName {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.miniPillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.miniRankBtn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(20, 20, 28, 0.9);
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 3px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.miniRankBtn:hover {
+  border-color: rgba(253, 178, 200, 0.5);
+  color: #fff;
+}
+
+.miniRankBtnActive {
+  background: var(--zzz-pink);
+  border-color: var(--zzz-pink);
+  color: #09090b;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(253, 178, 200, 0.4);
+}
+
+.slotTwoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* 操作与搜索执行栏 */
+.actionControlBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.primaryBtnGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.btnNeonPink {
+  appearance: none;
+  border: none;
+  background: linear-gradient(135deg, var(--zzz-pink) 0%, #ff85a1 50%, var(--zzz-accent) 100%);
+  color: #09090b;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 4px 20px rgba(253, 178, 200, 0.35);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+}
+
+.btnNeonPink:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 26px rgba(253, 178, 200, 0.55);
+}
+
+.btnNeonPink:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnNeonCyan {
+  appearance: none;
+  border: 1px solid rgba(0, 212, 255, 0.5);
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(59, 130, 246, 0.2));
+  color: #7dd3fc;
+  font-family: var(--font-ui);
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 9px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.18s ease;
+}
+
+.btnNeonCyan:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.32), rgba(59, 130, 246, 0.32));
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+}
+
+.btnNeonCyan:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btnGhost {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e4e4e7;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 13px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.btnGhost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(253, 178, 200, 0.45);
+  color: #ffffff;
+}
+
+.btnDanger {
+  appearance: none;
+  border: 1px solid rgba(255, 51, 85, 0.55);
+  background: rgba(255, 51, 85, 0.16);
+  color: #fda4af;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btnDanger:hover {
+  background: rgba(255, 51, 85, 0.28);
+  color: #fff;
+}
+
+/* 搜索实时进度条横幅 */
+.searchProgressBanner {
+  margin-top: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, rgba(0, 212, 255, 0.1), rgba(253, 178, 200, 0.1));
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #00d4ff, var(--zzz-pink), var(--zzz-accent));
+  transition: width 0.28s ease;
+}
+
+/* ---------- ① 核心指标英雄卡 KPI Hero Row ---------- */
+.kpiTopToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.kpiTitleBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.kpiBossBadge {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.kpiMetaTag {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(253, 178, 200, 0.14);
+  border: 1px solid rgba(253, 178, 200, 0.34);
+  color: var(--zzz-pink);
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.kpiCard {
+  background: linear-gradient(165deg, rgba(24, 24, 34, 0.92) 0%, rgba(12, 12, 18, 0.94) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 15px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.kpiCardHighlight {
+  border-color: rgba(253, 178, 200, 0.42);
+  box-shadow: 0 8px 28px rgba(253, 178, 200, 0.12);
+}
+
+.kpiCardGoldKill {
+  border-color: rgba(250, 204, 21, 0.55);
+  box-shadow: 0 8px 28px rgba(250, 204, 21, 0.16);
+}
+
+.kpiLabel {
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.62);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.kpiValue {
+  font-family: var(--font-mono);
+  font-size: 1.48rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  word-break: break-word;
+}
+
+.kpiValuePink {
+  background: linear-gradient(90deg, #ffffff 0%, var(--zzz-pink) 60%, #ff9f43 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.kpiValueGold {
+  color: #fde047;
+  text-shadow: 0 0 16px rgba(250, 204, 21, 0.38);
+}
+
+.kpiSubRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 8px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.64);
+  font-family: var(--font-mono);
+}
+
+.killStampBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(250, 204, 21, 0.25), rgba(228, 133, 52, 0.28));
+  border: 1px solid rgba(250, 204, 21, 0.65);
+  color: #fef08a;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.rhythmHeroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(253, 178, 200, 0.22), rgba(228, 133, 52, 0.22));
+  border: 1px solid rgba(253, 178, 200, 0.55);
+  color: #ffd4e2;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 800;
+  width: fit-content;
+}
+
+.ubBarOuter {
+  width: 100%;
+  height: 9px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ubBarInner {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38bdf8 0%, var(--zzz-pink) 65%, #facc15 100%);
+  box-shadow: 0 0 12px rgba(253, 178, 200, 0.55);
+}
+
+/* ---------- ② 交互式多轨战斗泳道时间轴 Swimlane Timeline ---------- */
+.timelineControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.zoomBtnGroup {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.legendRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 10px;
+}
+
+.legendChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.legendChipMuted {
+  opacity: 0.38;
+}
+
+.legendSwatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.swimlaneViewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background: rgba(6, 6, 10, 0.9);
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  position: relative;
+}
+
+.swimlaneViewport:active {
+  cursor: grabbing;
+}
+
+.swimlaneCanvas {
+  position: relative;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.swimlaneRow {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+}
+
+.swimlaneRow:last-child {
+  border-bottom: none;
+}
+
+.trackLabelSticky {
+  position: sticky;
+  left: 0;
+  z-index: 15;
+  width: 132px;
+  min-width: 132px;
+  padding: 8px 10px;
+  background: rgba(14, 14, 20, 0.95);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.trackName {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trackSub {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trackTimelineArea {
+  position: relative;
+  flex: 1;
+  min-height: 44px;
+}
+
+.rulerArea {
+  min-height: 28px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bossTrackArea {
+  min-height: 34px;
+}
+
+.buffTrackArea {
+  min-height: 24px;
+}
+
+.tickMark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-left: 1px dashed rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.tickLabel {
+  position: absolute;
+  top: 6px;
+  transform: translateX(4px);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: rgba(255, 255, 255, 0.48);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* 贯穿失衡窗口高亮背景带 */
+.stunColumnBand {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.16) 0%, rgba(250, 204, 21, 0.06) 100%);
+  border-left: 1px solid rgba(250, 204, 21, 0.45);
+  border-right: 1px solid rgba(250, 204, 21, 0.35);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bossPhasePill {
+  position: absolute;
+  top: 5px;
+  height: 24px;
+  border-radius: 6px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 4;
+}
+
+/* 角色动作色块 */
+.actionBlock {
+  position: absolute;
+  top: 6px;
+  height: 32px;
+  min-width: 7px;
+  border-radius: 7px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #09090b;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 6;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, z-index 0s;
+}
+
+.actionBlock:hover {
+  transform: translateY(-2px) scaleY(1.06);
+  z-index: 20;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.75), 0 0 12px rgba(255, 255, 255, 0.45);
+}
+
+.actionBlockSelected {
+  outline: 2px solid #ffffff;
+  outline-offset: 1px;
+  z-index: 22;
+  box-shadow: 0 0 18px rgba(253, 178, 200, 0.95);
+}
+
+.actionZeroFramePin {
+  top: 2px;
+  height: 15px;
+  min-width: 12px;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  padding: 0 4px;
+  z-index: 9;
+  color: #ffffff;
+}
+
+.buffSegmentBar {
+  position: absolute;
+  top: 5px;
+  height: 14px;
+  border-radius: 4px;
+  opacity: 0.88;
+  z-index: 3;
+}
+
+/* ---------- ③ 四大可视化图表 2x2 网格 ---------- */
+.chartsGrid2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.chartCard {
+  background: rgba(16, 16, 22, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.chartCanvasBox {
+  position: relative;
+  width: 100%;
+  height: 270px;
+}
+
+.chartCanvasBoxSm {
+  position: relative;
+  width: 100%;
+  height: 210px;
+}
+
+/* 伤害构成与驻场条辅助视觉 */
+.breakdownSplit {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.metricBarList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.metricBarItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricBarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+  gap: 8px;
+}
+
+.stackedTrack {
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  display: flex;
+}
+
+.stackedSeg {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* ---------- 单招 15 乘区抽屉 & 运维热更抽屉 ---------- */
+.drawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(4px);
+  z-index: 2100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.drawerPanel {
+  width: min(520px, 100vw);
+  height: 100vh;
+  background: rgba(14, 14, 20, 0.97);
+  border-left: 1px solid rgba(253, 178, 200, 0.3);
+  box-shadow: -16px 0 48px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.opsDrawerPanel {
+  width: min(780px, 100vw);
+}
+
+.drawerHeader {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(253, 178, 200, 0.05);
+}
+
+.drawerBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.drawerFooter {
+  padding: 12px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(10, 10, 15, 0.95);
+}
+
+/* 15 乘区网格 */
+.multGrid15 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.multCell {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.multCellActive {
+  border-color: rgba(253, 178, 200, 0.42);
+  background: rgba(253, 178, 200, 0.08);
+}
+
+.multCellName {
+  font-size: 0.67rem;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.multCellVal {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.multCellHint {
+  font-family: var(--font-mono);
+  font-size: 0.63rem;
+  color: rgba(255, 255, 255, 0.48);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- 异常反馈轻量模态框 & Toast ---------- */
+.popoverOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.popoverCard {
+  width: min(440px, 100%);
+  background: rgba(18, 18, 26, 0.98);
+  border: 1px solid rgba(253, 178, 200, 0.38);
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.toastBanner {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2600;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(16, 24, 22, 0.96);
+  border: 1px solid rgba(46, 196, 182, 0.65);
+  color: #5eead4;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 精简折叠流与页脚运维条 */
+.macroChipFlow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.macroChip {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e4e4e7;
+  cursor: pointer;
+}
+
+.macroChip:hover {
+  border-color: var(--zzz-pink);
+  color: var(--zzz-pink);
+}
+
+.simFooterBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: rgba(12, 12, 18, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+/* ---------- 响应式断点 (平板 <= 1100px & 手机 390px <= 768px) ---------- */
+@media (max-width: 1120px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .presetBar {
+    grid-template-columns: 1fr;
+  }
+
+  .squadBuildGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .chartsGrid2x2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  :global(body[data-app-view="sim"] header) {
+    padding: 14px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  :global(body[data-app-view="sim"] header h1) {
+    font-size: 1.3rem !important;
+  }
+
+  .modeCapsuleGroup {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .modeCapsuleBtn {
+    flex: 1;
+    justify-content: center;
+    padding: 7px 8px;
+    font-size: 0.75rem;
+  }
+
+  .glassCard,
+  .chartCard {
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .kpiValue {
+    font-size: 1.32rem;
+  }
+
+  .trackLabelSticky {
+    width: 88px;
+    min-width: 88px;
+    padding: 6px 6px;
+  }
+
+  .trackName {
+    font-size: 0.7rem;
+  }
+
+  .breakdownSplit {
+    grid-template-columns: 1fr;
+  }
+
+  .drawerBackdrop {
+    align-items: flex-end;
+  }
+
+  .drawerPanel,
+  .opsDrawerPanel {
+    width: 100vw;
+    height: 86vh;
+    border-left: none;
+    border-top: 1px solid rgba(253, 178, 200, 0.4);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .multGrid15 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -17,6 +17,7 @@ const MODE_TYPE_MAP: Record<BattleType, string> = {
   attack: '强攻',
   break:  '命破',
   anomaly: '异常',
+  vanguard: '锋御',
 };
 
 interface PickerEntry {

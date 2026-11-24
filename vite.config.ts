@@ -26,8 +26,20 @@ function copyStaticFolders(folders: string[]): Plugin {
   };
 }
 
+const crossOriginIsolationHeaders = {
+  'Cross-Origin-Opener-Policy': 'same-origin',
+  'Cross-Origin-Embedder-Policy': 'credentialless',
+};
+
 export default defineConfig({
-  server: { port: 3000, host: '0.0.0.0' },
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+    headers: crossOriginIsolationHeaders,
+  },
+  preview: {
+    headers: crossOriginIsolationHeaders,
+  },
   plugins: [
     react(),
     copyStaticFolders(['dps', 'sup', 'wpDPS', 'wpSUP', 'resources']),

@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "zzzcalc",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-11-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "zzcal-sim-ops",
+      "database_id": "e13b739e-e0f0-4f2f-ad08-0e3239cf165a"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "SPECS_KV",
+      "id": "4f9bab3e88804164bbcc72bbd8212caf"
+    }
+  ],
+  "vars": {
+    "BUNDLED_SPEC_VERSION": "3.4.5_r20699967"
+  }
+}

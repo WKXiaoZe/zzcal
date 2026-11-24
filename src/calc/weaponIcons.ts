@@ -1,5 +1,5 @@
 // src/calc/weaponIcons.ts
-// Auto-generated mapping from Chinese W-Engine name -> resources/weapon-icons/<file>.png (3.4.3)
+// Auto-generated mapping from Chinese W-Engine name -> resources/weapon-icons/<file>.png (3.4.5_r20699967)
 export const WEAPON_ICON_FILE: Record<string, string> = {
   "街头巨星": "Weapon_A_Common_01Big.png",
   "时光切片": "Weapon_A_Common_02Big.png",
@@ -89,6 +89,8 @@ export const WEAPON_ICON_FILE: Record<string, string> = {
   "...": "Weapon_S_1621Big.png",
   "禁罪囚笼": "Weapon_S_1631Big.png",
   "涅槃初翎": "Weapon_S_1641Big.png",
+  "蛛蜕遗歌": "Weapon_S_1651Big.png",
+  "星韵流彩": "Weapon_S_1661Big.png",
   "(Test1)卡芙卡测试音擎": "Weapon_S_1651Big.png",
   "知更鸟专属音擎": "Weapon_S_1661Big.png"
 };

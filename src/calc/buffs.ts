@@ -1,5 +1,5 @@
 // src/calc/buffs.ts
-// ZZZ 3.4.3 全量可选 Buff 数据库 (自动生成)
+// ZZZ 3.4.5_r20699967 全量可选 Buff 数据库 (自动生成)
 // 涵盖 5 大类：
 //   1. AGENT_BUFFS: 全角色主动技能 / 核心被动 / 额外能力 / 影画(M1/M2/M4/M6) Buff
 //   2. WEAPON_BUFFS: 全音擎 R1-R5 被动特效 Buff
@@ -4294,7 +4294,7 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "挽昼",
       "subType": "核心被动",
       "title": "核心被动：梦现=源质重构",
-      "desc": "挽昼发动招式造成的伤害均为锐化伤害，使用防御力作为招式伤害倍率，部分锐化伤害会积累残痕值，残痕值满时，敌人会进入<color=#FFFFFF>[残痕]</color>，<color=#FFFFFF>[残痕]</color>最多叠加3层，挽昼发动部分招式重击命中处于<color=#FFFFFF>[残痕]</color>状态下的敌人，且挽昼为操作中的代理人时，会消耗一层<color=#FFFFFF>[残痕]</color>，造成一次范围伤害；\n触发暴击时，锐化伤害不受暴击伤害加成，转而计算锐暴伤害加成；若暴击率超过100%且已经触发暴击，还将基于超过部分的暴击率再进行一次锐暴判定，触发锐暴则额外计算一次锐暴伤害加成；挽昼每拥有1%的初始暴击伤害，初始暴击率提升0.35%；\n挽昼进入战场时即可回复60点锐能，在勘域模式中此效果180秒内最多触发一次；\n进入接战状态时，挽昼获得<color=#FFFFFF>[极昼]</color>效果，暴击率提升<color=#2BAD00>40%</color>，造成伤害无视目标<color=#2BAD00>20%</color>的防御力，<color=#FFFFFF>[极昼]</color>状态持续20秒，队伍中其他角色或德蕾琪娜为操作中的代理人时，持续时间不再减少，挽昼发动任意<color=#FFFFFF>[强化特殊技]</color>、<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>时重新获得<color=#FFFFFF>[极昼]</color>效果；\n德蕾琪娜发动<color=#FFFFFF>[招架支援]</color>造成的失衡值提升<color=#2BAD00>50%</color>，成功招架敌人的攻击时，可为敌人积累残痕值；艾尔妲与林德薇恩发动的<color=#FFFFFF>[支援突击]</color>残痕积蓄效率提升<color=#2BAD00>15%</color>，造成的伤害提升<color=#2BAD00>20%</color>；\n全队代理人触发<color=#FFFFFF>[毁伤]</color>时，每消除一层<color=#FFFFFF>[残痕]</color>，挽昼获得40点<color=#FFFFFF>[愿火]</color>，<color=#FFFFFF>[愿火]</color>最多获得160点；<color=#FFFFFF>[愿火]</color>不少于120点时，可消耗120点<color=#FFFFFF>[愿火]</color>发动<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>；\n队友触发<color=#FFFFFF>[毁伤]</color>时，若挽昼的<color=#FFFFFF>[愿火]</color>足够，将触发<color=#FFFFFF>[快速支援]</color>，挽昼通过<color=#FFFFFF>[快速支援]</color>换入前场时，将消耗120点<color=#FFFFFF>[愿火]</color>直接发动<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>，此效果3秒内最多触发一次；\n挽昼发动<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>、<color=#FFFFFF>[强化特殊技：焚夜·长暗终焉]</color>、<color=#FFFFFF>[强化特殊技：燃灯·永昼之炬]</color>、<color=#FFFFFF>[终结技：「此行，共赴前路」]</color>、<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>命中敌人造成伤害时，均可使目标积攒<color=#FFFFFF>[烬痕]</color>，<color=#FFFFFF>[烬痕]</color>量等同于招式造成的实际伤害的<color=#2BAD00>60%</color>；全队代理人造成的<color=#FFFFFF>[毁伤]</color>也可使目标积攒等同于该次实际伤害<color=#2BAD00>35%</color>的<color=#FFFFFF>[烬痕]</color>；艾尔妲发动<color=#FFFFFF>[强化特殊技：燃灯·永昼之炬]</color>、<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>的终结一击命中敌人时可消除所有<color=#FFFFFF>[烬痕]</color>造成一次<color=#FFFFFF>[烬灭]</color>效果，直接扣除等量血量。\n挽昼攻击命中普通或精英敌人时，若目标持有的<color=#FFFFFF>[烬痕]</color>已覆盖其全部剩余生命值，则直接击溃目标；敌人死亡时，回复挽昼40点<color=#FFFFFF>[愿火]</color>，每60秒最多触发一次。",
+      "desc": "挽昼发动招式造成的伤害均为锐化伤害，使用防御力作为招式伤害倍率，部分锐化伤害会积累残痕值，残痕值满时，敌人会进入<color=#FFFFFF>[残痕]</color>，最多叠加3层，挽昼发动部分招式重击命中处于<color=#FFFFFF>[残痕]</color>状态下的敌人，且挽昼为操作中的代理人、<color=#FFFFFF>[愿火]</color>未达上限时，会消耗目标持有的所有<color=#FFFFFF>[残痕]</color>；每消耗1层<color=#FFFFFF>[残痕]</color>，对目标触发1次<color=#FFFFFF>[毁伤]</color>，额外造成范围<color=#FF5521>燎源属性伤害</color>；\n触发暴击时，锐化伤害不受暴击伤害加成，转而计算锐暴伤害加成；若暴击率超过100%且已经触发暴击，还将基于超过部分的暴击率再进行一次锐暴判定，触发锐暴则额外计算一次锐暴伤害加成；挽昼每拥有1%的初始暴击伤害，初始暴击率提升0.35%；\n挽昼进入战场时即可回复60点锐能（勘域180秒CD）；\n进入接战状态时，挽昼获得<color=#FFFFFF>[极昼]</color>效果，暴击率提升<color=#2BAD00>40%</color>，造成伤害无视目标<color=#2BAD00>20%</color>的防御力，持续20秒，其他角色或德蕾琪娜为操作中的代理人时持续时间不减少，发动任意<color=#FFFFFF>[强化特殊技]</color>、<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>时重新获得<color=#FFFFFF>[极昼]</color>；\n德蕾琪娜发动<color=#FFFFFF>[招架支援]</color>造成的失衡值提升50%并积累少量[残痕]；艾尔妲与林德薇恩发动的<color=#FFFFFF>[支援突击]</color>残痕积蓄效率提升15%，造成的伤害提升20%；\n全队代理人触发<color=#FFFFFF>[毁伤]</color>时，每消除一层<color=#FFFFFF>[残痕]</color>，挽昼获得40点<color=#FFFFFF>[愿火]</color>（上限160点）；当<color=#FFFFFF>[愿火]</color>不少于120点且未持有<color=#FFFFFF>[链齿]</color>、<color=#FFFFFF>[旗令]</color>、<color=#FFFFFF>[愿核]</color>时，可消耗120点<color=#FFFFFF>[愿火]</color>发动<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>；\n挽昼发动<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>、<color=#FFFFFF>[强化特殊技：焚夜·长暗终焉]</color>、<color=#FFFFFF>[强化特殊技：燃灯·永昼之炬]</color>、<color=#FFFFFF>[终结技：「此行，共赴前路」]</color>、<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>命中造成伤害时，使目标积攒等同于实际伤害60%的<color=#FFFFFF>[烬痕]</color>；全队造成的<color=#FFFFFF>[毁伤]</color>使目标积攒等同于实际伤害40%的<color=#FFFFFF>[烬痕]</color>；艾尔妲发动<color=#FFFFFF>[强化特殊技：燃灯·永昼之炬]</color>、<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>终结一击命中时消除所有<color=#FFFFFF>[烬痕]</color>造成<color=#FFFFFF>[烬灭]</color>直接扣除等量血量。",
       "stats": {
         "critRate": 40,
         "defShred": 20,
@@ -4307,7 +4307,7 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "挽昼",
       "subType": "额外能力",
       "title": "额外能力：领袖之证",
-      "desc": "队伍中存在<color=#FFFFFF>[击破]</color>角色、<color=#FFFFFF>[防护]</color>角色或其他<color=#FFFFFF>[锋御]</color>角色时触发：\n挽昼发动任意<color=#FFFFFF>[强化特殊技]</color>、<color=#FFFFFF>[冲刺攻击：巡征·影域穿袭]</color>时，全队<color=#FFFFFF>[锋御]</color>代理人进入<color=#FFFFFF>[众愿一心]</color>状态，<color=#FFFFFF>[众愿一心]</color>状态下，锐暴伤害提升<color=#FFFFFF>25%</color>，持续45秒；重复进入<color=#FFFFFF>[众愿一心]</color>状态时刷新持续时间。",
+      "desc": "队伍中存在<color=#FFFFFF>[击破]</color>角色、<color=#FFFFFF>[防护]</color>角色或其他<color=#FFFFFF>[锋御]</color>角色时触发：\n进入战斗时，或挽昼发动任意<color=#FFFFFF>[强化特殊技]</color>、<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>、<color=#FFFFFF>[连携技]</color>、<color=#FFFFFF>[冲刺攻击：巡征·影域穿袭]</color>时，全队<color=#FFFFFF>[锋御]</color>代理人进入<color=#FFFFFF>[众愿一心]</color>状态，锐暴伤害提升<color=#FFFFFF>25%</color>，持续45秒；重复进入时刷新持续时间。",
       "stats": {
         "sharpCritDmg": 25
       }
@@ -4319,7 +4319,7 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "subType": "影画M1",
       "cinemaRank": 1,
       "title": "隐世的虚狩",
-      "desc": "挽昼进入战场时立即获得120点<color=#FFFFFF>[愿火]</color>，在勘域模式中此效果180秒内最多触发一次；挽昼的残痕积蓄效率提升10%，发动招式造成的伤害无视敌人15%的火属性伤害抗性。",
+      "desc": "挽昼进入战场时立即获得120点<color=#FFFFFF>[愿火]</color>，在勘域模式中此效果180秒内最多触发一次；敌人被击败时，挽昼回复80点<color=#FFFFFF>[愿火]</color>，该回复效果每60秒最多触发一次；挽昼的残痕积蓄效率提升10%，发动招式造成的伤害无视敌人15%的<color=#FF5521>火属性伤害抗性</color>。",
       "stats": {
         "resShred": 15
       }
@@ -4331,7 +4331,7 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "subType": "影画M2",
       "cinemaRank": 2,
       "title": "继承者的叛旗",
-      "desc": "<color=#FFFFFF>[愿火]</color>的上限提升至200点；挽昼使敌人积攒的<color=#FFFFFF>[烬痕]</color>量提升25%；挽昼发动其他招式命中敌人造成伤害时，也可使目标积攒<color=#FFFFFF>[烬痕]</color>，<color=#FFFFFF>[烬痕]</color>量等同于招式造成实际伤害的18%；挽昼发动<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>时，额外回复150点喧响值。",
+      "desc": "挽昼发动其他招式命中敌人造成锐化伤害时，也可使目标积攒<color=#FFFFFF>[烬痕]</color>，积攒量等同于该次实际伤害的30%；全队触发<color=#FFFFFF>[毁伤]</color>和挽昼使敌人积攒<color=#FFFFFF>[烬痕]</color>时，最终结算的<color=#FFFFFF>[烬痕]</color>量提升35%；挽昼发动<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>后，额外回复200点喧响值；挽昼的喧响值上限提升1000点（上限变为4000点）。",
       "stats": {}
     },
     {
@@ -4341,9 +4341,9 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "subType": "影画M4",
       "cinemaRank": 4,
       "title": "奉献者的虚像",
-      "desc": "挽昼进入战场时立刻获得0点喧响值，在勘域模式中此效果180秒内最多触发一次；挽昼造成的伤害提升15%。",
+      "desc": "进入战场时，挽昼立即获得1000点喧响值，在勘域模式中此效果180秒内最多触发一次；进入战场时，挽昼首次发动<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>后，下次发动的<color=#FFFFFF>[强化特殊技：燃灯·永昼之炬]</color>或<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>使目标积攒<color=#FFFFFF>[烬痕]</color>时，<color=#FFFFFF>[影画：继承者的叛旗]</color>中的<color=#FFFFFF>[烬痕]</color>积攒量提升效果额外提升65%，在勘域模式中此效果180秒内最多触发一次；挽昼造成的伤害提升10%。",
       "stats": {
-        "dmgBonus": 15
+        "dmgBonus": 10
       }
     },
     {
@@ -4353,7 +4353,7 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "subType": "影画M6",
       "cinemaRank": 6,
       "title": "破晓的希冀",
-      "desc": "挽昼发动<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>时，将快速衔接一次特殊的<color=#FFFFFF>[强化特殊技：燃灯·永昼之炬]</color>，额外造成一次<color=#FFFFFF>[烬灭]</color>效果，造成等同于该次<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>使目标积蓄<color=#FFFFFF>[烬痕]</color>量100%的伤害；挽昼发动招式造成的伤害无视目标15%的防御力。",
+      "desc": "进入战场时，挽昼首次发动的<color=#FFFFFF>[普通攻击：执旌·聚锋]</color>不再获得<color=#FFFFFF>[旗令]</color>，改为获得<color=#FFFFFF>[愿核]</color>，在勘域模式中此效果180秒内最多触发一次；挽昼发动<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>触发<color=#FFFFFF>[烬灭]</color>后，将快速衔接发动一次特殊的<color=#FFFFFF>[强化特殊技：燃灯·永昼之炬]</color>，无需消耗<color=#FFFFFF>[旗令]</color>；该次<color=#FFFFFF>[强化特殊技：燃灯·永昼之炬]</color>不造成实际伤害，但会直接为目标附加<color=#FFFFFF>[烬痕]</color>，附加量等同于前一次<color=#FFFFFF>[终结技：「此愿，重塑万象」]</color>为目标积攒的<color=#FFFFFF>[烬痕]</color>量的80%，随后消除目标所有<color=#FFFFFF>[烬痕]</color>，触发一次<color=#FFFFFF>[烬灭]</color>；挽昼发动招式造成的伤害无视目标15%的防御力。",
       "stats": {
         "defShred": 15
       }
@@ -4435,7 +4435,7 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "洛克茜",
       "subType": "核心被动",
       "title": "核心被动：热夜初拥",
-      "desc": "每消耗25点能量，获得1点[特定招式]，<color=#FFFFFF>[风能]</color>上限为3点；\n洛克茜的初始<color=#FFFFFF>能量自动回复</color>大于1.2时，超过部分每超过0.01，攻击力提升5点，最多提升<color=#2BAD00>960</color>点，冲击力提升0.4点，最多提升<color=#2BAD00>76.8</color>点；\n<color=#FFFFFF>[特殊技：恕不远送]</color>命中处于<color=#FFFFFF>[风化]</color>状态中的敌人后，会触发[特定招式]，<color=#FFFFFF>[浸染]</color>状态被还原；\n队伍中任意队友触发<color=#FFFFFF>[浸染]</color>或<color=#FFFFFF>[净化]</color>效果时，洛克茜将根据<color=#FFFFFF>[浸染]</color>或<color=#FFFFFF>[净化]</color>的属性为全队角色提供增益效果：洛克茜每拥有1%暴击率，非<color=#FFFFFF>[锋御]</color>角色造成对应属性以及风属性伤害时，暴击伤害提升0.4%，最多提升<color=#2BAD00>40%</color>；<color=#FFFFFF>[锋御]</color>角色造成对应属性以及风属性伤害时，锐暴伤害提升0.2%，最多提升<color=#2BAD00>20%</color>；每个属性增益效果分别持续50秒，重复触发时刷新持续时间；\n对已经处于<color=#FFFFFF>[风化]</color>状态下的敌人再次施加<color=#FFFFFF>[风化]</color>时，根据被覆盖的<color=#FFFFFF>[风化]</color>状态下的<color=#FFFFFF>[浸染]</color>属性及风属性，全队角色同样可以获得该增益效果。",
+      "desc": "每消耗25点能量，获得1点<color=#FFFFFF>[风能]</color>，<color=#FFFFFF>[风能]</color>上限为3点；\n洛克茜的初始<color=#FFFFFF>能量自动回复</color>大于1.2时，超过部分每超过0.01，攻击力提升5点，最多提升<color=#2BAD00>960</color>点，冲击力提升0.4点，最多提升<color=#2BAD00>76.8</color>点；\n<color=#FFFFFF>[特殊技：恕不远送]</color>命中处于<color=#FFFFFF>[风化]</color>状态中的敌人后，会触发<color=#FFFFFF>[净化]</color>，<color=#FFFFFF>[浸染]</color>状态被还原；\n队伍中任意队友触发<color=#FFFFFF>[浸染]</color>或<color=#FFFFFF>[净化]</color>效果时，洛克茜将根据<color=#FFFFFF>[浸染]</color>或<color=#FFFFFF>[净化]</color>的属性为全队角色提供增益效果：洛克茜每拥有1%暴击率，非<color=#FFFFFF>[锋御]</color>角色造成对应属性以及风属性伤害时，暴击伤害提升0.4%，最多提升<color=#2BAD00>40%</color>；<color=#FFFFFF>[锋御]</color>角色造成对应属性以及风属性伤害时，锐暴伤害提升0.2%，最多提升<color=#2BAD00>20%</color>；每个属性增益效果分别持续50秒，重复触发时刷新持续时间；\n对已经处于<color=#FFFFFF>[风化]</color>状态下的敌人再次施加<color=#FFFFFF>[风化]</color>时，根据被覆盖的<color=#FFFFFF>[风化]</color>状态下的<color=#FFFFFF>[浸染]</color>属性及风属性，全队角色同样可以获得该增益效果。",
       "stats": {
         "inCombatAtkFlat": 960,
         "critDmg": 40,
@@ -4675,10 +4675,11 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "category": "agent",
       "sourceName": "卡芙卡",
       "subType": "核心被动",
-      "title": "(Test1)核心被动：卡芙卡",
-      "desc": "(Test1)卡芙卡的异常精通提升<color=#2BAD00>84</color>点，发动<color=#FFFFFF>强化特殊技</color>时，回复10点[即兴宣奏]；\n处于属性异常状态下的敌人发动攻击时，将触发1次[掣电]，造成原本<color=#FFFFFF>[紊乱]</color>效果3%的伤害，并额外附加卡芙卡<color=#2BAD00>460%</color>异常精通的伤害，[掣电]会向周围敌人弹射最多3次，每次弹射后造成的伤害较前一次衰减<color=#FFFFFF>50%</color>，每名敌人10秒内最多触发1次；触发时，卡芙卡回复3点[即兴宣奏]，10秒内最多触发一次；\n卡芙卡[掣电]造成的伤害均视为<color=#FFFFFF>[紊乱]</color>伤害；\n队伍中所有角色造成的<color=#FFFFFF>[紊乱]</color>伤害可以触发暴击，基础暴击率为100%，暴击伤害为<color=#2BAD00>35%/color>；",
+      "title": "核心被动：终焉奏鸣",
+      "desc": "卡芙卡的异常精通提升<color=#2BAD00>84</color>点，发动[强化特殊技：暮夜猎曲·宣叙]或[强化特殊技：暮夜猎曲·咏叹]时，回复15点<color=#FFFFFF>[即兴宣奏]</color>，上限为120点；\n处于属性异常状态下的敌人发动攻击时，将触发1次<color=#FFFFFF>[掣电]</color>，造成原本<color=#FFFFFF>[紊乱]</color>效果3%的伤害，并额外附加卡芙卡<color=#2BAD00>460%</color>异常精通的伤害，每名敌人10秒内最多触发1次；<color=#FFFFFF>[掣电]</color>造成的伤害均视为<color=#FFFFFF>[紊乱]</color>伤害，最多弹射3次；\n全队角色造成[紊乱]伤害时，若目标未处于失衡状态，此次[紊乱]伤害额外计算<color=#2BAD00>40%</color>的特殊失衡易伤倍率加成。",
       "stats": {
-        "anomalyMastery": 84
+        "anomalyMastery": 84,
+        "dazeVuln": 40
       }
     },
     {
@@ -4686,8 +4687,8 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "category": "agent",
       "sourceName": "卡芙卡",
       "subType": "额外能力",
-      "title": "(Test1)额外能力：宽恕无关慈悲",
-      "desc": "(Test1)队伍中存在<color=#FFFFFF>[支援]</color>角色或其他<color=#FFFFFF>[异常]</color>角色时触发：\n卡芙卡对敌人施加<color=#2EB6FF>[感电]</color>效果时，该效果的持续时间提升3秒，[普通攻击：失序回响]可延长<color=#2EB6FF>电属性异常状态</color>持续时间增加至13秒；\n进入战斗时或队伍中其他角色对敌人施加属性异常效果时，若卡芙卡初始能量自动回复大于120%，能量自动回复每超过12%，提升自身异常掌控10点，最多提升140点，持续30秒，重复触发时刷新持续时间。",
+      "title": "额外能力：宽恕无关慈悲",
+      "desc": "队伍中存在<color=#FFFFFF>[支援]</color>角色或其他<color=#FFFFFF>[异常]</color>角色时触发：\n卡芙卡对敌人施加<color=#2EB6FF>[感电]</color>效果时，该效果的持续时间提升3秒；[普通攻击：失序回响]可延长<color=#2EB6FF>电属性异常状态</color>持续时间上限增加至13秒；\n进入战斗时或队伍中其他角色对敌人施加属性异常效果时，若卡芙卡初始能量自动回复大于1.2点，超过部分每超过0.12点，自身异常掌控提升10点，最多提升140点，持续30秒。",
       "stats": {}
     },
     {
@@ -4696,11 +4697,11 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "卡芙卡",
       "subType": "影画M1",
       "cinemaRank": 1,
-      "title": "(Test1)绮梦华服的狂想",
-      "desc": "(Test1)全队造成的[紊乱]伤害提升25%；\n卡芙卡[掣电]造成的伤害无视目标12%的全属性伤害抗性。",
+      "title": "绮梦华服的狂想",
+      "desc": "全队造成的<color=#FFFFFF>[紊乱]</color>伤害提升25%；卡芙卡<color=#FFFFFF>[掣电]</color>造成的伤害无视目标10%的全属性伤害抗性；卡芙卡发动<color=#FFFFFF>[终结技]</color>时，回复10点能量。",
       "stats": {
         "dmgBonus": 25,
-        "resShred": 12
+        "resShred": 10
       }
     },
     {
@@ -4709,9 +4710,10 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "卡芙卡",
       "subType": "影画M2",
       "cinemaRank": 2,
-      "title": "(Test1)雾霭深处的梦魇",
-      "desc": "(Test1)卡芙卡的属性异常积蓄效率提升15%；\n<color=#FFFFFF>[狩猎序曲]</color>期间，卡芙卡造成的伤害提升25%；\n退出<color=#FFFFFF>[狩猎序曲]</color>后，该效果继续生效8秒。",
+      "title": "雾霭深处的梦魇",
+      "desc": "<color=#FFFFFF>[狩猎序曲]</color>期间，卡芙卡的异常精通提升35点，自身造成的伤害提升25%，退出<color=#FFFFFF>[狩猎序曲]</color>后，该效果继续生效20秒。",
       "stats": {
+        "anomalyMastery": 35,
         "dmgBonus": 25
       }
     },
@@ -4721,8 +4723,8 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "卡芙卡",
       "subType": "影画M4",
       "cinemaRank": 4,
-      "title": "(Test1)月影之下的狩猎",
-      "desc": "(Test1)队伍中任意角色触发<color=#FFFFFF>[紊乱]</color>时，卡芙卡回复150点喧响值，10秒内最多触发1次。",
+      "title": "月影之下的狩猎",
+      "desc": "全队角色<color=#FFFFFF>[连携技]</color>重击命中同时处于属性异常和失衡状态下的敌人时，会对敌人触发<color=#FFFFFF>[掣电]</color>，对目标造成原本<color=#FFFFFF>[紊乱]</color>效果60%的伤害，敌人在同一失衡期间仅能触发一次该效果。",
       "stats": {}
     },
     {
@@ -4731,11 +4733,10 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "卡芙卡",
       "subType": "影画M6",
       "cinemaRank": 6,
-      "title": "(Test1)命运交叉的城堡",
-      "desc": "(Test1)同一次<color=#FFFFFF>[狩猎序曲]</color>期间，最多可以连续发动6次<color=#FFFFFF>[强化特殊技]</color>；\n每发动1次<color=#FFFFFF>[强化特殊技]</color>，同一次[狩猎序曲]期间后续<color=#FFFFFF>[强化特殊技：暮夜猎曲·宣叙]</color>及其触发[掣电]的伤害无视目标15%的防御力，最多无视60%；退出<color=#FFFFFF>[狩猎序曲]</color>后重置；\n发动<color=#FFFFFF>[普通攻击：长按]</color>后，卡芙卡的攻击力提升200点，持续30秒，重复触发时刷新持续时间；\n发动<color=#FFFFFF>[终结技]</color>后，接下来6次<color=#FFFFFF>[强化特殊技]</color>的能量消耗降至原本的50%；重复触发时刷新可生效次数。",
+      "title": "命运交叉的城堡",
+      "desc": "同一次<color=#FFFFFF>[狩猎序曲]</color>期间，最多可以连续发动6次<color=#FFFFFF>[强化特殊技]</color>；<color=#FFFFFF>[强化特殊技：暮夜猎曲·宣叙]</color>及其触发<color=#FFFFFF>[掣电]</color>的伤害无视目标12%的防御力；卡芙卡发动<color=#FFFFFF>[终结技]</color>后，接下来发动的6次<color=#FFFFFF>[强化特殊技]</color>的能量消耗降低至原本的50%，其中<color=#FFFFFF>[强化特殊技：暮夜猎曲·宣叙]</color>的异常积蓄效率额外提升40%。",
       "stats": {
-        "defShred": 15,
-        "inCombatAtkFlat": 200
+        "defShred": 12
       }
     }
   ],
@@ -4745,10 +4746,21 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "category": "agent",
       "sourceName": "知更鸟",
       "subType": "核心被动",
-      "title": "(Test1)核心被动：",
-      "desc": "(Test1)知更鸟发动部分招式时，会为全队角色提供基于知更鸟初始最大生命值不同数额的护盾[和鸣护盾]，持续15秒，角色重复获得[和鸣护盾]时可以累积盾量并延长[和鸣护盾]的持续时间，持续时间最多可延长至60秒，持有盾量最多不超过知更鸟初始最大生命值的12%；\n全队角色每次获得[和鸣护盾]时进入[激昂咏叹]状态，造成的伤害提升<color=#2BAD00>25%</color>，持续20秒，重复触发刷新持续时间；\n发动[特殊技：万籁与我同歌]后会触发快速支援，知更鸟在换人后将进入[幕后协奏]状态，持续80秒，[幕后协奏]状态下，知更鸟发动追加攻击可以获得[星耀值]，[星耀值]最多可以拥有140点；\n当[星耀值]大于等于120点时，知更鸟可以通过[登场技]的方式被主动换入，换入时自动消耗120点[星耀值]发动[登场技：星耀时刻]，并退出[幕后协奏]状态；\n发动[登场技：星耀时刻]时，知更鸟获得1点[重音节拍]，[重音节拍]最多持有1点；\n进入[幕后协奏]状态时，若拥有[重音节拍]，则消耗1点[重音节拍]使[幕后协奏]状态下提供的防御力提升效果及其上限额外提升25%；\n发动[登场技]、[终结技]、[连携技]、[支援突击]后触发快速支援，若1.5秒内切人，知更鸟自动留场释放[特殊技：万籁与我同歌]，期间知更鸟拥有无敌效果；\n离开接战状态时知更鸟会退出[幕后协奏]状态，不处于接战状态时不会自动消耗[星耀值]发动[登场技：星耀时刻]；\n知更鸟发动[终结技]、[反制支援]和[连携招架]时获得1个[重音节拍]；\n成功[连携招架]时发动[支援突击]后，若知更鸟不为当前操作角色则自动释放[特殊技：万籁与我同歌]，期间知更鸟拥有无敌效果；\n全队角色每触发一次毁伤，知更鸟固定回复15点能量。",
+      "title": "核心被动：复调共鸣",
+      "desc": "知更鸟发动部分招式时，会为全队角色提供基于知更鸟初始最大生命值不同数额的护盾<color=#FFFFFF>[和鸣护盾]</color>，持续15秒，重复获得时累积盾量并延长持续时间（最多60秒，盾量不超过初始最大生命值的12%）；\n全队角色每次获得<color=#FFFFFF>[和鸣护盾]</color>时进入<color=#FFFFFF>[激昂咏叹]</color>状态，造成的伤害提升<color=#2BAD00>20%</color>，持续20秒，重复触发刷新持续时间；\n发动<color=#FFFFFF>[特殊技：万籁与我同歌]</color>后会触发快速支援，若在招式期间将其他角色换入前场，知更鸟进入<color=#FFFFFF>[幕后协奏]</color>状态（持续80秒），并使全队角色获得<color=#FFFFFF>[守护咏叹]</color>效果；<color=#FFFFFF>[幕后协奏]</color>状态下知更鸟发动追加攻击获得<color=#FFFFFF>[星耀值]</color>（上限160点，满120点可普通换入发动<color=#FFFFFF>[登场技：星耀时刻]</color>）；\n发动<color=#FFFFFF>[登场技：星耀时刻]</color>、<color=#FFFFFF>[终结技：星辰协奏曲]</color>、<color=#FFFFFF>[连携技：强音重拍]</color>、<color=#FFFFFF>[支援突击：闪耀应援]</color>后触发快速支援，招式发动后，若将知更鸟切换为非当前操作角色，知更鸟自动留场释放<color=#FFFFFF>[特殊技：万籁与我同歌]</color>；\n全队角色每触发一次毁伤，知更鸟固定回复15点能量。",
       "stats": {
-        "dmgBonus": 25
+        "dmgBonus": 20
+      }
+    },
+    {
+      "id": "agent_1661_guard",
+      "category": "agent",
+      "sourceName": "知更鸟",
+      "subType": "特殊技",
+      "title": "特殊技：守护咏叹（重音节拍强化）",
+      "desc": "知更鸟处于<color=#FFFFFF>[幕后协奏]</color>状态时，全队角色获得<color=#FFFFFF>[守护咏叹]</color>：基于知更鸟初始最大生命值提升全队防御力（Lv.12最高提升800点）；进入<color=#FFFFFF>[幕后协奏]</color>时若消耗1点<color=#FFFFFF>[重音节拍]</color>，提供的防御力提升效果及其上限额外提升25%（最高提升<color=#2BAD00>1000</color>点固定防御力）。",
+      "stats": {
+        "inCombatDefFlat": 1000
       }
     },
     {
@@ -4756,8 +4768,8 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "category": "agent",
       "sourceName": "知更鸟",
       "subType": "额外能力",
-      "title": "(Test1)额外能力：PlaceHolder",
-      "desc": "(Test1)队伍中存在[锋御]或[击破]角色时触发：\n进入战场时，获得3000点喧响值，在堪域模式中此效果600秒内最多触发一次；\n全队[击破]角色攻击力提升80点，该效果随知更鸟等级提升，每级增加12点，最多提升800点。",
+      "title": "额外能力：重音共振",
+      "desc": "队伍中存在<color=#FFFFFF>[锋御]</color>或<color=#FFFFFF>[击破]</color>角色时触发：\n进入战场时，获得3000点喧响值，在勘域模式中此效果600秒内最多触发一次；\n全队<color=#FFFFFF>[击破]</color>角色攻击力提升80点，该效果随知更鸟等级提升，每级增加12点，最多提升800点。",
       "stats": {
         "inCombatAtkFlat": 800
       }
@@ -4768,9 +4780,11 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "知更鸟",
       "subType": "影画M1",
       "cinemaRank": 1,
-      "title": "(Test1)生活宛如一支歌",
-      "desc": "(Test1)知更鸟发动登场技时获得2层<color=#FFFFFF>[协律庇佑]</color>，<color=#FFFFFF>[协律庇佑]</color>最多持有2层；\n拥有<color=#FFFFFF>[协律庇佑]</color>时，当前操作角色若拥有<color=#FFFFFF>[和鸣护盾]</color>，受到超过当前<color=#FFFFFF>[和鸣护盾]</color>的伤害时，则消耗1层<color=#FFFFFF>[协律庇佑]</color>抵挡超出部分的伤害；\n进入战场时，获得2层<color=#FFFFFF>[协律庇佑]</color>，该效果在勘域模式下每180秒最多触发一次；\n每次消耗<color=#FFFFFF>[重音节拍]</color>时，全队角色造成的伤害无视敌人20%防御，持续80秒，重复触发刷新持续时间。",
-      "stats": {}
+      "title": "生活宛如一支歌",
+      "desc": "知更鸟发动<color=#FFFFFF>[登场技：星耀时刻]</color>或进入战场时获得2层<color=#FFFFFF>[协律庇佑]</color>（上限2层）；提供<color=#FFFFFF>[和鸣护盾]</color>时若拥有<color=#FFFFFF>[协律庇佑]</color>，消耗1层为全队提供可抵挡一次超额伤害的特殊<color=#FFFFFF>[和鸣护盾]</color>；\n每次消耗<color=#FFFFFF>[重音节拍]</color>时，全队角色造成的伤害无视目标<color=#2BAD00>20%</color>防御力，持续80秒，重复触发刷新持续时间。",
+      "stats": {
+        "defShred": 20
+      }
     },
     {
       "id": "agent_1661_m2",
@@ -4778,8 +4792,8 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "知更鸟",
       "subType": "影画M2",
       "cinemaRank": 2,
-      "title": "(Test1)天赋与努力",
-      "desc": "(Test1)知更鸟发动<color=#FFFFFF>[追加攻击]</color>时，全队角色造成的伤害无视敌人15%抗性，持续20秒，重复触发刷新持续时间。",
+      "title": "天赋与努力",
+      "desc": "知更鸟发动<color=#FFFFFF>[追加攻击]</color>时，全队角色造成的伤害无视敌人15%全属性伤害抗性，持续20秒，重复触发刷新持续时间。",
       "stats": {
         "resShred": 15
       }
@@ -4790,8 +4804,8 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "知更鸟",
       "subType": "影画M4",
       "cinemaRank": 4,
-      "title": "(Test1)台前与幕后",
-      "desc": "(Test1)知更鸟自身造成的伤害提升10%；\n发动<color=#FFFFFF>[特殊技：弦歌相和]</color>时，若未触发招式升级，则将其升级为[强化特殊技：震律齐鸣]，该效果60秒内最多触发一次。",
+      "title": "台前与幕后",
+      "desc": "知更鸟自身造成的伤害提升10%；发动<color=#FFFFFF>[特殊技：弦歌相和]</color>时，若未触发招式升级，则将其升级为不消耗能量的<color=#FFFFFF>[强化特殊技：震律齐鸣]</color>，该效果60秒内最多触发一次。",
       "stats": {
         "dmgBonus": 10
       }
@@ -4802,8 +4816,8 @@ export const AGENT_BUFFS: Record<string, BuffItem[]> = {
       "sourceName": "知更鸟",
       "subType": "影画M6",
       "cinemaRank": 6,
-      "title": "(Test1)天空是鸟儿的归宿",
-      "desc": "(Test1)[强化特殊技：震律齐鸣]命中敌人必定触发暴击；\n[强化特殊技：震律齐鸣]根据最大生命值额外提升重击伤害的效果提升为原本的200%；\n全队拥有[守护咏叹]效果的角色造成的锐化伤害提升15%。",
+      "title": "天空是鸟儿的归宿",
+      "desc": "<color=#FFFFFF>[强化特殊技：震律齐鸣]</color>必定触发暴击，且根据最大生命值额外提升重击伤害的效果提升为原本的200%；\n全队拥有<color=#FFFFFF>[守护咏叹]</color>效果的角色造成的锐化伤害提升15%。",
       "stats": {
         "dmgBonus": 15
       }
@@ -8534,79 +8548,85 @@ export const WEAPON_BUFFS: Record<string, BuffItem> = {
       }
     ]
   },
-  "(Test1)卡芙卡测试音擎": {
+  "蛛蜕遗歌": {
     "id": "wp_14165",
     "category": "weapon",
-    "sourceName": "(Test1)卡芙卡测试音擎",
+    "sourceName": "蛛蜕遗歌",
     "subType": "S级·异常",
-    "title": "(Test1)卡芙卡测试音擎",
-    "desc": "(Test1)装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>30</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>30%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>20%</color>。",
+    "title": "千丝娑罗",
+    "desc": "装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>30</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>30%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>15%</color>。",
     "stats": {
       "anomalyMastery": 90,
-      "dmgBonus": 50
+      "dmgBonus": 45
     },
     "refinementDescs": [
-      "(Test1)装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>30</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>30%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>20%</color>。",
-      "(Test1)装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>35</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>35%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>23%</color>。",
-      "(Test1)装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>39</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>39%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>26%</color>。",
-      "(Test1)装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>44</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>44%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>29%</color>。",
-      "(Test1)装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>48</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>48%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>32%</color>。"
+      "装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>30</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>30%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>15%</color>。",
+      "装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>35</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>35%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>17%</color>。",
+      "装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>39</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>39%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>20%</color>。",
+      "装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>44</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>44%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>22%</color>。",
+      "装备者发动<color=#FFFFFF>[强化特殊技]</color>造成<color=#2EB6FF>电属性伤害</color>时，自身异常精通提升<color=#2BAD00>48</color>点，持续30秒，最多叠加3层，每层效果单独结算持续时间，同一招式最多触发1次。拥有3层效果时，自身造成的伤害提升<color=#2BAD00>48%</color>，<color=#FFFFFF>[紊乱]</color>伤害提升<color=#2BAD00>24%</color>。"
     ],
     "refinementStats": [
       {
         "anomalyMastery": 90,
-        "dmgBonus": 50
+        "dmgBonus": 45
       },
       {
         "anomalyMastery": 105,
-        "dmgBonus": 58
+        "dmgBonus": 52
       },
       {
         "anomalyMastery": 117,
-        "dmgBonus": 65
+        "dmgBonus": 59
       },
       {
         "anomalyMastery": 132,
-        "dmgBonus": 73
+        "dmgBonus": 66
       },
       {
         "anomalyMastery": 144,
-        "dmgBonus": 80
+        "dmgBonus": 72
       }
     ]
   },
-  "知更鸟专属音擎": {
+  "星韵流彩": {
     "id": "wp_14166",
     "category": "weapon",
-    "sourceName": "知更鸟专属音擎",
+    "sourceName": "星韵流彩",
     "subType": "S级·防护",
-    "title": "(Test1)知更鸟测试引擎",
-    "desc": "装备者施加的护盾值提升<color=#2BAD00>15%</color>；施加护盾时使全队锐暴伤害提升<color=#2BAD00>16%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队伤害提升<color=#2BAD00>10%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
+    "title": "华章夜曲",
+    "desc": "装备者施加的护盾值提升<color=#2BAD00>15%</color>；施加护盾时使全队角色锐暴伤害提升<color=#2BAD00>15%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队角色伤害提升<color=#2BAD00>8.5%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
     "stats": {
-      "dmgBonus": 36
+      "sharpCritDmg": 15,
+      "dmgBonus": 17
     },
     "refinementDescs": [
-      "装备者施加的护盾值提升<color=#2BAD00>15%</color>；施加护盾时使全队锐暴伤害提升<color=#2BAD00>16%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队伤害提升<color=#2BAD00>10%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
-      "装备者施加的护盾值提升<color=#2BAD00>17.3%</color>；施加护盾时使全队锐暴伤害提升<color=#2BAD00>18.4%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队伤害提升<color=#2BAD00>11.5%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
-      "装备者施加的护盾值提升<color=#2BAD00>19.5%</color>；施加护盾时使全队锐暴伤害提升<color=#2BAD00>20.8%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队伤害提升<color=#2BAD00>13%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
-      "装备者施加的护盾值提升<color=#2BAD00>21.8%</color>；施加护盾时使全队锐暴伤害提升<color=#2BAD00>23.2%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队伤害提升<color=#2BAD00>14.5%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
-      "装备者施加的护盾值提升<color=#2BAD00>24%</color>；施加护盾时使全队锐暴伤害提升<color=#2BAD00>25.6%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队伤害提升<color=#2BAD00>16%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。"
+      "装备者施加的护盾值提升<color=#2BAD00>15%</color>；施加护盾时使全队角色锐暴伤害提升<color=#2BAD00>15%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队角色伤害提升<color=#2BAD00>8.5%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
+      "装备者施加的护盾值提升<color=#2BAD00>17.3%</color>；施加护盾时使全队角色锐暴伤害提升<color=#2BAD00>17.3%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队角色伤害提升<color=#2BAD00>9.8%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
+      "装备者施加的护盾值提升<color=#2BAD00>19.5%</color>；施加护盾时使全队角色锐暴伤害提升<color=#2BAD00>19.5%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队角色伤害提升<color=#2BAD00>11%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
+      "装备者施加的护盾值提升<color=#2BAD00>21.8%</color>；施加护盾时使全队角色锐暴伤害提升<color=#2BAD00>21.8%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队角色伤害提升<color=#2BAD00>12.3%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。",
+      "装备者施加的护盾值提升<color=#2BAD00>24%</color>；施加护盾时使全队角色锐暴伤害提升<color=#2BAD00>24%</color>，持续20秒，重复触发延长持续时间，最高不超过30秒，该效果全队唯一；装备者发动[追加攻击]时，使全队角色伤害提升<color=#2BAD00>13.6%</color>，持续20秒，最多可叠加2层，重复触发刷新持续时间，该效果全队唯一。"
     ],
     "refinementStats": [
       {
-        "dmgBonus": 36
+        "sharpCritDmg": 15,
+        "dmgBonus": 17
       },
       {
-        "dmgBonus": 41.4
+        "sharpCritDmg": 17.3,
+        "dmgBonus": 19.6
       },
       {
-        "dmgBonus": 46.8
+        "sharpCritDmg": 19.5,
+        "dmgBonus": 22
       },
       {
-        "dmgBonus": 52.2
+        "sharpCritDmg": 21.8,
+        "dmgBonus": 24.6
       },
       {
-        "dmgBonus": 57.6
+        "sharpCritDmg": 24,
+        "dmgBonus": 27.2
       }
     ]
   }
@@ -8626,10 +8646,10 @@ export const DA_SEASONS: DaSeasonInfo[] = [
       "异构·基塔布鲁·滞变畸兽"
     ],
     "bossBuffIds": [
-      "da_boss_69013005",
+      "da_boss_69015105",
       "da_boss_69010205",
       "da_boss_69013003",
-      "da_boss_69014804"
+      "da_boss_69015205"
     ],
     "weatherBuffIds": [
       "da_weather_69015301",
@@ -8650,10 +8670,10 @@ export const DA_SEASONS: DaSeasonInfo[] = [
       "异构·基塔布鲁·滞变畸兽"
     ],
     "bossBuffIds": [
-      "da_boss_69013005",
+      "da_boss_69015107",
       "da_boss_69013004",
       "da_boss_69013003",
-      "da_boss_69014804"
+      "da_boss_69015205"
     ],
     "weatherBuffIds": [
       "da_weather_69015201",
@@ -8674,8 +8694,9 @@ export const DA_SEASONS: DaSeasonInfo[] = [
       "异构·库萨里库"
     ],
     "bossBuffIds": [
-      "da_boss_69013005",
-      "da_boss_69013003"
+      "da_boss_69015107",
+      "da_boss_69013003",
+      "da_boss_69015105"
     ],
     "weatherBuffIds": [
       "da_weather_69015101",
@@ -9801,6 +9822,61 @@ export const DA_SEASONS: DaSeasonInfo[] = [
 
 export const DA_BOSS_STAGE_BUFFS: BuffItem[] = [
   {
+    "id": "da_boss_69015107",
+    "category": "boss_stage",
+    "sourceName": "新生之结·？？？",
+    "subType": "第51/52期 (v3.4.5)",
+    "dateRange": "2026.10.23 - 11.20",
+    "version": "3.4.5",
+    "seasons": [
+      51,
+      52
+    ],
+    "title": "新生之结·场地增益（[裂核]）",
+    "desc": "· 适合<color=#FFAF2C>[锋御]</color>特性的代理人挑战。\n· 招架破除首领的强化部位或者击破其分身可以获得1层<color=#FFFFFF>[裂核]</color>，每层使首领的<color=#2BAD00>失衡易伤倍率提升10%</color>，并使全队代理人获得<color=#2BAD00>锐化伤害提升15%</color>，<color=#FFFFFF>[裂核]</color>最多叠加2层。\n· 首领受到的<color=#2BAD00>异常伤害降低30%</color>。",
+    "stats": {
+      "dazeVuln": 20,
+      "dmgBonus": 30
+    }
+  },
+  {
+    "id": "da_boss_69015205",
+    "category": "boss_stage",
+    "sourceName": "异构·基塔布鲁·滞变畸兽",
+    "subType": "第52/53期 (v3.4.5)",
+    "dateRange": "2026.11.06 - 12.04",
+    "version": "3.4.5",
+    "seasons": [
+      52,
+      53
+    ],
+    "title": "异构·基塔布鲁·滞变畸兽·场地增益（[凋蚀印记]）",
+    "desc": "· 代理人对敌人施加<color=#FFFFFF>属性异常</color>状态时，目标敌人获得1层对应属性的<color=#FFFFFF>[凋蚀印记]</color>；当敌人残痕因毁伤结算被移除时，会获得2层无属性的<color=#FFFFFF>[凋蚀印记]</color>，持续10秒，<color=#FFFFFF>[凋蚀印记]</color>最多叠加3层，同属性的<color=#FFFFFF>[凋蚀印记]</color>重复触发时刷新持续时间。\n· 敌人每持有1层<color=#FFFFFF>[凋蚀印记]</color>，受到的属性异常伤害<color=#2BAD00>提升10%</color>，<color=#FFFFFF>[侵蚀壁垒]</color>受到的伤害<color=#2BAD00>提升25%</color>，受到的锐化伤害<color=#2BAD00>提升35%</color>。\n· 对敌人造成<color=#FFFFFF>[部位破坏]</color>或<color=#FFFFFF>[完美反制]</color>时，全队异常精通<color=#2BAD00>提升40点</color>，锐暴伤害<color=#2BAD00>提升15%</color>，持续15秒，重复触发时刷新持续时间。",
+    "stats": {
+      "dmgBonus": 105,
+      "sharpCritDmg": 15,
+      "anomalyMastery": 40
+    }
+  },
+  {
+    "id": "da_boss_69015105",
+    "category": "boss_stage",
+    "sourceName": "库萨里库",
+    "subType": "第51/53期 (v3.4.5)",
+    "dateRange": "2026.10.23 - 12.04",
+    "version": "3.4.5",
+    "seasons": [
+      51,
+      53
+    ],
+    "title": "库萨里库·场地增益（[识破]）",
+    "desc": "· 适合<color=#FFAF2C>[锋御]</color>特性的代理人挑战。\n· 代理人成功使用[招架支援]应对库萨里库的[闪光技]时对其施加1层[识破]，进入失衡状态时施加2层[识破]。每层[识破]使其受到的<color=#FFAF2C>锐暴伤害提升5%</color>，并使全队<color=#FFAF2C>锐化伤害提高15%</color>，最多叠加4层，持续30秒。",
+    "stats": {
+      "sharpCritDmg": 20,
+      "dmgBonus": 60
+    }
+  },
+  {
     "id": "da_boss_69010205",
     "category": "boss_stage",
     "sourceName": "自律强袭单位·「提丰·破坏者型」",
@@ -10665,12 +10741,12 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       53
     ],
-    "title": "锋御·破火",
-    "desc": "· 代理人的防御力<color=#2BAD00>提升10%</color>，攻击命中敌人时无视其<color=#2BAD00>15%</color>的<color=#FF5521>火属性伤害抗性</color>。\n· <color=#FFFFFF>[锋御]</color>特性代理人触发暴击后，锐化伤害<color=#2BAD00>提升15%</color>，持续10秒，重复触发时刷新持续时间。",
+    "title": "尖峰",
+    "desc": "· 代理人的防御力<color=#2BAD00>提升10%</color>，攻击命中敌人时无视其<color=#2BAD00>10%</color>的<color=#FF5521>火属性伤害抗性</color>。\n· <color=#FFFFFF>[锋御]</color>特性代理人触发暴击后，自身回复<color=#2BAD00>300点喧响值</color>，锐化伤害<color=#2BAD00>提升10%</color>，持续15秒，重复触发时刷新持续时间，喧响值回复效果15秒内最多触发一次。",
     "stats": {
       "inCombatDefPct": 10,
-      "resShred": 15,
-      "dmgBonus": 15
+      "resShred": 10,
+      "dmgBonus": 10
     }
   },
   {
@@ -10683,7 +10759,7 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       53
     ],
-    "title": "感电·蚀防",
+    "title": "电离",
     "desc": "· <color=#FFFFFF>[异常]</color>特性代理人造成的属性异常伤害<color=#2BAD00>提升10%</color>，<color=#FFFFFF>[紊乱]</color>伤害<color=#2BAD00>提升30%</color>。\n· 代理人使敌人进入<color=#2EB6FF>电属性异常</color>状态后，其防御力<color=#2BAD00>降低25%</color>，全属性伤害抗性<color=#2BAD00>降低10%</color>，持续15秒，重复触发时刷新持续时间。",
     "stats": {
       "dmgBonus": 40,
@@ -10701,10 +10777,10 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       53
     ],
-    "title": "火醚·强异常",
-    "desc": "· <color=#FFFFFF>[异常]</color>特性代理人的<color=#FF5521>火属性</color>和<color=#FE437E>以太属性</color>异常积蓄效率<color=#2BAD00>提升15%</color>。\n· 代理人造成<color=#FFFFFF>属性异常</color>伤害并触发暴击后，全队获得<color=#2BAD00>20点能量</color>，造成的属性异常伤害<color=#2BAD00>提升20%</color>，持续20秒，此效果20秒内最多触发一次。",
+    "title": "焰绽",
+    "desc": "· <color=#FFFFFF>[异常]</color>特性代理人的<color=#FF5521>火属性</color>和<color=#FE437E>以太属性</color>异常积蓄效率<color=#2BAD00>提升15%</color>。\n· 代理人造成<color=#FFFFFF>属性异常</color>伤害并触发暴击后，全队获得<color=#2BAD00>20点能量</color>，造成的属性异常伤害<color=#2BAD00>提升15%</color>，持续20秒，此效果20秒内最多触发一次。",
     "stats": {
-      "dmgBonus": 20
+      "dmgBonus": 15
     }
   },
   {
@@ -10717,11 +10793,11 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       52
     ],
-    "title": "锋御·毁伤",
-    "desc": "· <color=#FFFFFF>[锋御]</color>特性代理人的防御力<color=#2BAD00>提升15%</color>，锐化伤害<color=#2BAD00>提升25%</color>。\n· 代理人触发<color=#FFFFFF>[毁伤]</color>时，自身回复<color=#2BAD00>300点喧响值</color>，敌人失衡易伤倍率<color=#2BAD00>提升15%</color>，持续10秒，重复触发时刷新持续时间，喧响值回复效果10秒内最多触发一次。",
+    "title": "攻砭",
+    "desc": "· <color=#FFFFFF>[锋御]</color>特性代理人的防御力<color=#2BAD00>提升10%</color>，锐化伤害<color=#2BAD00>提升20%</color>。\n· 代理人触发<color=#FFFFFF>[毁伤]</color>时，自身回复<color=#2BAD00>300点喧响值</color>，敌人失衡易伤倍率<color=#2BAD00>提升15%</color>，持续10秒，重复触发时刷新持续时间，喧响值回复效果10秒内最多触发一次。",
     "stats": {
-      "inCombatDefPct": 15,
-      "dmgBonus": 25,
+      "inCombatDefPct": 10,
+      "dmgBonus": 20,
       "dazeVuln": 15
     }
   },
@@ -10735,7 +10811,7 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       52
     ],
-    "title": "终结·强袭",
+    "title": "墟湮",
     "desc": "· <color=#FFFFFF>[击破]</color>特性的代理人对敌人造成的失衡值<color=#2BAD00>提升15%</color>。\n· 代理人发动<color=#FFFFFF>[终结技]</color>后，自身造成的伤害<color=#2BAD00>提升30%</color>，暴击伤害<color=#2BAD00>提升40%</color>，持续30秒，重复触发时刷新持续时间。",
     "stats": {
       "dmgBonus": 30,
@@ -10752,7 +10828,7 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       52
     ],
-    "title": "同频·异常",
+    "title": "逆涌",
     "desc": "· 队伍内存在2/3名<color=#FFFFFF>[异常]</color>特性代理人时，全队攻击力分别<color=#2BAD00>提升10%/20%</color>。\n· 代理人使敌人进入<color=#FFFFFF>属性异常</color>状态后，全队恢复<color=#2BAD00>10点能量</color>，此效果15秒内最多触发一次。",
     "stats": {
       "inCombatAtkPct": 20
@@ -10768,12 +10844,12 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       51
     ],
-    "title": "锋御·炽焰",
-    "desc": "· <color=#FFFFFF>[锋御]</color>特性代理人的防御力<color=#2BAD00>提升15%</color>，<color=#FF5521>火属性伤害</color><color=#2BAD00>提升30%</color>。\n· 代理人触发暴击后，锐暴伤害<color=#2BAD00>提升15%</color>，持续5秒，重复触发时刷新持续时间。",
+    "title": "淬火",
+    "desc": "· <color=#FFFFFF>[锋御]</color>特性代理人的防御力<color=#2BAD00>提升15%</color>，<color=#FF5521>火属性伤害</color><color=#2BAD00>提升20%</color>。\n· 代理人触发暴击后，锐暴伤害<color=#2BAD00>提升10%</color>，持续5秒，重复触发时刷新持续时间。",
     "stats": {
       "inCombatDefPct": 15,
-      "dmgBonus": 30,
-      "sharpCritDmg": 15
+      "dmgBonus": 20,
+      "sharpCritDmg": 10
     }
   },
   {
@@ -10786,12 +10862,11 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       51
     ],
-    "title": "异放·紊乱",
-    "desc": "· <color=#FFFFFF>[异常]</color>特性代理人的攻击力<color=#2BAD00>提升20%</color>，异常精通<color=#2BAD00>提升40点</color>。\n· <color=#FFFFFF>[异常]</color>特性代理人造成的<color=#FFFFFF>[紊乱]</color>伤害<color=#2BAD00>提升30%</color>，<color=#FFFFFF>[异放]</color>伤害<color=#2BAD00>提升30%</color>。",
+    "title": "环缭",
+    "desc": "· <color=#FFFFFF>[异常]</color>特性代理人的攻击力<color=#2BAD00>提升15%</color>，<color=#98EFF0>冰属性伤害</color>和<color=#FE437E>以太伤害</color><color=#2BAD00>提升30%</color>。\n· <color=#FFFFFF>[异常]</color>特性代理人造成的<color=#FFFFFF>[紊乱]</color>伤害<color=#2BAD00>提升35%</color>，<color=#FFFFFF>[异放]</color>伤害<color=#2BAD00>提升20%</color>。",
     "stats": {
-      "inCombatAtkPct": 20,
-      "anomalyMastery": 40,
-      "dmgBonus": 60
+      "inCombatAtkPct": 15,
+      "dmgBonus": 65
     }
   },
   {
@@ -10804,7 +10879,7 @@ export const DA_WEATHER_BUFFS: BuffItem[] = [
     "seasons": [
       51
     ],
-    "title": "火蓄·强异常",
+    "title": "炽灭",
     "desc": "· 代理人的<color=#FF5521>火属性伤害</color><color=#2BAD00>提升20%</color>，<color=#FF5521>火属性异常积蓄效率</color><color=#2BAD00>提升10%</color>。\n· 代理人造成<color=#FFFFFF>属性异常</color>伤害并触发暴击后，全队造成的属性异常伤害<color=#2BAD00>提升20%</color>，持续15秒，重复触发时刷新持续时间。",
     "stats": {
       "dmgBonus": 40
